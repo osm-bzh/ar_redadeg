@@ -2,14 +2,27 @@
 
 TRUNCATE phase_1_trace_3948 ;
 INSERT INTO phase_1_trace_3948
-  SELECT ogc_fid, name, '', ST_Transform(the_geom,3948) AS the_geom
-  FROM phase_1_trace_3857 ;
+  SELECT
+    ogc_fid, name,
+    secteur::int,
+    ordre::int,
+    0,
+    ST_Transform(the_geom,3948) AS the_geom
+  FROM phase_1_trace_3857
+  WHERE ST_LENGTH(the_geom) > 0
+  ORDER BY secteur ASC, ordre ASC ;
+
+-- mise à jour de la longueur 1 fois la géométrie passée en CC48
+UPDATE phase_1_trace_3948
+SET longueur = TRUNC( ST_Length(the_geom)::numeric / 1000 , 2) ;
+
 
 
 TRUNCATE phase_1_pk_vip_3948 ;
 INSERT INTO phase_1_pk_vip_3948
   SELECT ogc_fid, name, description, ST_Transform(the_geom,3948) AS the_geom
   FROM phase_1_pk_vip_3857 ;
+
 
 
 TRUNCATE phase_1_trace_troncons_3948 ;

@@ -11,7 +11,9 @@ CREATE TABLE phase_1_trace_3948
 (
     ogc_fid integer,
     name text,
-    description text,
+    secteur int,
+    ordre int,
+    longueur numeric,
     the_geom geometry(LineString,3948),
     CONSTRAINT phase_1_trace_3948_pkey PRIMARY KEY (ogc_fid),
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
