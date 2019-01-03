@@ -35,11 +35,11 @@ CREATE TABLE phase_1_pk_vip_3948
 
 
 -- table des tronçons créés à partir des longs tracés
-DROP TABLE phase_1_trace_troncons_3948 ;
+DROP TABLE phase_1_trace_troncons_3948 CASCADE ;
 CREATE TABLE phase_1_trace_troncons_3948
 (
     uid bigint,
-    secteur character varying(25),
+    secteur int,
     km bigint,
     km_reel bigint,
     longueur integer,
