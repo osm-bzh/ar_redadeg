@@ -57,10 +57,9 @@ INSERT INTO phase_1_trace_troncons_3948
 UPDATE phase_1_trace_troncons_3948
 SET 
   longueur = 
-  (
-  CASE
+  (CASE
     WHEN TRUNC( ST_Length(the_geom)::numeric , 0)  = 939 THEN 940
     ELSE TRUNC( ST_Length(the_geom)::numeric , 0)
-  END
-  )
+  END),
+  km = uid -- km redadeg
 
