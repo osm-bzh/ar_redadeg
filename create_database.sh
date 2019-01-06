@@ -16,5 +16,5 @@ psql -d redadeg -c "CREATE EXTENSION postgis;"
 
 
 # create tables
-#psql -d redadeg -U redadeg -Wredadeg -c ";"
+psql -d redadeg -U redadeg -W < create_tables_3948.sql
 
