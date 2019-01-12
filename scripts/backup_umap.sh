@@ -19,7 +19,7 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/715179/ > "jour_courant/$(da
 for f in jour_courant/*.geojson
 do
   if [[ $f =~ [0-9]{8}_(0600|1300|1800)_* ]]
-  then cp jour_courant/$f ./
+  then cp $f ./
   fi
 done
 
