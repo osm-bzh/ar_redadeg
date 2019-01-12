@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /data/www/vhosts/osm-bzh-kartenn/htdocs/redadeg/scripts/
+cd /data/www/vhosts/ar-redadeg/htdocs/scripts/
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd /data/www/vhosts/ar-redadeg/htdocs/scripts/backup/
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap pour sauvegarde au cas où
 
