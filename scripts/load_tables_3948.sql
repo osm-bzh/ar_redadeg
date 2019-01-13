@@ -30,6 +30,7 @@ INSERT INTO phase_1_trace_troncons_3948
   SELECT 
       row_number() over() as uid,
       secteur,
+      ordre,
       NULL AS km,
       NULL AS km_reel,
       NULL AS longueur,

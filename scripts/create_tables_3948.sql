@@ -6,7 +6,7 @@
 -- au moins en créant une table en dur en 3948 on est sûr des longueurs
 
 
-DROP TABLE phase_1_trace_3948 ;
+DROP TABLE phase_1_trace_3948 CASCADE ;
 CREATE TABLE phase_1_trace_3948
 (
     ogc_fid integer,
@@ -20,7 +20,7 @@ CREATE TABLE phase_1_trace_3948
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3948)
 );
 
-DROP TABLE phase_1_pk_vip_3948 ;
+DROP TABLE phase_1_pk_vip_3948 CASCADE ;
 CREATE TABLE phase_1_pk_vip_3948
 (
     ogc_fid integer,
@@ -40,6 +40,7 @@ CREATE TABLE phase_1_trace_troncons_3948
 (
     uid bigint,
     secteur int,
+    ordre bigint,
     km bigint,
     km_reel bigint,
     longueur integer,
@@ -48,6 +49,10 @@ CREATE TABLE phase_1_trace_troncons_3948
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3948)
 );
+
+ALTER TABLE phase_1_trace_3948 OWNER to redadeg;
+ALTER TABLE phase_1_pk_vip_3948 OWNER to redadeg;
+ALTER TABLE phase_1_trace_troncons_3948 OWNER to redadeg;
 
 -- table des PK auto en fin de tronçon
 /*DROP TABLE phase_1_pk_auto_3948 ;
@@ -64,21 +69,25 @@ CREATE TABLE phase_1_pk_auto_3948
 );*/
 
 -- vue des PK auto en fin de tronçon
+DROP VIEW IF EXISTS phase_1_pk_auto_3948 ;
 CREATE VIEW phase_1_pk_auto_3948 AS
   SELECT
-    uid, secteur, km, km_reel,
+    uid, secteur, ordre, km, km_reel,
     ST_Line_Interpolate_Point(the_geom, 1)::geometry(Point, 3948) AS the_geom
-  FROM phase_1_trace_troncons_3948 ;
+  FROM phase_1_trace_troncons_3948
+  ORDER BY secteur ASC, ordre ASC, km ASC ;
 
 -- la même mais en 4326 pour export
---DROP VIEW phase_1_pk_auto_4326 ;
+DROP VIEW IF EXISTS phase_1_pk_auto_4326 ;
 CREATE VIEW phase_1_pk_auto_4326 AS
   SELECT
-     uid, secteur, km, km_reel,
+     uid, secteur, ordre, km, km_reel,
      ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
-  FROM phase_1_pk_auto_3948 ;
+  FROM phase_1_pk_auto_3948
+  ORDER BY secteur ASC, ordre ASC, km ASC ;
 
-
+ALTER TABLE phase_1_pk_auto_3948 OWNER to redadeg;
+ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
 
 
 
