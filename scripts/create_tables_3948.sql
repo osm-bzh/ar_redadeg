@@ -6,6 +6,32 @@
 -- au moins en créant une table en dur en 3948 on est sûr des longueurs
 
 
+-- la table secteur gère les grands découpage de gestion
+DROP TABLE secteur CASCADE ;
+CREATE TABLE secteur
+(
+    id integer,
+    nom_br text,
+    nom_fr text
+);
+
+ALTER TABLE secteur OWNER to redadeg;
+
+-- et on insert ces données stables
+TRUNCATE TABLE secteur ;
+INSERT INTO secteur VALUES (1,'Karaez -> Rostren','Carhaix -> Rostrenen');
+INSERT INTO secteur VALUES (2,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec');
+INSERT INTO secteur VALUES (3,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix');
+INSERT INTO secteur VALUES (4,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou');
+INSERT INTO secteur VALUES (5,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé');
+INSERT INTO secteur VALUES (6,'Kemperle -> Redon','Quimperlé -> Redon');
+INSERT INTO secteur VALUES (7,'Redon -> Soulvach','Redon -> Soulvach');
+INSERT INTO secteur VALUES (8,'Soulvach -> Roazhon','Soulvach -> Rennes');
+INSERT INTO secteur VALUES (9,'Roazhon -> Sant-Brieg','Rennes -> Saint-Brieuc');
+INSERT INTO secteur VALUES (10,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp');
+INSERT INTO secteur VALUES (999,'test','test');
+
+
 DROP TABLE phase_1_trace_3948 CASCADE ;
 CREATE TABLE phase_1_trace_3948
 (
