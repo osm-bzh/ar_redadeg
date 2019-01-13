@@ -31,6 +31,9 @@ psql -U redadeg -d redadeg < load_tables_3948.sql
 # et on exporte vers Geojson
 rm phase_1_pk_auto.geojson
 ogr2ogr -f "GeoJSON" phase_1_pk_auto.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_1_pk_auto_4326
-
 # les fichiers sont ensuite tout de suite visible dans umap
+
+# exports supplémentaires
+rm phase_1_pk_auto.xlsx
+ogr2ogr -f "XLSX" phase_1_pk_auto.xlsx PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_1_pk_auto_4326
 
