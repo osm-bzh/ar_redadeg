@@ -3,8 +3,9 @@
 TRUNCATE phase_1_trace_3948 ;
 INSERT INTO phase_1_trace_3948
   SELECT
-    ogc_fid, name,
-    secteur::int,
+    ogc_fid,
+    secteur::int, -- secteur_id
+    name::text, -- section_nom
     ordre::int,
     0,
     ST_Transform(the_geom,3948) AS the_geom
@@ -29,7 +30,8 @@ TRUNCATE phase_1_trace_troncons_3948 ;
 INSERT INTO phase_1_trace_troncons_3948
   SELECT 
       row_number() over() as uid,
-      secteur,
+      secteur_id,
+    section_nom,
       ordre,
       NULL AS km,
       NULL AS km_reel,
@@ -42,17 +44,18 @@ INSERT INTO phase_1_trace_troncons_3948
   FROM
     (SELECT
        ogc_fid,
-       secteur,
+       secteur_id,
+     section_nom,
        ordre,
        ST_LineMerge(the_geom)::geometry(LineString,3948) AS the_geom,
        ST_Length(the_geom) As length
     FROM phase_1_trace_3948
     -- ce tri est le plus important
-    ORDER BY secteur ASC, ordre ASC
+    ORDER BY secteur_id ASC, ordre ASC
     ) AS t
   CROSS JOIN generate_series(0,10000) AS n
   WHERE n*1000.00/length < 1
-  ORDER BY t.secteur ASC, t.ordre ASC ;
+  ORDER BY t.secteur_id ASC, t.ordre ASC ;
 
 -- mise à jour des attributs
 UPDATE phase_1_trace_troncons_3948

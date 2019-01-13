@@ -7,7 +7,7 @@
 
 
 -- la table secteur gère les grands découpage de gestion
-DROP TABLE secteur CASCADE ;
+DROP TABLE IF EXISTS secteur CASCADE ;
 CREATE TABLE secteur
 (
     id integer,
@@ -32,12 +32,12 @@ INSERT INTO secteur VALUES (10,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengam
 INSERT INTO secteur VALUES (999,'test','test');
 
 
-DROP TABLE phase_1_trace_3948 CASCADE ;
+DROP TABLE IF EXISTS phase_1_trace_3948 CASCADE ;
 CREATE TABLE phase_1_trace_3948
 (
     ogc_fid integer,
-    name text,
-    secteur int,
+    secteur_id int,
+    section_nom text,
     ordre int,
     longueur numeric,
     the_geom geometry(LineString,3948),
@@ -46,7 +46,7 @@ CREATE TABLE phase_1_trace_3948
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3948)
 );
 
-DROP TABLE phase_1_pk_vip_3948 CASCADE ;
+DROP TABLE IF EXISTS phase_1_pk_vip_3948 CASCADE ;
 CREATE TABLE phase_1_pk_vip_3948
 (
     ogc_fid integer,
@@ -61,11 +61,12 @@ CREATE TABLE phase_1_pk_vip_3948
 
 
 -- table des tronçons créés à partir des longs tracés
-DROP TABLE phase_1_trace_troncons_3948 CASCADE ;
+DROP TABLE IF EXISTS phase_1_trace_troncons_3948 CASCADE ;
 CREATE TABLE phase_1_trace_troncons_3948
 (
     uid bigint,
-    secteur int,
+    secteur_id int,
+    section_nom text,
     ordre bigint,
     km bigint,
     km_reel bigint,
@@ -94,24 +95,43 @@ CREATE TABLE phase_1_pk_auto_3948
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3948)
 );*/
 
+
+-- vue plus complète des tronçons
+DROP VIEW IF EXISTS v_phase_1_trace_troncons_3948 CASCADE ;
+CREATE VIEW v_phase_1_trace_troncons_3948 AS
+  SELECT
+    a.uid,
+    b.nom_br AS secteur_nom_br, b.nom_fr AS secteur_nom_fr, b.id AS secteur_id,
+    a.section_nom,
+    a.ordre, a.km, a.km_reel, a.longueur, a.the_geom
+  FROM phase_1_trace_troncons_3948 a JOIN secteur b ON a.secteur_id = b.id
+  ORDER BY secteur_id ASC, ordre ASC, km ASC ;
+
+
 -- vue des PK auto en fin de tronçon
-DROP VIEW IF EXISTS phase_1_pk_auto_3948 ;
+DROP VIEW IF EXISTS phase_1_pk_auto_3948 CASCADE ;
 CREATE VIEW phase_1_pk_auto_3948 AS
   SELECT
-    uid, secteur, ordre, km, km_reel,
+    a.uid,
+    b.nom_br AS secteur_nom_br, b.nom_fr AS secteur_nom_fr, b.id AS secteur_id,
+    a.section_nom,
+    a.ordre, a.km, a.km_reel, a.longueur,
     ST_Line_Interpolate_Point(the_geom, 1)::geometry(Point, 3948) AS the_geom
-  FROM phase_1_trace_troncons_3948
-  ORDER BY secteur ASC, ordre ASC, km ASC ;
+  FROM phase_1_trace_troncons_3948 a JOIN secteur b ON a.secteur_id = b.id
+  ORDER BY secteur_id ASC, ordre ASC, km ASC ;
 
 -- la même mais en 4326 pour export
-DROP VIEW IF EXISTS phase_1_pk_auto_4326 ;
+DROP VIEW IF EXISTS phase_1_pk_auto_4326 CASCADE ;
 CREATE VIEW phase_1_pk_auto_4326 AS
   SELECT
-     uid, secteur, ordre, km, km_reel,
-     ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
-  FROM phase_1_pk_auto_3948
-  ORDER BY secteur ASC, ordre ASC, km ASC ;
+    uid,
+    secteur_nom_br, secteur_nom_fr, secteur_id,
+    section_nom,
+    ordre, km, km_reel, longueur,
+    ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
+  FROM phase_1_pk_auto_3948 ;
 
+ALTER TABLE v_phase_1_trace_troncons_3948 OWNER to redadeg;
 ALTER TABLE phase_1_pk_auto_3948 OWNER to redadeg;
 ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
 
