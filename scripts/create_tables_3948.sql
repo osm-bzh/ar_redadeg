@@ -93,6 +93,7 @@ CREATE TABLE phase_1_trace_troncons_3948
 );
 
 ALTER TABLE phase_1_trace_3948 OWNER to redadeg;
+ALTER TABLE phase_1_trace_4326 OWNER to redadeg;
 ALTER TABLE phase_1_pk_vip_3948 OWNER to redadeg;
 ALTER TABLE phase_1_trace_troncons_3948 OWNER to redadeg;
 
