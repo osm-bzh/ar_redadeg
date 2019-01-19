@@ -6,7 +6,7 @@ cd /data/www/vhosts/ar-redadeg/htdocs/scripts/
 # on récupère les couches geojson depuis umap
 
 # le tracé manuel
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/715180/ > phase_1_trace.geojson
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/746021/ > phase_1_trace.geojson
 # PK VIP
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/715179/ > phase_1_pk_vip.geojson
 
