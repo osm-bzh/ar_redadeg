@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /data/www/vhosts/ar-redadeg/htdocs/scripts/backup/
+cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/backup/
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap pour sauvegarde au cas où
