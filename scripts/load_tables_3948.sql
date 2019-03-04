@@ -77,7 +77,7 @@ UPDATE phase_1_trace_troncons_3948
 SET 
   longueur = 
   (CASE
-    WHEN TRUNC( ST_Length(the_geom)::numeric , 0)  = 939 THEN 940
+    WHEN TRUNC( ST_Length(the_geom)::numeric , 0)  = 999 THEN 1000
     ELSE TRUNC( ST_Length(the_geom)::numeric , 0)
   END),
   km = uid -- km redadeg
