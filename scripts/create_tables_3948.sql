@@ -133,4 +133,18 @@ ALTER TABLE phase_1_pk_auto_3948 OWNER to redadeg;
 ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
 
 
+-- vue tableau de bord de synthèse
+DROP VIEW IF EXISTS tdb_secteur_longueur ;
+CREATE VIEW tdb_secteur_longueur AS
+  SELECT
+    secteur_id, secteur_nom_br, secteur_nom_br,
+    SUM(longueur) AS longueur_m,
+    TRUNC( SUM(longueur)/1000::numeric , 3) AS longueur_km,
+    ROUND( SUM(longueur)/1000::numeric ) AS longueur_km_arrondi
+  FROM v_phase_1_trace_troncons_3948
+  GROUP BY secteur_id, secteur_nom_br, secteur_nom_br
+  ORDER BY secteur_id ;
+
+
+
 
