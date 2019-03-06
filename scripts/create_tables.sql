@@ -114,19 +114,19 @@ CREATE TABLE phase_1_pk_auto
 DROP VIEW IF EXISTS phase_1_pk_auto ;
 CREATE VIEW phase_1_pk_auto AS
   SELECT
-    uid, secteur, ordre, km, km_reel,
+    uid, secteur_id, ordre, km, km_reel,
     ST_Line_Interpolate_Point(the_geom, 1)::geometry(Point, 2154) AS the_geom
   FROM phase_1_trace_troncons
-  ORDER BY secteur ASC, ordre ASC, km ASC ;
+  ORDER BY secteur_id ASC, ordre ASC, km ASC ;
 
 -- la même mais en 4326 pour export
 DROP VIEW IF EXISTS phase_1_pk_auto_4326 ;
 CREATE VIEW phase_1_pk_auto_4326 AS
   SELECT
-     uid, secteur, ordre, km, km_reel,
+     uid, secteur_id, ordre, km, km_reel,
      ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_1_pk_auto
-  ORDER BY secteur ASC, ordre ASC, km ASC ;
+  ORDER BY secteur_id ASC, ordre ASC, km ASC ;
 
 ALTER TABLE phase_1_pk_auto OWNER to redadeg;
 ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;

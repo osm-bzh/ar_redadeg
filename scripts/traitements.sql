@@ -21,13 +21,13 @@ SET longueur = TRUNC( ST_Length(the_geom)::numeric / 1000 , 2) ;
 TRUNCATE phase_1_trace_4326 ;
 INSERT INTO phase_1_trace_4326
   SELECT
-    ogc_fid,
-    section_nom::text, -- name
-    secteur_id::int,
-    ordre::int,
-    longueur,
-    ST_Transform(the_geom,4326) AS the_geom
-  FROM phase_1_trace
+    t.ogc_fid,
+  s.nom_br AS name,
+    t.secteur_id::int,
+    t.ordre::int,
+    t.longueur,
+    ST_Transform(t.the_geom,4326) AS the_geom
+  FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
   ORDER BY secteur_id ASC, ordre ASC ;
 
 
@@ -42,14 +42,13 @@ INSERT INTO phase_1_pk_vip
 TRUNCATE phase_1_trace_troncons ;
 INSERT INTO phase_1_trace_troncons
   SELECT 
-      row_number() over() as uid,
-      secteur_id,
-      section_nom,
+    row_number() over() as uid,
+    secteur_id,
     ordre,
-      NULL AS km,
-      NULL AS km_reel,
-      NULL AS longueur,
-      ST_LineSubstring(the_geom, 1000.00*n/length,
+    NULL AS km,
+    NULL AS km_reel,
+    NULL AS longueur,
+    ST_LineSubstring(the_geom, 1000.00*n/length,
     CASE
       WHEN 1000.00*(n+1) < length THEN 1000.00*(n+1)/length
       ELSE 1
@@ -58,7 +57,6 @@ INSERT INTO phase_1_trace_troncons
     (SELECT
        ogc_fid,
        secteur_id,
-     section_nom,
        ordre,
        ST_LineMerge(the_geom)::geometry(LineString,2154) AS the_geom,
        ST_Length(the_geom) As length
