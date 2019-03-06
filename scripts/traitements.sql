@@ -22,7 +22,7 @@ TRUNCATE phase_1_trace_4326 ;
 INSERT INTO phase_1_trace_4326
   SELECT
     t.ogc_fid,
-  s.nom_br AS name,
+    s.nom_br AS name,
     t.secteur_id::int,
     t.ordre::int,
     t.longueur,
