@@ -133,15 +133,15 @@ ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
 
 
 -- vue tableau de bord de synthèse
-DROP VIEW IF EXISTS tdb_secteur_longueur ;
-CREATE VIEW tdb_secteur_longueur AS
+DROP VIEW IF EXISTS phase_1_tdb ;
+CREATE VIEW phase_1_tdb AS
   SELECT
-    secteur_id, secteur_nom_br, secteur_nom_fr,
-    SUM(longueur) AS longueur_m,
-    TRUNC( SUM(longueur)/1000::numeric , 3) AS longueur_km,
-    ROUND( SUM(longueur)/1000::numeric ) AS longueur_km_arrondi
-  FROM v_phase_1_trace_troncons
-  GROUP BY secteur_id, secteur_nom_br, secteur_nom_fr
+    t.secteur_id, s.nom_br, s.nom_fr,
+    SUM(t.longueur) AS longueur_m,
+    TRUNC( SUM(t.longueur)/1000::numeric , 3) AS longueur_km,
+    ROUND( SUM(t.longueur)/1000::numeric ) AS longueur_km_arrondi
+  FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
+  GROUP BY secteur_id, nom_br, nom_fr
   ORDER BY secteur_id ;
 
 
