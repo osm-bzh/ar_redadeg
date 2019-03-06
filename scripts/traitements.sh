@@ -25,7 +25,7 @@ ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=
 
 
 # on crée les tables en 3948
-psql -U redadeg -d redadeg < load_tables_3948.sql
+psql -U redadeg -d redadeg < traitements.sql
 
 
 # et on exporte vers Geojson
