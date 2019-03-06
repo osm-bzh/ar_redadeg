@@ -137,9 +137,8 @@ DROP VIEW IF EXISTS phase_1_tdb ;
 CREATE VIEW phase_1_tdb AS
   SELECT
     t.secteur_id, s.nom_br, s.nom_fr,
-    SUM(t.longueur) AS longueur_m,
-    TRUNC( SUM(t.longueur)/1000::numeric , 3) AS longueur_km,
-    ROUND( SUM(t.longueur)/1000::numeric ) AS longueur_km_arrondi
+    TRUNC( SUM(t.longueur)::numeric , 3) AS longueur_km,
+    ROUND( SUM(t.longueur)::numeric ) AS longueur_km_arrondi
   FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
   GROUP BY secteur_id, nom_br, nom_fr
   ORDER BY secteur_id ;
