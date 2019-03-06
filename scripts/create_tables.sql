@@ -36,7 +36,6 @@ DROP TABLE IF EXISTS phase_1_trace CASCADE ;
 CREATE TABLE phase_1_trace
 (
     ogc_fid integer,
-    name text,
     secteur_id int,
     ordre int,
     longueur numeric,

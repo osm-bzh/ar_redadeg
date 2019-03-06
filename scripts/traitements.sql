@@ -4,9 +4,7 @@ TRUNCATE phase_1_trace ;
 INSERT INTO phase_1_trace
   SELECT
     ogc_fid,
-    -- name AS secteur_nom,
     secteur_id::int,
-    name,
     ordre::int,
     0 AS longueur,
     ST_Transform(the_geom,2154) AS the_geom
