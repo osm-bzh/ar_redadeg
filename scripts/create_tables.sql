@@ -1,6 +1,17 @@
 
+
+/*
+==========================================================================
+
+    phase 1 : récupération des données depuis umap et calcul des PK auto
+
+==========================================================================
+*/
+
+-- voir la documentation pour la création de la base de données
+
 -- on est obligé de créer des tables en Lambert 93 (EPSG:2154) (ou une CC conforme)
--- car même si les tables original sont déclarées en 3857
+-- car même si les tables originales sont déclarées en 3857
 -- en fait les géoémtries sont en 4326
 -- donc les calculs de longueur sont faux
 -- au moins en créant une table en dur en Lambert 93 / 2154 on est sûr des longueurs
@@ -142,6 +153,40 @@ CREATE VIEW phase_1_tdb AS
   FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
   GROUP BY secteur_id, nom_br, nom_fr
   ORDER BY secteur_id ;
+
+
+
+
+
+/*
+==========================================================================
+
+    phase 2 : calcul d'itinéraires en appui du réseau routier OSM
+
+==========================================================================
+*/
+
+
+-- la table qui contient le graphe routier de OSM
+DROP TABLE IF EXISTS osm_roads ;
+CREATE TABLE osm_roads
+(
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  the_geom geometry,
+  CONSTRAINT osm_roads_pkey PRIMARY KEY (osm_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+
+
+
+
 
 
 
