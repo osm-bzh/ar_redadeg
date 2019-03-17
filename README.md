@@ -15,13 +15,35 @@ Ceci afin d'avoir un tracé le plus précis possible par rapport aux longueurs e
 
 ### Préparer la base de données
 
-Créer un rôle 'redadeg'.
-Créer une base 'redadeg' et mettre le rôle 'redadeg' en propriétaire.
-Installer les extensions postgis et pgrouting.
+Avec un compte administrateur PostgreSQL :
+* Créer un rôle 'redadeg'
+* Créer une base 'redadeg' et mettre le rôle 'redadeg' en propriétaire
+
+```sql
+CREATE USER redadeg WITH LOGIN PASSWORD 'redadeg';
+CREATE DATABASE redadeg WITH OWNER = redadeg;
+```
+
+Ouvrir une connexion sur la base redadeg, toujours avec un compte administrateur pour installer les extensions :
+* postgis
+* postgis_topology
+* pgrouting
+
+```sql
+CREATE EXTENSION postgis ;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION pgrouting;
+
+-- permissions
+ALTER SCHEMA topology OWNER TO redadeg ;
+ALTER TABLE topology.layer OWNER TO redadeg ;
+ALTER TABLE topology.topology OWNER TO redadeg ;
+```
 
 Si on veut vérifier : `select * from pgr_version()`
 (2.6.2)
 
+Note : l'extension postgis_topology crée forcément un schéma *topology* dans la base de données.
 
 On prépare également la connexion à la base dans son pgpass
 

@@ -167,7 +167,7 @@ CREATE VIEW phase_1_tdb AS
 */
 
 
--- la table qui contient le graphe routier de OSM
+-- la table qui contient les lignes des routes venant de OSM
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
@@ -185,6 +185,37 @@ CREATE TABLE osm_roads
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 
+
+-- la table en version routable
+DROP TABLE IF EXISTS osm_roads_pgr ;
+CREATE TABLE osm_roads_pgr
+(
+  id bigint,
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  source bigint,
+  target bigint,
+  the_geom geometry,
+  CONSTRAINT osm_roads_pgr_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+CREATE INDEX osm_roads_pgr_source_idx ON osm_roads_pgr (source);
+CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
+
+
+
+-- dans la base redadeg on chargera la couche osm_roads qui a été calculée
+-- à partir de données OSM
+
+
+-- 1. création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
+SELECT topology.CreateTopology('osm_roads_topo', 2154);
 
 
 
