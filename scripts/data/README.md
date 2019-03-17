@@ -1,0 +1,1 @@
+Ce dossier contient les fichiers de données nécessaires pour les échanges ou diffusion.
