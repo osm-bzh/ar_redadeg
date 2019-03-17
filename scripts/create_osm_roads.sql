@@ -29,10 +29,11 @@
 
 -- 2. création de la table qui va accueillir les tronçons de routes
 
--- table osm_roads
+-- la table qui contient le graphe routier de OSM
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
+  uid bigint,
   osm_id bigint,
   highway text,
   type text,
@@ -41,7 +42,7 @@ CREATE TABLE osm_roads
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT osm_roads_pkey PRIMARY KEY (osm_id),
+  CONSTRAINT osm_roads_pkey PRIMARY KEY (uid),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
@@ -64,6 +65,7 @@ WITH trace_buffer AS (
 INSERT INTO osm_roads
 (
   SELECT
+    row_number() over() as id,
     osm_id,
     highway,
     CASE 

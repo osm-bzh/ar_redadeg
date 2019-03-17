@@ -171,6 +171,7 @@ CREATE VIEW phase_1_tdb AS
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
+  id bigint,
   osm_id bigint,
   highway text,
   type text,
@@ -179,7 +180,7 @@ CREATE TABLE osm_roads
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT osm_roads_pkey PRIMARY KEY (osm_id),
+  CONSTRAINT osm_roads_pkey PRIMARY KEY (id),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );

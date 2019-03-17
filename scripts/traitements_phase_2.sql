@@ -18,6 +18,6 @@ ALTER TABLE osm_roads ADD COLUMN source integer ;
 ALTER TABLE osm_roads ADD COLUMN target integer ;
 
 -- calcul de la topologie
-SELECT pgr_createTopology('osm_roads', 0.000001, 'the_geom', 'osm_id');
+SELECT pgr_createTopology('osm_roads', 0.000001);
 
 
