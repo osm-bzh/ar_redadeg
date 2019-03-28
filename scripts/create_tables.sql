@@ -200,6 +200,8 @@ CREATE TABLE osm_roads_pgr
   name_br text,
   source bigint,
   target bigint,
+  cost double precision,
+  reverse_cost double precision,
   the_geom geometry,
   CONSTRAINT osm_roads_pgr_pkey PRIMARY KEY (id),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),

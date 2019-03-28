@@ -22,6 +22,7 @@
 -- pg_dump --file redadeg_trace.sql --host localhost --username redadeg --no-password --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments --table public.phase_1_trace redadeg
 
 -- import dans la base osm
+-- psql -U osmbr -d osm -c "DROP TABLE public.phase_1_trace;"
 -- psql -U osmbr -d osm < redadeg_trace.sql
 
 
@@ -92,6 +93,7 @@ INSERT INTO osm_roads
 -- pg_dump --file osm_roads.sql --host localhost --username osmbr --no-password --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments --table public.osm_roads osm
 
 -- commande d'import
+-- psql -U redadeg -d redadeg -c "DROP TABLE public.osm_roads;"
 -- psql -U redadeg -d redadeg < osm_roads.sql
 
 
