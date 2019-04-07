@@ -99,6 +99,46 @@ JOIN osm_roads_pgr b ON a.edge = b.id ;
 
 
 
+TRUNCATE phase_2_trace_troncons ;
+INSERT INTO phase_2_trace_troncons
+  SELECT 
+    row_number() over() as uid,
+    -- infos redadeg
+  NULL AS secteur_id,
+    NULL AS ordre,
+    NULL AS km,
+    NULL AS km_reel,
+    NULL AS longueur,
+  -- infos OSM
+  t.osm_id, t.highway, t.type, t.oneway, t.ref, t.name_fr, t.name_br,
+    ST_LineSubstring(the_geom, 1000.00*n/length,
+    CASE
+      WHEN 1000.00*(n+1) < length THEN 1000.00*(n+1)/length
+      ELSE 1
+    END) AS the_geom
+  FROM
+    (SELECT
+       id,
+     osm_id, highway, "type", oneway, ref, name_fr, name_br,
+       ST_LineMerge(the_geom)::geometry(LineString,2154) AS the_geom,
+       ST_Length(the_geom) As length
+    FROM phase_2_trace_pgr
+    -- ce tri est le plus important
+    ORDER BY id ASC
+    ) AS t
+  CROSS JOIN generate_series(0,10000) AS n
+  WHERE n*1000.00/length < 1
+  ORDER BY t.id ;
 
+-- mise à jour des attributs
+UPDATE phase_2_trace_troncons
+SET 
+  longueur = 
+  (CASE
+    WHEN TRUNC( ST_Length(the_geom)::numeric , 0)  = 999 THEN 1000
+    ELSE TRUNC( ST_Length(the_geom)::numeric , 0)
+  END),
+  km = uid -- km redadeg
+;
 
 
