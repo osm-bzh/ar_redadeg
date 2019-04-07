@@ -39,3 +39,6 @@ Temporary Items
 *.xlsx
 scripts/data/osm_roads.sql
 scripts/data/redadeg_trace.sql
+scripts/data/redadeg.gpkg
+scripts/data/redadeg.gpkg-shm
+scripts/data/redadeg.gpkg-wal
