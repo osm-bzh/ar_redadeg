@@ -22,7 +22,7 @@ SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', '
 -- le 2e chiffre est la tolérance en mètres
 UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', 1, 0.00001);
 -- 1.0 = 18 min
--- 0.00001 = 18 min
+-- 0.00001 = 2 min
 
 -- à ce stade on a un graphe topologique dans le schema osm_roads_topo
 
@@ -73,24 +73,29 @@ SELECT pgr_nodeNetwork('osm_roads_pgr', 1.0);
 
 
 -- il ne reste plus qu'à faire des calculs d'itinéraires
-
+-- on met le résultat dans une table
+TRUNCATE TABLE phase_2_trace_pgr ;
+INSERT INTO phase_2_trace_pgr
 SELECT
+  -- info de routage
   a.seq AS id,
   a.path_seq,
   a.node,
   a.cost,
   a.agg_cost,
+  -- infos OSM
   b.osm_id,
   b.highway,
+  b."type",
+  b.oneway,
   b.ref,
   b.name_fr,
   b.name_br,
   b.the_geom
 FROM pgr_dijkstra(
     'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr',
-    12872, 12145) as a
-JOIN osm_roads_pgr b
-ON a.edge = b.id 
+    7632, 687) as a
+JOIN osm_roads_pgr b ON a.edge = b.id ;
 
 
 

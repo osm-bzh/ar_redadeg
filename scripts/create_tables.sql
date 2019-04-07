@@ -220,8 +220,53 @@ CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
 
 
+-- la table qui va recevoir le résultat du calcul d'itinéraire
+DROP TABLE IF EXISTS phase_2_trace_pgr ;
+CREATE TABLE phase_2_trace_pgr
+(
+  -- info de routage
+  id bigint,
+  path_seq bigint,
+  node bigint,
+  cost double precision,
+  agg_cost double precision,
+  -- info OSM
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  the_geom geometry,
+  CONSTRAINT phase_2_trace_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
 
 
-
+-- la table qui va contenir des tronçons de x m
+DROP TABLE IF EXISTS phase_2_trace_troncons ;
+CREATE TABLE phase_2_trace_troncons
+(
+  uid bigint,
+  secteur_id int,
+  ordre bigint,
+  km bigint,
+  km_reel bigint,
+  longueur integer,
+  -- info OSM
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  the_geom geometry,
+  CONSTRAINT phase_2_trace_troncons_pkey PRIMARY KEY (uid),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
 
 
