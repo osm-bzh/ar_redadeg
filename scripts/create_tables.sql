@@ -166,6 +166,22 @@ CREATE VIEW phase_1_tdb AS
 ==========================================================================
 */
 
+-- les couches PK venant de umap
+
+DROP TABLE IF EXISTS phase_2_pk_secteur CASCADE ;
+CREATE TABLE phase_2_pk_secteur
+(
+    id integer,
+    name text,
+    pgr_node_id integer,
+    the_geom geometry(Point,2154),
+    CONSTRAINT phase_2_pk_secteur_pkey PRIMARY KEY (id),
+    CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+
+
+
 
 -- la table qui contient les lignes des routes venant de OSM
 DROP TABLE IF EXISTS osm_roads ;
