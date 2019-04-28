@@ -27,7 +27,7 @@ CREATE DATABASE redadeg WITH OWNER = redadeg;
 Ouvrir une connexion sur la base redadeg, toujours avec un compte administrateur pour installer les extensions :
 * postgis
 * postgis_topology
-* pgrouting
+* pgrouting (apt install postgresql-11-pgrouting)
 
 ```sql
 CREATE EXTENSION postgis ;
