@@ -240,8 +240,8 @@ SELECT topology.CreateTopology('osm_roads_topo', 2154);
 DROP TABLE IF EXISTS phase_2_trace_pgr ;
 CREATE TABLE phase_2_trace_pgr
 (
+  secteur_id integer,
   -- info de routage
-  id bigint,
   path_seq bigint,
   node bigint,
   cost double precision,
@@ -255,7 +255,7 @@ CREATE TABLE phase_2_trace_pgr
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT phase_2_trace_pkey PRIMARY KEY (id),
+  CONSTRAINT phase_2_trace_pkey PRIMARY KEY (secteur_id, path_seq),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
