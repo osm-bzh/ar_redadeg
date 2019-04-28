@@ -28,7 +28,7 @@ SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', '
 -- en remplissant le nouvel attribut géométrique
 -- le 1er chiffre est l'identifiant du layer dans la table topology.layer
 -- le 2e chiffre est la tolérance en mètres
-UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', 1, 0.01);
+UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', 1, 0.00001);
 
 /*
 DO $$DECLARE r record;
