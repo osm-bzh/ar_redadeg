@@ -179,8 +179,17 @@ CREATE TABLE phase_2_pk_secteur
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+ALTER TABLE phase_2_pk_secteur OWNER to redadeg;
 
-
+-- une vue en 4326 pour export
+DROP VIEW IF EXISTS phase_2_pk_secteur_4326 ;
+CREATE VIEW phase_2_pk_secteur_4326 AS
+  SELECT
+    s.id, pk.name, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id,
+    ST_Transform(pk.the_geom,4326)::geometry(Point, 4326) AS the_geom
+  FROM phase_2_pk_secteur pk JOIN secteur s ON pk.id = s.id
+  ORDER BY pk.id ;
+ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
 -- la table qui contient les lignes des routes venant de OSM
@@ -259,6 +268,20 @@ CREATE TABLE phase_2_trace_pgr
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
+
+-- une vue en 4326 pour export
+DROP VIEW IF EXISTS phase_2_trace_pgr_4326 ;
+CREATE VIEW phase_2_trace_pgr_4326 AS
+  SELECT
+    secteur_id,
+    path_seq, node, cost, agg_cost,
+    osm_id, highway, type, oneway, ref, name_fr, name_br,
+    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+  FROM phase_2_trace_pgr ;
+ALTER TABLE phase_2_trace_pgr_4326 OWNER to redadeg;
+
+
 
 
 -- la table qui va contenir des tronçons de x m

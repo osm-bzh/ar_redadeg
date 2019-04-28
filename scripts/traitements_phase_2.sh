@@ -119,3 +119,19 @@ ORDER BY pk.id ;" \
     
 done
 
+
+
+# et on exporte en geojson pour umap
+rm data/phase_2_pk_secteur.geojson
+ogr2ogr -f "GeoJSON" data/phase_2_pk_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_pk_secteur_4326
+rm data/phase_2_trace_pgr.geojson
+ogr2ogr -f "GeoJSON" data/phase_2_trace_pgr.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_pgr_4326
+# les fichiers sont ensuite tout de suite visible dans umap
+
+
+# on exporte un json de synthèse des KM par secteur
+# TODO 
+
+
+
+
