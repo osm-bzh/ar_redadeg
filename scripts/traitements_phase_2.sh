@@ -29,7 +29,7 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > data/phase_2_umap_
 
 # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
-$PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE phase_2_pk_secteur_3857 CASCADE;"
+$PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 
