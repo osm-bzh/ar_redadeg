@@ -56,8 +56,8 @@ $PSQL -h $DB_HOST -U $DB_USER -c "TRUNCATE TABLE phase_2_trace_pgr ;"
 # et on calcule un itinéraire entre le PK de début et le PK suivant
 
 $PSQL -X -h $DB_HOST -U $DB_USER $DB_NAME \
-    -c "SELECT s.id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id  
-FROM phase_2_pk_secteur pk JOIN secteur s ON pk.id = s.id
+    -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id  
+FROM phase_2_pk_secteur pk JOIN secteur s ON pk.secteur_id = s.id
 ORDER BY pk.id ;" \
     --single-transaction \
     --set AUTOCOMMIT=off \
@@ -74,15 +74,16 @@ ORDER BY pk.id ;" \
     # alors la requête supprime les espaces. TODO
 
     # le premier PK = PK de début
-    secteur_id=${Record[0]}
-    secteur_nom_fr="${Record[1]}"
-    secteur_nom_br="${Record[2]}"
-    pk_id_start=${Record[3]}
+    pk_id=${Record[0]}
+    secteur_id=${Record[1]}
+    secteur_nom_fr="${Record[2]}"
+    secteur_nom_br="${Record[3]}"
+    pk_id_start=${Record[4]}
     
     # maintenant il faut une 2e requête pour aller trouver le PK de fin
     # ce PK = le PK de début du secteur suivant
     read pk_id_end <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
-    -c "SELECT pgr_node_id FROM phase_2_pk_secteur WHERE id = $secteur_id + 1 ;")
+    -c "SELECT pgr_node_id FROM phase_2_pk_secteur WHERE id = $pk_id + 1 ;")
 
     # on teste si on récupère qqch sinon ça veurt dire qu'on a pas de nœud de fin donc impossible de calculer un itinéraire
     if [[ -n "$pk_id_end" ]];

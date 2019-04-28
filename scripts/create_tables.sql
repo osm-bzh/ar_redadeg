@@ -174,6 +174,7 @@ CREATE TABLE phase_2_pk_secteur
     id integer,
     name text,
     pgr_node_id integer,
+    secteur_id integer,
     the_geom geometry(Point,2154),
     CONSTRAINT phase_2_pk_secteur_pkey PRIMARY KEY (id),
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
