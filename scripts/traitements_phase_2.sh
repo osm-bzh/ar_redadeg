@@ -14,6 +14,9 @@ cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap
 
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Récupération des fichiers geojson depuis umap"
+
 # les couches PK
 # PK début - fin de secteur
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817220/ > data/phase_2_umap_pk_secteur.geojson
@@ -22,7 +25,9 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817221/ > data/phase_2_umap_
 # PK manuels
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > data/phase_2_umap_pk_manuel.geojson
 
-echo "Récupération des fichier geojson umap ok"
+
+echo "  fait"
+echo ""
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on les charge dans postgis
@@ -30,15 +35,25 @@ echo "Récupération des fichier geojson umap ok"
 
 # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
+echo "  chargement des fichiers dans la BD"
+
 $PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
+echo "  fait"
+echo ""
 
 # on crée les tables en 3948 
 # et bien d'autres choses :
 # - recalage des PK secteurs sur un nœud du réseau routable
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Application des traitements SQL 2.1"
+echo ""
+
 $PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.1.sql
 
+echo "  fait"
+echo ""
 
 
 
@@ -48,6 +63,9 @@ $PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.1.sql
 
 # https://www.manniwood.com/postgresql_and_bash_stuff/index.html
 
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Calcul des itinéraires (pgrouting)"
+echo ""
 
 # on commence par vider la table qui contiendra les calculs d'itinéraires
 $PSQL -h $DB_HOST -U $DB_USER -c "TRUNCATE TABLE phase_2_trace_pgr ;"
@@ -129,19 +147,51 @@ ORDER BY pk.id ;" \
     
 done
 
+echo "  Calcul des itinéraires terminé"
+echo ""
 
 
-# et on exporte en geojson pour umap
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#  on applique maintenant des requêtes SQL de création des données dérivées des données de routage
+
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Application des traitements SQL 2.2"
+echo ""
+
+$PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.2.sql
+
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#  et on exporte en geojson pour umap
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Exports"
+echo ""
+
+echo "  exports geojson"
+echo ""
+
 rm data/phase_2_pk_secteur.geojson
 ogr2ogr -f "GeoJSON" data/phase_2_pk_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_pk_secteur_4326
 rm data/phase_2_trace_pgr.geojson
 ogr2ogr -f "GeoJSON" data/phase_2_trace_pgr.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_pgr_4326
+rm data/phase_2_trace_secteur.geojson
+ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_secteur_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
+echo "  fait"
+echo ""
 
 # on exporte un json de synthèse des KM par secteur
 # TODO 
 
 
-
-
+echo ""
+echo ""
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  F I N"
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo ""

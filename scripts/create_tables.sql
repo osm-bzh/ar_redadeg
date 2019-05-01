@@ -284,6 +284,34 @@ ALTER TABLE phase_2_trace_pgr_4326 OWNER to redadeg;
 
 
 
+-- couche qui contient 1 ligne par secteur
+DROP TABLE IF EXISTS phase_2_trace_secteur CASCADE ;
+CREATE TABLE phase_2_trace_secteur
+(
+    secteur_id int,
+    nom_fr text,
+    nom_br text,
+    longueur int,
+    longueur_km numeric,
+    the_geom geometry,
+    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE phase_2_trace_secteur OWNER to redadeg;
+
+-- une vue en 4326 pour export
+DROP VIEW IF EXISTS phase_2_trace_secteur_4326 ;
+CREATE VIEW phase_2_trace_secteur_4326 AS
+  SELECT
+    secteur_id, nom_fr, nom_br,
+    longueur, longueur_km,
+    ST_Transform(the_geom,4326)::geometry(MultiLineString, 4326) AS the_geom
+  FROM phase_2_trace_secteur ;
+ALTER TABLE phase_2_trace_secteur_4326 OWNER to redadeg;
+
+
+
+
+
 
 -- la table qui va contenir des tronçons de x m
 DROP TABLE IF EXISTS phase_2_trace_troncons ;
