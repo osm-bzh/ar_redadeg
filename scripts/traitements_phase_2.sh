@@ -107,8 +107,15 @@ ORDER BY pk.id ;" \
       b.\"type\",
       b.oneway,
       b.ref,
-      b.name_fr,
-      b.name_br,
+      CASE
+      WHEN b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
+    ELSE b.name_fr
+      END AS name_fr,
+      CASE
+      WHEN b.name_br IS NULL AND b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
+    WHEN b.name_br IS NULL AND b.name_fr IS NOT NULL THEN '# da dreiñ e brezhoneg #'
+    ELSE b.name_br
+      END AS name_br,
       b.the_geom
     FROM pgr_dijkstra(
         'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr', $pk_id_start, $pk_id_end) as a
