@@ -23,7 +23,9 @@ CREATE TABLE secteur
 (
     id integer,
     nom_br text,
-    nom_fr text
+    nom_fr text,
+    km_reels integer,
+    km_redadeg integer
 );
 
 ALTER TABLE secteur OWNER to redadeg;
@@ -336,5 +338,34 @@ CREATE TABLE phase_2_trace_troncons
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+
+
+
+
+CREATE VIEW phase_2_tdb AS
+    WITH total AS
+    (
+      SELECT
+        0 AS secteur_id, 'Total' AS nom_fr, 'Hollad' AS nom_br,
+        SUM(longueur_km) AS longueur_km
+      FROM public.phase_2_trace_secteur
+      GROUP BY 1
+    )
+      SELECT 
+        a.secteur_id, a.nom_fr, a.nom_br,
+        a.longueur_km,
+        b.km_reels AS longueur_km_attendu,
+        -(b.km_reels - a.longueur_km) AS difference,
+        TRUNC(a.longueur_km / (SELECT longueur_km FROM total) * 2020, 0) AS nb_km_redadeg
+        --TRUNC((a.longueur_km / (SELECT longueur_km FROM total) * 2020) / b.km_reels, 3) AS longueur_km_redadeg
+      FROM phase_2_trace_secteur a JOIN secteur b ON a.secteur_id = b.id
+      UNION
+      SELECT
+        0 AS secteur_id, 'Total' AS nom_fr, 'Hollad' AS nom_br,
+        SUM(longueur_km) AS longueur_km,
+        0,0,0
+      FROM public.phase_2_trace_secteur
+      GROUP BY 1
+      ORDER BY secteur_id ASC ;
 
 
