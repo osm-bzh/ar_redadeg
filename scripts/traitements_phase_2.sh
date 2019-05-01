@@ -22,6 +22,7 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817221/ > data/phase_2_umap_
 # PK manuels
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > data/phase_2_umap_pk_manuel.geojson
 
+echo "Récupération des fichier geojson umap ok"
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on les charge dans postgis
@@ -56,7 +57,7 @@ $PSQL -h $DB_HOST -U $DB_USER -c "TRUNCATE TABLE phase_2_trace_pgr ;"
 # et on calcule un itinéraire entre le PK de début et le PK suivant
 
 $PSQL -X -h $DB_HOST -U $DB_USER $DB_NAME \
-    -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id  
+    -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id, replace(pk.name,' ','_') AS name 
 FROM phase_2_pk_secteur pk JOIN secteur s ON pk.secteur_id = s.id
 ORDER BY pk.id ;" \
     --single-transaction \
@@ -79,6 +80,7 @@ ORDER BY pk.id ;" \
     secteur_nom_fr="${Record[2]}"
     secteur_nom_br="${Record[3]}"
     pk_id_start=${Record[4]}
+    pk_name=${Record[5]}
     
     # maintenant il faut une 2e requête pour aller trouver le PK de fin
     # ce PK = le PK de début du secteur suivant
@@ -88,7 +90,7 @@ ORDER BY pk.id ;" \
     # on teste si on récupère qqch sinon ça veurt dire qu'on a pas de nœud de fin donc impossible de calculer un itinéraire
     if [[ -n "$pk_id_end" ]];
     then
-        echo "calcul d'un itinéraire pour le secteur $secteur_nom_fr ($pk_id_start --> $pk_id_end)"
+        echo "calcul d'un itinéraire pour le secteur $pk_name / $secteur_nom_fr ($pk_id_start --> $pk_id_end)"
 
         $PSQL -h $DB_HOST -U $DB_USER -c \
     "INSERT INTO phase_2_trace_pgr

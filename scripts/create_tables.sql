@@ -247,7 +247,7 @@ SELECT topology.CreateTopology('osm_roads_topo', 2154);
 
 
 -- la table qui va recevoir le résultat du calcul d'itinéraire
-DROP TABLE IF EXISTS phase_2_trace_pgr ;
+DROP TABLE IF EXISTS phase_2_trace_pgr CASCADE;
 CREATE TABLE phase_2_trace_pgr
 (
   secteur_id integer,
@@ -265,11 +265,11 @@ CREATE TABLE phase_2_trace_pgr
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT phase_2_trace_pkey PRIMARY KEY (secteur_id, path_seq),
+  --CONSTRAINT phase_2_trace_pkey PRIMARY KEY (secteur_id, path_seq),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
+ALTER TABLE phase_2_trace_pgr OWNER to redadeg;
 
 -- une vue en 4326 pour export
 DROP VIEW IF EXISTS phase_2_trace_pgr_4326 ;
