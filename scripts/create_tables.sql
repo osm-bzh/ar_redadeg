@@ -186,7 +186,7 @@ ALTER TABLE phase_2_pk_secteur OWNER to redadeg;
 DROP VIEW IF EXISTS phase_2_pk_secteur_4326 ;
 CREATE VIEW phase_2_pk_secteur_4326 AS
   SELECT
-    s.id, pk.name, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id,
+    pk.id, pk.name, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br,
     ST_Transform(pk.the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_2_pk_secteur pk JOIN secteur s ON pk.id = s.id
   ORDER BY pk.id ;
