@@ -36,8 +36,8 @@ INSERT INTO secteur VALUES (3,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec
 INSERT INTO secteur VALUES (4,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou');
 INSERT INTO secteur VALUES (5,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé');
 INSERT INTO secteur VALUES (6,'Kemperle -> Redon','Quimperlé -> Redon');
-INSERT INTO secteur VALUES (7,'Redon -> Soulvach','Redon -> Soulvach');
-INSERT INTO secteur VALUES (8,'Soulvach -> Roazhon','Soulvach -> Rennes');
+INSERT INTO secteur VALUES (7,'Redon -> Tilheg','Redon -> Teillay');
+INSERT INTO secteur VALUES (8,'Tilheg -> Roazhon','Teillay -> Rennes');
 INSERT INTO secteur VALUES (9,'Roazhon -> Sant-Brieg','Rennes -> Saint-Brieuc');
 INSERT INTO secteur VALUES (10,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp');
 INSERT INTO secteur VALUES (999,'test','test');
