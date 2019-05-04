@@ -312,6 +312,17 @@ ALTER TABLE phase_2_trace_secteur_4326 OWNER to redadeg;
 
 
 
+DROP TABLE IF EXISTS phase_2_trace_trous ;
+CREATE TABLE phase_2_trace_trous
+(
+  id serial,
+  secteur_id int,
+  the_geom geometry,
+  CONSTRAINT phase_2_trace_trous_pkid PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE phase_2_trace_trous OWNER to redadeg;
 
 
 
