@@ -187,9 +187,9 @@ ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=localhost user=
 echo "  exports supplémentaires"
 echo ""
 
-rm data/phase_1_pk_auto.xlsx
+rm data/phase_2_tdb.xlsx
 ogr2ogr -f "XLSX" data/phase_2_tdb.xlsx PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
-rm data/phase_1_pk_auto.csv
+rm data/phase_2_tdb.csv
 ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
 
 echo "  fait"
