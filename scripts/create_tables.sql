@@ -378,5 +378,5 @@ CREATE VIEW phase_2_tdb AS
       FROM public.phase_2_trace_secteur
       GROUP BY 1
       ORDER BY secteur_id ASC ;
-
+ALTER TABLE phase_2_tdb OWNER TO redadeg;
 
