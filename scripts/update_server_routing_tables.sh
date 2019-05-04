@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+# depuis le mac
 
 cd data
 
