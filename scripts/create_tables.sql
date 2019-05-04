@@ -352,7 +352,7 @@ CREATE TABLE phase_2_trace_troncons
 
 
 
-
+DROP VIEW IF EXISTS phase_2_tdb ;
 CREATE VIEW phase_2_tdb AS
     WITH total AS
     (

@@ -182,11 +182,18 @@ rm data/phase_2_trace_secteur.geojson
 ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_secteur_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
-echo "  fait"
+
+# exports supplémentaires
+echo "  exports supplémentaires"
 echo ""
 
-# on exporte un json de synthèse des KM par secteur
-# TODO 
+rm data/phase_1_pk_auto.xlsx
+ogr2ogr -f "XLSX" data/phase_2_tdb.xlsx PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
+rm data/phase_1_pk_auto.csv
+ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
+
+echo "  fait"
+echo ""
 
 
 echo ""
