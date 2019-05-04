@@ -1,5 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Création de la couche osm_roads"
+echo ""
+echo ""
 
 
 # 1. export du tracé depuis la base redadeg
@@ -10,15 +15,15 @@ pg_dump --file data/redadeg_trace.sql --host localhost --username redadeg --no-p
 
 # 2. import dans la base OSM
 
-psql -U osmbr -d osm -c "DROP TABLE public.phase_1_trace;"
-psql -U osmbr -d osm < data/redadeg_trace.sql
+psql -h localhost -U osmbr -d osm -c "DROP TABLE public.phase_1_trace;"
+psql -h localhost -U osmbr -d osm < data/redadeg_trace.sql
 
 
 
 # 3. calcul de la couche osm_roads = intersection buffer trace et routes OSM
 
-psql -U osmbr -d osm -c "TRUNCATE TABLE osm_roads ;"
-psql -U osmbr -d osm -c "WITH trace_buffer AS (
+psql -h localhost -U osmbr -d osm -c "TRUNCATE TABLE osm_roads ;"
+psql -h localhost -U osmbr -d osm -c "WITH trace_buffer AS (
   SELECT
     secteur_id,
     ST_Union(ST_Buffer(the_geom, 25, 'quad_segs=2')) AS the_geom
@@ -59,11 +64,11 @@ pg_dump --file data/osm_roads.sql --host localhost --username osmbr --no-passwor
 
 # 5. import dans la base redadeg
 
-psql -U redadeg -d redadeg -c "DROP TABLE public.phase_1_trace;"
-psql -U redadeg -d redadeg < data/redadeg_trace.sql
+psql -h localhost -U redadeg -d redadeg -c "DROP TABLE public.phase_1_trace;"
+psql -h localhost -U redadeg -d redadeg < data/redadeg_trace.sql
 
-psql -U redadeg -d redadeg -c "TRUNCATE TABLE public.osm_roads;"
-psql -U redadeg -d redadeg < data/osm_roads.sql
+psql -h localhost -U redadeg -d redadeg -c "TRUNCATE TABLE public.osm_roads;"
+psql -h localhost -U redadeg -d redadeg < data/osm_roads.sql
 
 
 echo "fini"
