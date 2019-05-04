@@ -115,5 +115,14 @@ ON a.edge = b.id
 -- si besoin : nettoyage par Drop du schéma
 SELECT topology.DropTopology('osm_roads_topo');
 
+-- permissions
+ALTER SCHEMA osm_roads_topo OWNER TO redadeg ;
+ALTER TABLE osm_roads_topo.edge_data OWNER TO redadeg ;
+ALTER TABLE osm_roads_topo.face OWNER TO redadeg ;
+ALTER TABLE osm_roads_topo.node OWNER TO redadeg ;
+ALTER TABLE osm_roads_topo.relation OWNER TO redadeg ;
+ALTER VIEW osm_roads_topo.edge OWNER TO redadeg ;
+ALTER SEQUENCE osm_roads_topo.layer_id_seq OWNER TO redadeg ;
+ALTER SEQUENCE osm_roads_topo.topogeo_s_1 OWNER TO redadeg ;
 
 
