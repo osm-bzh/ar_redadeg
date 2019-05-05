@@ -18,7 +18,12 @@ UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo',
 
 -- maj de la couche support des calculs d'itinéraire
 -- 30 s
+-- on commence par vider les couches existantes
 TRUNCATE TABLE osm_roads_pgr ;
+TRUNCATE TABLE osm_roads_pgr_noded ;
+TRUNCATE TABLE osm_roads_pgr_vertices_pgr ;
+
+-- on remplit la couche de lignes
 INSERT INTO osm_roads_pgr
 ( SELECT 
   row_number() over() as id,
@@ -47,6 +52,7 @@ UPDATE osm_roads_pgr SET reverse_cost = st_length(the_geom);
 
 
 -- calcul du graphe routier par pgRouting
+-- cela va remplir les tables osm_roads_pgr_noded et osm_roads_pgr_vertices_pgr
 -- 30 s
 SELECT pgr_createTopology('osm_roads_pgr', 1.0);
 
