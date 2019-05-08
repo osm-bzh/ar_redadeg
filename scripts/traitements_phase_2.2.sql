@@ -52,28 +52,18 @@ INSERT INTO phase_2_trace_troncons
   FROM
   (
     SELECT
-    secteur_id, path_seq,
-    osm_id, highway, "type", oneway, ref, name_fr, name_br,
-    ST_LineMerge(the_geom)::geometry(LineString,2154) AS the_geom,
-    ST_Length(the_geom) AS length
-    FROM phase_2_trace_pgr
-  --WHERE secteur_id = 8
-  GROUP BY secteur_id
+    secteur_id,
+    ST_LineMerge(the_geom)::geometry(MultiLineString,2154) AS the_geom,
+    ST_Length(the_geom) AS length,
+  ST_GeometryType(ST_LineMerge(the_geom)::geometry(MultiLineString,2154)) AS geom_type
+    FROM phase_2_trace_secteur
+    --WHERE secteur_id = 8
+    --GROUP BY secteur_id
     -- ce tri est le plus important
-    ORDER BY secteur_id, path_seq ASC
+    ORDER BY secteur_id ASC
   ) AS t
   CROSS JOIN generate_series(0,10000) AS n
   WHERE n*1000.00/length < 1
-  ORDER BY t.secteur_id, t.path_seq ;
-
--- mise à jour des attributs
-UPDATE phase_2_trace_troncons
-SET 
-  longueur = 
-  (CASE
-    WHEN TRUNC( ST_Length(the_geom)::numeric , 0)  = 999 THEN 1000
-    ELSE TRUNC( ST_Length(the_geom)::numeric , 0)
-  END),
-  km = uid -- km redadeg ;
+  ORDER BY t.secteur_id ;
 */
 
