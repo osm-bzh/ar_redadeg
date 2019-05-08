@@ -195,7 +195,7 @@ CREATE VIEW phase_2_pk_secteur_4326 AS
 ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
--- la table qui contient les lignes des routes venant de OSM
+-- la couche qui contient les lignes des routes venant de OSM
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
@@ -212,9 +212,10 @@ CREATE TABLE osm_roads
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+ALTER TABLE osm_roads OWNER to redadeg;
 
 
--- la table en version routable
+-- la couche en version routable
 DROP TABLE IF EXISTS osm_roads_pgr ;
 CREATE TABLE osm_roads_pgr
 (
@@ -237,7 +238,23 @@ CREATE TABLE osm_roads_pgr
 );
 CREATE INDEX osm_roads_pgr_source_idx ON osm_roads_pgr (source);
 CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
+ALTER TABLE osm_roads_pgr OWNER to redadeg;
 
+
+-- la couche des points pour nettoyer la couche de routage
+DROP TABLE IF EXISTS phase_2_point_nettoyage ;
+CREATE TABLE phase_2_point_nettoyage
+(
+  id serial,
+  pt_id bigint,
+  edge_id bigint,
+  distance numeric,
+  the_geom geometry,
+  CONSTRAINT phase_2_point_nettoyage_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
 
 
 -- dans la base redadeg on chargera la couche osm_roads qui a été calculée

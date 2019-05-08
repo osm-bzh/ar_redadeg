@@ -24,7 +24,8 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817220/ > data/phase_2_umap_
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817221/ > data/phase_2_umap_pk_technique.geojson
 # PK manuels
 curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > data/phase_2_umap_pk_manuel.geojson
-
+# couche de points de nettoyage
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/861810/ > data/phase_2_umap_point_nettoyage.geojson
 
 echo "  fait"
 echo ""
@@ -36,9 +37,15 @@ echo ""
 # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
 echo "  chargement des fichiers dans la BD"
+echo ""
 
+echo "phase_2_pk_secteur_3857"
 $PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+
+echo "phase_2_point_nettoyage_3857"
+$PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_point_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "  fait"
 echo ""
@@ -68,7 +75,15 @@ echo "  Calcul des itinéraires (pgrouting)"
 echo ""
 
 # on commence par vider la table qui contiendra les calculs d'itinéraires
-$PSQL -h $DB_HOST -U $DB_USER -c "TRUNCATE TABLE phase_2_trace_pgr ;"
+echo "vidage de la couche de routage"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_2_trace_pgr ;"
+echo "  fait"
+
+# ensuite : on supprime les tronçons ciblés par la couche de points de nettoyage
+# AVANT de calculer les itinéraires
+echo "nettoyage de la couche de routage par les points ciblés"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM osm_roads_pgr WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
+echo "  fait"
 
 
 # on fait la requête qui va donner une liste de PK de secteurs
