@@ -82,7 +82,7 @@ echo "  fait"
 # ensuite : on supprime les tronçons ciblés par la couche de points de nettoyage
 # AVANT de calculer les itinéraires
 echo "nettoyage de la couche de routage par les points ciblés"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM osm_roads_pgr WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
 echo "  fait"
 
 
