@@ -22,12 +22,12 @@ rm osm_roads_pgr.zip
 zip osm_roads_pgr.zip osm_roads_pgr.sql osm_roads_pgr_noded.sql osm_roads_pgr_vertices_pgr.sql
 
 # on envoi sur le serveur
-#rsync -av --progress osm_roads_pgr.zip breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
+rsync -av --progress osm_roads_pgr.zip breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
 
 # on envoie des commande pour maj les tables de routage
 ssh breizhpovh2 "cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/ ; \
 unzip osm_roads_pgr.zip ; \
-psql -U redadeg -d redadeg -c 'DROP TABLE IF EXISTS osm_roads_pgr; DROP TABLE IF EXISTS osm_roads_pgr_noded; DROP TABLE IF EXISTS osm_roads_pgr_vertices_pgr;' \
+psql -U redadeg -d redadeg -c 'DROP TABLE IF EXISTS osm_roads_pgr; DROP TABLE IF EXISTS osm_roads_pgr_noded; DROP TABLE IF EXISTS osm_roads_pgr_vertices_pgr;' ; \
 psql -U redadeg -d redadeg < osm_roads_pgr.sql ; \
 psql -U redadeg -d redadeg < osm_roads_pgr_noded.sql ; \
 psql -U redadeg -d redadeg < osm_roads_pgr_vertices_pgr.sql ;\
