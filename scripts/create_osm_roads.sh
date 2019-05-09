@@ -99,10 +99,12 @@ echo ""
 echo "transfert de osm_roads depuis la base OSM vers la base redadeg"
 echo ""
 
-pg_dump --file data/osm_roads.sql --host $HOST_DB_osm --username osmbr --no-password --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments --table public.osm_roads osm
+pg_dump --file data/osm_roads.sql --host $HOST_DB_osm --username osmbr --no-password \
+--format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
+--table public.osm_roads osm
 
 # 5. import dans la base redadeg
-psql -h $HOST_DB_redadeg -U redadeg -d redadeg -c "TRUNCATE TABLE public.osm_roads;"
+psql -h $HOST_DB_redadeg -U redadeg -d redadeg -c "DROP TABLE IF EXISTS public.osm_roads;"
 psql -h $HOST_DB_redadeg -U redadeg -d redadeg < data/osm_roads.sql
 
 echo ""

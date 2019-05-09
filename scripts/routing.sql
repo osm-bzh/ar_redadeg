@@ -16,14 +16,14 @@ SELECT DropTopology('osm_roads_topo') ;
 -- 1. création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
 
+-- 2. ajout d'un nouvel attribut sur la table osm_roads
+SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
+
+
 -- on a donc un nouveau schéma osm_roads_topo qui contient 4 tables : edge_data, face, node, relation
 -- et un nouvel enregistrement dans la table topology.layer
 -- logiquement : c'est  1
--- SELECT * FROM topology.layer ORDER BY layer_id desc ;
-
-
--- 2. ajout d'un nouvel attribut sur la table osm_roads
-SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
+SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads' ;
 
 
 -- 3. on calcule le graphe topologique
