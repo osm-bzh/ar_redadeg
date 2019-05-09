@@ -10,6 +10,8 @@
 -- dans la base redadeg on a chargé la couche osm_roads qui a été calculée
 -- à partir de données OSM
 
+-- on efface la topolgie existante
+SELECT DropTopology('osm_roads_topo') ;
 
 -- 1. création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
