@@ -73,8 +73,7 @@ WHERE e.edge_id = rel.element_id
 );
 
 -- calcul des 2 attributs de coût (= longueur)
-UPDATE osm_roads_pgr SET cost = st_length(the_geom);
-UPDATE osm_roads_pgr SET reverse_cost = st_length(the_geom);
+UPDATE osm_roads_pgr SET cost = st_length(the_geom), reverse_cost = st_length(the_geom);
 
 
 -- 5. calcul du graphe routier par pgRouting
