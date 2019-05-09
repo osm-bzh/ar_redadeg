@@ -11,11 +11,6 @@
 -- or cette couche est calculée à partir d'une BD osm cf la documentation
 
 
--- maj de la topologie de la couche osm_roads_pgr qui sert au routage
--- 3 min
-UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', 1, 0.00001);
-
-
 -- maj de la couche support des calculs d'itinéraire
 -- 30 s
 -- on commence par vider les couches existantes

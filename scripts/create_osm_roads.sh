@@ -30,10 +30,34 @@ echo ""
 
 # 3. calcul de la couche osm_roads = intersection buffer trace et routes OSM
 
-echo "calcul de la couche osm_roads"
+echo ">> calcul de la couche osm_roads"
 echo ""
 
-psql -h $HOST_DB_osm -U osmbr -d osm -c "TRUNCATE TABLE osm_roads ;"
+# on supprime puis on recrée la table
+psql -h $HOST_DB_osm -U osmbr -d osm -c "DROP TABLE IF EXISTS osm_roads ;"
+psql -h $HOST_DB_osm -U osmbr -d osm -c "
+CREATE TABLE osm_roads
+(
+  uid bigint,
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  the_geom geometry,
+  CONSTRAINT osm_roads_pkey PRIMARY KEY (uid),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);"
+
+echo ""
+echo "  table osm_roads créée"
+echo ""
+echo "  chargement des données"
+echo ""
+
 psql -h $HOST_DB_osm -U osmbr -d osm -c "WITH trace_buffer AS (
   SELECT
     secteur_id,
@@ -72,7 +96,7 @@ echo ""
 
 # 4. export de osm_roads depuis la base OSM
 
-echo "import de osm_roads depuis la base OSM vers la base redadeg"
+echo "transfert de osm_roads depuis la base OSM vers la base redadeg"
 echo ""
 
 pg_dump --file data/osm_roads.sql --host $HOST_DB_osm --username osmbr --no-password --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments --table public.osm_roads osm
