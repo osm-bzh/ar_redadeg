@@ -38,7 +38,7 @@ psql -h $HOST_DB_osm -U osmbr -d osm -c "DROP TABLE IF EXISTS osm_roads ;"
 psql -h $HOST_DB_osm -U osmbr -d osm -c "
 CREATE TABLE osm_roads
 (
-  uid bigint,
+  uid bigint NOT NULL,
   osm_id bigint,
   highway text,
   type text,

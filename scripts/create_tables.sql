@@ -199,7 +199,7 @@ ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
-  id bigint,
+  uid bigint NOT NULL,
   osm_id bigint,
   highway text,
   type text,
@@ -208,7 +208,7 @@ CREATE TABLE osm_roads
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT osm_roads_pkey PRIMARY KEY (id),
+  CONSTRAINT osm_roads_pkey PRIMARY KEY (uid),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
