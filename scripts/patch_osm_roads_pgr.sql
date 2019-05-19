@@ -1,8 +1,6 @@
 
 
 
-
-
 -- suppression des objets couche osm_roads_pgr qui intersectent avec les zones de boucles
 DELETE FROM osm_roads_pgr WHERE id IN
 (
@@ -28,6 +26,14 @@ SET cost = st_length(the_geom), reverse_cost = st_length(the_geom)
 WHERE id < 0 ;
 
 
--- calcul de la topologie pgRouting sur les zones de masque
-SELECT pgr_createTopology('osm_roads_pgr', 0.001, 'the_geom', 'id', 'source', 'target', rows_where := 'id < 0', clean := false);
+-- recrée des nœuds uniquement sur les zones de patch
+SELECT pgr_nodeNetwork('osm_roads_pgr', 0.001, rows_where := 'id < 0');
 
+-- recalcul la topologie pgRouting uniquement sur les zones de patch
+SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where := 'id < 0', clean := false);
+
+
+-- recalcul toute la topologie pgRouting en renumérotant de zéro
+--SELECT pgr_createTopology('osm_roads_pgr', 0.001, clean := true);
+
+--SELECT pgr_analyzegraph('osm_roads_pgr', 0.001);

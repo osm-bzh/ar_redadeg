@@ -87,13 +87,6 @@ echo "  fait"
 echo ""
 
 
-# patch de la couche de routage sur les zones de boucles
-echo "patch de la couche de routage sur les zones de boucles"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
-echo "  fait"
-echo ""
-
-
 # on fait la requête qui va donner une liste de PK de secteurs
 # et on calcule un itinéraire entre le PK de début et le PK suivant
 

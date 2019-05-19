@@ -48,11 +48,11 @@ UPDATE osm_roads_pgr SET cost = st_length(the_geom), reverse_cost = st_length(th
 -- calcul du graphe routier par pgRouting
 -- cela va remplir les tables osm_roads_pgr_noded et osm_roads_pgr_vertices_pgr
 -- 30 s
-SELECT pgr_createTopology('osm_roads_pgr', 1.0);
+SELECT pgr_createTopology('osm_roads_pgr', 0.001);
 
 -- vérification
-SELECT pgr_analyzegraph('osm_roads_pgr', 1.0);
-SELECT pgr_nodeNetwork('osm_roads_pgr', 1.0);
+SELECT pgr_analyzegraph('osm_roads_pgr', 0.001);
+SELECT pgr_nodeNetwork('osm_roads_pgr', 0.001);
 
 
 
