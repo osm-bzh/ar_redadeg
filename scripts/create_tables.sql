@@ -257,12 +257,43 @@ CREATE TABLE phase_2_point_nettoyage
 ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
 
 
--- dans la base redadeg on chargera la couche osm_roads qui a été calculée
--- à partir de données OSM
+-- couche de polygones pour supprimer le contenu de osm_roads_pgr pour la gestion des boucles
+DROP TABLE IF EXISTS osm_roads_pgr_patch_mask ;
+CREATE TABLE osm_roads_mask
+(
+  id serial,
+  name text,
+  the_geom geometry,
+  CONSTRAINT osm_roads_pgr_patch_mask_pkid PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE osm_roads_pgr_patch_mask OWNER to redadeg;
 
 
--- 1. création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
-SELECT topology.CreateTopology('osm_roads_topo', 2154);
+-- couche jumelle de osm_roads mais avec des lignes gérées à la main pour les boucles
+DROP TABLE IF EXISTS osm_roads_pgr_patch ;
+CREATE TABLE osm_roads_pgr_patch
+(
+  id serial,
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  source bigint,
+  target bigint,
+  cost double precision,
+  reverse_cost double precision,
+  the_geom geometry,
+  CONSTRAINT osm_roads_pgr_patch_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE osm_roads_pgr_patch OWNER to redadeg;
+
 
 
 -- la table qui va recevoir le résultat du calcul d'itinéraire

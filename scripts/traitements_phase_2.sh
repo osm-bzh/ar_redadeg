@@ -84,6 +84,14 @@ echo "  fait"
 echo "nettoyage de la couche de routage par les points ciblés"
 $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
 echo "  fait"
+echo ""
+
+
+# patch de la couche de routage sur les zones de boucles
+echo "patch de la couche de routage sur les zones de boucles"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
+echo "  fait"
+echo ""
 
 
 # on fait la requête qui va donner une liste de PK de secteurs
