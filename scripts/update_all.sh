@@ -1,6 +1,10 @@
 #!/bin/bash
 
 
+set -e
+set -u
+
+
 
 ./traitements_phase_1.sh
 
@@ -19,5 +23,10 @@
 # maj des couches de routage
 
 
+psql -h localhost -U redadeg -d redadeg < patch_osm_roads_pgr.sql ;
+# patch du filaire de voies
+
+
 ./traitements_phase_2.sh
+
 
