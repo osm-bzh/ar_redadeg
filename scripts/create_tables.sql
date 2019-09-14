@@ -195,6 +195,36 @@ CREATE VIEW phase_2_pk_secteur_4326 AS
 ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
+-- les polygones des communes
+DROP TABLE IF EXISTS osm_communes ;
+CREATE TABLE osm_communes
+(
+    gid serial,
+    insee character varying(80),
+    nom character varying(80),
+    wikipedia character varying(80),
+    surf_ha numeric,
+    the_geom geometry,
+    CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text),
+    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154),
+    CONSTRAINT osm_communes_pkey PRIMARY KEY (gid)
+);
+CREATE INDEX osm_communes_geom_idx ON osm_communes USING gist(the_geom);
+ALTER TABLE osm_communes OWNER to redadeg;
+
+/*
+INSERT INTO osm_communes
+  SELECT
+    gid,
+    insee,
+    nom,
+    wikipedia,
+  surf_ha,
+    ST_Transform(ST_SetSRID(geom,4326),2154) AS the_geom
+  FROM osm_communes_4326
+  ORDER BY insee ASC ;
+*/
+
 -- la couche qui contient les lignes des routes venant de OSM
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
@@ -212,6 +242,7 @@ CREATE TABLE osm_roads
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX osm_roads_geom_idx ON osm_roads USING gist(the_geom);
 ALTER TABLE osm_roads OWNER to redadeg;
 
 
@@ -359,7 +390,7 @@ CREATE VIEW phase_2_trace_secteur_4326 AS
 ALTER TABLE phase_2_trace_secteur_4326 OWNER to redadeg;
 
 
-
+-- ça sert à quoi ça ?
 DROP TABLE IF EXISTS phase_2_trace_trous ;
 CREATE TABLE phase_2_trace_trous
 (
