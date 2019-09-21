@@ -18,6 +18,9 @@ TRUNCATE TABLE osm_roads_pgr ;
 TRUNCATE TABLE osm_roads_pgr_noded ;
 TRUNCATE TABLE osm_roads_pgr_vertices_pgr ;
 
+-- reset de la sequence
+ALTER SEQUENCE public.osm_roads_pgr_noded_id_seq RESTART WITH 1 ;
+
 -- on remplit la couche de lignes
 INSERT INTO osm_roads_pgr
 ( SELECT 
