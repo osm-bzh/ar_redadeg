@@ -15,8 +15,9 @@
 -- 30 s
 -- on commence par vider les couches existantes
 TRUNCATE TABLE osm_roads_pgr ;
-TRUNCATE TABLE osm_roads_pgr_noded ;
-TRUNCATE TABLE osm_roads_pgr_vertices_pgr ;
+DROP TABLE IF EXISTS osm_roads_pgr_noded ;
+DROP TABLE IF EXISTS  osm_roads_pgr_vertices_pgr ;
+
 
 -- reset de la sequence
 ALTER SEQUENCE public.osm_roads_pgr_noded_id_seq RESTART WITH 1 ;
