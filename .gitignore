@@ -39,3 +39,4 @@ Temporary Items
 *.xlsx
 
 scripts/data/*
+scripts/data_vm/*
