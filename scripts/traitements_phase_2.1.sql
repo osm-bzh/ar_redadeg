@@ -33,7 +33,7 @@ SELECT
     ST_Distance(pk_org.the_geom, ST_ClosestPoint(node.the_geom, pk_org.the_geom))* 1.01 -- dans la distance de ce plus proche point
   ) AS the_geom
 FROM
-  (SELECT id, name, secteur_id, ST_Transform(the_geom,2154) AS the_geom FROM phase_2_pk_secteur_3857) AS pk_org,
+  (SELECT id::integer, name, secteur_id, ST_Transform(the_geom,2154) AS the_geom FROM phase_2_pk_secteur_3857) AS pk_org,
   (SELECT id, the_geom FROM osm_roads_pgr_vertices_pgr) AS node
 WHERE
 ST_INTERSECTS(node.the_geom, ST_BUFFER(ST_Transform(pk_org.the_geom,2154) ,25) )

@@ -173,7 +173,7 @@ CREATE VIEW phase_1_tdb AS
 DROP TABLE IF EXISTS phase_2_pk_secteur CASCADE ;
 CREATE TABLE phase_2_pk_secteur
 (
-    id varchar(10),
+    id integer,
     name text,
     pgr_node_id integer,
     secteur_id integer,
