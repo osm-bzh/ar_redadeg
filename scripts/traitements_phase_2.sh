@@ -92,6 +92,11 @@ echo ""
 
 # on va utiliser un compteur pour pouvoir sauter un sous-secteur à un autre
 counter=1
+# autre variables de contrôle
+longueur_totale=0
+longueur_inseree=0
+
+
 
 $PSQL -X -h $DB_HOST -U $DB_USER $DB_NAME \
     -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id, replace(pk.name,' ','_') AS name 
@@ -117,16 +122,17 @@ ORDER BY pk.id ;" \
     secteur_nom_fr="${Record[2]}"
     secteur_nom_br="${Record[3]}"
     pk_id_start=${Record[4]}
-    pk_name=${Record[5]}
+    troncon_name=${Record[5]}
 
     echo "  $secteur_id | $secteur_nom_fr / $secteur_nom_br"
+    echo "  tronçon : $troncon_name"
     echo "  PK ID = $pk_id"
     echo "  start node = $pk_id_start"
 
     # on fait une requête pour récupérer l'id du nœud de routage de fin
     # ce nœud = le PK de début du secteur suivant
     read pk_id_end <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
-    -c "SELECT pgr_node_id FROM phase_2_pk_secteur ORDER BY id OFFSET $counter LIMIT 1 ;" )
+      -c "SELECT pgr_node_id FROM phase_2_pk_secteur ORDER BY id OFFSET $counter LIMIT 1 ;" )
 
     echo "  end node = $pk_id_end"
 
@@ -137,37 +143,53 @@ ORDER BY pk.id ;" \
         echo "  calcul de l'itinéraire"
 
         $PSQL -h $DB_HOST -U $DB_USER -c \
-    "INSERT INTO phase_2_trace_pgr
-    SELECT
-      $secteur_id AS secteur_id,
-      -- info de routage
-      a.path_seq,
-      a.node,
-      a.cost,
-      a.agg_cost,
-      -- infos OSM
-      b.osm_id,
-      b.highway,
-      b.\"type\",
-      b.oneway,
-      b.ref,
-      CASE
-      WHEN b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
-    ELSE b.name_fr
-      END AS name_fr,
-      CASE
-      WHEN b.name_br IS NULL AND b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
-    WHEN b.name_br IS NULL AND b.name_fr IS NOT NULL THEN '# da dreiñ e brezhoneg #'
-    ELSE b.name_br
-      END AS name_br,
-      b.the_geom
-    FROM pgr_dijkstra(
-        'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr', $pk_id_start, $pk_id_end) as a
-    JOIN osm_roads_pgr b ON a.edge = b.id ;" >> /dev/null
+        "INSERT INTO phase_2_trace_pgr
+        SELECT
+          $secteur_id AS secteur_id,
+          -- info de routage
+          a.path_seq,
+          a.node,
+          a.cost,
+          a.agg_cost,
+          -- infos OSM
+          b.osm_id,
+          b.highway,
+          b.\"type\",
+          b.oneway,
+          b.ref,
+          CASE
+          WHEN b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
+        ELSE b.name_fr
+          END AS name_fr,
+          CASE
+          WHEN b.name_br IS NULL AND b.name_fr IS NULL AND b.ref IS NOT NULL THEN b.ref
+        WHEN b.name_br IS NULL AND b.name_fr IS NOT NULL THEN '# da dreiñ e brezhoneg #'
+        ELSE b.name_br
+          END AS name_br,
+          b.the_geom
+        FROM pgr_dijkstra(
+            'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr', $pk_id_start, $pk_id_end) as a
+        JOIN osm_roads_pgr b ON a.edge = b.id ;" >> /dev/null
 
-        echo "  fait"
+        # on fait une requête pour voir la longueur insérée
+        # en fait : la longueur totale - la longueur totale lors du précédent calcul
+        read longueur_base <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
+          -c "SELECT trunc(SUM(ST_Length(the_geom))/1000) as longueur_totale FROM phase_2_trace_pgr ;" )
+        longueur_inseree=$(($longueur_base-$longueur_totale))
+        longueur_totale=$longueur_base
+        
+        # une alerte si 0 km insérés
+        if [ $longueur_inseree -eq 0 ] ;
+        then
+          echo ""
+          echo "    E R R E U R   !!!!!!!!"
+          echo ""
+        else
+          echo "  fait : $longueur_inseree km (total = $longueur_totale km)"
+        fi
+
     else
-        echo "  Impossible de calculer un itinéraire pour cette portion !  <<<<<< "
+        echo "  impossible de calculer un itinéraire pour le secteur $pk_name / $secteur_nom_fr ($pk_id_start --> $pk_id_end)"
     fi
 
 
