@@ -90,6 +90,9 @@ echo ""
 # on fait la requête qui va donner une liste de PK de secteurs
 # et on calcule un itinéraire entre le PK de début et le PK suivant
 
+# on va utiliser un compteur pour pouvoir sauter un sous-secteur à un autre
+counter=1
+
 $PSQL -X -h $DB_HOST -U $DB_USER $DB_NAME \
     -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id, replace(pk.name,' ','_') AS name 
 FROM phase_2_pk_secteur pk JOIN secteur s ON pk.secteur_id = s.id
@@ -115,16 +118,23 @@ ORDER BY pk.id ;" \
     secteur_nom_br="${Record[3]}"
     pk_id_start=${Record[4]}
     pk_name=${Record[5]}
-    
-    # maintenant il faut une 2e requête pour aller trouver le PK de fin
-    # ce PK = le PK de début du secteur suivant
+
+    echo "  $secteur_id | $secteur_nom_fr / $secteur_nom_br"
+    echo "  PK ID = $pk_id"
+    echo "  start node = $pk_id_start"
+
+    # on fait une requête pour récupérer l'id du nœud de routage de fin
+    # ce nœud = le PK de début du secteur suivant
     read pk_id_end <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
-    -c "SELECT pgr_node_id FROM phase_2_pk_secteur WHERE id = $pk_id + 1 ;")
+    -c "SELECT pgr_node_id FROM phase_2_pk_secteur ORDER BY id OFFSET $counter LIMIT 1 ;" )
+
+    echo "  end node = $pk_id_end"
+
 
     # on teste si on récupère qqch sinon ça veurt dire qu'on a pas de nœud de fin donc impossible de calculer un itinéraire
     if [[ -n "$pk_id_end" ]];
     then
-        echo "calcul d'un itinéraire pour le secteur $pk_name / $secteur_nom_fr ($pk_id_start --> $pk_id_end)"
+        echo "  calcul de l'itinéraire"
 
         $PSQL -h $DB_HOST -U $DB_USER -c \
     "INSERT INTO phase_2_trace_pgr
@@ -153,12 +163,17 @@ ORDER BY pk.id ;" \
       b.the_geom
     FROM pgr_dijkstra(
         'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr', $pk_id_start, $pk_id_end) as a
-    JOIN osm_roads_pgr b ON a.edge = b.id ;"
+    JOIN osm_roads_pgr b ON a.edge = b.id ;" >> /dev/null
 
-        echo "fait"
+        echo "  fait"
+    else
+        echo "  Impossible de calculer un itinéraire pour cette portion !  <<<<<< "
     fi
 
+
     # fin de la boucle
+    # on incrémente le compteur
+    ((counter++))
     echo ""
     
 done
