@@ -189,7 +189,10 @@ ORDER BY pk.id ;" \
         fi
 
     else
-        echo "  impossible de calculer un itinéraire pour le secteur $pk_name / $secteur_nom_fr ($pk_id_start --> $pk_id_end)"
+        echo ""
+        echo "  E R R E U R   !!!!!!!!"
+        echo "  impossible de calculer un itinéraire pour ce secteur"
+        echo ""
     fi
 
 
