@@ -24,24 +24,29 @@ CREATE TABLE secteur
     id integer,
     nom_br text,
     nom_fr text,
-    km_reels integer,
-    km_redadeg integer
+    km_redadeg integer,
+    km_reels integer
 );
 
 ALTER TABLE secteur OWNER to redadeg;
 
 -- et on insert ces données stables
 TRUNCATE TABLE secteur ;
-INSERT INTO secteur VALUES (1,'Karaez -> Rostren','Carhaix -> Rostrenen');
-INSERT INTO secteur VALUES (2,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec');
-INSERT INTO secteur VALUES (3,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix');
-INSERT INTO secteur VALUES (4,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou');
-INSERT INTO secteur VALUES (5,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé');
-INSERT INTO secteur VALUES (6,'Kemperle -> Redon','Quimperlé -> Redon');
-INSERT INTO secteur VALUES (7,'Redon -> Tilheg','Redon -> Teillay');
-INSERT INTO secteur VALUES (8,'Tilheg -> Roazhon','Teillay -> Rennes');
-INSERT INTO secteur VALUES (9,'Roazhon -> Sant-Brieg','Rennes -> Saint-Brieuc');
-INSERT INTO secteur VALUES (10,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp');
+INSERT INTO secteur VALUES (0,'Rak-loc''han','Pré-départ',12);
+INSERT INTO secteur VALUES (10,'Karaez -> Rostren','Carhaix -> Rostrenen',93);
+INSERT INTO secteur VALUES (20,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec',99);
+INSERT INTO secteur VALUES (30,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix',230);
+INSERT INTO secteur VALUES (40,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou',224);
+INSERT INTO secteur VALUES (50,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé',264);
+INSERT INTO secteur VALUES (60,'Kemperle -> Kamorzh','Quimperlé -> Camors',272);
+INSERT INTO secteur VALUES (61,'Kamorzh -> Redon','Camors -> Redon',65);
+INSERT INTO secteur VALUES (70,'Redon -> Savenneg','Redon -> Savenay',95);
+INSERT INTO secteur VALUES (71,'Savenneg -> Naoned','Savenay -> Nantes',30);
+INSERT INTO secteur VALUES (72,'Naoned -> Tilheg','Nantes -> Teillay',116);
+INSERT INTO secteur VALUES (80,'Tilheg -> Roazhon','Teillay -> Rennes',57);
+INSERT INTO secteur VALUES (90,'Roazhon -> Dinan','Rennes -> Dinan',228);
+INSERT INTO secteur VALUES (91,'Dinan -> Sant-Brieg','Dinan -> Saint-Brieuc',89);
+INSERT INTO secteur VALUES (100,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp',146);
 INSERT INTO secteur VALUES (999,'test','test');
 
 
