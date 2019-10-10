@@ -24,29 +24,29 @@ CREATE TABLE secteur
     id integer,
     nom_br text,
     nom_fr text,
-    km_redadeg integer,
-    km_reels integer
+    objectif_km integer,
+    km_redadeg integer
 );
 
 ALTER TABLE secteur OWNER to redadeg;
 
 -- et on insert ces données stables
 TRUNCATE TABLE secteur ;
-INSERT INTO secteur VALUES (0,'Rak-loc''han','Pré-départ',12);
-INSERT INTO secteur VALUES (10,'Karaez -> Rostren','Carhaix -> Rostrenen',93);
-INSERT INTO secteur VALUES (20,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec',99);
-INSERT INTO secteur VALUES (30,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix',230);
-INSERT INTO secteur VALUES (40,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou',224);
-INSERT INTO secteur VALUES (50,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé',264);
-INSERT INTO secteur VALUES (60,'Kemperle -> Kamorzh','Quimperlé -> Camors',272);
-INSERT INTO secteur VALUES (61,'Kamorzh -> Redon','Camors -> Redon',65);
-INSERT INTO secteur VALUES (70,'Redon -> Savenneg','Redon -> Savenay',95);
-INSERT INTO secteur VALUES (71,'Savenneg -> Naoned','Savenay -> Nantes',30);
-INSERT INTO secteur VALUES (72,'Naoned -> Tilheg','Nantes -> Teillay',116);
-INSERT INTO secteur VALUES (80,'Tilheg -> Roazhon','Teillay -> Rennes',57);
-INSERT INTO secteur VALUES (90,'Roazhon -> Dinan','Rennes -> Dinan',228);
-INSERT INTO secteur VALUES (91,'Dinan -> Sant-Brieg','Dinan -> Saint-Brieuc',89);
-INSERT INTO secteur VALUES (100,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp',146);
+INSERT INTO secteur VALUES (0,'Rak-loc''han','Pré-départ',12,0);
+INSERT INTO secteur VALUES (10,'Karaez -> Rostren','Carhaix -> Rostrenen',93,818);
+INSERT INTO secteur VALUES (20,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec',99,816);
+INSERT INTO secteur VALUES (30,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix',230,817);
+INSERT INTO secteur VALUES (40,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou',224,819);
+INSERT INTO secteur VALUES (50,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé',264,817);
+INSERT INTO secteur VALUES (60,'Kemperle -> Kamorzh','Quimperlé -> Camors',272,818);
+INSERT INTO secteur VALUES (61,'Kamorzh -> Redon','Camors -> Redon',65,925);
+INSERT INTO secteur VALUES (70,'Redon -> Savenneg','Redon -> Savenay',95,870);
+INSERT INTO secteur VALUES (71,'Savenneg -> Naoned','Savenay -> Nantes',30,1600);
+INSERT INTO secteur VALUES (72,'Naoned -> Tilheg','Nantes -> Teillay',116,861);
+INSERT INTO secteur VALUES (80,'Tilheg -> Roazhon','Teillay -> Rennes',57,919);
+INSERT INTO secteur VALUES (90,'Roazhon -> Dinan','Rennes -> Dinan',228,923);
+INSERT INTO secteur VALUES (91,'Dinan -> Sant-Brieg','Dinan -> Saint-Brieuc',89,823);
+INSERT INTO secteur VALUES (100,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp',146,821);
 INSERT INTO secteur VALUES (999,'test','test');
 
 
