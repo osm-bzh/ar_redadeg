@@ -40,3 +40,6 @@ Temporary Items
 
 scripts/data/*
 scripts/data_vm/*
+*.log
+scripts/temp.sql
+scripts/test.bash
