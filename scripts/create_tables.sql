@@ -34,18 +34,18 @@ ALTER TABLE secteur OWNER to redadeg;
 TRUNCATE TABLE secteur ;
 INSERT INTO secteur VALUES (0,'Rak-loc''han','Pré-départ',12,0);
 INSERT INTO secteur VALUES (10,'Karaez -> Rostren','Carhaix -> Rostrenen',93,818);
-INSERT INTO secteur VALUES (20,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec',99,816);
-INSERT INTO secteur VALUES (30,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix',230,817);
+INSERT INTO secteur VALUES (20,'Rostren -> Plounevez-Moedeg','Rostrenen -> Plounevez-Moedec',99,817);
+INSERT INTO secteur VALUES (30,'Plounevez-Moedeg -> Montroulez','Plounevez-Moedec -> Morlaix',230,818);
 INSERT INTO secteur VALUES (40,'Montroulez -> Ar Faou','Morlaix -> Châteauneuf-du-Faou',224,819);
-INSERT INTO secteur VALUES (50,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé',264,817);
-INSERT INTO secteur VALUES (60,'Kemperle -> Kamorzh','Quimperlé -> Camors',272,818);
-INSERT INTO secteur VALUES (61,'Kamorzh -> Redon','Camors -> Redon',65,925);
-INSERT INTO secteur VALUES (70,'Redon -> Savenneg','Redon -> Savenay',95,870);
-INSERT INTO secteur VALUES (71,'Savenneg -> Naoned','Savenay -> Nantes',30,1600);
-INSERT INTO secteur VALUES (72,'Naoned -> Tilheg','Nantes -> Teillay',116,861);
-INSERT INTO secteur VALUES (80,'Tilheg -> Roazhon','Teillay -> Rennes',57,919);
-INSERT INTO secteur VALUES (90,'Roazhon -> Dinan','Rennes -> Dinan',228,923);
-INSERT INTO secteur VALUES (91,'Dinan -> Sant-Brieg','Dinan -> Saint-Brieuc',89,823);
+INSERT INTO secteur VALUES (50,'Ar Faou -> Kemperle','Châteauneuf-du-Faou -> Quimperlé',264,818);
+INSERT INTO secteur VALUES (60,'Kemperle -> Kamorzh','Quimperlé -> Camors',272,820);
+INSERT INTO secteur VALUES (61,'Kamorzh -> Redon','Camors -> Redon',65,927);
+INSERT INTO secteur VALUES (70,'Redon -> Savenneg','Redon -> Savenay',95,862);
+INSERT INTO secteur VALUES (71,'Savenneg -> Naoned','Savenay -> Nantes',30,1616);
+INSERT INTO secteur VALUES (72,'Naoned -> Tilheg','Nantes -> Teillay',116,859);
+INSERT INTO secteur VALUES (80,'Tilheg -> Roazhon','Teillay -> Rennes',57,920);
+INSERT INTO secteur VALUES (90,'Roazhon -> Dinan','Rennes -> Dinan',228,924);
+INSERT INTO secteur VALUES (91,'Dinan -> Sant-Brieg','Dinan -> Saint-Brieuc',89,824);
 INSERT INTO secteur VALUES (100,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwengamp',146,821);
 INSERT INTO secteur VALUES (999,'test','test');
 
@@ -410,6 +410,10 @@ ALTER TABLE phase_2_trace_trous OWNER to redadeg;
 
 
 
+
+
+
+
 -- la table qui va contenir des tronçons de x m
 DROP TABLE IF EXISTS phase_2_trace_troncons ;
 CREATE TABLE phase_2_trace_troncons
@@ -463,4 +467,93 @@ CREATE VIEW phase_2_tdb AS
       GROUP BY 1
       ORDER BY secteur_id ASC ;
 ALTER TABLE phase_2_tdb OWNER TO redadeg;
+
+
+
+
+/*
+==========================================================================
+
+    phase 3 : calcul des PK auto
+
+==========================================================================
+*/
+
+
+-- la couche des PK calculés automatiquement
+DROP TABLE IF EXISTS phase_3_pk_auto ;
+CREATE TABLE phase_3_pk_auto
+(
+  pk_id integer,
+  pk_x numeric(8,1),
+  pk_y numeric(8,1),
+  pk_long numeric(10,8),
+  pk_lat numeric(10,8),
+  length_real numeric(6,2),
+  length_theorical integer,
+  secteur_id integer,
+  municipality_admincode text,
+  municipality_postcode text,
+  municipality_name_fr text,
+  municipality_name_br text,
+  way_osm_id bigint,
+  way_highway text,
+  way_type text,
+  way_oneway text,
+  way_ref text,
+  way_name_fr text,
+  way_name_br text,
+  the_geom geometry,
+  CONSTRAINT phase_3_pk_auto_pkey PRIMARY KEY (pk_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+) ;
+ALTER TABLE phase_3_pk_auto OWNER TO redadeg;
+
+
+-- la même couche en 4326
+DROP VIEW IF EXISTS phase_3_pk_auto_4326 ;
+CREATE VIEW phase_3_pk_auto_4326 AS
+  SELECT
+    pk_id,
+    pk_x, pk_y, pk_long, pk_lat,
+    length_real, length_theorical,
+    secteur_id,
+    municipality_admincode, municipality_postcode,
+    municipality_name_fr, municipality_name_br,
+    way_osm_id, way_highway, way_type, way_oneway, way_ref,
+    way_name_fr, way_name_br,
+    ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
+  FROM phase_3_pk_auto ;
+ALTER TABLE phase_3_pk_auto_4326 OWNER TO redadeg;
+
+
+-- couche de lignes simples directes de PK à PK
+DROP TABLE IF EXISTS phase_3_pk_sens_verif ;
+CREATE TABLE phase_3_pk_sens_verif
+(
+  secteur_id integer,
+  the_geom geometry,
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+) ;
+ALTER TABLE phase_3_pk_sens_verif OWNER TO redadeg;
+
+
+-- la même couche en 4326
+DROP VIEW IF EXISTS phase_3_pk_sens_verif_4326 ;
+CREATE VIEW phase_3_pk_sens_verif_4326 AS
+  SELECT
+    secteur_id,
+    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+  FROM phase_3_pk_sens_verif ;
+ALTER TABLE phase_3_pk_sens_verif_4326 OWNER TO redadeg;
+
+
+
+
+
+
+
+
 
