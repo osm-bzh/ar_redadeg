@@ -43,3 +43,4 @@ scripts/data_vm/*
 *.log
 scripts/temp.sql
 scripts/test.bash
+*.ffs
