@@ -479,6 +479,57 @@ ALTER TABLE phase_2_tdb OWNER TO redadeg;
 ==========================================================================
 */
 
+DROP TABLE IF EXISTS phase_3_trace_troncons ;
+CREATE TABLE phase_3_trace_troncons
+(
+  troncon_id bigint,
+  secteur_id int,
+  the_geom geometry,
+  CONSTRAINT phase_3_trace_troncons_pkey PRIMARY KEY (troncon_id),
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE phase_3_pk_auto_4326 OWNER TO redadeg;
+
+-- la même couche en 4326
+DROP VIEW IF EXISTS phase_3_trace_troncons_4326 ;
+CREATE VIEW phase_3_trace_troncons_4326 AS
+  SELECT
+    troncon_id,
+    secteur_id,
+    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+  FROM phase_3_trace_troncons ;
+ALTER TABLE phase_3_trace_troncons_4326 OWNER TO redadeg;
+
+
+
+DROP TABLE IF EXISTS phase_3_trace_secteurs ;
+CREATE TABLE phase_3_trace_secteurs
+(
+  secteur_id int,
+  nom_fr text,
+  nom_br text,
+  km_reels numeric(2),
+  the_geom geometry,
+  CONSTRAINT phase_3_trace_secteurs_pkey PRIMARY KEY (secteur_id),
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+ALTER TABLE phase_3_trace_secteurs OWNER TO redadeg;
+
+-- la même couche en 4326
+DROP VIEW IF EXISTS phase_3_trace_secteurs_4326 ;
+CREATE VIEW phase_3_trace_secteurs_4326 AS
+  SELECT
+    secteur_id, nom_fr, nom_br,
+    km_reels,
+    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+  FROM phase_3_trace_secteurs ;
+ALTER TABLE phase_3_trace_secteurs_4326 OWNER TO redadeg;
+
+
 
 -- la couche des PK calculés automatiquement
 DROP TABLE IF EXISTS phase_3_pk_auto ;
