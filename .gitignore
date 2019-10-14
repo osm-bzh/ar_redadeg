@@ -44,3 +44,4 @@ scripts/data_vm/*
 scripts/temp.sql
 scripts/test.bash
 *.ffs
+scripts/traitements_phase_3_decoupage.fmw.recover
