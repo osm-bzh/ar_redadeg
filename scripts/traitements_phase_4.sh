@@ -40,19 +40,19 @@ ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_04.geojson PG:"host=$DB_HOST user=r
 ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_05.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id = 50"
 
 
-ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_06.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id <= 60 and secteur_id < 70"
+ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_06.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id >= 60 and secteur_id < 70"
 
 
-ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_07.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id <= 70 and secteur_id < 80"
+ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_07.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id >= 70 and secteur_id < 80"
 
 
-ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_08.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id <= 80 and secteur_id < 90"
+ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_08.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id >= 80 and secteur_id < 90"
 
 
-ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_09.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id <= 90 and secteur_id < 100"
+ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_09.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id >= 90 and secteur_id < 100"
 
 
-ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_10.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id <= 100 and secteur_id < 110"
+ogr2ogr -f "GeoJSON" data/phase_4_pk_secteur_10.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_4_pk_auto_4326 -where "secteur_id >= 100 and secteur_id < 110"
 
 
 echo "  fait"
