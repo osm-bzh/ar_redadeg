@@ -615,8 +615,8 @@ ALTER TABLE phase_3_pk_sens_verif_4326 OWNER TO redadeg;
 DROP VIEW IF EXISTS phase_4_pk_auto_4326 ;
 CREATE VIEW phase_4_pk_auto_4326 AS
   SELECT
-    pk_id integer,
-    secteur_id integer,
+    pk_id,
+    secteur_id,
     ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_3_pk_auto ;
 ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
