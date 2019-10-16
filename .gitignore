@@ -38,6 +38,7 @@ Temporary Items
 
 *.xlsx
 
+scripts/backup/jour_courant/*
 scripts/backup/*.geojson
 scripts/data/*
 scripts/data_vm/*
