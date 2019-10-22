@@ -138,8 +138,54 @@ echo ""
 
 for secteur in ${secteursArray[@]}
 do
-  echo "      secteur $secteur"
+  #echo "      secteur $secteur"
 
+  # une requête qui compare le nb de PK entre la couche de référence et la couche umap
+  sect_deb=$secteur"0" # 1 --> 10
+  sect_fin=$((secteur+1))0
+  #echo "$sect_deb -> $sect_fin"
+
+  $PSQL -X -A -t -h $DB_HOST -U $DB_USER $DB_NAME \
+    -c "WITH ref AS (
+        SELECT COUNT(pk_id) as ref FROM phase_5_pk_ref
+        WHERE (secteur_id >= $sect_deb and secteur_id < $sect_fin)
+      ),
+      umap AS (
+        SELECT COUNT(pk_id) as umap FROM phase_5_pk_umap
+        WHERE (secteur_id >= $sect_deb and secteur_id < $sect_fin)
+      )
+      SELECT
+        *,
+        CASE
+          WHEN ref.ref < umap.umap THEN 'plus'
+        WHEN ref.ref > umap.umap THEN 'moins'
+        WHEN ref.ref = umap.umap THEN 'pareil'
+        ELSE 'problème'
+        END AS test
+      FROM ref, umap" \
+    --single-transaction \
+    --set AUTOCOMMIT=off \
+    --set ON_ERROR_STOP=on \
+    --no-align \
+    -t \
+    --field-separator ' ' \
+    --quiet | while read -a Record ; do
+
+      nbPKref=${Record[0]}
+      nbPKumap=${Record[1]}
+      test=${Record[2]}
+      #test='moins'
+
+      # on teste
+      if [[ $test == "pareil" ]];
+        then echo "        secteur $secteur  ok : $nbPKref PK"
+      elif [[ $test == "plus" ]];
+        then echo "        secteur $secteur  >>>> problème : " $((nbPKumap - $nbPKref)) " PK en trop"
+      elif [[ $test == "moins" ]];
+        then echo "        secteur $secteur  >>>> problème : " $((nbPKref - $nbPKumap)) " PK en moins"
+      fi
+
+    done
 
   # fin de la boucle
 done
