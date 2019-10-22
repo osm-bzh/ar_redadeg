@@ -622,3 +622,59 @@ CREATE VIEW phase_4_pk_auto_4326 AS
 ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
 
 
+
+
+/*
+==========================================================================
+
+    phase 5 : gestion manuelle
+
+==========================================================================
+*/
+
+-- la table des PK avant modifications manuelles
+-- en WGS85 / EPSG:4326 pour se simplier les contrôles
+DROP TABLE IF EXISTS phase_5_pk_ref ;
+CREATE TABLE phase_5_pk_ref
+(
+  pk_id integer,
+  pk_x numeric(8,1),
+  pk_y numeric(8,1),
+  pk_long numeric(10,8),
+  pk_lat numeric(10,8),
+  length_real numeric(6,2),
+  length_theorical integer,
+  secteur_id integer,
+  municipality_admincode text,
+  municipality_postcode text,
+  municipality_name_fr text,
+  municipality_name_br text,
+  way_osm_id bigint,
+  way_highway text,
+  way_type text,
+  way_oneway text,
+  way_ref text,
+  way_name_fr text,
+  way_name_br text,
+  the_geom geometry,
+  CONSTRAINT phase_5_pk_ref_pkey PRIMARY KEY (pk_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
+) ;
+ALTER TABLE phase_5_pk_ref OWNER TO redadeg;
+
+-- on charge cette table avec les données finales de la phase 3
+INSERT INTO phase_5_pk_ref SELECT * FROM phase_4_pk_auto_4326 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
