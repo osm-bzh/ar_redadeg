@@ -8,11 +8,11 @@ TRUNCATE phase_5_pk ;
 INSERT INTO phase_5_pk
 SELECT 
   r.pk_id,
-  r.pk_x,
-  r.pk_y,
-  r.pk_long,
-  r.pk_lat,
-  r.length_real,
+  ROUND(ST_X(ST_Transform(u.the_geom,2154))::numeric,1) as pk_x,
+  ROUND(ST_Y(ST_Transform(u.the_geom,2154))::numeric,1) as pk_y,
+  ST_X(u.the_geom) as pk_long,
+  ST_Y(u.the_geom) as pk_lat,
+  NULL as length_real,
   r.length_theorical,
   r.secteur_id,
   r.municipality_admincode,
@@ -26,8 +26,12 @@ SELECT
   r.way_ref,
   r.way_name_fr,
   r.way_name_br,
-  r.the_geom
+  u.the_geom
 FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id
 WHERE u.pk_id IS NOT NULL
 ORDER BY r.pk_id ;
+
+
+-- on calcule les coordonnées
+
 
