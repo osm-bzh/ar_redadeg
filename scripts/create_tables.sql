@@ -668,7 +668,35 @@ INSERT INTO phase_5_pk_ref SELECT * FROM phase_4_pk_auto_4326 ;
 
 
 
-
+-- la table finale
+DROP TABLE IF EXISTS phase_5_pk ;
+CREATE TABLE phase_5_pk
+(
+  pk_id integer,
+  pk_x numeric(8,1),
+  pk_y numeric(8,1),
+  pk_long numeric(10,8),
+  pk_lat numeric(10,8),
+  length_real numeric(6,2),
+  length_theorical integer,
+  secteur_id integer,
+  municipality_admincode text,
+  municipality_postcode text,
+  municipality_name_fr text,
+  municipality_name_br text,
+  way_osm_id bigint,
+  way_highway text,
+  way_type text,
+  way_oneway text,
+  way_ref text,
+  way_name_fr text,
+  way_name_br text,
+  the_geom geometry,
+  CONSTRAINT phase_5_pk_pkey PRIMARY KEY (pk_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
+) ;
+ALTER TABLE phase_5_pk OWNER TO redadeg;
 
 
 

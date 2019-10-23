@@ -39,73 +39,73 @@ echo ""
 
 
 echo "    secteur 1"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027042/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027042/ > data/phase_5_pk_umap_tmp.geojson
 # chargement initial
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 
 echo "    secteur 2"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027081/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027081/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 3"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027101/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027101/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 4"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027104/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027104/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 5"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027107/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027107/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 6"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027110/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027110/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 7"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027114/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027114/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 8"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027117/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027117/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 9"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027120/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027120/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 10"
-# curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027123/ > data/phase_5_pk_umap_tmp.geojson
+curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027123/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
-# ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-# data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 
@@ -191,6 +191,57 @@ do
 done
 
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ""
+echo ""
+echo "    2 : si replacement : test de distance"
+echo ""
+
+
+# ici une requête PostGIS sortira les PK qui auront été trop déplacés
+
+
+
+
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Application des traitements SQL phase 5"
+echo ""
+
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
+
+echo "  fait"
+echo ""
+
+
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#  et on exporte en geojson pour umap et merour
+
+echo ""
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Exports"
+echo ""
+
+echo "  exports geojson"
+echo ""
+
+rm data/phase_5_pk.geojson
+ogr2ogr -f "GeoJSON" data/phase_5_pk.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_5_pk
+
+echo "  fait"
+echo ""
+
+echo "  pousse vers serveur"
+echo ""
+
+rsync -av -z data/phase_5_pk.geojson breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
+
+echo ""
+echo "  fait"
+echo ""
 
 
 echo ""
