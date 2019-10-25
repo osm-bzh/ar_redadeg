@@ -229,7 +229,7 @@ echo "  exports geojson"
 echo ""
 
 rm data/phase_5_pk.geojson
-ogr2ogr -f "GeoJSON" data/phase_5_pk.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_5_pk
+ogr2ogr -f "GeoJSON" data/phase_5_pk.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_5_pk -sql "SELECT * FROM phase_5_pk ORDER BY pk_id"
 
 echo "  fait"
 echo ""
