@@ -64,7 +64,7 @@ curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027123/ > "phase_5/phase_5_p
 
 
 # la couche des PK assemblés
-mv ../data/phase_5_pk.geojson "phase_5/phase_5_pk_$(date +%Y%m%d)_$(date +%H%M).geojson"
+cp ../data/phase_5_pk.geojson "phase_5/phase_5_pk_$(date +%Y%m%d)_$(date +%H%M).geojson"
 
 
 
