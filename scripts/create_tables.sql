@@ -667,6 +667,18 @@ ALTER TABLE phase_5_pk_ref OWNER TO redadeg;
 INSERT INTO phase_5_pk_ref SELECT * FROM phase_4_pk_auto_4326 ;
 
 
+-- on définit manuellement la couche avec un type mixte parce qu'on a des lignes dans la couche de points…
+DROP TABLE public.phase_5_pk_umap;
+CREATE TABLE public.phase_5_pk_umap
+(
+    ogc_fid integer,
+    pk_id integer,
+    secteur_id integer,
+    the_geom geometry,
+    --CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (ogc_fid),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326) 
+);
+
 
 -- la table finale
 DROP TABLE IF EXISTS phase_5_pk ;

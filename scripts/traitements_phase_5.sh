@@ -35,14 +35,21 @@ echo ""
 # on récupère les données umap et on les charge dans la même couche
 
 # on commence donc par vider la couche cible
-# géré avec l'option -overwrite sur le secteur 1
+# géré avec l'option -overwrite sur le secteur 1 -> pb : on a des lignes dans la couche de points…
+# on commence par vider la table qui contiendra les calculs d'itinéraires
+echo "  vidage de la couche de routage"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_5_pk_umap ;"
+echo "  fait"
 
+echo ""
+echo "  import des données umap"
+echo ""
 
 echo "    secteur 1"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027042/ > data/phase_5_pk_umap_tmp.geojson
 # chargement initial
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 2"
@@ -106,6 +113,14 @@ curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027123/ > data/phase_5_pk_um
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
 data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
+
+
+
+# ensuite on supprime les enregistrement aberrants
+echo ""
+echo "  suppression des données nulles"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM phase_5_pk_umap WHERE ST_geometrytype(the_geom) <> 'ST_Point' OR secteur_id IS NULL OR pk_id IS NULL ;"
+echo "  fait"
 
 
 
