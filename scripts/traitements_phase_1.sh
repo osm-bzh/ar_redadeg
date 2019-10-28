@@ -15,7 +15,7 @@ curl -sS  http://umap.openstreetmap.fr/fr/datalayer/715179/ > data/phase_1_umap_
 # on charge dans postgis
 # après avoir supprimé les tables
 
-# note : les coordonnées sont en 3857 maisla déclaration de la table = 4326
+# note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
 psql -U redadeg -d redadeg -c "DROP TABLE phase_1_trace_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_1_umap_trace.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
