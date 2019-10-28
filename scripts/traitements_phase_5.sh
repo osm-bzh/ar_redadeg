@@ -37,6 +37,7 @@ echo ""
 # on commence donc par vider la couche cible
 # géré avec l'option -overwrite sur le secteur 1 -> pb : on a des lignes dans la couche de points…
 # on commence par vider la table qui contiendra les calculs d'itinéraires
+
 echo "  vidage de la couche de routage"
 $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_5_pk_umap ;"
 echo "  fait"
@@ -215,15 +216,52 @@ echo ""
 
 # ici une requête PostGIS sortira les PK qui auront été trop déplacés
 
+read nb_pk_deplaces <<< $( $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME --no-align -t --quiet -c \
+  "SELECT COUNT(*)
+  FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
+  WHERE TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) > 1"
+)
+
+echo "        $nb_pk_deplaces PK déplacés manuellement"
+
+
+# plus de détails
+#--no-align -t --quiet --single-transaction --set AUTOCOMMIT=off --set ON_ERROR_STOP=on --field-separator ' ' \
+
+$PSQL -X -h $DB_HOST -U $DB_USER -d $DB_NAME \
+-c "WITH liste_pk_decales AS (
+  SELECT
+   r.pk_id,
+   r.secteur_id,
+   TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) as distance
+  FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
+  WHERE TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) > 1
+)
+      SELECT '1' as tri, '> 1000' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 1000)
+UNION SELECT '2' as tri, '>  500' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 500 AND distance < 1000)
+UNION SELECT '3' as tri, '>  100' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 100 AND distance < 500)
+UNION SELECT '4' as tri, '>   10' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 10 AND distance < 100)
+UNION SELECT '5' as tri, '<   10' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance < 10)
+ORDER BY tri ;" \
+    --single-transaction \
+    --set AUTOCOMMIT=off \
+    --set ON_ERROR_STOP=on \
+    --no-align \
+    -t \
+    --field-separator ' ' \
+    --quiet | 
+while read tri distance count ; do
+    printf "          $distance $count \n"
+done
 
 
 
-
+echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL phase 5"
 echo ""
 
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
+#$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
 
 echo "  fait"
 echo ""
