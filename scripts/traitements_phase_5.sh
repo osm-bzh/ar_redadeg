@@ -39,7 +39,7 @@ echo ""
 # on commence par vider la table qui contiendra les calculs d'itinéraires
 
 echo "  vidage de la couche de routage"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_5_pk_umap ;"
 echo "  fait"
 
 echo ""
@@ -50,90 +50,79 @@ echo "    secteur 1"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027042/ > data/phase_5_pk_umap_tmp.geojson
 # chargement initial
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 2"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027081/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 3"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027101/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 4"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027104/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 5"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027107/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 6"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027110/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 7"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027114/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 8"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027117/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 9"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027120/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 echo "    secteur 10"
 curl -sS http://umap.openstreetmap.fr/fr/datalayer/1027123/ > data/phase_5_pk_umap_tmp.geojson
 # on rajoute à la couche
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASS dbname=$DB_NAME" \
-data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap_4326 -explodecollections -append
+data/phase_5_pk_umap_tmp.geojson -nln phase_5_pk_umap -explodecollections -append
 
 
 
 # ensuite on supprime les enregistrement aberrants
 echo ""
 echo "  suppression des données nulles"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM phase_5_pk_umap_4326 WHERE ST_geometrytype(the_geom) <> 'ST_Point' OR secteur_id IS NULL OR pk_id IS NULL ;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM phase_5_pk_umap WHERE ST_geometrytype(the_geom) <> 'ST_Point' OR secteur_id IS NULL OR pk_id IS NULL ;"
 echo "  fait"
 
-
-# et on charge la couche en 2154 pour pouvoir travailler
-echo ""
-echo "  chargement de la couche de travail en 2154"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME \
--c "TRUNCATE phase_5_pk_umap ; 
-INSERT INTO phase_5_pk_umap 
-SELECT pk_id, secteur_id, ST_Transform(the_geom,2154) AS the_geom
-FROM phase_5_pk_umap_4326
-ORDER BY pk_id ;"
-echo "  fait"
 
 
 echo ""
@@ -230,7 +219,7 @@ echo ""
 read nb_pk_deplaces <<< $( $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME --no-align -t --quiet -c \
   "SELECT COUNT(*)
   FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
-  WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1 ;"
+  WHERE TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) > 1"
 )
 
 echo "        $nb_pk_deplaces PK déplacés manuellement"
@@ -244,9 +233,9 @@ $PSQL -X -h $DB_HOST -U $DB_USER -d $DB_NAME \
   SELECT
    r.pk_id,
    r.secteur_id,
-   TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) as distance
+   TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) as distance
   FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
-  WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1
+  WHERE TRUNC(ST_Distance(ST_Transform(r.the_geom,2154), ST_Transform(u.the_geom,2154))::numeric,2) > 1
 )
       SELECT '1' as tri, '> 1000' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 1000)
 UNION SELECT '2' as tri, '>  500' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 500 AND distance < 1000)
@@ -272,7 +261,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL phase 5"
 echo ""
 
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
+#$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
 
 echo "  fait"
 echo ""
