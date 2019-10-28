@@ -532,7 +532,7 @@ ALTER TABLE phase_3_trace_secteurs_4326 OWNER TO redadeg;
 
 
 -- la couche des PK calculés automatiquement
-DROP TABLE IF EXISTS phase_3_pk_auto ;
+DROP TABLE IF EXISTS phase_3_pk_auto CASCADE ;
 CREATE TABLE phase_3_pk_auto
 (
   pk_id integer,
@@ -632,8 +632,7 @@ ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
 ==========================================================================
 */
 
--- la table des PK avant modifications manuelles
--- en WGS85 / EPSG:4326 pour se simplier les contrôles
+-- la table des PK avant modifications manuelles = PK de référence = phase_3_pk_auto
 DROP TABLE IF EXISTS phase_5_pk_ref ;
 CREATE TABLE phase_5_pk_ref
 (
@@ -659,25 +658,39 @@ CREATE TABLE phase_5_pk_ref
   the_geom geometry,
   CONSTRAINT phase_5_pk_ref_pkey PRIMARY KEY (pk_id),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
-  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
 ALTER TABLE phase_5_pk_ref OWNER TO redadeg;
 
 -- on charge cette table avec les données finales de la phase 3
-INSERT INTO phase_5_pk_ref SELECT * FROM phase_4_pk_auto_4326 ;
+TRUNCATE TABLE phase_5_pk_ref ;
+INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk_auto ;
 
 
 -- on définit manuellement la couche avec un type mixte parce qu'on a des lignes dans la couche de points…
-DROP TABLE public.phase_5_pk_umap;
-CREATE TABLE public.phase_5_pk_umap
+DROP TABLE IF EXISTS phase_5_pk_umap_3857;
+CREATE TABLE phase_5_pk_umap_3857
 (
-    ogc_fid integer,
-    pk_id integer,
-    secteur_id integer,
-    the_geom geometry,
-    --CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (ogc_fid),
-  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326) 
+  ogc_fid integer,
+  pk_id integer,
+  secteur_id integer,
+  the_geom geometry,
+  --CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (ogc_fid),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3857) 
 );
+
+-- la table en 2154 pour travailler
+DROP TABLE IF EXISTS phase_5_pk_umap;
+CREATE TABLE phase_5_pk_umap
+(
+  pk_id integer,
+  secteur_id integer,
+  the_geom geometry,
+  CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (pk_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154) 
+);
+
 
 
 -- la table finale
