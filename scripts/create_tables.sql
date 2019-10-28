@@ -510,7 +510,7 @@ CREATE TABLE phase_3_trace_secteurs
   secteur_id int,
   nom_fr text,
   nom_br text,
-  km_reels numeric(2),
+  km_reels numeric(8,2),
   the_geom geometry,
   CONSTRAINT phase_3_trace_secteurs_pkey PRIMARY KEY (secteur_id),
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
