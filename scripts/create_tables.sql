@@ -668,15 +668,15 @@ INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk_auto ;
 
 
 -- on définit manuellement la couche avec un type mixte parce qu'on a des lignes dans la couche de points…
-DROP TABLE IF EXISTS phase_5_pk_umap_4326;
-CREATE TABLE phase_5_pk_umap_4326
+DROP TABLE IF EXISTS phase_5_pk_umap_3857;
+CREATE TABLE phase_5_pk_umap_3857
 (
   ogc_fid integer,
   pk_id integer,
   secteur_id integer,
   the_geom geometry,
   --CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (ogc_fid),
-  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326) 
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 3857) 
 );
 
 -- la table en 2154 pour travailler
