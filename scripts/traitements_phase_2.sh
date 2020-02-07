@@ -9,7 +9,7 @@ DB_NAME=redadeg
 DB_USER=redadeg
 
 
-cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
+#cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap

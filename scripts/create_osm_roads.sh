@@ -7,7 +7,7 @@ echo ""
 echo ""
 
 HOST_DB_redadeg=localhost
-HOST_DB_osm=192.168.56.1
+HOST_DB_osm=localhost
 
 # suppose le le .pgpass est correctement configuré pour le compte qui lance ce script
 
