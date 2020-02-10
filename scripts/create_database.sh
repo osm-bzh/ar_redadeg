@@ -3,19 +3,27 @@
 
 # utiliser un compte SUPERUSER pour exécuter ce script
 
+dbhost=localhost
+
+#psql -h $dbhost -d postgres -c "DROP DATABASE IF EXISTS redadeg; DROP ROLE IF EXISTS redadeg;"
+
 # create role
-createuser -l -S redadeg
-# password
-psql -d postgres -c "ALTER USER redadeg WITH PASSWORD 'redadeg';"
+psql -h $dbhost -d postgres -c "CREATE USER redadeg WITH PASSWORD 'redadeg' SUPERUSER;"
 
 # create database with owner redadeg
-createdb -E UTF8 -O redadeg redadeg
+psql -h $dbhost -d postgres -c "CREATE DATABASE redadeg WITH OWNER = redadeg ENCODING = 'UTF8';"
 
-# postgis extensions
-psql -d redadeg -c "CREATE EXTENSION postgis;"
-psql -d redadeg -c "CREATE EXTENSION pgrouting;"
-psql -d redadeg -c "CREATE EXTENSION postgis_topology SCHEMA topology;"
+# extensions postgis
+psql -h $dbhost -d redadeg -c "CREATE EXTENSION postgis;"
+psql -h $dbhost -d redadeg -c "CREATE EXTENSION postgis_topology;"
+psql -h $dbhost -d redadeg -c "CREATE EXTENSION pgrouting;"
 
-# create tables
-psql -d redadeg -U redadeg -W < create_tables.sql
+# permissions
+psql -h $dbhost -d redadeg -c "ALTER SCHEMA public OWNER TO redadeg;"
+psql -h $dbhost -d redadeg -c "ALTER TABLE topology.layer OWNER TO redadeg ;"
+psql -h $dbhost -d redadeg -c "ALTER TABLE topology.topology OWNER TO redadeg ;"
+
+# vérifications
+psql -h $dbhost -d redadeg -c "SELECT * FROM postgis_version();"
+psql -h $dbhost -d redadeg -c "SELECT * FROM pgr_version();"
 
