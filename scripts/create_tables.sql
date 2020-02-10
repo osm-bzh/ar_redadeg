@@ -50,6 +50,23 @@ INSERT INTO secteur VALUES (100,'Sant-Brieg -> Gwengamp','Saint-Brieuc -> Gwenga
 INSERT INTO secteur VALUES (999,'test','test');
 
 
+
+DROP TABLE IF EXISTS phase_1_trace_3857 ;
+CREATE TABLE phase_1_trace_3857
+(
+    fake_column integer
+);
+ALTER TABLE phase_1_trace_3857 OWNER to redadeg;
+
+DROP TABLE IF EXISTS phase_1_pk_vip_3857 ;
+CREATE TABLE phase_1_pk_vip_3857
+(
+    fake_column integer
+);
+ALTER TABLE phase_1_pk_vip_3857 OWNER to redadeg;
+
+
+
 DROP TABLE IF EXISTS phase_1_trace CASCADE ;
 CREATE TABLE phase_1_trace
 (
@@ -62,6 +79,8 @@ CREATE TABLE phase_1_trace
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+ALTER TABLE phase_1_trace OWNER to redadeg;
+
 
 DROP TABLE IF EXISTS phase_1_pk_vip CASCADE ;
 CREATE TABLE phase_1_pk_vip
@@ -74,6 +93,7 @@ CREATE TABLE phase_1_pk_vip
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+ALTER TABLE phase_1_pk_vip OWNER to redadeg;
 
 
 -- on crée aussi une version correcte en 4326 pour export vers umap
@@ -90,7 +110,7 @@ CREATE TABLE phase_1_trace_4326
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
 );
-
+ALTER TABLE phase_1_trace_4326 OWNER to redadeg;
 
 
 -- table des tronçons créés à partir des longs tracés
@@ -108,25 +128,9 @@ CREATE TABLE phase_1_trace_troncons
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-
-ALTER TABLE phase_1_trace OWNER to redadeg;
-ALTER TABLE phase_1_trace_4326 OWNER to redadeg;
-ALTER TABLE phase_1_pk_vip OWNER to redadeg;
 ALTER TABLE phase_1_trace_troncons OWNER to redadeg;
 
--- table des PK auto en fin de tronçon
-/*DROP TABLE phase_1_pk_auto ;
-CREATE TABLE phase_1_pk_auto
-(
-    uid bigint,
-    secteur character varying(25),
-    km bigint,
-    km_reel bigint,
-    the_geom geometry(Point,2154),
-    CONSTRAINT phase_1_pk_auto_pkey PRIMARY KEY (uid),
-    CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
-    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
-);*/
+
 
 -- vue des PK auto en fin de tronçon
 DROP VIEW IF EXISTS phase_1_pk_auto ;
@@ -136,6 +140,7 @@ CREATE VIEW phase_1_pk_auto AS
     ST_Line_Interpolate_Point(the_geom, 1)::geometry(Point, 2154) AS the_geom
   FROM phase_1_trace_troncons
   ORDER BY secteur_id ASC, ordre ASC, km ASC ;
+ALTER TABLE phase_1_pk_auto OWNER to redadeg;
 
 -- la même mais en 4326 pour export
 DROP VIEW IF EXISTS phase_1_pk_auto_4326 ;
@@ -145,10 +150,7 @@ CREATE VIEW phase_1_pk_auto_4326 AS
      ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_1_pk_auto
   ORDER BY secteur_id ASC, ordre ASC, km ASC ;
-
-ALTER TABLE phase_1_pk_auto OWNER to redadeg;
 ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
-
 
 -- vue tableau de bord de synthèse
 DROP VIEW IF EXISTS phase_1_tdb ;
@@ -160,7 +162,7 @@ CREATE VIEW phase_1_tdb AS
   FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
   GROUP BY secteur_id, nom_br, nom_fr
   ORDER BY secteur_id ;
-
+ALTER TABLE phase_1_tdb OWNER to redadeg;
 
 
 
@@ -174,6 +176,21 @@ CREATE VIEW phase_1_tdb AS
 */
 
 -- les couches PK venant de umap
+
+DROP TABLE IF EXISTS phase_2_pk_secteur_3857 ;
+CREATE TABLE phase_2_pk_secteur_3857
+(
+    fake_column integer
+);
+ALTER TABLE phase_2_pk_secteur_3857 OWNER to redadeg;
+
+DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 ;
+CREATE TABLE phase_2_point_nettoyage_3857
+(
+    fake_column integer
+);
+ALTER TABLE phase_2_point_nettoyage_3857 OWNER to redadeg;
+
 
 DROP TABLE IF EXISTS phase_2_pk_secteur CASCADE ;
 CREATE TABLE phase_2_pk_secteur
@@ -189,8 +206,9 @@ CREATE TABLE phase_2_pk_secteur
 );
 ALTER TABLE phase_2_pk_secteur OWNER to redadeg;
 
+
 -- une vue en 4326 pour export
-DROP VIEW IF EXISTS phase_2_pk_secteur_4326 ;
+DROP VIEW IF EXISTS phase_2_pk_secteur_4326 CASCADE ;
 CREATE VIEW phase_2_pk_secteur_4326 AS
   SELECT
     pk.id, pk.name, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br,
@@ -201,7 +219,7 @@ ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
 -- les polygones des communes
-DROP TABLE IF EXISTS osm_communes ;
+DROP TABLE IF EXISTS osm_communes CASCADE ;
 CREATE TABLE osm_communes
 (
     gid serial,
@@ -217,6 +235,7 @@ CREATE TABLE osm_communes
 CREATE INDEX osm_communes_geom_idx ON osm_communes USING gist(the_geom);
 ALTER TABLE osm_communes OWNER to redadeg;
 
+
 /*
 INSERT INTO osm_communes
   SELECT
@@ -230,8 +249,9 @@ INSERT INTO osm_communes
   ORDER BY insee ASC ;
 */
 
+
 -- la couche qui contient les lignes des routes venant de OSM
-DROP TABLE IF EXISTS osm_roads ;
+DROP TABLE IF EXISTS osm_roads CASCADE ;
 CREATE TABLE osm_roads
 (
   uid bigint NOT NULL,
@@ -252,7 +272,7 @@ ALTER TABLE osm_roads OWNER to redadeg;
 
 
 -- la couche en version routable
-DROP TABLE IF EXISTS osm_roads_pgr ;
+DROP TABLE IF EXISTS osm_roads_pgr CASCADE ;
 CREATE TABLE osm_roads_pgr
 (
   id bigint,
@@ -278,7 +298,7 @@ ALTER TABLE osm_roads_pgr OWNER to redadeg;
 
 
 -- la couche des points pour nettoyer la couche de routage
-DROP TABLE IF EXISTS phase_2_point_nettoyage ;
+DROP TABLE IF EXISTS phase_2_point_nettoyage CASCADE ;
 CREATE TABLE phase_2_point_nettoyage
 (
   id serial,
@@ -294,8 +314,8 @@ ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
 
 
 -- couche de polygones pour supprimer le contenu de osm_roads_pgr pour la gestion des boucles
-DROP TABLE IF EXISTS osm_roads_pgr_patch_mask ;
-CREATE TABLE osm_roads_mask
+DROP TABLE IF EXISTS osm_roads_pgr_patch_mask CASCADE ;
+CREATE TABLE osm_roads_pgr_patch_mask
 (
   id serial,
   name text,
@@ -308,7 +328,7 @@ ALTER TABLE osm_roads_pgr_patch_mask OWNER to redadeg;
 
 
 -- couche jumelle de osm_roads mais avec des lignes gérées à la main pour les boucles
-DROP TABLE IF EXISTS osm_roads_pgr_patch ;
+DROP TABLE IF EXISTS osm_roads_pgr_patch CASCADE ;
 CREATE TABLE osm_roads_pgr_patch
 (
   id serial,
@@ -333,7 +353,7 @@ ALTER TABLE osm_roads_pgr_patch OWNER to redadeg;
 
 
 -- la table qui va recevoir le résultat du calcul d'itinéraire
-DROP TABLE IF EXISTS phase_2_trace_pgr CASCADE;
+DROP TABLE IF EXISTS phase_2_trace_pgr CASCADE ;
 CREATE TABLE phase_2_trace_pgr
 (
   secteur_id integer,
@@ -396,7 +416,7 @@ ALTER TABLE phase_2_trace_secteur_4326 OWNER to redadeg;
 
 
 -- ça sert à quoi ça ?
-DROP TABLE IF EXISTS phase_2_trace_trous ;
+DROP TABLE IF EXISTS phase_2_trace_trous CASCADE ;
 CREATE TABLE phase_2_trace_trous
 (
   id serial,
@@ -415,7 +435,7 @@ ALTER TABLE phase_2_trace_trous OWNER to redadeg;
 
 
 -- la table qui va contenir des tronçons de x m
-DROP TABLE IF EXISTS phase_2_trace_troncons ;
+DROP TABLE IF EXISTS phase_2_trace_troncons CASCADE ;
 CREATE TABLE phase_2_trace_troncons
 (
   uid bigint,
@@ -437,7 +457,7 @@ CREATE TABLE phase_2_trace_troncons
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-
+ALTER TABLE phase_2_trace_troncons OWNER to redadeg;
 
 
 DROP VIEW IF EXISTS phase_2_tdb ;
@@ -453,8 +473,8 @@ CREATE VIEW phase_2_tdb AS
       SELECT 
         a.secteur_id, a.nom_fr, a.nom_br,
         a.longueur_km,
-        b.km_reels AS longueur_km_attendu,
-        -(b.km_reels - a.longueur_km) AS difference,
+        -- b.km_reels AS longueur_km_attendu, << vérifier si ça sert
+        -- -(b.km_reels - a.longueur_km) AS difference, << vérifier si ça sert
         TRUNC(a.longueur_km / (SELECT longueur_km FROM total) * 2020, 0) AS nb_km_redadeg
         --TRUNC((a.longueur_km / (SELECT longueur_km FROM total) * 2020) / b.km_reels, 3) AS longueur_km_redadeg
       FROM phase_2_trace_secteur a JOIN secteur b ON a.secteur_id = b.id
@@ -462,7 +482,8 @@ CREATE VIEW phase_2_tdb AS
       SELECT
         0 AS secteur_id, 'Total' AS nom_fr, 'Hollad' AS nom_br,
         SUM(longueur_km) AS longueur_km,
-        0,0,0
+        0
+    -- 0,0,0
       FROM public.phase_2_trace_secteur
       GROUP BY 1
       ORDER BY secteur_id ASC ;
@@ -479,7 +500,7 @@ ALTER TABLE phase_2_tdb OWNER TO redadeg;
 ==========================================================================
 */
 
-DROP TABLE IF EXISTS phase_3_trace_troncons ;
+DROP TABLE IF EXISTS phase_3_trace_troncons CASCADE ;
 CREATE TABLE phase_3_trace_troncons
 (
   troncon_id bigint,
@@ -490,7 +511,7 @@ CREATE TABLE phase_3_trace_troncons
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-ALTER TABLE phase_3_pk_auto_4326 OWNER TO redadeg;
+ALTER TABLE phase_3_trace_troncons OWNER TO redadeg;
 
 -- la même couche en 4326
 DROP VIEW IF EXISTS phase_3_trace_troncons_4326 ;
@@ -504,7 +525,7 @@ ALTER TABLE phase_3_trace_troncons_4326 OWNER TO redadeg;
 
 
 
-DROP TABLE IF EXISTS phase_3_trace_secteurs ;
+DROP TABLE IF EXISTS phase_3_trace_secteurs CASCADE ;
 CREATE TABLE phase_3_trace_secteurs
 (
   secteur_id int,
@@ -612,7 +633,7 @@ ALTER TABLE phase_3_pk_sens_verif_4326 OWNER TO redadeg;
 */
 
 
-DROP VIEW IF EXISTS phase_4_pk_auto_4326 ;
+DROP VIEW IF EXISTS phase_4_pk_auto_4326 CASCADE ;
 CREATE VIEW phase_4_pk_auto_4326 AS
   SELECT
     pk_id,
@@ -633,7 +654,7 @@ ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
 */
 
 -- la table des PK avant modifications manuelles = PK de référence = phase_3_pk_auto
-DROP TABLE IF EXISTS phase_5_pk_ref ;
+DROP TABLE IF EXISTS phase_5_pk_ref CASCADE ;
 CREATE TABLE phase_5_pk_ref
 (
   pk_id integer,
@@ -668,7 +689,7 @@ INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk_auto ;
 
 
 -- on définit manuellement la couche avec un type mixte parce qu'on a des lignes dans la couche de points…
-DROP TABLE IF EXISTS phase_5_pk_umap_4326;
+DROP TABLE IF EXISTS phase_5_pk_umap_4326 CASCADE ;
 CREATE TABLE phase_5_pk_umap_4326
 (
   ogc_fid integer,
@@ -678,9 +699,10 @@ CREATE TABLE phase_5_pk_umap_4326
   --CONSTRAINT phase_5_pk_umap_pkey PRIMARY KEY (ogc_fid),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326) 
 );
+ALTER TABLE phase_5_pk_umap_4326 OWNER TO redadeg;
 
 -- la table en 2154 pour travailler
-DROP TABLE IF EXISTS phase_5_pk_umap;
+DROP TABLE IF EXISTS phase_5_pk_umap CASCADE ;
 CREATE TABLE phase_5_pk_umap
 (
   pk_id integer,
@@ -690,11 +712,11 @@ CREATE TABLE phase_5_pk_umap
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154) 
 );
-
+ALTER TABLE phase_5_pk_umap OWNER TO redadeg;
 
 
 -- la table finale
-DROP TABLE IF EXISTS phase_5_pk ;
+DROP TABLE IF EXISTS phase_5_pk CASCADE ;
 CREATE TABLE phase_5_pk
 (
   pk_id integer,

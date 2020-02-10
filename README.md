@@ -71,7 +71,7 @@ Note : l'extension postgis_topology crée forcément un schéma *topology* dans 
 
 On exécute ensuite le scripts SQL qui va créer toutes les tables
 
-`psql -U redadeg -d redadeg < create_tables.sql`
+`./create_tables.sh`
 
 
 
