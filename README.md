@@ -73,6 +73,7 @@ On exécute ensuite le scripts SQL qui va créer toutes les tables
 
 `./create_tables.sh`
 
+La table de référence des secteurs est remplie avec le script `update_infos_secteurs.sql`. Modifier appliquer ce script SQL si nécessaire.
 
 
 ## Charger et traiter les données
