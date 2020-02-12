@@ -9,13 +9,13 @@ DB_NAME=redadeg
 DB_USER=redadeg
 
 
-cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
+#cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Mise à jour des couches de routage"
 echo ""
-echo "  prend environ 5 min"
+echo "  prend 15-20 min"
 echo ""
 
 # la couche osm_roads vient d'être mise à jour ou recrée
@@ -56,8 +56,10 @@ echo ""
 echo ">> maj de la couche osm_roads_pgr qui sert au routage depuis la topologie"
 $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < update_osm_roads_pgr.sql
 
-echo ">> patch de la couche osm_roads_pgr pour les cas particuliers"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
+#echo ">> patch de la couche osm_roads_pgr pour les cas particuliers"
+#$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
+
+echp "/!\ patcher le filaire de voie si nécessaire"
 
 echo ""
 echo "fini"
