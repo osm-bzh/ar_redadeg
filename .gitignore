@@ -1,6 +1,5 @@
 
 # specfic
-*.qgs*
 *.geojson
 notes.txt
 redadeg_2020.sql
