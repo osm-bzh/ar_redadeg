@@ -7,9 +7,8 @@ PSQL=/usr/bin/psql
 DB_HOST=localhost
 DB_NAME=redadeg
 DB_USER=redadeg
+DB_PASSWD=redadeg
 
-
-#cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # on récupère les couches geojson depuis umap
@@ -40,11 +39,11 @@ echo "  chargement des fichiers dans la BD"
 echo ""
 
 echo "phase_2_pk_secteur_3857"
-$PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "phase_2_point_nettoyage_3857"
-$PSQL -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_2_umap_point_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "  fait"
@@ -57,7 +56,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL 2.1"
 echo ""
 
-$PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.1.sql
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_2.1.sql
 
 echo "  fait"
 echo ""
@@ -215,7 +214,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL 2.2"
 echo ""
 
-$PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.2.sql
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_2.2.sql
 
 
 
@@ -231,11 +230,11 @@ echo "  exports geojson"
 echo ""
 
 rm data/phase_2_pk_secteur.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_pk_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_pk_secteur_4326
+ogr2ogr -f "GeoJSON" data/phase_2_pk_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_pk_secteur_4326
 rm data/phase_2_trace_pgr.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_trace_pgr.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_pgr_4326
+ogr2ogr -f "GeoJSON" data/phase_2_trace_pgr.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_pgr_4326
 rm data/phase_2_trace_secteur.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_trace_secteur_4326
+ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_secteur_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
 
@@ -244,9 +243,9 @@ echo "  exports supplémentaires"
 echo ""
 
 rm data/phase_2_tdb.xlsx
-ogr2ogr -f "XLSX" data/phase_2_tdb.xlsx PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
+ogr2ogr -f "XLSX" data/phase_2_tdb.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
 rm data/phase_2_tdb.csv
-ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_2_tdb
+ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
 
 echo "  fait"
 echo ""

@@ -1,9 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
-#cd /data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/
+set -e
+set -u
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# on récupère les couches geojson depuis umap
+PSQL=/usr/bin/psql
+DB_HOST=localhost
+DB_NAME=redadeg
+DB_USER=redadeg
+DB_PASSWD=redadeg
+
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -26,10 +31,10 @@ echo ""
 echo "  chargement des fichiers dans la BD"
 echo ""
 
-psql -U redadeg -d redadeg -c "DROP TABLE phase_1_trace_3857 CASCADE;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE phase_1_trace_3857 CASCADE;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_1_umap_trace.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
-psql -U redadeg -d redadeg -c "DROP TABLE phase_1_pk_vip_3857;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE phase_1_pk_vip_3857;"
 ogr2ogr -f "PostgreSQL" PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" data/phase_1_umap_pk_vip.geojson -nln phase_1_pk_vip_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "  fait"
@@ -41,7 +46,7 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-psql -U redadeg -d redadeg < traitements_phase_1.sql
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_1.sql
 
 echo "  fait"
 echo ""
@@ -56,14 +61,14 @@ echo ""
 
 # et on exporte vers Geojson
 rm data/phase_1_pk_auto.geojson
-ogr2ogr -f "GeoJSON" data/phase_1_pk_auto.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_1_pk_auto_4326
+ogr2ogr -f "GeoJSON" data/phase_1_pk_auto.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
 rm data/phase_1_trace_4326.geojson
-ogr2ogr -f "GeoJSON" data/phase_1_trace_4326.geojson PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_1_trace_4326
+ogr2ogr -f "GeoJSON" data/phase_1_trace_4326.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
 # exports supplémentaires
 rm data/phase_1_pk_auto.xlsx
-ogr2ogr -f "XLSX" data/phase_1_pk_auto.xlsx PG:"host=localhost user=redadeg password=redadeg dbname=redadeg" phase_1_pk_auto_4326
+ogr2ogr -f "XLSX" data/phase_1_pk_auto.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
 
 echo "  fait"
 echo ""
