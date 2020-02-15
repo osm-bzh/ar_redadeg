@@ -4,15 +4,15 @@ cd data
 
 # dump des tables de routage
 
-pg_dump --file osm_roads_pgr.sql --host 192.168.56.131 --port 5432 --username redadeg \
+pg_dump --file osm_roads_pgr.sql --host localhost --port 5432 --username redadeg \
 --no-password --verbose --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
 --table public.osm_roads_pgr redadeg
 
-pg_dump --file osm_roads_pgr_noded.sql --host 192.168.56.131 --port 5432 --username redadeg \
+pg_dump --file osm_roads_pgr_noded.sql --host localhost --port 5432 --username redadeg \
 --no-password --verbose --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
 --table public.osm_roads_pgr_noded redadeg
 
-pg_dump --file osm_roads_pgr_vertices_pgr.sql --host 192.168.56.131 --port 5432 --username redadeg \
+pg_dump --file osm_roads_pgr_vertices_pgr.sql --host localhost --port 5432 --username redadeg \
 --no-password --verbose --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
 --table public.osm_roads_pgr_vertices_pgr redadeg
 
