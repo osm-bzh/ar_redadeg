@@ -150,6 +150,13 @@ import depuis umap -> traitements -> export vers umap (ou autres)
 3857 -> 2154 -> 4326
 
 
+### couche des communes
+
+`./load_communes.sh`
+
+Ce script va récupèrer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
+
+
 ### Phase 1
 
 `./traitements_phase_1.sh`
