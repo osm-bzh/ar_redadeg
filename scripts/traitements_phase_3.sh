@@ -29,32 +29,35 @@ echo ""
 #  et on exporte en geojson pour umap
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Exports"
+echo "  Exports et upload vers le serveur de diffusion"
 echo ""
 
 echo "  exports geojson"
 echo ""
 
-#rm data/phase_3_pk_auto.geojson
-#ogr2ogr -f "GeoJSON" data/phase_3_pk_auto.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_pk_auto_4326
-#rm data/phase_3_pk_sens_verif.geojson
-#ogr2ogr -f "GeoJSON" data/phase_3_pk_sens_verif.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_pk_sens_verif_4326
-#rm data/phase_3_trace_troncons.geojson
-#ogr2ogr -f "GeoJSON" data/phase_3_trace_troncons.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_trace_troncons_4326
-#rm data/phase_3_trace_secteurs.geojson
-#ogr2ogr -f "GeoJSON" data/phase_3_trace_secteurs.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_trace_secteurs_4326
+rm data/phase_3_pk_auto.geojson
+ogr2ogr -f "GeoJSON" data/phase_3_pk_auto.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_pk_auto_4326
+rm data/phase_3_pk_sens_verif.geojson
+ogr2ogr -f "GeoJSON" data/phase_3_pk_sens_verif.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_pk_sens_verif_4326
+rm data/phase_3_trace_troncons.geojson
+ogr2ogr -f "GeoJSON" data/phase_3_trace_troncons.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_trace_troncons_4326
+rm data/phase_3_trace_secteurs.geojson
+ogr2ogr -f "GeoJSON" data/phase_3_trace_secteurs.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_3_trace_secteurs_4326
 
+echo "  fait"
+echo ""
+echo "  upload"
+echo ""
+
+# upload
+rsync -av -z data/phase_3_*.geojson breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
 
 echo "  fait"
 echo ""
 
-
-rsync -av -z data/phase_3_*.geojson breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
-
-
 echo ""
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  F I N"
+echo "  F I N traitements phase 3"
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo ""

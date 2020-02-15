@@ -224,7 +224,7 @@ $PSQL -U $DB_USER -d $DB_NAME  < traitements_phase_2.2.sql
 #  et on exporte en geojson pour umap
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Exports"
+echo "  Exports et upload vers le serveur de diffusion"
 echo ""
 
 echo "  exports geojson"
@@ -250,11 +250,18 @@ ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=localhost user=redadeg password=r
 
 echo "  fait"
 echo ""
+echo "  upload"
+echo ""
 
+# upload
+rsync -av -z data/phase_2_pk_secteur.geojson data/phase_2_trace_pgr.geojson data/phase_2_trace_secteur.geojson data/phase_2_tdb.xlsx data/phase_2_tdb.csv breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
+
+echo "  fait"
+echo ""
 
 echo ""
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  F I N"
+echo "  F I N traitements phase 2"
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo ""
