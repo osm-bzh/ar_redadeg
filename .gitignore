@@ -47,3 +47,6 @@ scripts/test.bash
 *.ffs
 scripts/traitements_phase_3_decoupage.fmw.recover
 scripts/phase_5.sql
+
+pg_backup/*
+
