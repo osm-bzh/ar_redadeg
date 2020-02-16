@@ -85,6 +85,15 @@ On exécute ensuite le scripts SQL qui va créer toutes les tables
 La table de référence des secteurs est remplie avec le script `update_infos_secteurs.sql`. Modifier appliquer ce script SQL si nécessaire.
 
 
+### couche des communes
+
+`./load_communes.sh`
+
+Ce script va récupérer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
+
+Problème en cours (voir [#1](https://github.com/osm-bzh/ar_redadeg/issues/1)) : il faut utiliser la couche `osm_municipalities` qui est crée avec le script `load_osm_municipalities.fmw`.
+
+
 ### Création du filaire de voies support du routage
 
 #### filaire de voies OSM
@@ -137,24 +146,19 @@ Si besoin de mettre à jour les données depuis une base OSM fraîche, jouer :
 * `psql -h localhost -U redadeg -d redadeg < patch_osm_roads_pgr.sql`
 
 
-Si juste besoin de recalculer un itinéraire si les données Redadeg change dans la zone tampon des 25 m existante, jouer seulement :
+Si juste besoin de recalculer un itinéraire si les données Redadeg phase 1 ou 2 changent dans la zone tampon des 25 m existante, jouer seulement :
 * `./update_osm_roads_pgr.sh`
 
 
 
 ## Charger et traiter les données
 
-Le principe est de travailler dans le système de projection Lambert93. Les tables / couches dans ce système ne sont pas suffixé. Les tables d'import depuis umap sont suffixées en "_3857" et les tables ou vues d'export sont suffixées en "_4326".
+Le principe est de travailler dans le système de projection Lambert93. Les tables / couches dans ce système ne sont pas suffixé. Les tables d'import depuis umap sont suffixées en "3857" et les tables ou vues d'export sont suffixées en "4326".
 
 import depuis umap -> traitements -> export vers umap (ou autres)
 3857 -> 2154 -> 4326
 
 
-### couche des communes
-
-`./load_communes.sh`
-
-Ce script va récupèrer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
 
 
 ### Phase 1
@@ -196,6 +200,40 @@ Ce script va récupèrer une couche des communes de France (source OpenStreetMap
 * exports en Excel des tables :
 	* `phase_2_tdb.xls`
 	* `phase_2_tdb.csv`
+
+
+Si on veut modifier radicalement le tracé (pas dans la zone tampon de 25 m), il faut donc :
+* modifier le tracé sur la carte umap phase 1
+* placer des points coupe-trace sur la carte umap phase 2
+* puis relancer `./traitements_phase_2.sh`
+
+S'il faut patcher manuellement un secteur voir plus haut "Création du filaire de voies support du routage".
+
+
+### Phase 3
+
+Création de :
+* une couche tronçons coupés à la longueur relative d'un km "redadeg". La longueur d'un tronçon varie en effet d'un secteur à un autre…
+* une couche de PK auto placés à la fin de chaque tronçon créé précedemment
+
+Pour cette étape on ne peut pas se servir de la couche de routage phase_2_trace_pgr créé précédemment car les géométries sont en fait des agrégats de la couche osm_roads_pgr. On utilise donc un traitement FME.
+
+
+### Phase 4
+
+Transition vers phase 5 = 
+* déactivation des scripts automatiques sur les serveurs.
+* exports des données pour les cartes umap
+
+
+### Phase 5
+
+À partir de cette phase : les PK sont gérés manuellement.
+Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récupérer et mettre à jour le filaire OpenStreetMap. Ou pour prendre en compte des modifications sur le tracé.
+
+Les PK sont gérés à partir de cartes umap : 1 par secteur.
+voir [http://umap.openstreetmap.fr/fr/user/osm-bzh/](http://umap.openstreetmap.fr/fr/user/osm-bzh/)
+
 
 
 
