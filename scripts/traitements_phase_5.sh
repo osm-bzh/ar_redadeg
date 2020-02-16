@@ -11,7 +11,7 @@ set -u
 
 #PSQL=/usr/bin/psql
 PSQL=psql
-DB_HOST=192.168.56.131
+DB_HOST=localhost
 DB_NAME=redadeg
 DB_USER=redadeg
 DB_PASS=redadeg
