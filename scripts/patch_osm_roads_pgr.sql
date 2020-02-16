@@ -10,12 +10,13 @@ DELETE FROM osm_roads_pgr WHERE id IN
 );
 
 -- collage des objets de la couche osm_roads_pgr_patch à la place des objets supprimés
+-- on crée un identifiant négatif
 INSERT INTO osm_roads_pgr
   SELECT
     0-a.id AS id,
-  a.osm_id, a.highway, a.type, a.oneway, a.ref, a.name_fr, a.name_br,
-  NULL, NULL, NULL, NULL,
-  a.the_geom
+    a.osm_id, a.highway, a.type, a.oneway, a.ref, a.name_fr, a.name_br,
+    NULL, NULL, NULL, NULL,
+    a.the_geom
   FROM osm_roads_pgr_patch a, osm_roads_pgr_patch_mask m
   WHERE ST_INTERSECTS(a.the_geom, m.the_geom);
 
