@@ -347,6 +347,8 @@ CREATE TABLE osm_roads_pgr_patch
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 ALTER TABLE osm_roads_pgr_patch OWNER to redadeg;
+-- la séquence doit commencer à un chiffre supérieur à 1 car sinon ça fiche la pagaille sur le calcul de routage
+ALTER SEQUENCE osm_roads_pgr_patch_id_seq START WITH 1000 ;
 
 
 
