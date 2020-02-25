@@ -519,7 +519,7 @@ CREATE VIEW phase_3_trace_troncons_4326 AS
   SELECT
     troncon_id,
     secteur_id,
-    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+    ST_Transform(the_geom,4326) AS the_geom
   FROM phase_3_trace_troncons ;
 ALTER TABLE phase_3_trace_troncons_4326 OWNER TO redadeg;
 
@@ -546,7 +546,7 @@ CREATE VIEW phase_3_trace_secteurs_4326 AS
   SELECT
     secteur_id, nom_fr, nom_br,
     km_reels,
-    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+    ST_Transform(the_geom,4326) AS the_geom
   FROM phase_3_trace_secteurs ;
 ALTER TABLE phase_3_trace_secteurs_4326 OWNER TO redadeg;
 
