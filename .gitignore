@@ -50,3 +50,4 @@ scripts/phase_5.sql
 
 pg_backup/*
 
+*.qgs~
