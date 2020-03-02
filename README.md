@@ -234,6 +234,11 @@ Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récup�
 Les PK sont gérés à partir de cartes umap : 1 par secteur.
 voir [http://umap.openstreetmap.fr/fr/user/osm-bzh/](http://umap.openstreetmap.fr/fr/user/osm-bzh/)
 
+Si on a fait une modification du tracé, la couche à jour est phase_2_trace_pgr
+
+celà veut dire de nouvelles voies empruntées et des PK de référence qui ne sont plus au bon endroit.
+
+
 
 
 

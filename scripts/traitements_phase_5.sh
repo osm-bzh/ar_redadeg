@@ -11,7 +11,7 @@ set -u
 
 #PSQL=/usr/bin/psql
 PSQL=psql
-DB_HOST=localhost
+DB_HOST=breizhpolenovo
 DB_NAME=redadeg
 DB_USER=redadeg
 DB_PASS=redadeg
@@ -236,35 +236,6 @@ read nb_pk_deplaces <<< $( $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME --no-align 
 echo "        $nb_pk_deplaces PK déplacés manuellement"
 
 
-# plus de détails
-#--no-align -t --quiet --single-transaction --set AUTOCOMMIT=off --set ON_ERROR_STOP=on --field-separator ' ' \
-
-$PSQL -X -h $DB_HOST -U $DB_USER -d $DB_NAME \
--c "WITH liste_pk_decales AS (
-  SELECT
-   r.pk_id,
-   r.secteur_id,
-   TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) as distance
-  FROM phase_5_pk_ref r FULL JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
-  WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1
-)
-      SELECT '1' as tri, '> 1000' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 1000)
-UNION SELECT '2' as tri, '>  500' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 500 AND distance < 1000)
-UNION SELECT '3' as tri, '>  100' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 100 AND distance < 500)
-UNION SELECT '4' as tri, '>   10' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance >= 10 AND distance < 100)
-UNION SELECT '5' as tri, '<   10' as distance, COUNT(*) FROM liste_pk_decales WHERE (distance < 10)
-ORDER BY tri ;" \
-    --single-transaction \
-    --set AUTOCOMMIT=off \
-    --set ON_ERROR_STOP=on \
-    --no-align \
-    -t \
-    --field-separator ' ' \
-    --quiet | 
-while read tri distance count ; do
-    printf "          $distance $count \n"
-done
-
 
 
 echo ""
@@ -272,11 +243,13 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL phase 5"
 echo ""
 
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_5.sql
+echo "  Recalage des PK sur le filaire OSM"
+echo ""
+
+/Library/FME/2018.1/fme traitements_phase_5_recalage.fmw
 
 echo "  fait"
 echo ""
-
 
 
 
@@ -292,8 +265,15 @@ echo ""
 echo "  exports geojson"
 echo ""
 
+# la couche agrégée des PK gérés dans umap
+rm data/phase_5_pk_umap.geojson
+ogr2ogr -f "GeoJSON" data/phase_5_pk_umap.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" \
+-sql "SELECT pk_id, secteur_id, the_geom FROM phase_5_pk_umap_4326 ORDER BY pk_id"
+
+# la nouvelle couche des PK recalés sur le tracé et avec les infos des voies OSM
 rm data/phase_5_pk.geojson
-ogr2ogr -f "GeoJSON" data/phase_5_pk.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" phase_5_pk -sql "SELECT * FROM phase_5_pk ORDER BY pk_id"
+ogr2ogr -f "GeoJSON" data/phase_5_pk.geojson PG:"host=$DB_HOST user=redadeg password=redadeg dbname=redadeg" \
+-sql "SELECT * FROM phase_5_pk ORDER BY pk_id"
 
 echo "  fait"
 echo ""
@@ -301,7 +281,7 @@ echo ""
 echo "  pousse vers serveur"
 echo ""
 
-rsync -av -z data/phase_5_pk.geojson breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
+rsync -av -z data/phase_5_pk_umap.geojson data/phase_5_pk.geojson data/phase_5_pk_hors_tolerance.geojson breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
 
 echo ""
 echo "  fait"
