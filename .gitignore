@@ -1,10 +1,18 @@
 
 # specfic
-*.geojson
-notes.txt
-redadeg_2020.sql
-*.mp4
 
+*.qgs~
+
+data/2020/backup/
+data/2020/data_backup/
+data/2020/data_vm/
+
+scripts/test.bash
+scripts/temp.sql
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # General
 .DS_Store
@@ -13,7 +21,6 @@ redadeg_2020.sql
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
@@ -35,21 +42,3 @@ Temporary Items
 .apdisk
 
 
-*.xlsx
-
-scripts/backup/jour_courant/*
-scripts/backup/*.geojson
-scripts/data/*
-scripts/data_vm/*
-*.log
-scripts/temp.sql
-scripts/test.bash
-*.ffs
-scripts/traitements_phase_3_decoupage.fmw.recover
-scripts/phase_5.sql
-
-pg_backup/*
-scripts/data_backup/*
-
-*.qgs~
-scripts/traitements_phase_3_decoupage (backup).fmw
