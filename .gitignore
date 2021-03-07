@@ -4,6 +4,7 @@
 *.qgs~
 *.log
 *.ffs
+*(backup).fmw
 
 data/2020/backup/
 data/2020/data_backup/
