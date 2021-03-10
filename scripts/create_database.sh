@@ -9,6 +9,7 @@ PSQL=/usr/bin/psql
 DB_HOST=localhost
 DB_NAME=redadeg_$millesime
 
+psql -h $DB_HOST -d postgres -c "set AUTOCOMMIT on"
 psql -h $DB_HOST -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME; DROP ROLE IF EXISTS redadeg;"
 
 # create role
