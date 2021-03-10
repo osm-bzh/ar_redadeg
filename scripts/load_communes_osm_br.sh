@@ -5,7 +5,7 @@ set -u
 
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
 DB_PASSWD=redadeg
 

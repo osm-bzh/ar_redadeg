@@ -3,19 +3,23 @@
 set -e
 set -u
 
+millesime=2022
+
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
 DB_PASSWD=redadeg
 
 # ce script récupère une couche des communes de France et la charge dans la base de données
 
-cd data
+mkdir -p ../data/$millesime/
+cd ../data/$millesime/
 
 # récupérer la couche communales OSM
 # https://www.data.gouv.fr/fr/datasets/decoupage-administratif-communal-francais-issu-d-openstreetmap/
-curl -sS http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-20210101-shp.zip > communes-20210101-shp.zip
+#curl -sS http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-20210101-shp.zip > communes-20210101-shp.zip
+wget http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-20210101-shp.zip
 
 unzip -o communes-20210101-shp.zip
 
