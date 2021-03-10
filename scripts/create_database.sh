@@ -9,8 +9,14 @@ PSQL=/usr/bin/psql
 DB_HOST=localhost
 DB_NAME=redadeg_$millesime
 
-psql -h $DB_HOST -d postgres -c "set AUTOCOMMIT on"
-psql -h $DB_HOST -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME; DROP ROLE IF EXISTS redadeg;"
+
+echo "La base de données $DB_NAME va être supprimée !!"
+
+if [ ! -t 0 ]; then x-terminal-emulator -e "$0"; exit 0; fi
+read -r -p "Appuyer sur n'importe quelle touche pour continuer..." key
+
+# suppression de la base de données existantes
+echo "DROP DATABASE $DB_NAME ;" | psql -U postgres -w
 
 # create role
 psql -h $DB_HOST -d postgres -c "CREATE USER redadeg WITH PASSWORD 'redadeg' SUPERUSER;"
