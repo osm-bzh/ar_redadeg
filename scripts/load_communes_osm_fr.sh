@@ -13,7 +13,6 @@ DB_PASSWD=redadeg
 
 # ce script récupère une couche des communes de France et la charge dans la base de données
 
-mkdir -p ../data/$millesime/
 cd ../data/$millesime/
 
 # récupérer la couche communales OSM
