@@ -15,11 +15,11 @@ cd data
 
 # récupérer la couche communales OSM
 # https://www.data.gouv.fr/fr/datasets/decoupage-administratif-communal-francais-issu-d-openstreetmap/
-curl -sS http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-20200101-shp.zip > communes-20200101-shp.zip
+curl -sS http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-20210101-shp.zip > communes-20210101-shp.zip
 
-unzip -o communes-20200101-shp.zip
+unzip -o communes-20210101-shp.zip
 
-ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" communes-20200101.shp -nln osm_communes_4326 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" communes-20210101.shp -nln osm_communes_4326 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 
 # passer la couche de WGS84 en Lambert93

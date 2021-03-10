@@ -87,7 +87,7 @@ La table de référence des secteurs est remplie avec le script `update_infos_se
 
 ### couche des communes
 
-`./load_communes.sh`
+`./load_communes_osm_fr.sh`
 
 Ce script va récupérer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
 

@@ -4,7 +4,7 @@ set -e
 set -u
 
 PSQL=/usr/bin/psql
-DB_HOST=breizhpolenovo
+DB_HOST=localhost
 DB_NAME=redadeg
 DB_USER=redadeg
 DB_PASSWD=redadeg
