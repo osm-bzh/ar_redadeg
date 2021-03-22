@@ -3,42 +3,61 @@
 set -e
 set -u
 
+# argument 1 = millesime redadeg
+millesime=$1
+
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
 DB_PASSWD=redadeg
 
+# varaibles liées au millésimes
+echo "millesime de travail = $1"
+rep_data=../data/$millesime/
+echo "rep_data = $rep_data"
+echo "base de données = $DB_NAME"
+echo ""
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Récupération des fichiers geojson depuis umap"
 
-# le tracé manuel
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/746021/ > data/phase_1_umap_trace.geojson
+# traitement des tracés manuels
+
+# on commence par supprimer la table
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_trace_3857 CASCADE;"
+#$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_pk_vip_3857;"
+echo ""
+
+
+# on va lire le fichier de config des couches umap pour boucler
+IFS="="
+while read -r line
+do
+  layer=$line
+
+  echo "  umap layer id = $layer"
+  wget -q -O $rep_data/phase_1_umap_trace_$layer.geojson  https://umap.openstreetmap.fr/fr/datalayer/$layer
+  echo "  recup ok"
+
+  # on charge dans postgis
+  # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
+
+  echo "  chargement dans la couche d'import"
+  ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" $rep_data/phase_1_umap_trace_$layer.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+  echo "  fait"
+  echo ""
+
+
+# fin de la boucle de lecture des layers umap
+done < $rep_data/umap_phase_1_layers.txt
+
+
 # PK VIP
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/715179/ > data/phase_1_umap_pk_vip.geojson
+# pas besoin en 2021
+#ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_1_umap_pk_vip.geojson -nln phase_1_pk_vip_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
-echo "  fait"
-echo ""
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# on charge dans postgis
-# après avoir supprimé les tables
-
-# note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
-
-echo "  chargement des fichiers dans la BD"
-echo ""
-
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE phase_1_trace_3857 CASCADE;"
-ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_1_umap_trace.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
-
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE phase_1_pk_vip_3857;"
-ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_1_umap_pk_vip.geojson -nln phase_1_pk_vip_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
-
-echo "  fait"
-echo ""
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -53,7 +72,7 @@ echo ""
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Exports et upload vers le serveur de diffusion"
+echo "  Exports "
 echo ""
 
 echo "  exports geojson"
@@ -61,22 +80,14 @@ echo ""
 
 # et on exporte vers Geojson
 rm data/phase_1_pk_auto.geojson
-ogr2ogr -f "GeoJSON" data/phase_1_pk_auto.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
-rm data/phase_1_trace_4326.geojson
-ogr2ogr -f "GeoJSON" data/phase_1_trace_4326.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
+ogr2ogr -f "GeoJSON" $rep_data/phase_1_pk_auto.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
+rm $rep_data/phase_1_trace_4326.geojson
+ogr2ogr -f "GeoJSON" $rep_data/phase_1_trace_4326.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
 # exports supplémentaires
-rm data/phase_1_pk_auto.xlsx
-ogr2ogr -f "XLSX" data/phase_1_pk_auto.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
-
-echo "  fait"
-echo ""
-echo "  upload"
-echo ""
-
-# upload
-rsync -av -z data/phase_1_pk_auto.geojson data/phase_1_trace_4326.geojson data/phase_1_pk_auto.xlsx  breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
+rm $rep_data/phase_1_pk_auto.xlsx
+ogr2ogr -f "XLSX" $rep_data/phase_1_pk_auto.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
 
 echo "  fait"
 echo ""

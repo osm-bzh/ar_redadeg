@@ -32,10 +32,10 @@ INSERT INTO phase_1_trace_4326
 
 
 
-TRUNCATE phase_1_pk_vip ;
-INSERT INTO phase_1_pk_vip
-  SELECT ogc_fid, name, '', ST_Transform(the_geom,2154) AS the_geom
-  FROM phase_1_pk_vip_3857 ;
+-- TRUNCATE phase_1_pk_vip ;
+-- INSERT INTO phase_1_pk_vip
+--   SELECT ogc_fid, name, '', ST_Transform(the_geom,2154) AS the_geom
+--   FROM phase_1_pk_vip_3857 ;
 
 
 
