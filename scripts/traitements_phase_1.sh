@@ -81,7 +81,7 @@ echo ""
 # et on exporte vers Geojson
 rm -f $rep_data/phase_1_pk_auto.geojson
 ogr2ogr -f "GeoJSON" $rep_data/phase_1_pk_auto.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
-rm $rep_data/phase_1_trace_4326.geojson
+rm -f $rep_data/phase_1_trace_4326.geojson
 ogr2ogr -f "GeoJSON" $rep_data/phase_1_trace_4326.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
