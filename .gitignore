@@ -9,6 +9,11 @@
 
 data/2020_/
 
+data/2021/phase_1_*.geojson
+
+data/2022/phase_1_*.geojson
+
+
 pg_backup/
 
 scripts/test.bash
