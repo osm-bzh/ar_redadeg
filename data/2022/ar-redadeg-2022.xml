@@ -28,8 +28,16 @@
             thumbgallery="img/basemap/osm.png" 
             url="https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png" maxzoom="20" 
             visible="false" />
+        <baselayer
+            type="WMTS" id="ortho" label="Ortophotographie" title="Photographie aérienne composite" attribution="GéoBretagne et ses partenaires"
+            thumbgallery="img/basemap/osm.png" 
+            url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
+            layers="satellite" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="false" />
     </baselayers>
+
     <proxy url=""/>
+
     <olscompletion url="http://api-adresse.data.gouv.fr/search/" type="ban"/>
     <searchparameters bbox="false" localities="true" features="false" />   
 
