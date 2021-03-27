@@ -20,6 +20,9 @@ scripts/test.bash
 scripts/temp.sql
 scripts/notes.txt
 
+api/venv/
+api/__pycache__/
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++
 
