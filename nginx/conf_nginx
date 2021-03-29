@@ -1,0 +1,44 @@
+
+#-----------------------------------------------------------------------
+#               ar-redadeg.openstreetmap.bzh
+#-----------------------------------------------------------------------
+
+server {
+
+    server_name  ar-redadeg.openstreetmap.bzh;
+
+    access_log   /var/log/nginx/bzh_openstreetmap_ar_redadeg_access.log combined;
+    error_log    /var/log/nginx/bzh_openstreetmap_ar_redadeg_error.log;
+
+    # global
+    autoindex on;
+    index index.html;
+
+    location / {
+        root /data/projets/ar_redadeg/www/;
+    }
+
+    location /mviewer/ {
+        alias /data/projets/mviewer/;
+    }
+
+    location ~/2021/(.*)$ {
+        alias /data/projets/ar_redadeg/data/2021/$1 ;
+    }
+
+    location ~/2022/(.*)$ {
+        alias /data/projets/ar_redadeg/data/2022/$1 ;
+    }
+
+
+    # geoserver reverse proxy vers tomcat
+    location /geoserver/  {
+        proxy_pass http://localhost:8080/geoserver/;
+        proxy_ignore_client_abort on;
+    }
+
+    location /mviewer/ {
+        alias /data/projets/mviewer/;
+    }
+
+}
