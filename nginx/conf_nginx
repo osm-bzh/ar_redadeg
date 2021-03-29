@@ -18,10 +18,6 @@ server {
         root /data/projets/ar_redadeg/www/;
     }
 
-    location /mviewer/ {
-        alias /data/projets/mviewer/;
-    }
-
     location ~/2021/(.*)$ {
         alias /data/projets/ar_redadeg/data/2021/$1 ;
     }
