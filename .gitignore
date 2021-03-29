@@ -22,7 +22,10 @@ scripts/notes.txt
 
 api/venv/
 api/__pycache__/
-
+api1/venv/
+api1/__pycache__/
+api2/venv/
+api2/__pycache__/
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++
 
