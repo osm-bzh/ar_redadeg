@@ -44,10 +44,10 @@ Faire `ctrl + C` pour arrêter.
 
 On utilise les fichiers wsgi.py et hello.ini
 
-On teste si uWSGI et le socket fonctionne :
+On teste si uWSGI et le socket fonctionne en utilisant le fichier de configuration :
 
 ```bash
-uwsgi -s /tmp/hello.sock --manage-script-name --mount /hello=wsgi:app --chmod-socket=666 --master
+uwsgi --ini hello.ini
 ```
 
 
