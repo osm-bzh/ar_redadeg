@@ -3,6 +3,12 @@
 
 from flask import Flask
 
+import subprocess
+from subprocess import Popen, PIPE
+from subprocess import check_output
+
+
+
 
 app = Flask(__name__)
 
@@ -11,6 +17,13 @@ app = Flask(__name__)
 def index():
   return "<h1 style='color:blue'>Ar Redadeg API</h1>"
   pass
+
+
+@app.route("/test/")
+def test():
+  stdout = check_output(['./test.sh']).decode('utf-8')
+  return stdout
+
 
 @app.route("/about/")
 def about():
