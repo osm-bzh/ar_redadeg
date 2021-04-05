@@ -8,12 +8,14 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def hello():
-    return "<h1 style='color:blue'>Hello There!</h1>"
+def index():
+  return "<h1 style='color:blue'>Ar Redadeg API</h1>"
+  pass
 
 @app.route("/about/")
 def about():
-    return "This is a simple Flask Python application"
+  return "This is a simple Flask Python application"
+
 
 if __name__ == "__main__":
     app.debug = True

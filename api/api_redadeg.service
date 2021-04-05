@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve Ar Redadeg API
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/data/projets/ar_redadeg/api/
+Environment="PATH=/data/projets/ar_redadeg/api/venv/bin"
+ExecStart=/data/projets/ar_redadeg/api/venv/bin/uwsgi --ini api_redadeg.ini
+
+[Install]
+WantedBy=multi-user.target
