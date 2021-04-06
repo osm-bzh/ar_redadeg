@@ -27,7 +27,7 @@ def test():
 
 @app.route("/phase1/")
 def phase1():
-  stdout = check_output(['../scripts/traitements_phase_1.sh']).decode('utf-8')
+  stdout = check_output(['/data/projets/ar_redadeg/scripts/traitements_phase_1.sh 2022']).decode('utf-8')
   return stdout
 
 
