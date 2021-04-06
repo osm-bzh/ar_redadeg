@@ -26,7 +26,7 @@ echo "  Récupération des fichiers geojson depuis umap"
 # traitement des tracés manuels
 
 # on commence par supprimer la table
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_trace_3857 CASCADE;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_trace_3857 CASCADE;"
 #$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_pk_vip_3857;"
 echo ""
 
@@ -65,7 +65,7 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_1.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_1.sql
 
 echo "  fait"
 echo ""
