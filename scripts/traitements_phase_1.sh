@@ -12,7 +12,9 @@ DB_NAME=redadeg_$millesime
 DB_USER=redadeg
 DB_PASSWD=redadeg
 
-# varaibles liées au millésimes
+rep_scripts='/data/projets/ar_redadeg/scripts/'
+echo "rep_scripts = $rep_scripts"
+# variables liées au millésimes
 echo "millesime de travail = $1"
 rep_data=../data/$millesime
 echo "rep_data = $rep_data"
@@ -65,7 +67,7 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_1.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < $rep_scripts/traitements_phase_1.sql
 
 echo "  fait"
 echo ""
