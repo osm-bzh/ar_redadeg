@@ -103,16 +103,16 @@ Lancer et tester le service :
 
 ```bash
 # enable
-sudo systemctl enable api_hello
+sudo systemctl enable api_redadeg
 # start
-sudo systemctl start api_hello
+sudo systemctl start api_redadeg
 # check
-sudo systemctl status api_hello
+sudo systemctl status api_redadeg
 ```
 
 Faire ```ll /tmp/api_redadeg*``` pour voir si le socket a bien été créé par www-data.
 
-Tester si on obtient bien toujours un "Hello There" sur la page   http://localhost/hello/
+Tester si on obtient bien toujours un "Hello There" sur la page   https://ar-redadeg.openstreetmap.bzh/api/
 
 
 Si on veut supprimer le service :
