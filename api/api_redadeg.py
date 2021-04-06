@@ -25,6 +25,13 @@ def test():
   return stdout
 
 
+@app.route("/phase1/")
+def test():
+  stdout = check_output(['../scripts/traitements_phase_1.sh']).decode('utf-8')
+  return stdout
+
+
+
 @app.route("/about/")
 def about():
   return "This is a simple Flask Python application"
