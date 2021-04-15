@@ -1,27 +1,44 @@
 #!/bin/bash
 
+set -e
+set -u
+
+# argument 1 = millesime redadeg
+millesime=$1
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Création de la couche osm_roads"
 echo ""
 echo ""
 
+PSQL=/usr/bin/psql
 HOST_DB_redadeg=localhost
 HOST_DB_osm=localhost
+DB_REDADEG=redadeg_$millesime
+DB_OSM=osm
+DB_USER=redadeg
+DB_PASSWD=redadeg
 
-# suppose le le .pgpass est correctement configuré pour le compte qui lance ce script
+rep_scripts='/data/projets/ar_redadeg/scripts/'
+echo "rep_scripts = $rep_scripts"
+# variables liées au millésimes
+echo "millesime de travail = $1"
+rep_data=../data/$millesime
+echo "rep_data = $rep_data"
 
-
+echo ""
 echo "import phase_1_trace dans la base OSM"
 echo ""
 
 # 1. export du tracé phase 1 depuis la base redadeg
-pg_dump --file data/redadeg_trace.sql --host $HOST_DB_redadeg --username redadeg --no-password --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments --table public.phase_1_trace redadeg
+pg_dump --file $rep_data/redadeg_trace.sql --host $HOST_DB_redadeg --username $DB_USER --no-password \
+    --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces \
+    --no-unlogged-table-data --no-comments --table public.phase_1_trace $DB_REDADEG
 
 
 # 2. import dans la base OSM
-psql -h $HOST_DB_osm -U osmbr -d osm -c "DROP TABLE public.phase_1_trace;"
-psql -h $HOST_DB_osm -U osmbr -d osm < data/redadeg_trace.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS public.phase_1_trace;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM < $rep_data/redadeg_trace.sql
 
 echo ""
 echo "fait"
@@ -34,8 +51,8 @@ echo ">> calcul de la couche osm_roads"
 echo ""
 
 # on supprime puis on recrée la table
-psql -h $HOST_DB_osm -U osmbr -d osm -c "DROP TABLE IF EXISTS osm_roads ;"
-psql -h $HOST_DB_osm -U osmbr -d osm -c "
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS osm_roads ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "
 CREATE TABLE osm_roads
 (
   uid bigint NOT NULL,
@@ -58,7 +75,7 @@ echo ""
 echo "  chargement des données"
 echo ""
 
-psql -h $HOST_DB_osm -U osmbr -d osm -c "WITH trace_buffer AS (
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "WITH trace_buffer AS (
   SELECT
     secteur_id,
     ST_Union(ST_Buffer(the_geom, 25, 'quad_segs=2')) AS the_geom
@@ -99,13 +116,13 @@ echo ""
 echo "transfert de osm_roads depuis la base OSM vers la base redadeg"
 echo ""
 
-pg_dump --file data/osm_roads.sql --host $HOST_DB_osm --username osmbr --no-password \
+pg_dump --file $rep_data/osm_roads.sql --host $HOST_DB_osm --username $DB_USER --no-password \
 --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
---table public.osm_roads osm
+--table public.osm_roads $DB_OSM
 
 # 5. import dans la base redadeg
-psql -h $HOST_DB_redadeg -U redadeg -d redadeg -c "DROP TABLE IF EXISTS public.osm_roads;"
-psql -h $HOST_DB_redadeg -U redadeg -d redadeg < data/osm_roads.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG -c "DROP TABLE IF EXISTS public.osm_roads;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG < $rep_data/osm_roads.sql
 
 echo ""
 echo "fait"
