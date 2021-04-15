@@ -19,6 +19,7 @@ pg_backup/
 scripts/test.bash
 scripts/temp.sql
 scripts/notes.txt
+scripts/venv/
 
 api/venv/
 api/__pycache__/
