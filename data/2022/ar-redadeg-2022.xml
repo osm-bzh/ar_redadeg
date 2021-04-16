@@ -47,7 +47,7 @@
                 id="phase_1_pk_auto"
                 name="PK automatique"
                 visible="true"
-                url="https://ar-redadeg.openstreetmap.bzh/geoserver/wms"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
                 tiled="false"
                 searchable="false"
@@ -58,7 +58,18 @@
                 id="phase_1_trace_troncons"
                 name="tracé non recalé"
                 visible="true"
-                url="https://ar-redadeg.openstreetmap.bzh/geoserver/wms"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
+            <layer
+                id="osm_roads_pgr"
+                name="filaire de voirie support"
+                visible="false"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
                 tiled="false"
                 searchable="false"
