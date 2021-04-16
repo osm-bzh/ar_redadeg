@@ -1,13 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
+# exit dès que qqch se passe mal
+#set -e
+# ?
+set -u
 
 # utiliser un compte SUPERUSER pour exécuter ce script
 
-millesime=2022
+# argument 1 = millesime redadeg
+millesime=$1
 
 PSQL=/usr/bin/psql
 DB_HOST=localhost
 DB_NAME=redadeg_$millesime
+
+
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Création de la base de données $DB_NAME"
+echo ""
+echo ""
 
 
 echo "La base de données $DB_NAME va être supprimée !!"
