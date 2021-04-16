@@ -18,7 +18,7 @@ Ceci afin d'avoir un tracé le plus précis possible par rapport aux longueurs e
 Une machine sous linux ou OS X.
 
 Une base OpenStreetMap au format natif (osm2pgsql) nommée "osm".
-Voir [ce script](https://github.com/osm-bzh/osmbr-mapstyle/blob/master/scripts/update_db.sh) qui fait ça très bien. Attention : 18 Go de disque consommé pour grand ouest de la France.
+Voir [ce script](https://github.com/osm-bzh/osmbr-mapstyle/blob/master/scripts/update_db.sh) qui fait ça très bien. Attention : 18 Go de disque consommé pour le grand ouest de la France.
 
 Un serveur PostgreSQL 11 + PostGIS 2.5 + PGrouting 2.6
 
@@ -57,7 +57,7 @@ Utiliser le script suivant avec un compte linux qui dispose d'un rôle 'superuse
 
 [scripts/create_database.sh](scripts/create_database.sh)
 
-`./create_database.sh`
+`./create_database.sh {millesime}`
 
 Il va créer :
 * un compte (rôle) redadeg / redadeg
@@ -74,13 +74,14 @@ Note : l'extension postgis_topology crée forcément un schéma *topology* dans 
 
 `localhost:5432:redadeg:redadeg:redadeg`
 
+TODO : modification en cours des scripts pour utiliser les infos de connexion uniquement dans le script.
 
 
 ### Créer les tables
 
 On exécute ensuite le scripts SQL qui va créer toutes les tables
 
-`./create_tables.sh`
+`./create_tables.sh {millesime}`
 
 La table de référence des secteurs est remplie avec le script `update_infos_secteurs.sql`. Modifier appliquer ce script SQL si nécessaire.
 
@@ -98,7 +99,7 @@ Problème en cours (voir [#1](https://github.com/osm-bzh/ar_redadeg/issues/1)) :
 
 #### filaire de voies OSM
 
-`./create_osm_roads.sh`
+`./create_osm_roads.sh {millesime}`
 
 Opérations effectuées :
 * import du tracé phase 1 dans la base OSM
@@ -112,7 +113,7 @@ Mais les données brutes OSM ne sont pas structurées pour pouvoir calculer un i
 
 #### filaire de voies OSM routable
 
-`./create_osm_roads_pgr.sh`
+`./create_osm_roads_pgr.sh {millesime}`
 
 Opérations effectuées :
 * création d'une topologie à partir de la couche osm_roads. Le résultat est un schéma osm_roads_topo qui contient des tables / couches qui constituent un graphe planaire.
@@ -123,6 +124,7 @@ On a ici juste créé ce qu'il faut pour disposer d'une topologie. Il faut maint
 Opérations effectuées :
 * calcul du graphe topologique
 * mise à jour de la couche osm_roads_pgr qui sert au routage / au calcul d'itinéraire
+
 
 #### Patch manuel du filaire de voies
 
@@ -141,13 +143,13 @@ Ce script va :
 #### Automatisation
 
 Si besoin de mettre à jour les données depuis une base OSM fraîche, jouer :
-* `./create_osm_roads.sh`
-* `./update_osm_roads_pgr.sh`
+* `./create_osm_roads.sh {millesime}`
+* `./update_osm_roads_pgr.sh {millesime}`
 * `psql -h localhost -U redadeg -d redadeg < patch_osm_roads_pgr.sql`
 
 
 Si juste besoin de recalculer un itinéraire si les données Redadeg phase 1 ou 2 changent dans la zone tampon des 25 m existante, jouer seulement :
-* `./update_osm_roads_pgr.sh`
+* `./update_osm_roads_pgr.sh {millesime}`
 
 
 
@@ -163,7 +165,7 @@ import depuis umap -> traitements -> export vers umap (ou autres)
 
 ### Phase 1
 
-`./traitements_phase_1.sh`
+`./traitements_phase_1.sh {millesime}`
 
 * chargement des données depuis la [carte umap phase 1](http://umap.openstreetmap.fr/fr/map/ar_redadeg_2020_phase_1_274091) dans les tables :
 	* `phase_1_trace_3857`
