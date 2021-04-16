@@ -3,10 +3,14 @@
 set -e
 set -u
 
+# argument 1 = millesime redadeg
+millesime=$1
+
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
+DB_PASSWD=redadeg
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
