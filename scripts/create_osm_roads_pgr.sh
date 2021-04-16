@@ -3,10 +3,14 @@
 set -e
 set -u
 
+# argument 1 = millesime redadeg
+millesime=$1
+
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
+DB_PASSWD=redadeg
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -19,7 +23,7 @@ echo ""
 
 echo ">> suppression de la topologie existante"
 echo ""
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;"
+$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;" || true
 echo ""
 
 # création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
