@@ -37,8 +37,9 @@ pg_dump --file $rep_data/redadeg_trace.sql --host $HOST_DB_redadeg --username $D
 
 
 # 2. import dans la base OSM
-PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS public.phase_1_trace;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS phase_1_trace_$millesime ;"
 PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM < $rep_data/redadeg_trace.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "ALTER TABLE phase_1_trace RENAME TO phase_1_trace_$millesime ;"
 
 echo ""
 echo "fait"
@@ -51,9 +52,9 @@ echo ">> calcul de la couche osm_roads"
 echo ""
 
 # on supprime puis on recrée la table
-PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS osm_roads ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "DROP TABLE IF EXISTS osm_roads_$millesime ;"
 PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "
-CREATE TABLE osm_roads
+CREATE TABLE osm_roads_$millesime
 (
   uid bigint NOT NULL,
   osm_id bigint,
@@ -70,7 +71,7 @@ CREATE TABLE osm_roads
 );"
 
 echo ""
-echo "  table osm_roads créée"
+echo "  table osm_roads_$millesime créée"
 echo ""
 echo "  chargement des données"
 echo ""
@@ -79,11 +80,11 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_osm -U $DB_USER -d $DB_OSM -c "WITH trac
   SELECT
     secteur_id,
     ST_Union(ST_Buffer(the_geom, 25, 'quad_segs=2')) AS the_geom
-  FROM phase_1_trace
+  FROM phase_1_trace_$millesime
   GROUP BY secteur_id
   ORDER BY secteur_id
 )
-INSERT INTO osm_roads
+INSERT INTO osm_roads_$millesime
 (
   SELECT
     row_number() over() as id,
@@ -113,16 +114,17 @@ echo ""
 
 # 4. export de osm_roads depuis la base OSM
 
-echo "transfert de osm_roads depuis la base OSM vers la base redadeg"
+echo "transfert de osm_roads_$millesime depuis la base OSM vers la base redadeg"
 echo ""
 
 pg_dump --file $rep_data/osm_roads.sql --host $HOST_DB_osm --username $DB_USER --no-password \
 --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
---table public.osm_roads $DB_OSM
+--table osm_roads_$millesime $DB_OSM
 
 # 5. import dans la base redadeg
-PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG -c "DROP TABLE IF EXISTS public.osm_roads;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG -c "DROP TABLE IF EXISTS osm_roads;"
 PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG < $rep_data/osm_roads.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG -c "ALTER TABLE osm_roads_$millesime RENAME TO osm_roads ;"
 
 echo ""
 echo "fait"
