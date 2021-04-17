@@ -1,11 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-millesime=2022
+set -e
+set -u
+
+# argument 1 = millesime redadeg
+millesime=$1
 
 PSQL=/usr/bin/psql
 DB_HOST=localhost
 DB_NAME=redadeg_$millesime
+DB_USER=redadeg
+DB_PASSWD=redadeg
 
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Création des tables dans la base de données $DB_NAME"
+echo ""
+echo ""
 
 # suppression d'abord
 psql -h $DB_HOST -U redadeg -d $DB_NAME < drop_tables.sql
