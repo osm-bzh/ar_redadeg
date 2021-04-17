@@ -36,7 +36,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sq
 
 echo ""
 echo "  initialisation de la table de référence des secteurs pour le millésime"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < ../data/$millesime/update_infos_secteurs.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < $rep_data/update_infos_secteurs.sql
 
 
 echo ""

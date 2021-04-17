@@ -4,6 +4,7 @@
 # argument 1 passé au script = millesime redadeg
 millesime=$1
 
+rep_data=../data/$millesime
 
 # configuration des infos de connexions aux bases de données
 # >>>> pas besoin de mettre ces infos dans le .pgpass <<<<<
