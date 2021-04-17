@@ -1,14 +1,8 @@
 #! /bin/bash
 
 
-# exit dès que qqch se passe mal
-set -e
-# sortir si "unbound variqble"
-#set -u
-
 # argument 1 passé au script = millesime redadeg
 millesime=$1
-
 
 
 # configuration des infos de connexions aux bases de données
