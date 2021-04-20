@@ -3,11 +3,24 @@
 set -e
 set -u
 
+# argument 1 = millesime redadeg
+millesime=$1
+
 PSQL=/usr/bin/psql
 DB_HOST=localhost
-DB_NAME=redadeg
+DB_PORT=5432
+DB_NAME=redadeg_$millesime
 DB_USER=redadeg
 DB_PASSWD=redadeg
+
+rep_scripts='/data/projets/ar_redadeg/scripts/'
+echo "rep_scripts = $rep_scripts"
+# variables liées au millésimes
+echo "millesime de travail = $1"
+rep_data=../data/$millesime
+echo "rep_data = $rep_data"
+echo "base de données = $DB_NAME"
+echo ""
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -18,13 +31,13 @@ echo "  Récupération des fichiers geojson depuis umap"
 
 # les couches PK
 # PK début - fin de secteur
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817220/ > data/phase_2_umap_pk_secteur.geojson
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817220/ > $rep_data/phase_2_umap_pk_secteur.geojson
 # PK techniques
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817221/ > data/phase_2_umap_pk_technique.geojson
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817221/ > $rep_data/phase_2_umap_pk_technique.geojson
 # PK manuels
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > data/phase_2_umap_pk_manuel.geojson
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/817222/ > $rep_data/phase_2_umap_pk_manuel.geojson
 # couche de points de nettoyage
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/861810/ > data/phase_2_umap_point_nettoyage.geojson
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/861810/ > $rep_data/phase_2_umap_point_nettoyage.geojson
 
 echo "  fait"
 echo ""
@@ -39,12 +52,12 @@ echo "  chargement des fichiers dans la BD"
 echo ""
 
 echo "phase_2_pk_secteur_3857"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
-ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" $rep_data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "phase_2_point_nettoyage_3857"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
-ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_2_umap_point_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" $rep_data/phase_2_umap_point_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 echo "  fait"
 echo ""
@@ -56,7 +69,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL 2.1"
 echo ""
 
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < traitements_phase_2.1.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < traitements_phase_2.1.sql
 
 echo "  fait"
 echo ""
@@ -75,13 +88,13 @@ echo ""
 
 # on commence par vider la table qui contiendra les calculs d'itinéraires
 echo "vidage de la couche de routage"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_2_trace_pgr ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "TRUNCATE TABLE phase_2_trace_pgr ;"
 echo "  fait"
 
 # ensuite : on supprime les tronçons ciblés par la couche de points de nettoyage
 # AVANT de calculer les itinéraires
 echo "nettoyage de la couche de routage par les points ciblés"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 WHERE id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
 echo "  fait"
 echo ""
 
@@ -96,8 +109,7 @@ longueur_totale=0
 longueur_inseree=0
 
 
-
-$PSQL -X -h $DB_HOST -U $DB_USER $DB_NAME \
+PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME \
     -c "SELECT pk.id, s.id AS secteur_id, replace(s.nom_fr,' ','') AS nom_fr, replace(s.nom_br,' ','') AS nom_br, pk.pgr_node_id, replace(pk.name,' ','_') AS name 
 FROM phase_2_pk_secteur pk JOIN secteur s ON pk.secteur_id = s.id
 ORDER BY pk.id ;" \
@@ -130,7 +142,7 @@ ORDER BY pk.id ;" \
 
     # on fait une requête pour récupérer l'id du nœud de routage de fin
     # ce nœud = le PK de début du secteur suivant
-    read pk_id_end <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
+    read pk_id_end <<< $(PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --no-align -t --quiet \
       -c "SELECT pgr_node_id FROM phase_2_pk_secteur ORDER BY id OFFSET $counter LIMIT 1 ;" )
 
     echo "  end node = $pk_id_end"
@@ -141,7 +153,7 @@ ORDER BY pk.id ;" \
     then
         echo "  calcul de l'itinéraire"
 
-        $PSQL -h $DB_HOST -U $DB_USER -c \
+        PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
         "INSERT INTO phase_2_trace_pgr
         SELECT
           $secteur_id AS secteur_id,
@@ -172,7 +184,7 @@ ORDER BY pk.id ;" \
 
         # on fait une requête pour voir la longueur insérée
         # en fait : la longueur totale - la longueur totale lors du précédent calcul
-        read longueur_base <<< $($PSQL -h $DB_HOST -U $DB_USER --no-align -t --quiet \
+        read longueur_base <<< $(PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --no-align -t --quiet \
           -c "SELECT trunc(SUM(ST_Length(the_geom))/1000) as longueur_totale FROM phase_2_trace_pgr ;" )
         longueur_inseree=$(($longueur_base-$longueur_totale))
         longueur_totale=$longueur_base
@@ -214,7 +226,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Application des traitements SQL 2.2"
 echo ""
 
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < traitements_phase_2.2.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < traitements_phase_2.2.sql
 
 
 
@@ -229,12 +241,12 @@ echo ""
 echo "  exports geojson"
 echo ""
 
-rm data/phase_2_pk_secteur.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_pk_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_pk_secteur_4326
-rm data/phase_2_trace_pgr.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_trace_pgr.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_pgr_4326
-rm data/phase_2_trace_secteur.geojson
-ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_secteur_4326
+rm -f $rep_data/phase_2_pk_secteur.geojson
+ogr2ogr -f "GeoJSON" $rep_data/phase_2_pk_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_pk_secteur_4326
+rm -f $rep_data/phase_2_trace_pgr.geojson
+ogr2ogr -f "GeoJSON" $rep_data/phase_2_trace_pgr.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_pgr_4326
+rm -f $rep_data/phase_2_trace_secteur.geojson
+ogr2ogr -f "GeoJSON" $rep_data/phase_2_trace_secteur.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_secteur_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
 
@@ -242,21 +254,14 @@ ogr2ogr -f "GeoJSON" data/phase_2_trace_secteur.geojson PG:"host=$DB_HOST user=$
 echo "  exports supplémentaires"
 echo ""
 
-rm data/phase_2_tdb.xlsx
-ogr2ogr -f "XLSX" data/phase_2_tdb.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
-rm data/phase_2_tdb.csv
-ogr2ogr -f "CSV" data/phase_2_tdb.csv PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
+rm -f $rep_data/phase_2_tdb.xlsx
+ogr2ogr -f "XLSX" $rep_data/phase_2_tdb.xlsx PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
+rm -f $rep_data/phase_2_tdb.csv
+ogr2ogr -f "CSV" $rep_data/phase_2_tdb.csv PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_tdb
 
 echo "  fait"
 echo ""
-echo "  upload"
-echo ""
 
-# upload
-rsync -av -z data/phase_2_pk_secteur.geojson data/phase_2_trace_pgr.geojson data/phase_2_trace_secteur.geojson data/phase_2_tdb.xlsx data/phase_2_tdb.csv breizhpovh2:/data/www/vhosts/ar-redadeg_openstreetmap_bzh/htdocs/scripts/data/
-
-echo "  fait"
-echo ""
 
 echo ""
 echo ""
