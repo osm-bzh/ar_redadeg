@@ -31,9 +31,10 @@ echo "import phase_1_trace dans la base OSM"
 echo ""
 
 # 1. export du tracé phase 1 depuis la base redadeg
-pg_dump --file $rep_data/redadeg_trace.sql --host $HOST_DB_redadeg --username $DB_USER --no-password \
-    --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces \
-    --no-unlogged-table-data --no-comments --table public.phase_1_trace $DB_REDADEG
+pg_dump --dbname=postgresql://$DB_USER:$DB_PASSWD@$HOST_DB_redadeg/$DB_NAME \
+    --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
+    --table phase_1_trace $DB_REDADEG \
+    --file $rep_data/redadeg_trace.sql
 
 
 # 2. import dans la base OSM
@@ -117,9 +118,10 @@ echo ""
 echo "transfert de osm_roads_$millesime depuis la base OSM vers la base redadeg"
 echo ""
 
-pg_dump --file $rep_data/osm_roads.sql --host $HOST_DB_osm --username $DB_USER --no-password \
---format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
---table osm_roads_$millesime $DB_OSM
+pg_dump --dbname=postgresql://$osmDBUser:$osmDBPassword@$osmDBHost/$osmDBName \
+    --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
+    --table osm_roads_$millesime $DB_OSM \
+    --file $rep_data/osm_roads.sql
 
 # 5. import dans la base redadeg
 PGPASSWORD=$DB_PASSWD $PSQL -h $HOST_DB_redadeg -U $DB_USER -d $DB_REDADEG -c "DROP TABLE IF EXISTS osm_roads;"
