@@ -22,18 +22,18 @@ echo ""
 # la couche osm_roads vient d'être mise à jour ou recrée
 
 # on efface la topologie existante
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;"
 
 # création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT topology.CreateTopology('osm_roads_topo', 2154);"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT topology.CreateTopology('osm_roads_topo', 2154);"
 
 # ajout d'un nouvel attribut sur la table osm_roads
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');"
 
 
 # on a besoin du layer_id
 # au cas où ça change : on le récupère par requête
-$PSQL -X -h $DB_HOST -U $DB_USER -d $DB_NAME \
+PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -U $DB_USER -d $DB_NAME \
     -c "SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads' ;" \
     --single-transaction \
     --set AUTOCOMMIT=off \
@@ -60,13 +60,13 @@ layer_id=1
 # le 1er chiffre est l'identifiant du layer dans la table topology.layer
 # le 2e chiffre est la tolérance en mètres
 echo ">> calcul du graphe topologique"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', $layer_id, 0.00001);"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME -c "UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', $layer_id, 0.00001);"
 echo ""
 echo "fait"
 echo ""
 
 echo ">> maj de la couche osm_roads_pgr qui sert au routage depuis la topologie"
-$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < update_osm_roads_pgr.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < update_osm_roads_pgr.sql
 
 #echo ">> patch de la couche osm_roads_pgr pour les cas particuliers"
 #$PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
