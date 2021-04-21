@@ -70,7 +70,7 @@ CREATE TABLE osm_roads_$millesime
 echo ""
 echo "  table osm_roads_$millesime créée"
 echo ""
-echo "  chargement des données"
+echo "  extraction du filaire de voies OSM le long du tracé fourni"
 echo ""
 
 PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "WITH trace_buffer AS (
