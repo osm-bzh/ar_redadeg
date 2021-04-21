@@ -25,7 +25,7 @@ echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Récupération des fichiers geojson depuis umap"
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME  < patch_osm_roads_pgr.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -U $DB_USER -d $DB_NAME < patch_osm_roads_pgr.sql
 
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
