@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application
+        title="Ar Redadeg 2021"
+        mouseposition="false"
+        logo=""
+        help="mviewer_help.html"
+        measuretools="true"
+        exportpng="true"
+        style="css/themes/wet_asphalt.css"
+        togglealllayersfromtheme="true"/>
+
+    <mapoptions
+        projection="EPSG:3857"
+        maxzoom="19"
+        center="-220750.13768758904,6144925.57790189"
+        zoom="8"
+        projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+  
+    <baselayers style="default"><!-- style="default"||gallery" -->
+        
+        <baselayer
+            type="WMTS" id="ign" label="Cartes IGN" title="Cartes IGN" attribution="IGN via GéoBretagne"
+            thumbgallery="img/basemap/scan.jpg" 
+            url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
+            layers="carte" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="true" />
+
+
+        <baselayer
+            type="OSM" id="osm-br" label="OSM e brezhoneg" title="OSM e brezhoneg" attribution="OpenStreetMap e brezhoneg" 
+            thumbgallery="img/basemap/osm.png" 
+            url="https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png" maxzoom="20" 
+            visible="false" />
+        <baselayer
+            type="OSM" id="osm-fr" label="OSM FR" title="OSM FR" attribution="OpenStreetMap France"
+            thumbgallery="img/basemap/osm.png" 
+            url="https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png" maxzoom="20" 
+            visible="false" />
+        <baselayer
+            type="WMTS" id="ortho" label="Ortophotographie" title="Photographie aérienne composite" attribution="GéoBretagne et ses partenaires"
+            thumbgallery="img/basemap/osm.png" 
+            url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
+            layers="satellite" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="false" />
+    </baselayers>
+
+    <proxy url=""/>
+
+    <olscompletion url="http://api-adresse.data.gouv.fr/search/" type="ban"/>
+    <searchparameters bbox="false" localities="true" features="false" />   
+
+    <themes>
+        <theme name="Tracé Ar Redadeg 2021" collapsed="false" id="phase_3" icon="">
+            <layer
+                id="phase_3_trace_troncons"
+                name="tracé découpé par km redadeg"
+                visible="true"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2021/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
+        </theme>
+    </themes>
+</config>

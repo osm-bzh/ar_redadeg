@@ -1,0 +1,2094 @@
+﻿dpt,insee,nom,pk_id,voie_ref,voie_nom
+29,29024,Carhaix-Plouguer,13,C3,Route de Pont Daoulaz
+29,29024,Carhaix-Plouguer,14,C3,Route de Pont Daoulaz
+29,29024,Carhaix-Plouguer,15,C3,Route de Pont Daoulaz
+29,29152,Motreff,16,,(voie non dénommée)
+29,29152,Motreff,17,,(voie non dénommée)
+29,29152,Motreff,18,,(voie non dénommée)
+22,22202,Plévin,19,,(voie non dénommée)
+29,29152,Motreff,20,,(voie non dénommée)
+29,29152,Motreff,21,,Route de l'Étang
+29,29152,Motreff,22,,Route de l'Étang
+29,29152,Motreff,23,,Route de la Pierre Bleue
+29,29152,Motreff,24,,Route de Tréogan
+29,29152,Motreff,25,,Route de Tréogan
+29,29152,Motreff,26,,(voie non dénommée)
+29,29152,Motreff,27,D 3,Route de Gourin
+22,22373,Tréogan,28,D 3,D 3
+22,22373,Tréogan,29,D 3,D 3
+22,22373,Tréogan,30,D 3,D 3
+56,56066,Gourin,31,D 302,D 302
+56,56066,Gourin,32,D 769,D 769
+56,56066,Gourin,33,,Pont Saint-Hervé
+56,56066,Gourin,34,,Rue Principale de Guernéac'h
+56,56066,Gourin,35,,Rue Principale de Guernéac'h
+56,56066,Gourin,36,D 27 A,Rue de Carhaix
+56,56066,Gourin,37,D 27 A,Rue de Carhaix
+56,56066,Gourin,38,D 27 A,Rue de Carhaix
+56,56066,Gourin,39,D 1E,Rue de la Libération
+56,56066,Gourin,40,D 1E,Rue de la Libération
+56,56066,Gourin,41,D 1,D 1
+56,56066,Gourin,42,D 1,D 1
+56,56066,Gourin,43,D 128,D 128
+56,56066,Gourin,44,D 128,D 128
+56,56201,Le Saint,45,D 128,D 128
+56,56201,Le Saint,46,D 128,D 128
+56,56201,Le Saint,47,D 128,D 128
+56,56100,Langonnet,48,D 128,D 128
+56,56100,Langonnet,49,D 128,D 128
+56,56100,Langonnet,50,D 128,D 128
+56,56100,Langonnet,51,D 121,Rue Charles Michel
+56,56100,Langonnet,52,D 121,Route du Faouët
+56,56100,Langonnet,53,D 121,Route du Faouët
+56,56100,Langonnet,54,D 121,Rue de Saint-Maur
+56,56100,Langonnet,55,D 121,Rue de Saint-Maur
+56,56057,Le Faouët,56,D 121,Rue de Saint-Maur
+56,56057,Le Faouët,57,D 790,Route de Rostrenen
+56,56057,Le Faouët,58,D 790,Route de Rostrenen
+56,56057,Le Faouët,59,D 790,Route de Rostrenen
+56,56057,Le Faouët,60,D 790,Route de Gourin
+56,56057,Le Faouët,61,D 790,Rue de Portz en Haie
+56,56057,Le Faouët,62,D 790A,Rue des Cendres
+56,56057,Le Faouët,63,,Rue de l'Ellé
+56,56057,Le Faouët,64,,Rue de l'Ellé
+56,56182,Priziac,65,D 132,Route du Faouët
+56,56182,Priziac,66,D 132,Route du Faouët
+56,56182,Priziac,67,D 132,Route du Faouët
+56,56182,Priziac,68,D 132,Route du Faouët
+56,56182,Priziac,69,D 132,Route du Faouët
+56,56182,Priziac,70,D 132,Route du Faouët
+56,56182,Priziac,71,D 132,Rue du Midi
+56,56182,Priziac,72,D 132,Rue de Beg-Er-Lann
+56,56182,Priziac,73,D 132,D 132
+56,56048,Le Croisty,74,D 132,D 132
+56,56048,Le Croisty,75,D 132,D 132
+56,56048,Le Croisty,76,D 132,D 132
+56,56048,Le Croisty,77,D 110,Rue de la Résistance
+56,56048,Le Croisty,78,D 110,D 110
+56,56048,Le Croisty,79,D 110,D 110
+56,56048,Le Croisty,80,D 110,D 110
+56,56238,Saint-Tugdual,81,D 110,D 110
+56,56238,Saint-Tugdual,82,D 110,D 110
+56,56238,Saint-Tugdual,83,,Rue du Fournil
+56,56238,Saint-Tugdual,84,,(voie non dénommée)
+56,56163,Ploërdut,85,,(voie non dénommée)
+56,56163,Ploërdut,86,,(voie non dénommée)
+56,56163,Ploërdut,87,C 3,C 3
+56,56163,Ploërdut,88,C 3,C 3
+56,56163,Ploërdut,89,C 3,C 3
+56,56163,Ploërdut,90,C 3,C 3
+56,56163,Ploërdut,91,C 3,C 3
+56,56163,Ploërdut,92,C 3,C 3
+56,56163,Ploërdut,93,C 1,C 1
+22,22146,Mellionnec,94,C 1,C 1
+22,22146,Mellionnec,95,C 1,C 1
+22,22146,Mellionnec,96,D 76,D 76
+22,22146,Mellionnec,97,D 23,D 23
+22,22266,Rostrenen,98,D 23,D 23
+22,22266,Rostrenen,99,D 23,D 23
+22,22266,Rostrenen,100,D 23,D 23
+22,22266,Rostrenen,101,,(voie non dénommée)
+22,22266,Rostrenen,102,,(voie non dénommée)
+22,22266,Rostrenen,103,,(voie non dénommée)
+22,22266,Rostrenen,104,,(voie non dénommée)
+22,22266,Rostrenen,105,,Rue du Château Brûlé
+22,22266,Rostrenen,106,D 31,Place de la République
+22,22266,Rostrenen,107,D 31,Rue Marcel Sanguy
+22,22266,Rostrenen,108,D 31,Route de Kergrist
+22,22266,Rostrenen,109,D 31,Route de Kergrist
+22,22087,Kergrist-Moëlou,110,D 31,Route de Rostrenen
+22,22087,Kergrist-Moëlou,111,D 31,Route de Rostrenen
+22,22087,Kergrist-Moëlou,112,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,113,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,114,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,115,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,116,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,117,,(voie non dénommée)
+22,22087,Kergrist-Moëlou,118,,(voie non dénommée)
+22,22137,Maël-Carhaix,119,,(voie non dénommée)
+22,22137,Maël-Carhaix,120,,(voie non dénommée)
+22,22137,Maël-Carhaix,121,,(voie non dénommée)
+22,22137,Maël-Carhaix,122,,(voie non dénommée)
+22,22128,Locarn,123,,(voie non dénommée)
+22,22128,Locarn,124,,(voie non dénommée)
+22,22128,Locarn,125,,(voie non dénommée)
+22,22128,Locarn,126,D 20,Route du Guellec
+22,22128,Locarn,127,D 20,Route du Guellec
+22,22320,Saint-Nicodème,128,D 20,Route du Guellec
+22,22320,Saint-Nicodème,129,D 20,Route du Guellec
+22,22320,Saint-Nicodème,130,D 20,Straed Ar 19 a Viz Ebrel 1869
+22,22320,Saint-Nicodème,131,D 20,D 20
+22,22169,Peumerit-Quintin,132,D 20,D 20
+22,22169,Peumerit-Quintin,133,D 20,D 20
+22,22169,Peumerit-Quintin,134,D 20,D 20
+22,22138,Maël-Pestivien,135,D 20,D 20
+22,22138,Maël-Pestivien,136,,(voie non dénommée)
+22,22138,Maël-Pestivien,137,,(voie non dénommée)
+22,22138,Maël-Pestivien,138,,(voie non dénommée)
+22,22138,Maël-Pestivien,139,,(voie non dénommée)
+22,22138,Maël-Pestivien,140,,(voie non dénommée)
+22,22138,Maël-Pestivien,141,,(voie non dénommée)
+22,22023,Bulat-Pestivien,142,D 50,D 50
+22,22023,Bulat-Pestivien,143,D 50,D 50
+22,22023,Bulat-Pestivien,144,D 50,D 50
+22,22023,Bulat-Pestivien,145,D 50,Hent ar Bleuniou
+22,22023,Bulat-Pestivien,146,D 31,D 31
+22,22023,Bulat-Pestivien,147,D 31,D 31
+22,22023,Bulat-Pestivien,148,D 31,D 31
+22,22328,Saint-Servais,149,D 31,D 31
+22,22328,Saint-Servais,150,,(voie non dénommée)
+22,22328,Saint-Servais,151,,(voie non dénommée)
+22,22328,Saint-Servais,152,,(voie non dénommée)
+22,22328,Saint-Servais,153,,(voie non dénommée)
+22,22025,Callac,154,,(voie non dénommée)
+22,22025,Callac,155,,(voie non dénommée)
+22,22025,Callac,156,,Rue de la Gare
+22,22025,Callac,157,D 11,Rue de l'Allée
+22,22025,Callac,158,D 125,D 125
+22,22025,Callac,159,D 125,D 125
+22,22025,Callac,160,D 125,D 125
+22,22025,Callac,161,D 125,D 125
+22,22025,Callac,162,D 125,D 125
+22,22025,Callac,163,D 125,D 125
+22,22037,La Chapelle-Neuve,164,D 54 bis,D 54 bis
+22,22037,La Chapelle-Neuve,165,D 54,D 54
+22,22037,La Chapelle-Neuve,166,D 54,Hent An Dachenn Sport
+22,22037,La Chapelle-Neuve,167,D 54,D 54
+22,22037,La Chapelle-Neuve,168,D 54,D 54
+22,22216,Plougonver,169,D 54,D 54
+22,22216,Plougonver,170,D 54,D 54
+22,22216,Plougonver,171,D 33,D 33
+22,22216,Plougonver,172,,(voie non dénommée)
+22,22216,Plougonver,173,D 50,D 50
+22,22216,Plougonver,174,D 50,D 50
+22,22216,Plougonver,175,D 50,D 50
+22,22216,Plougonver,176,D 50,D 50
+22,22216,Plougonver,177,D 50,D 50
+22,22131,Loguivy-Plougras,178,D 50,D 50
+22,22131,Loguivy-Plougras,179,D 50,D 50
+22,22131,Loguivy-Plougras,180,D 50,D 50
+22,22131,Loguivy-Plougras,181,D 50,D 50
+22,22131,Loguivy-Plougras,182,D 50,D 50
+22,22131,Loguivy-Plougras,183,D 50,D 50
+22,22131,Loguivy-Plougras,184,D 50,Route du Dresnay
+22,22131,Loguivy-Plougras,185,D 88,Route de Plounenvez-Moedec
+22,22131,Loguivy-Plougras,186,D 88,D 88
+22,22131,Loguivy-Plougras,187,D 88,D 88
+22,22228,Plounévez-Moëdec,188,D 88,D 88
+22,22228,Plounévez-Moëdec,189,D 88,D 88
+22,22228,Plounévez-Moëdec,190,,(voie non dénommée)
+22,22228,Plounévez-Moëdec,191,,Chemin du Milin Bastien
+22,22228,Plounévez-Moëdec,192,,Chemin du Milin Bastien
+22,22228,Plounévez-Moëdec,193,,Chemin du Milin Bastien
+22,22129,Loc-Envel,194,,Chemin du Milin Bastien
+22,22129,Loc-Envel,195,D 33b,Rue des Sabotiers
+22,22005,Belle-Isle-en-Terre,196,D 33b,Rue des Sabotiers
+22,22005,Belle-Isle-en-Terre,197,D 33b,Rue des Sabotiers
+22,22005,Belle-Isle-en-Terre,198,D 33b,Rue des Sabotiers
+22,22005,Belle-Isle-en-Terre,199,,Rue de Tourenebride
+22,22005,Belle-Isle-en-Terre,200,D 712,Rue du Guic
+22,22228,Plounévez-Moëdec,201,,(voie non dénommée)
+22,22228,Plounévez-Moëdec,202,,(voie non dénommée)
+22,22228,Plounévez-Moëdec,203,,(voie non dénommée)
+22,22228,Plounévez-Moëdec,204,,Mezo Corre
+22,22228,Plounévez-Moëdec,205,D 712,D 712
+22,22228,Plounévez-Moëdec,206,D 712,Rue Edouard Prigent
+22,22228,Plounévez-Moëdec,207,D 712,Rue Jean-Baptiste Le Corre
+22,22228,Plounévez-Moëdec,208,D 88,Rue Alexis Le Cuziat
+22,22228,Plounévez-Moëdec,209,D 88,D 88
+22,22228,Plounévez-Moëdec,210,D 88,D 88
+22,22228,Plounévez-Moëdec,211,,(voie non dénommée)
+22,22207,Plouaret,212,,(voie non dénommée)
+22,22207,Plouaret,213,,(voie non dénommée)
+22,22207,Plouaret,214,,(voie non dénommée)
+22,22207,Plouaret,215,,(voie non dénommée)
+22,22207,Plouaret,216,,(voie non dénommée)
+22,22207,Plouaret,217,D 11,Rue du Général de Gaulle
+22,22207,Plouaret,218,D 32,Rue de la Gare
+22,22207,Plouaret,219,D 32,Rue de la Gare
+22,22387,Le Vieux-Marché,220,D 32,Hent Tanguy Prigent
+22,22387,Le Vieux-Marché,221,D 32,Hent Gwazh Ar Stank
+22,22387,Le Vieux-Marché,222,D 32,Hent Bear
+22,22387,Le Vieux-Marché,223,D 32,D 32
+22,22387,Le Vieux-Marché,224,,(voie non dénommée)
+22,22359,Trégrom,225,,(voie non dénommée)
+22,22359,Trégrom,226,,(voie non dénommée)
+22,22359,Trégrom,227,,Hent Ar C'hra Gozh
+22,22359,Trégrom,228,D 33,D 33
+22,22359,Trégrom,229,D 32,D 32
+22,22359,Trégrom,230,D 32,D 32
+22,22245,Pluzunet,231,D 33,D 33
+22,22245,Pluzunet,232,D 33,D 33
+22,22245,Pluzunet,233,D 33,D 33
+22,22245,Pluzunet,234,D 33,Rue du 8 Mai 1945
+22,22245,Pluzunet,235,D 30,Rue Charles Le Goffic
+22,22245,Pluzunet,236,D 30,D 30
+22,22245,Pluzunet,237,D 30,D 30
+22,22340,Tonquédec,238,D 31,Grande Rue
+22,22340,Tonquédec,239,D 31,Grande Rue
+22,22340,Tonquédec,240,D 31,Grande Rue
+22,22340,Tonquédec,241,D 33A,Rue Pont ar Groas
+22,22340,Tonquédec,242,D 33A,Rue Pont ar Groas
+22,22034,Cavan,243,D 33A,Rue Pont ar Groas
+22,22034,Cavan,244,D 33A,Rue Pont ar Groas
+22,22034,Cavan,245,D 33A,Avenue du Général de Gaulle
+22,22034,Cavan,246,,Rue Tanguy Prigent
+22,22034,Cavan,247,,(voie non dénommée)
+22,22254,Prat,248,D 93,D 93
+22,22254,Prat,249,D 93,D 93
+22,22254,Prat,250,D 93,Route de Rugoasvin
+22,22254,Prat,251,D 74,Route de Pouloguer
+22,22004,Bégard,252,,(voie non dénommée)
+22,22041,Coatascorn,253,,(voie non dénommée)
+22,22041,Coatascorn,254,,(voie non dénommée)
+22,22041,Coatascorn,255,,(voie non dénommée)
+22,22041,Coatascorn,256,D 21B,D 21B
+22,22041,Coatascorn,257,D 21B,D 21B
+22,22269,Runan,258,D 21,D 21
+22,22269,Runan,259,D 21,D 21
+22,22269,Runan,260,D 21,D 21
+22,22269,Runan,261,D 8,D 8
+22,22204,Ploëzal,262,D 20,D 20
+22,22204,Ploëzal,263,D 20,D 20
+22,22204,Ploëzal,264,D 20,Rue de la Mairie
+22,22204,Ploëzal,265,D 37,Rue de l'Armor
+22,22204,Ploëzal,266,D 37,D 37
+22,22204,Ploëzal,267,D 37,D 37
+22,22204,Ploëzal,268,D 37,D 37
+22,22204,Ploëzal,269,D 787,D 787
+22,22204,Ploëzal,270,,(voie non dénommée)
+22,22196,Pleudaniel,271,D 787,D 787
+22,22196,Pleudaniel,272,D 787,D 787
+22,22196,Pleudaniel,273,D 787,D 787
+22,22196,Pleudaniel,274,D 787,D 787
+22,22196,Pleudaniel,275,D 787,D 787
+22,22196,Pleudaniel,276,D 787,Rue de la Poste
+22,22196,Pleudaniel,277,D 787,D 787
+22,22127,Lézardrieux,278,D 787,D 787
+22,22127,Lézardrieux,279,D 787,Rue de Kermarquer
+22,22127,Lézardrieux,280,,Rue de Traou an Dour
+22,22127,Lézardrieux,281,C 6,Route de Pleumeur-Gautier
+22,22127,Lézardrieux,282,C 6,Route de Pleumeur-Gautier
+22,22199,Pleumeur-Gautier,283,C 10,Route de Lézardrieux
+22,22199,Pleumeur-Gautier,284,C 10,Route de Lézardrieux
+22,22199,Pleumeur-Gautier,285,D 33,Rue des Quatre Vents
+22,22199,Pleumeur-Gautier,286,D 70,Route de Tréguier
+22,22199,Pleumeur-Gautier,287,,(voie non dénommée)
+22,22199,Pleumeur-Gautier,288,,(voie non dénommée)
+22,22199,Pleumeur-Gautier,289,,(voie non dénommée)
+22,22347,Trédarzec,290,,(voie non dénommée)
+22,22347,Trédarzec,291,D 786,D 786
+22,22347,Trédarzec,292,D 786,Rue de Traou Meur
+22,22347,Trédarzec,293,D 786,Rue de Traou Meur
+22,22362,Tréguier,294,,Rue Saint-André
+22,22362,Tréguier,295,D 8,Rue le Peltier
+22,22152,Minihy-Tréguier,296,D 8,D 8
+22,22152,Minihy-Tréguier,297,D 8,D 8
+22,22152,Minihy-Tréguier,298,D 8,D 8
+22,22152,Minihy-Tréguier,299,D 8,D 8
+22,22152,Minihy-Tréguier,300,D 8,D 8
+22,22264,La Roche-Jaudy,301,D 6,D 6
+22,22264,La Roche-Jaudy,302,D 33,Rue du Jouet
+22,22264,La Roche-Jaudy,303,D 33F,Rue Saint-Jean
+22,22101,Langoat,304,D 72,Route du Moulin de la Flèche
+22,22101,Langoat,305,D 74,D 74
+22,22101,Langoat,306,D 74,D 74
+22,22042,Coatréven,307,D 6,D 6
+22,22028,Camlez,308,,Route de Pont Losquet
+22,22028,Camlez,309,,Route de Pont Losquet
+22,22028,Camlez,310,,Route de Penvenan
+22,22028,Camlez,311,,(voie non dénommée)
+22,22166,Penvénan,312,,(voie non dénommée)
+22,22166,Penvénan,313,D 70,Route de Tréguier
+22,22166,Penvénan,314,D 70,Route de Tréguier
+22,22379,Trévou-Tréguignec,315,D 70,Rue de Tréguier
+22,22379,Trévou-Tréguignec,316,D 70,Rue de Tréguier
+22,22379,Trévou-Tréguignec,317,D 38,Rue de Trestel
+22,22379,Trévou-Tréguignec,318,D 38,Rue de Trestel
+22,22379,Trévou-Tréguignec,319,D 38,Rue de la Mairie
+22,22379,Trévou-Tréguignec,320,D 38,Rue de Pont Salaun
+22,22363,Trélévern,321,D 38,Rue de Kersivy Vraz
+22,22363,Trélévern,322,D 38,Rue de Kabatous
+22,22363,Trélévern,323,D 38,D 38
+22,22134,Louannec,324,D 38,Route de Trélévern
+22,22134,Louannec,325,D 38,Route de Trélévern
+22,22134,Louannec,326,D 6,Route de Tréguier
+22,22134,Louannec,327,D 6,Route de Tréguier
+22,22134,Louannec,328,D 6,Route de Perros
+22,22134,Louannec,329,D 6,Route de Perros
+22,22134,Louannec,330,D 6,Route de Perros
+22,22168,Perros-Guirec,331,D 788,Rue Ernest Renan
+22,22168,Perros-Guirec,332,D 788,Chaussée du Linkin
+22,22168,Perros-Guirec,333,D 788,Boulevard de la Mer
+22,22168,Perros-Guirec,334,D 788,Boulevard Clemenceau
+22,22168,Perros-Guirec,335,D 788,Boulevard Clemenceau
+22,22168,Perros-Guirec,336,,Rue des Frères Le Montréer
+22,22168,Perros-Guirec,337,,Rue de Kerabram
+22,22168,Perros-Guirec,338,,Route de Pleumeur-Bodou
+22,22168,Perros-Guirec,339,,Route de Pleumeur-Bodou
+22,22168,Perros-Guirec,340,,Route de Pleumeur-Bodou
+22,22198,Pleumeur-Bodou,341,D 6,Route de Perros-Guirec
+22,22198,Pleumeur-Bodou,342,D 11,D 11
+22,22198,Pleumeur-Bodou,343,D 11,D 11
+22,22113,Lannion,344,D 11,D 11
+22,22113,Lannion,345,D 11,Route de Trégastel
+22,22113,Lannion,346,,Rond-Point de l'Aéroport
+22,22113,Lannion,347,D 11,Avenue Pierre Marzin
+22,22113,Lannion,348,D 788,Avenue de la Résistance
+22,22113,Lannion,349,D 788,Avenue de la Résistance
+22,22113,Lannion,350,D 788,Avenue de la Résistance
+22,22113,Lannion,351,D 786,Quai d'Aiguillon
+22,22113,Lannion,352,D 786,Boulevard Louis Guilloux
+22,22113,Lannion,353,D 786,Boulevard Louis Guilloux
+22,22113,Lannion,354,D 786,Boulevard Louis Guilloux
+22,22113,Lannion,355,,(voie non dénommée)
+22,22113,Lannion,356,,(voie non dénommée)
+22,22113,Lannion,357,C 2,C 2
+22,22211,Ploubezre,358,C 2,Chemin de Coat Frec
+22,22211,Ploubezre,359,C 2,Chemin de Coat Frec
+22,22211,Ploubezre,360,C 2,Route de Buhulien
+22,22211,Ploubezre,361,C 2,Rue Amédée Prigent
+22,22211,Ploubezre,362,,Rue Yves Le Cudennec
+22,22211,Ploubezre,363,,Route de Poulanco
+22,22211,Ploubezre,364,,(voie non dénommée)
+22,22211,Ploubezre,365,,(voie non dénommée)
+22,22211,Ploubezre,366,,(voie non dénommée)
+22,22226,Ploumilliau,367,,(voie non dénommée)
+22,22226,Ploumilliau,368,,(voie non dénommée)
+22,22226,Ploumilliau,369,,(voie non dénommée)
+22,22226,Ploumilliau,370,D 30,Rue du Clandy
+22,22226,Ploumilliau,371,D 30,Rue de Croas-Ogès
+22,22226,Ploumilliau,372,D 30,Rue de la Lieu de Grève
+22,22226,Ploumilliau,373,D 30,Rue de la Lieu de Grève
+22,22226,Ploumilliau,374,D 30,Rue de la Lieu de Grève
+22,22226,Ploumilliau,375,D 30,Rue de la Lieu de Grève
+22,22319,Saint-Michel-en-Grève,376,D 786,Route d'Arvor
+22,22319,Saint-Michel-en-Grève,377,D 786,Route d'Arvor
+22,22350,Tréduder,378,D 786,Route de Saint-Michel
+22,22194,Plestin-les-Grèves,379,D 786,D 786
+22,22194,Plestin-les-Grèves,380,D 786,D 786
+22,22194,Plestin-les-Grèves,381,D 786,D 786
+22,22194,Plestin-les-Grèves,382,D 786,Rue des Frères Le Gall
+22,22194,Plestin-les-Grèves,383,D 786,Rue des Frères Le Gall
+22,22194,Plestin-les-Grèves,384,,Rue de Kergus
+22,22194,Plestin-les-Grèves,385,,Rue du Pont Blanc
+22,22194,Plestin-les-Grèves,386,,(voie non dénommée)
+22,22194,Plestin-les-Grèves,387,,(voie non dénommée)
+29,29182,Plouégat-Guérand,388,,Rue de Pont Menou
+29,29182,Plouégat-Guérand,389,,(voie non dénommée)
+29,29113,Lanmeur,390,,(voie non dénommée)
+29,29113,Lanmeur,391,,(voie non dénommée)
+29,29113,Lanmeur,392,,Rue du Pont Menou
+29,29113,Lanmeur,393,D 64,Rue de Locquirec
+29,29113,Lanmeur,394,D 78,Route de Plougasnou
+29,29113,Lanmeur,395,D 78,Route de Plougasnou
+29,29113,Lanmeur,396,D 78,Route de Plougasnou
+29,29251,Saint-Jean-du-Doigt,397,D 78,Route de Lanmeur
+29,29251,Saint-Jean-du-Doigt,398,D 78,Route de Lanmeur
+29,29251,Saint-Jean-du-Doigt,399,D 78,Route de Lanmeur
+29,29251,Saint-Jean-du-Doigt,400,D 78,Route de Lanmeur
+29,29188,Plougasnou,401,D 78,Route de Lanmeur
+29,29188,Plougasnou,402,D 78,D 78
+29,29188,Plougasnou,403,,Rue Jean Jaurès
+29,29188,Plougasnou,404,,Chemin du Penker
+29,29188,Plougasnou,405,D 46,D 46
+29,29188,Plougasnou,406,D 46,Route de Primel Trégastel
+29,29188,Plougasnou,407,D 46A2,Route de Pen Ar Prat
+29,29188,Plougasnou,408,D 46A2,Rue de l'Abbesse
+29,29188,Plougasnou,409,D 46A2,Rue de Mezmorvan
+29,29188,Plougasnou,410,D 46A2,Route de la Corniche
+29,29188,Plougasnou,411,D 46A2,Route de la Corniche
+29,29188,Plougasnou,412,,Route de Kermébel
+29,29188,Plougasnou,413,,Route de Kermébel
+29,29188,Plougasnou,414,D 76,Route de Plouezoch
+29,29188,Plougasnou,415,D 76,D 76
+29,29188,Plougasnou,416,D 76,D 76
+29,29186,Plouezoc'h,417,D 76,D 76
+29,29186,Plouezoc'h,418,D 76,D 76
+29,29186,Plouezoc'h,419,D 76,D 76
+29,29186,Plouezoc'h,420,D 76,Route de Barnénez
+29,29186,Plouezoc'h,421,D 76,Rue du Bourg
+29,29186,Plouezoc'h,422,D 76,D 76
+29,29186,Plouezoc'h,423,D 76,D 76
+29,29151,Morlaix,425,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,426,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,427,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,428,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,429,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,430,D 76,Route du Bas de la Rivière
+29,29151,Morlaix,431,D 786,Quai de Tréguier
+29,29151,Morlaix,432,D 769,Place Cornic
+29,29151,Morlaix,433,D 769,Place des Otages
+29,29151,Morlaix,434,D 769,Place des Otages
+29,29151,Morlaix,435,,Allée du Poan Ben
+29,29151,Morlaix,436,,Rue des Bouchers
+29,29151,Morlaix,437,,Place du Marc'hallac'h
+29,29151,Morlaix,438,,Rue Basse
+29,29151,Morlaix,439,,Rue Basse
+29,29151,Morlaix,440,,Rue d'Aiguillon
+29,29151,Morlaix,441,,Rue des Bouchers
+29,29151,Morlaix,442,,Rue des Brebis
+29,29151,Morlaix,443,,Rue des Brebis
+29,29151,Morlaix,444,,Rue des Jardins
+29,29207,Plourin-lès-Morlaix,445,,Rue de Kerveguen
+29,29151,Morlaix,446,,Place du Marc'hallac'h
+29,29151,Morlaix,447,,Rue d'Aiguillon
+29,29151,Morlaix,448,D 19,Rue Gambetta
+29,29277,Sizun,449,D 764,Rue de l'Argoat
+29,29277,Sizun,450,D 18A,Rue de Cornouaille
+29,29103,Landerneau,451,,Rue du Commandant Charcot
+29,29103,Landerneau,452,,Rue Henri Dunant
+29,29103,Landerneau,453,,Route de Mescoat
+29,29103,Landerneau,454,,Route de Penguelen
+29,29103,Landerneau,455,,(voie non dénommée)
+29,29103,Landerneau,456,,Route de Gorre Beuzit
+29,29268,Saint-Thonan,457,,(voie non dénommée)
+29,29268,Saint-Thonan,458,C 1,C 1
+29,29245,Saint-Divy,459,,(voie non dénommée)
+29,29245,Saint-Divy,460,,(voie non dénommée)
+29,29245,Saint-Divy,461,,(voie non dénommée)
+29,29245,Saint-Divy,462,D 59,D 59
+29,29095,Kersaint-Plabennec,463,D 25,D 25
+29,29095,Kersaint-Plabennec,464,C 8,C 8
+29,29095,Kersaint-Plabennec,465,C 8,C 8
+29,29095,Kersaint-Plabennec,466,,Route de Keralias
+29,29160,Plabennec,467,C 1,C 1
+29,29160,Plabennec,468,C 1,C 1
+29,29160,Plabennec,469,C 1,C 1
+29,29160,Plabennec,470,C 1,C 1
+29,29160,Plabennec,471,C 3,C 3
+29,29047,Le Drennec,472,C 3,C 3
+29,29160,Plabennec,473,,(voie non dénommée)
+29,29160,Plabennec,474,C 20,C 20
+29,29160,Plabennec,475,C 3,C 3
+29,29160,Plabennec,476,CR13,CR13
+29,29160,Plabennec,477,,(voie non dénommée)
+29,29160,Plabennec,478,D 788,D 788
+29,29160,Plabennec,479,D 788,Rue Maréchal Leclerc
+29,29160,Plabennec,480,,Rue du Château d'Eau
+29,29160,Plabennec,481,,Rue du Penquer
+29,29160,Plabennec,482,D 788,Rue des Trois Frères Le Roy
+29,29160,Plabennec,483,,Rue de l'Aber
+29,29160,Plabennec,484,C 15,C 15
+29,29160,Plabennec,485,CR75,CR dit de Kergoallou Bras
+29,29160,Plabennec,486,C 4,Route du Narret
+29,29015,Bourg-Blanc,487,C 2,C 2
+29,29015,Bourg-Blanc,488,C 2,C 2
+29,29015,Bourg-Blanc,489,C 2,C 2
+29,29015,Bourg-Blanc,490,C 2,C 2
+29,29015,Bourg-Blanc,491,,Rue des Abers
+29,29015,Bourg-Blanc,492,C 3,C 3
+29,29015,Bourg-Blanc,493,C 3,C 3
+29,29015,Bourg-Blanc,494,C 3,C 3
+29,29035,Coat-Méal,495,C 1,Rue de la Forge
+29,29035,Coat-Méal,496,C 11,C 11
+29,29035,Coat-Méal,497,C 4,C 4
+29,29035,Coat-Méal,498,C 8,Route de Kerper
+29,29035,Coat-Méal,499,C 8,Route de Kerper
+29,29076,Milizac-Guipronvel,500,C 5,C 5
+29,29076,Milizac-Guipronvel,501,C 5,C 5
+29,29076,Milizac-Guipronvel,502,D 3,D 3
+29,29076,Milizac-Guipronvel,503,D 3,Rue de l'Armor
+29,29076,Milizac-Guipronvel,504,,Rue du Ponant
+29,29076,Milizac-Guipronvel,505,C 3,C 3
+29,29076,Milizac-Guipronvel,506,C 3,C 3
+29,29076,Milizac-Guipronvel,507,,(voie non dénommée)
+29,29076,Milizac-Guipronvel,508,,(voie non dénommée)
+29,29076,Milizac-Guipronvel,509,C 7,C 7
+29,29076,Milizac-Guipronvel,510,C 7,C 7
+29,29260,Saint-Renan,511,D 105,D 105
+29,29260,Saint-Renan,512,,Rue des Jardins
+29,29260,Saint-Renan,513,,Rue du Général de Gaulle
+29,29277,Sizun,514,D 18A,Rue de Cornouaille
+29,29277,Sizun,515,D 33,Route du Tréhou
+29,29277,Sizun,516,D 33,Route du Tréhou
+29,29277,Sizun,517,D 33,Route du Tréhou
+29,29294,Le Tréhou,518,D 33,D 33
+29,29294,Le Tréhou,519,D 33,D 33
+29,29294,Le Tréhou,520,D 33,Route de Sizun
+29,29294,Le Tréhou,521,C 1,C 1
+29,29294,Le Tréhou,522,C 1,C 1
+29,29294,Le Tréhou,523,C 1,C 1
+29,29286,Tréflévénez,524,C 1,C 1
+29,29286,Tréflévénez,525,C 1,C 1
+29,29286,Tréflévénez,526,D 87,D 87
+29,29286,Tréflévénez,527,D 87,D 87
+29,29286,Tréflévénez,528,D 87,D 87
+29,29144,La Martyre,529,D 87,D 87
+29,29144,La Martyre,530,D 87,D 87
+29,29144,La Martyre,531,C 1,C 1
+29,29144,La Martyre,532,C 1,C 1
+29,29144,La Martyre,533,,Route du Keff
+29,29144,La Martyre,534,,Route de La Roche
+29,29144,La Martyre,535,,Route de La Roche
+29,29156,Pencran,536,D 764,Rue du Voas Glaz
+29,29103,Landerneau,537,D 712,Rue La Tour D'Auvergne
+29,29103,Landerneau,538,,Rue du Docteur Pouliquen
+29,29103,Landerneau,539,,Rue du Parc
+29,29103,Landerneau,540,,Quai de Cornouaille
+29,29163,Pleyber-Christ,541,D 785,Rue de la République
+29,29163,Pleyber-Christ,542,D 785,D 785
+29,29163,Pleyber-Christ,543,D 785,D 785
+29,29163,Pleyber-Christ,544,D 785,D 785
+29,29202,Plounéour-Ménez,545,D 785,D 785
+29,29202,Plounéour-Ménez,546,D 785,D 785
+29,29202,Plounéour-Ménez,547,D 785,D 785
+29,29202,Plounéour-Ménez,548,D 785,D 785
+29,29202,Plounéour-Ménez,549,D 785,D 785
+29,29202,Plounéour-Ménez,550,D 111,D 111
+29,29202,Plounéour-Ménez,551,D 111,Rue de la Libération
+29,29202,Plounéour-Ménez,552,,(voie non dénommée)
+29,29202,Plounéour-Ménez,553,,(voie non dénommée)
+29,29202,Plounéour-Ménez,554,,(voie non dénommée)
+29,29202,Plounéour-Ménez,555,,(voie non dénommée)
+29,29038,Commana,556,,(voie non dénommée)
+29,29038,Commana,557,,(voie non dénommée)
+29,29038,Commana,558,,(voie non dénommée)
+29,29038,Commana,559,,Place de la Mairie
+29,29038,Commana,560,,Rue des Bruyères
+29,29038,Commana,561,D 764,D 764
+29,29038,Commana,562,D 764,D 764
+29,29038,Commana,563,D 764,D 764
+29,29038,Commana,564,D 764,D 764
+29,29038,Commana,565,D 764,D 764
+29,29038,Commana,566,D 764,D 764
+29,29277,Sizun,567,D 764,D 764
+29,29277,Sizun,568,D 764,D 764
+29,29277,Sizun,569,D 764,D 764
+29,29277,Sizun,570,D 764,D 764
+29,29277,Sizun,571,D 764,D 764
+29,29277,Sizun,572,D 764,Rue de l'Argoat
+29,29103,Landerneau,573,,Quai de Cornouaille
+29,29103,Landerneau,574,,Boulevard de la Gare
+29,29103,Landerneau,575,,Rue de l'Oratoire
+29,29103,Landerneau,576,,Allée des Quatre Vents
+29,29103,Landerneau,577,,Allée des Quatre Vents
+29,29103,Landerneau,578,,Allée des Quatre Vents
+29,29103,Landerneau,579,,Rue du Commandant Charcot
+29,29163,Pleyber-Christ,580,,Rue Jules Ferry
+29,29163,Pleyber-Christ,581,D 785,Rue de la République
+29,29053,Le Faou,582,D 770,Place aux Foires
+29,29053,Le Faou,583,D 770,Place aux Foires
+29,29163,Pleyber-Christ,584,,Place Gambetta
+29,29163,Pleyber-Christ,585,,Rue François Coat
+29,29260,Saint-Renan,586,,Rue du Général de Gaulle
+29,29260,Saint-Renan,587,,Rue du Général de Gaulle
+29,29260,Saint-Renan,588,,Voie Romaine
+29,29163,Pleyber-Christ,589,,Rue François Coat
+29,29163,Pleyber-Christ,590,,Rue Jules Ferry
+29,29144,La Martyre,591,,Route de La Roche
+29,29180,Ploudiry,592,C 3,C 3
+29,29144,La Martyre,593,C 3,C 3
+29,29237,La Roche-Maurice,594,C 2,C 2
+29,29237,La Roche-Maurice,595,,Route de la Martyre
+29,29237,La Roche-Maurice,596,,Rue de Kerhuella
+29,29237,La Roche-Maurice,597,,Allée du Pontois
+29,29237,La Roche-Maurice,598,,Vieille Route de Landerneau
+29,29237,La Roche-Maurice,599,C 8,Route de Kerhamon
+29,29156,Pencran,600,C 6,Route de Kerhamon
+29,29156,Pencran,601,D 764,D 764
+29,29156,Pencran,602,D 764,Rue du Voas Glaz
+29,29260,Saint-Renan,603,,Voie Romaine
+29,29260,Saint-Renan,604,,Route de Trevisquin
+29,29260,Saint-Renan,605,D 38,D 38
+29,29260,Saint-Renan,606,D 38,D 38
+29,29212,Plouzané,607,D 38,Route de Saint-Renan
+29,29212,Plouzané,608,D 38,Route de Saint-Renan
+29,29212,Plouzané,609,D 38,Route de Saint-Renan
+29,29212,Plouzané,610,,Rond-Point des Anciens Combattants en Afrique du Nord
+29,29212,Plouzané,611,D 12,Route de la Trinité
+29,29212,Plouzané,612,,Avenue Jean Moulin
+29,29212,Plouzané,613,,Avenue de la Résistance
+29,29212,Plouzané,614,,Rue des Myosotis
+29,29212,Plouzané,615,,Rue des Myosotis
+29,29212,Plouzané,616,,Rue de Brest
+29,29212,Plouzané,617,,Route de Kervallan
+29,29019,Brest,618,,Route de Kervallan
+29,29019,Brest,619,,Rue de Kérourien
+29,29019,Brest,620,,Rue François Cordon
+29,29019,Brest,621,,Route des Quatre Pompes
+29,29019,Brest,622,,Rue Henri Salaun
+29,29019,Brest,623,,Rue de l'Yser
+29,29019,Brest,624,,Rue François II
+29,29019,Brest,625,,Boulevard Commandant Mouchotte
+29,29019,Brest,626,,Rue du Général Gallieni
+29,29019,Brest,627,,Pont de l'Harteloire
+29,29019,Brest,628,,Avenue Georges Clemenceau
+29,29019,Brest,629,,Rue Yves Collet
+29,29019,Brest,630,,Rue Kerfautras
+29,29019,Brest,631,,Rue Paul Masson
+29,29019,Brest,632,,Rue Albert Louppe
+29,29019,Brest,633,,Rue de Valmy
+29,29019,Brest,634,,Rue Lacordaire
+29,29019,Brest,635,,Rue Dixmude
+29,29019,Brest,636,,Rue de Quimper
+29,29019,Brest,637,,Rue de Quimper
+29,29019,Brest,638,,Rue de Palaren
+29,29075,Guipavas,639,,(voie non dénommée)
+29,29235,Le Relecq-Kerhuon,640,,Rue Abbé Pierre
+29,29235,Le Relecq-Kerhuon,641,,Boulevard Léopold Maissin
+29,29189,Plougastel-Daoulas,643,N 2165,N 2165
+29,29189,Plougastel-Daoulas,644,,Route du Pont Albert Louppe
+29,29189,Plougastel-Daoulas,645,,Avenue Charles de Gaulle
+29,29189,Plougastel-Daoulas,646,,Rue Louis Nicolle
+29,29189,Plougastel-Daoulas,647,,(voie non dénommée)
+29,29189,Plougastel-Daoulas,648,,Rue François Guivarch
+29,29189,Plougastel-Daoulas,649,,Rond-Point de Kervenal
+29,29189,Plougastel-Daoulas,650,,Route de Gorreker
+29,29189,Plougastel-Daoulas,651,D 33,Route de Loperhet
+29,29140,Loperhet,652,D 33,Route de Plougastel
+29,29140,Loperhet,653,D 33,Rue René Goubin
+29,29140,Loperhet,654,D 33,Route du Fogot
+29,29045,Dirinon,655,D 33,D 33
+29,29045,Dirinon,656,,(voie non dénommée)
+29,29045,Dirinon,657,,(voie non dénommée)
+29,29045,Dirinon,658,,(voie non dénommée)
+29,29043,Daoulas,659,,Route de Loperhet
+29,29043,Daoulas,660,D 770,Route de Quimper
+29,29043,Daoulas,661,D 770,D 770
+29,29043,Daoulas,662,D 770,D 770
+29,29080,Hôpital-Camfrout,663,D 770,D 770
+29,29080,Hôpital-Camfrout,664,D 770,Rue Émile Salaün
+29,29080,Hôpital-Camfrout,665,,Place de l'Église
+29,29080,Hôpital-Camfrout,666,C 21,Route de Ty Boulic
+29,29080,Hôpital-Camfrout,667,D 770,D 770
+29,29080,Hôpital-Camfrout,668,D 770,D 770
+29,29078,Hanvec,669,C 13,C 13
+29,29078,Hanvec,670,C 13,C 13
+29,29078,Hanvec,671,C 11,C 11
+29,29078,Hanvec,672,,Chemin de Kerohan
+29,29078,Hanvec,673,C 11,C 11
+29,29078,Hanvec,674,C 11,C 11
+29,29053,Le Faou,675,,Route de Lanvoy
+29,29053,Le Faou,676,D 770,Rue du Général de Gaulle
+29,29053,Le Faou,677,D 770,Place aux Foires
+29,29151,Morlaix,678,D 19,Rue du Docteur Prouff
+29,29254,Saint-Martin-des-Champs,679,D 19,Rue Jean Jaurès
+29,29254,Saint-Martin-des-Champs,680,,(voie non dénommée)
+29,29254,Saint-Martin-des-Champs,681,,Route de Sainte-Sève
+29,29254,Saint-Martin-des-Champs,682,,(voie non dénommée)
+29,29254,Saint-Martin-des-Champs,683,,(voie non dénommée)
+29,29265,Sainte-Sève,684,,Grand Route
+29,29265,Sainte-Sève,685,,(voie non dénommée)
+29,29163,Pleyber-Christ,686,D 785,D 785
+29,29163,Pleyber-Christ,687,D 785,D 785
+29,29163,Pleyber-Christ,688,D 785,D 785
+29,29163,Pleyber-Christ,689,D 785,D 785
+29,29163,Pleyber-Christ,690,D 785,Route de Morlaix
+29,29163,Pleyber-Christ,691,,Rue de Keravel
+29,29163,Pleyber-Christ,692,,Rue Georges Brassens
+29,29163,Pleyber-Christ,693,,Place Gambetta
+29,29053,Le Faou,694,D 791,Route de Térénez
+29,29053,Le Faou,695,D 791,Route de Térénez
+29,29053,Le Faou,696,D 791,Route de Térénez
+29,29240,Rosnoën,697,D 791,D 791
+29,29240,Rosnoën,698,D 791,D 791
+29,29240,Rosnoën,699,D 791,D 791
+29,29240,Rosnoën,700,D 791,D 791
+29,29240,Rosnoën,701,D 791,D 791
+29,29240,Rosnoën,702,D 791,D 791
+29,29240,Rosnoën,703,D 791,D 791
+29,29240,Rosnoën,704,D 791,D 791
+29,29240,Rosnoën,705,D 791,D 791
+29,29240,Rosnoën,706,D 791,D 791
+29,29240,Rosnoën,707,,(voie non dénommée)
+29,29001,Argol,708,D 791,D 791
+29,29001,Argol,709,D 791,D 791
+29,29001,Argol,710,D 791,D 791
+29,29001,Argol,711,D 791,D 791
+29,29001,Argol,712,D 791,D 791
+29,29001,Argol,713,D 791,D 791
+29,29104,Landévennec,714,D 791,D 791
+29,29001,Argol,715,D 60,D 60
+29,29001,Argol,716,D 60,D 60
+29,29001,Argol,717,D 163,Rue du Roi Gradlon
+29,29001,Argol,718,D 163,D 163
+29,29001,Argol,719,C 32,C 32
+29,29001,Argol,720,C 4,C 4
+29,29001,Argol,721,C 4,C 4
+29,29001,Argol,722,C 8,C 8
+29,29256,Saint-Nic,723,C 8,C 8
+29,29256,Saint-Nic,724,C 8,C 8
+29,29256,Saint-Nic,725,,(voie non dénommée)
+29,29256,Saint-Nic,726,,(voie non dénommée)
+29,29172,Plomodiern,727,,(voie non dénommée)
+29,29172,Plomodiern,728,,Route de Lestrevet
+29,29172,Plomodiern,729,,Route de Lestrevet
+29,29172,Plomodiern,730,,Route de Lestrevet
+29,29172,Plomodiern,731,,(voie non dénommée)
+29,29172,Plomodiern,732,,(voie non dénommée)
+29,29166,Ploéven,733,,(voie non dénommée)
+29,29166,Ploéven,734,,Rue des Mouettes
+29,29166,Ploéven,735,D 63,D 63
+29,29176,Plonévez-Porzay,736,D 63,D 63
+29,29176,Plonévez-Porzay,737,D 63,D 63
+29,29176,Plonévez-Porzay,738,D 63,D 63
+29,29176,Plonévez-Porzay,739,D 63,Rue de la Presqu'Ile
+29,29176,Plonévez-Porzay,740,D 63,Rue de Cornouailles
+29,29176,Plonévez-Porzay,741,D 63,D 63
+29,29176,Plonévez-Porzay,742,D 63,D 63
+29,29134,Locronan,743,D 63,D 63
+29,29134,Locronan,744,,Rue des Charrettes
+29,29134,Locronan,745,D 7,Route de Douarnenez
+29,29134,Locronan,746,D 7,Route de Douarnenez
+29,29176,Plonévez-Porzay,747,D 7,Route de Douarnenez
+29,29090,Kerlaz,748,D 7,Route de Douarnenez
+29,29090,Kerlaz,749,D 7,Route de Douarnenez
+29,29090,Kerlaz,750,D 7,Route de l'École
+29,29090,Kerlaz,751,D 7,D 7
+29,29090,Kerlaz,752,D 7,D 7
+29,29046,Douarnenez,753,D 7,D 7
+29,29046,Douarnenez,754,,Route du Ris
+29,29046,Douarnenez,755,,Route du Ris
+29,29046,Douarnenez,756,,Rue Jean Jaurès
+29,29046,Douarnenez,757,,Quai du Grand Port
+29,29046,Douarnenez,758,,Boulevard Jean Richepin
+29,29046,Douarnenez,759,,Quai du Port Rhu
+29,29046,Douarnenez,760,,Boulevard du Général de Gaulle
+29,29046,Douarnenez,761,D 765,Rue Etienne Kernours
+29,29046,Douarnenez,762,D 765,Rue de la République
+29,29046,Douarnenez,763,D 765,Route d'Audierne
+29,29046,Douarnenez,764,D 765,Route d'Audierne
+29,29226,Poullan-sur-Mer,765,D 765,Route d'Audierne
+29,29226,Poullan-sur-Mer,766,D 765,Route d'Audierne
+29,29226,Poullan-sur-Mer,767,D 765,Route d'Audierne
+29,29226,Poullan-sur-Mer,768,D 765,Route d'Audierne
+29,29226,Poullan-sur-Mer,769,D 765,Route d'Audierne
+29,29145,Confort-Meilars,770,D 765,Route d'Audierne
+29,29145,Confort-Meilars,771,D 765,Route d'Audierne
+29,29145,Confort-Meilars,772,D 765,Rue Pen ar Bed
+29,29145,Confort-Meilars,773,,(voie non dénommée)
+29,29145,Confort-Meilars,774,,(voie non dénommée)
+29,29143,Mahalon,775,,(voie non dénommée)
+29,29143,Mahalon,776,,Route de Roscaradec
+29,29143,Mahalon,777,,Route de Roscaradec
+29,29143,Mahalon,778,,Route de Roscaradec
+29,29143,Mahalon,779,,Route de Roscaradec
+29,29143,Mahalon,780,,(voie non dénommée)
+29,29218,Pont-Croix,781,,Rue de la Fontaine
+29,29218,Pont-Croix,782,,Rue des Partisans
+29,29218,Pont-Croix,783,D 2,Rue Voltaire
+29,29197,Plouhinec,784,D 2,Route de Pont-Croix
+29,29197,Plouhinec,785,D 2,Route de Pont-Croix
+29,29197,Plouhinec,786,D 2,Route de Pont-Croix
+29,29197,Plouhinec,787,D 2,Route de Lambabu
+29,29197,Plouhinec,788,D 784,Rue de Ty Pic
+29,29197,Plouhinec,789,D 784,Rue de Ty Pic
+29,29197,Plouhinec,790,D 784,D 784
+29,29215,Plozévet,791,D 784,D 784
+29,29215,Plozévet,792,D 784,Rue d'Audierne
+29,29215,Plozévet,793,,Rue de Kermao
+29,29215,Plozévet,794,,(voie non dénommée)
+29,29215,Plozévet,795,,(voie non dénommée)
+29,29215,Plozévet,796,,(voie non dénommée)
+29,29215,Plozévet,797,C 304,C 304
+29,29215,Plozévet,798,C 304,C 304
+29,29225,Pouldreuzic,799,C 304,C 304
+29,29225,Pouldreuzic,800,D 40,D 40
+29,29214,Plovan,801,,Route de Penhors
+29,29214,Plovan,802,,Route de Penhors
+29,29214,Plovan,803,,Route de Plovan à Pont-Croix
+29,29214,Plovan,804,,Route de Plovan à Pont-Croix
+29,29214,Plovan,805,,Route de Plovan à Pont-Croix
+29,29214,Plovan,806,,Route de Languidou
+29,29214,Plovan,807,,Route de Tréogat
+29,29298,Tréogat,808,,Route de Plovan à Ploneour-Lanvern
+29,29298,Tréogat,809,,(voie non dénommée)
+29,29298,Tréogat,810,,Rue de la Mer
+29,29298,Tréogat,811,D 2,D 2
+29,29174,Plonéour-Lanvern,812,D 2,Route de Tréogat
+29,29174,Plonéour-Lanvern,813,D 2,Route de Tréogat
+29,29174,Plonéour-Lanvern,814,D 2,Route de Tréogat
+29,29174,Plonéour-Lanvern,815,D 57,Rue Jean Jaurès
+29,29174,Plonéour-Lanvern,816,D 57,Route de Plogastel
+29,29174,Plonéour-Lanvern,817,D 57,Route de Plogastel
+29,29174,Plonéour-Lanvern,818,,(voie non dénommée)
+29,29174,Plonéour-Lanvern,819,,(voie non dénommée)
+29,29159,Peumerit,820,,(voie non dénommée)
+29,29159,Peumerit,821,,Hent Pont Iliz
+29,29159,Peumerit,822,,(voie non dénommée)
+29,29159,Peumerit,823,,(voie non dénommée)
+29,29159,Peumerit,824,D 57,D 57
+29,29159,Peumerit,825,D 57,D 57
+29,29167,Plogastel-Saint-Germain,826,D 40,Route de Quimper à la Mer
+29,29167,Plogastel-Saint-Germain,827,D 40,Route de Quimper à la Mer
+29,29167,Plogastel-Saint-Germain,828,D 40,Route de Quimper à la Mer
+29,29167,Plogastel-Saint-Germain,829,D 57,Rue de Briscoul
+29,29167,Plogastel-Saint-Germain,830,D 57,Rue de Briscoul
+29,29167,Plogastel-Saint-Germain,831,D 240,Rue de Parc Zalé
+29,29167,Plogastel-Saint-Germain,832,D 240,D 240
+29,29167,Plogastel-Saint-Germain,833,D 240,D 240
+29,29167,Plogastel-Saint-Germain,834,D 40,Route de	Pouldreuzic
+29,29167,Plogastel-Saint-Germain,835,D 40,Route de	Pouldreuzic
+29,29216,Pluguffan,836,D 40,Route de	Pouldreuzic
+29,29216,Pluguffan,837,D 40,Route de	Pouldreuzic
+29,29216,Pluguffan,838,D 40,Route de Pouldreuzic
+29,29216,Pluguffan,839,D 40,Route de Pouldreuzic
+29,29216,Pluguffan,840,,(voie non dénommée)
+29,29216,Pluguffan,841,D 40,Rue de Quimper
+29,29216,Pluguffan,842,D 40,Rue de Quimper
+29,29216,Pluguffan,843,,Route de Kelenneg
+29,29216,Pluguffan,844,,Route de Kelenneg
+29,29216,Pluguffan,845,,Rue an Dour Ruz
+29,29216,Pluguffan,846,,Rue an Dour Ruz
+29,29170,Plomelin,847,,Hent Penhoat Braz
+29,29170,Plomelin,848,,Hent Ty Lipic
+29,29170,Plomelin,849,,Hent Kergoff
+29,29170,Plomelin,850,,Hent Kergoff
+29,29170,Plomelin,851,CD,Hent Tingoff
+29,29170,Plomelin,852,,Hent Trébé
+29,29170,Plomelin,853,D 20,Route des Châteaux
+29,29170,Plomelin,854,D 20,Route des Châteaux
+29,29170,Plomelin,855,D 20,Route des Châteaux
+29,29170,Plomelin,856,D 20,Route des Châteaux
+29,29232,Quimper,857,D 20,Route de Plomelin
+29,29232,Quimper,858,D 20,Route de Plomelin
+29,29232,Quimper,859,D 20,Avenue Pierre Mendès-France
+29,29232,Quimper,860,,Boulevard de France
+29,29232,Quimper,861,,Rue Paul Borrossi
+29,29232,Quimper,862,,Rue de Pont-l'Abbé
+29,29232,Quimper,863,,Quai de l'Odet
+29,29232,Quimper,864,,Boulevard Dupleix
+29,29232,Quimper,865,D 765,Avenue de la Libération
+29,29232,Quimper,866,D 765,Avenue de la Libération
+29,29232,Quimper,867,D 783,Pont de L'Eau Blanche
+29,29051,Ergué-Gabéric,868,D 15,Avenue du Rouillen
+29,29051,Ergué-Gabéric,869,D 15,Avenue du Rouillen
+29,29051,Ergué-Gabéric,870,D 15,Avenue de Coray
+29,29051,Ergué-Gabéric,871,,Rue de la Croix-Rouge
+29,29051,Ergué-Gabéric,872,,Route de Plas an Dans
+29,29051,Ergué-Gabéric,873,,Route de Plas an Dans
+29,29051,Ergué-Gabéric,874,,Route de Plas an Dans
+29,29051,Ergué-Gabéric,875,,Route du Reunic
+29,29051,Ergué-Gabéric,876,,Route de Meil Faou
+29,29051,Ergué-Gabéric,877,D 115,Route d'Elliant
+29,29051,Ergué-Gabéric,878,D 115,Route d'Elliant
+29,29051,Ergué-Gabéric,879,D 115,Route d'Elliant
+29,29049,Elliant,880,D 115,D 115
+29,29049,Elliant,881,D 115,Voie Communale 1 de Quimper à Elliant
+29,29049,Elliant,882,D 115,D 115
+29,29049,Elliant,883,D 115,D 115
+29,29049,Elliant,884,D 115,Voie Communale 1 de Quimper à Elliant
+29,29049,Elliant,885,D 115,D 115
+29,29049,Elliant,886,D 115,Allée de Saint-Cloud
+29,29049,Elliant,887,D 150,Rue Pierre Loti
+29,29049,Elliant,888,D 150,Route de Rosporden
+29,29049,Elliant,889,D 150,Route de Rosporden
+29,29049,Elliant,890,D 150,Route de Rosporden
+29,29049,Elliant,891,D 150,Route Départementale 150
+29,29241,Rosporden,892,D 150,Route Départementale 150
+29,29241,Rosporden,893,D 150,Rue d'Elliant
+29,29241,Rosporden,894,D 765,Rue Nationale
+29,29241,Rosporden,895,D 765B,Rue Alsace Lorraine
+29,29241,Rosporden,896,D 765,Rue de Bannalec
+29,29241,Rosporden,897,D 765,D 765
+29,29241,Rosporden,898,D 765,Route Départementale 765
+29,29241,Rosporden,899,D 765,Route Départementale 765
+29,29241,Rosporden,900,D 765,Route Départementale 765
+29,29241,Rosporden,901,D 765,Route Départementale 765
+29,29241,Rosporden,902,D 765,Route Départementale 765
+29,29004,Bannalec,903,D 765,D 765
+29,29004,Bannalec,904,D 765,D 765
+29,29004,Bannalec,905,D 765,D 765
+29,29004,Bannalec,906,D 765,D 765
+29,29004,Bannalec,907,D 765,Rue André Cadiou
+29,29004,Bannalec,908,,Rue Jean Moulin
+29,29004,Bannalec,909,,Rue de la Farandole
+29,29004,Bannalec,910,,Rue des Frères Le Gac
+29,29004,Bannalec,911,,(voie non dénommée)
+29,29004,Bannalec,912,,(voie non dénommée)
+29,29004,Bannalec,913,,(voie non dénommée)
+29,29300,Le Trévoux,914,D 22,D 22
+29,29300,Le Trévoux,915,D 22,D 22
+29,29300,Le Trévoux,916,D 22,D 22
+29,29300,Le Trévoux,917,D 22,D 22
+29,29300,Le Trévoux,918,D 106,Rue de Pont-Aven
+29,29300,Le Trévoux,919,D 106,D 106
+29,29300,Le Trévoux,920,D 106,D 106
+29,29300,Le Trévoux,921,D 106,D 106
+29,29300,Le Trévoux,922,D 106,D 106
+29,29300,Le Trévoux,923,D 106,D 106
+29,29236,Riec-sur-Bélon,924,D 106,D 106
+29,29236,Riec-sur-Bélon,925,D 4,D 4
+29,29236,Riec-sur-Bélon,926,D 104,D 104
+29,29236,Riec-sur-Bélon,927,D 104,D 104
+29,29236,Riec-sur-Bélon,928,D 104,Rue de Bannalec
+29,29236,Riec-sur-Bélon,929,D 783,Rue Mélanie Rouat
+29,29236,Riec-sur-Bélon,930,D 24,D 24
+29,29236,Riec-sur-Bélon,931,D 24,D 24
+29,29236,Riec-sur-Bélon,932,D 24,D 24
+29,29236,Riec-sur-Bélon,933,D 24,D 24
+29,29236,Riec-sur-Bélon,934,D 24,D 24
+29,29150,Moëlan-sur-Mer,935,D 24,Route de Riec sur Belon
+29,29150,Moëlan-sur-Mer,936,D 24,Route de Riec sur Belon
+29,29150,Moëlan-sur-Mer,937,D 24,Rue du Guilly
+29,29150,Moëlan-sur-Mer,938,D 24,Rue de Pont-ar-Laër
+29,29150,Moëlan-sur-Mer,939,,(voie non dénommée)
+29,29150,Moëlan-sur-Mer,940,D 24,D 24
+29,29150,Moëlan-sur-Mer,941,D 24,D 24
+29,29031,Clohars-Carnoët,942,D 24,Route de Moëlan
+29,29031,Clohars-Carnoët,943,D 24,Route de Moëlan
+29,29031,Clohars-Carnoët,944,D 16,D 16
+29,29031,Clohars-Carnoët,945,D 16,D 16
+29,29031,Clohars-Carnoët,946,D 16,D 16
+29,29031,Clohars-Carnoët,947,D 16,D 16
+29,29233,Quimperlé,948,D 16,D 16
+29,29233,Quimperlé,949,D 16,D 16
+29,29233,Quimperlé,950,D 16,D 16
+29,29233,Quimperlé,951,D 16,D 16
+29,29233,Quimperlé,952,D 16,Rue d'Armorique
+29,29233,Quimperlé,953,D 16,Rue de Moëlan
+29,29233,Quimperlé,954,D 16,Rue de Moëlan
+29,29233,Quimperlé,955,D 6,Rue de Pont-Aven
+29,29233,Quimperlé,956,D 765,Rue du Bourgneuf
+29,29233,Quimperlé,957,D 22,Rue d'Arzano
+29,29233,Quimperlé,958,D 22,Rue d'Arzano
+29,29233,Quimperlé,959,D 22,Rue d'Arzano
+56,56023,Brech,960,D 19,Rue Georges Cadoudal
+56,56023,Brech,961,D 19,Rue du Loch
+56,56013,Belz,962,,(voie non dénommée)
+56,56013,Belz,963,,Rue du Moulin des Oies
+56,56013,Belz,964,,Rue de Kerhuen
+56,56013,Belz,965,D 16,Route d'Auray
+56,56013,Belz,966,D 16,Route d'Auray
+56,56013,Belz,967,D 22,Route d'Auray
+56,56119,Locoal-Mendon,968,D 22,D 22
+56,56119,Locoal-Mendon,969,D 22,D 22
+56,56161,Ploemel,970,D 22,D 22
+56,56161,Ploemel,971,D 186,D 186
+56,56161,Ploemel,972,D 186,D 186
+56,56161,Ploemel,973,D 186,Village de Kergounio
+56,56161,Ploemel,974,D 119,Rue de la Gare
+56,56161,Ploemel,975,D 105,Rue Joseph Le Pévédic
+56,56121,Lorient,976,,Avenue Anatole France
+56,56121,Lorient,977,,Avenue Anatole France
+56,56121,Lorient,978,,Place Jules Ferry
+56,56121,Lorient,979,,Quai Gustave Mansion
+56,56121,Lorient,980,,Quai des Indes
+56,56260,Vannes,981,,Rue de Kerbiquette
+56,56206,Saint-Avé,982,,(voie non dénommée)
+56,56206,Saint-Avé,983,,Rue Denis Papin
+56,56206,Saint-Avé,984,,Rue de Treviantec
+56,56206,Saint-Avé,985,C 104,C 104
+56,56132,Meucon,986,D 308,Route de Vannes
+56,56132,Meucon,987,,Rue de Bel Air
+56,56132,Meucon,988,D 308,D 308
+56,56132,Meucon,989,D 308,D 308
+56,56132,Meucon,990,D 308,D 308
+56,56067,Grand-Champ,991,D 308,D 308
+56,56067,Grand-Champ,992,D 308,D 308
+56,56067,Grand-Champ,993,D 308,D 308
+56,56067,Grand-Champ,994,D 308,D 308
+56,56067,Grand-Champ,995,D 308,D 308
+56,56067,Grand-Champ,996,D 779,D 779
+56,56067,Grand-Champ,997,D 779,D 779
+56,56067,Grand-Champ,998,D 779,D 779
+56,56067,Grand-Champ,999,D 779,Rue du Général de Gaulle
+56,56067,Grand-Champ,1000,D 779,Rue du Général de Gaulle
+56,56067,Grand-Champ,1001,D 779,Route de Baud
+56,56067,Grand-Champ,1002,D 779,Route de Baud
+56,56067,Grand-Champ,1003,D 779,Route de Baud
+56,56067,Grand-Champ,1004,D 779,Route de Baud
+56,56022,Brandivy,1005,D 103,D 103
+56,56022,Brandivy,1006,D 103,D 103
+56,56022,Brandivy,1007,D 103,D 103
+56,56022,Brandivy,1008,D 103,D 103
+56,56022,Brandivy,1009,D 103,Rue de la Vallée du Loch
+56,56022,Brandivy,1010,D 103,D 103
+56,56177,Pluvigner,1011,D 103,Route de Brandivy
+56,56177,Pluvigner,1012,D 103,Route de Brandivy
+56,56177,Pluvigner,1013,D 103,Route de Brandivy
+56,56177,Pluvigner,1014,D 103,Route de Brandivy
+56,56177,Pluvigner,1015,D 103,Route de Brandivy
+56,56177,Pluvigner,1016,D 103,D 103
+56,56177,Pluvigner,1017,,Place Mainlièvre
+56,56177,Pluvigner,1018,D 768,Route de Baud
+56,56177,Pluvigner,1019,D 768,Route de Baud
+56,56177,Pluvigner,1020,D 768,Route de Baud
+56,56031,Camors,1021,D 768,Route de Baud
+56,56031,Camors,1022,D 768,D 768
+56,56031,Camors,1023,D 768,D 768
+56,56031,Camors,1024,D 768,Rue Forestière
+56,56031,Camors,1025,D 768,D 768
+56,56031,Camors,1026,D 768,D 768
+56,56031,Camors,1027,D 768,Rue de la Forêt
+56,56031,Camors,1028,D 768,Rue des Acacias
+56,56031,Camors,1029,D 768,Rue des Acacias
+56,56121,Lorient,1030,,Quai des Indes
+56,56121,Lorient,1031,,Rue de Liège
+56,56121,Lorient,1032,,Rue Anatole le Braz
+56,56121,Lorient,1033,,Rue Chaigneau
+56,56098,Lanester,1034,,Avenue Gabriel Péri
+56,56098,Lanester,1035,,Rue Marcel Sembat
+56,56098,Lanester,1036,,Rue Gracchus Babeuf
+56,56098,Lanester,1037,D 724,Avenue Ambroise Croizat
+56,56098,Lanester,1038,,Rue Dominique Arago
+56,56036,Caudan,1039,D 326,Rue Dominique Arago
+56,56036,Caudan,1040,,(voie non dénommée)
+56,56036,Caudan,1041,D 724,D 724
+56,56036,Caudan,1042,,(voie non dénommée)
+56,56083,Hennebont,1043,D 724,Avenue de la République
+56,56083,Hennebont,1044,D 724,Avenue de la République
+56,56083,Hennebont,1045,,Quai du Pont Neuf
+56,56083,Hennebont,1046,D 724,Avenue de la Libération
+56,56083,Hennebont,1047,,Avenue Georges Pompidou
+56,56083,Hennebont,1048,D 23 C,Avenue des Frères Lumière
+56,56094,Kervignac,1049,D 9,Avenue des Plages
+56,56094,Kervignac,1050,D 9,Avenue des Plages
+56,56094,Kervignac,1051,D 9,Avenue des Plages
+56,56094,Kervignac,1052,D 9,Avenue des Plages
+56,56094,Kervignac,1053,D 170,Rue de la Mairie
+56,56094,Kervignac,1054,D 9,Avenue des Plages
+56,56094,Kervignac,1055,,Route de Pont Lorois
+56,56094,Kervignac,1056,D 9,Route d'Hennebont
+56,56130,Merlevenez,1057,D 9,Route d'Hennebont
+56,56130,Merlevenez,1058,D 33,Route de Nostang
+56,56130,Merlevenez,1059,,(voie non dénommée)
+56,56169,Plouhinec,1060,,(voie non dénommée)
+56,56169,Plouhinec,1061,,(voie non dénommée)
+56,56220,Sainte-Hélène,1062,D 158,Rue du 11-Septembre 1944
+56,56220,Sainte-Hélène,1063,,Rue de Bellevue
+56,56220,Sainte-Hélène,1064,,Rue de Bellevue
+56,56220,Sainte-Hélène,1065,,Rue de Bellevue
+56,56220,Sainte-Hélène,1066,,Rue de Bellevue
+56,56220,Sainte-Hélène,1067,,Ria d'Etel
+56,56023,Brech,1068,D 19,Rue du Loch
+56,56175,Plumergat,1069,D 19,D 19
+56,56175,Plumergat,1070,D 19,Toulann
+56,56263,Sainte-Anne-d'Auray,1071,D 19,D 19
+56,56263,Sainte-Anne-d'Auray,1072,D 19,Rue Abbé Allanic
+56,56263,Sainte-Anne-d'Auray,1073,,Rue de Vannes
+56,56263,Sainte-Anne-d'Auray,1074,,Le Cheval Blanc
+56,56175,Plumergat,1075,D 19,D 19
+56,56175,Plumergat,1076,D 19,D 19
+56,56175,Plumergat,1077,D 19,Ty Neue
+56,56175,Plumergat,1078,D 19,D 19
+56,56175,Plumergat,1079,D 135,La Croix du Pratel
+56,56158,Plescop,1080,D 135,Route de Sainte-Anne
+56,56158,Plescop,1081,D 135,Route de Sainte-Anne
+56,56158,Plescop,1082,D 135,Route de Sainte-Anne
+56,56158,Plescop,1083,D 135,Route de Sainte-Anne
+56,56158,Plescop,1084,D 135,Route de Sainte-Anne
+56,56158,Plescop,1085,D 135,Route de Sainte-Anne
+56,56158,Plescop,1086,D 135,Route de Sainte-Anne
+56,56158,Plescop,1087,D 135,Route de Sainte-Anne
+56,56158,Plescop,1088,,Avenue Général de Gaulle
+56,56158,Plescop,1089,,Route de Kerizouët
+56,56158,Plescop,1090,,(voie non dénommée)
+56,56260,Vannes,1091,,(voie non dénommée)
+56,56260,Vannes,1092,,Route de Bernard
+56,56260,Vannes,1093,,Route de Bernard
+56,56161,Ploemel,1094,D 105,Rue Joseph Le Pévédic
+56,56161,Ploemel,1095,,(voie non dénommée)
+56,56161,Ploemel,1096,,(voie non dénommée)
+56,56161,Ploemel,1097,,(voie non dénommée)
+56,56161,Ploemel,1098,,Toulhouet
+56,56023,Brech,1099,,(voie non dénommée)
+56,56119,Locoal-Mendon,1100,D 120,D 120
+56,56023,Brech,1101,D 120,D 120
+56,56023,Brech,1102,D 765,Route de l'École
+56,56023,Brech,1103,,(voie non dénommée)
+56,56023,Brech,1104,,(voie non dénommée)
+56,56023,Brech,1105,,(voie non dénommée)
+56,56023,Brech,1106,,Rue Park Piton
+56,56023,Brech,1107,,Rue du Pont Douar
+56,56023,Brech,1108,D 19,Rue Georges Cadoudal
+29,29234,Rédené,1109,D 22,D 22
+29,29234,Rédené,1110,D 22,Ty-Brabant
+29,29002,Arzano,1111,D 22,D 22
+29,29002,Arzano,1112,D 22,D 22
+29,29002,Arzano,1113,D 22,D 22
+29,29002,Arzano,1114,D 22,D 22
+29,29002,Arzano,1115,D 22,D 22
+29,29002,Arzano,1116,D 22,Rue Auguste Brizeux
+29,29002,Arzano,1117,D 22,D 22
+29,29002,Arzano,1118,D 22,D 22
+56,56166,Plouay,1119,D 2,D 2
+56,56166,Plouay,1120,D 2,D 2
+56,56166,Plouay,1121,D 2,D 2
+56,56166,Plouay,1122,D 2,D 2
+56,56166,Plouay,1123,D 2,D 2
+56,56166,Plouay,1124,D 2,D 2
+56,56166,Plouay,1125,D 2,D 2
+56,56166,Plouay,1126,D 2,D 2
+56,56166,Plouay,1127,D 769B,Rue Paul Ihuel
+56,56166,Plouay,1128,D 769B,Rue de la Chaumière
+56,56166,Plouay,1129,D 769B,Rue de la Chaumière
+56,56040,Cléguer,1130,D 769B,D 769B
+56,56040,Cléguer,1131,D 769B,Rue des Commerces
+56,56040,Cléguer,1132,D 769B,D 769B
+56,56040,Cléguer,1133,D 769B,D 769B
+56,56040,Cléguer,1134,D 769B,D 769B
+56,56040,Cléguer,1135,,(voie non dénommée)
+56,56040,Cléguer,1136,,(voie non dénommée)
+56,56040,Cléguer,1137,,Route de Lorient
+56,56040,Cléguer,1138,,Route de Sénébret
+56,56040,Cléguer,1139,,Route de Sénébret
+56,56040,Cléguer,1140,,(voie non dénommée)
+56,56040,Cléguer,1141,,(voie non dénommée)
+56,56040,Cléguer,1142,,Rue de la Chapelle
+56,56040,Cléguer,1143,,Rue du Pont Romain
+56,56179,Pont-Scorff,1144,D 6,Route de Lorient
+56,56179,Pont-Scorff,1145,D 6,D 6
+56,56179,Pont-Scorff,1146,D 6,D 6
+56,56179,Pont-Scorff,1147,D 6,D 6
+56,56185,Quéven,1148,D 6,D 6
+56,56185,Quéven,1149,D 6,D 6
+56,56185,Quéven,1150,D 6,Rue du 7e Bataillon F.F.I.
+56,56185,Quéven,1151,D 6,Rue Jean Jaurès
+56,56185,Quéven,1152,,Rond-Point du Mourillon
+56,56185,Quéven,1153,D 163,D 163
+56,56185,Quéven,1154,,(voie non dénommée)
+56,56162,Plœmeur,1155,,(voie non dénommée)
+56,56162,Plœmeur,1156,,(voie non dénommée)
+56,56162,Plœmeur,1157,D 163,D 163
+56,56162,Plœmeur,1158,D 163,Rue de Quéven
+56,56162,Plœmeur,1159,,Rue de Larmor
+56,56162,Plœmeur,1160,,Rue Jean Moulin
+56,56162,Plœmeur,1161,,Rue Saint-Tugdual
+56,56162,Plœmeur,1162,D 185,Rue du Moulin du Ter
+56,56121,Lorient,1163,D 185,Rue du Moulin du Ter
+56,56121,Lorient,1164,,Avenue Chenailler dit Colonel Morice
+56,56121,Lorient,1165,D 29,Rue de Monistrol
+56,56121,Lorient,1166,,Avenue Général de Gaulle
+56,56121,Lorient,1167,,Avenue Anatole France
+56,56121,Lorient,1168,,Avenue Anatole France
+56,56260,Vannes,1169,,Route de Bernard
+56,56260,Vannes,1170,,Rue des Frères Lumière
+56,56260,Vannes,1171,,Avenue du 4 Août 1944
+56,56260,Vannes,1172,,Avenue du 4 Août 1944
+56,56260,Vannes,1173,D 767,D 767
+56,56260,Vannes,1174,,Giratoire de Kerniol
+56,56260,Vannes,1175,,Rue des Frères Lumière
+56,56260,Vannes,1176,,Rue de Kerbiquette
+56,56220,Sainte-Hélène,1177,,Ria d'Etel
+56,56119,Locoal-Mendon,1178,,Ria d'Etel
+56,56169,Plouhinec,1179,,Ria d'Etel
+56,56169,Plouhinec,1180,,Ria d'Etel
+56,56013,Belz,1181,,Rue Beg en Trech
+56,56013,Belz,1182,,Rue Beg en Trech
+56,56013,Belz,1183,,(voie non dénommée)
+56,56161,Ploemel,1184,D 105,Rue Joseph Le Pévédic
+56,56161,Ploemel,1185,,Rue du Braden
+56,56161,Ploemel,1186,D 105,Rue Joseph Le Pévédic
+56,56161,Ploemel,1187,D 105,Rue Joseph Le Pévédic
+56,56031,Camors,1188,D 768,D 768
+56,56010,Baud,1189,D 768,D 768
+56,56010,Baud,1190,,Rue d'Auray
+56,56010,Baud,1191,,Rue Lamartine
+56,56010,Baud,1192,,Rue des Hortensias
+56,56010,Baud,1193,D 117,D 117
+56,56010,Baud,1194,D 117,D 117
+56,56010,Baud,1195,D 117,D 117
+56,56010,Baud,1196,D 117,D 117
+56,56010,Baud,1197,D 117,D 117
+56,56039,La Chapelle-Neuve,1198,D 117,Rue Principale
+56,56039,La Chapelle-Neuve,1199,D 117,D 117
+56,56039,La Chapelle-Neuve,1200,D 117,D 117
+56,56174,Plumelin,1201,D 117,D 117
+56,56174,Plumelin,1202,D 117,D 117
+56,56174,Plumelin,1203,D 117,D 117
+56,56174,Plumelin,1204,D 117,D 117
+56,56174,Plumelin,1205,D 117,D 117
+56,56174,Plumelin,1206,D 117,D 117
+56,56117,Locminé,1207,D 117,D 117
+56,56117,Locminé,1208,D 117,Rue Max Jacob
+56,56117,Locminé,1209,D 1,Rue de Verdun
+56,56017,Bignan,1210,D 1,D 1
+56,56017,Bignan,1211,D 1,D 1
+56,56017,Bignan,1212,D 1,D 1
+56,56017,Bignan,1213,D 1,Rue de l'Industrie
+56,56017,Bignan,1214,D 1,Rue Georges Cadoudal
+56,56017,Bignan,1215,D 123,D 123
+56,56017,Bignan,1216,D 123,D 123
+56,56017,Bignan,1217,D 123,D 123
+56,56017,Bignan,1218,D 123,D 123
+56,56017,Bignan,1219,D 123,D 123
+56,56017,Bignan,1220,D 123,D 123
+56,56017,Bignan,1221,D 123,D 123
+56,56017,Bignan,1222,D 123,D 123
+56,56071,Guéhenno,1223,D 123,D 123
+56,56071,Guéhenno,1224,D 123,D 123
+56,56071,Guéhenno,1225,D 123,D 123
+56,56071,Guéhenno,1226,D 778,D 778
+56,56071,Guéhenno,1227,D 123,Rue du Château
+56,56071,Guéhenno,1228,D 123,D 123
+56,56071,Guéhenno,1229,D 123,D 123
+56,56071,Guéhenno,1230,D 123,D 123
+56,56070,Guégon,1231,D 123,D 123
+56,56070,Guégon,1232,C 113,C 113
+56,56070,Guégon,1233,D 126,D 126
+56,56070,Guégon,1234,D 126,D 126
+56,56070,Guégon,1235,D 126,Rue du Sergent Plouchard
+56,56070,Guégon,1236,D 126,Rue Notre-Dame
+56,56091,Josselin,1237,D 126,D 126
+56,56091,Josselin,1238,D 4e,Rue du Général de Gaulle
+56,56091,Josselin,1239,D 793,Rue du Canal
+56,56079,Guillac,1240,,(voie non dénommée)
+56,56079,Guillac,1241,,(voie non dénommée)
+56,56079,Guillac,1242,,(voie non dénommée)
+56,56079,Guillac,1243,,(voie non dénommée)
+56,56079,Guillac,1244,D 122,D 122
+56,56079,Guillac,1245,D 122,D 122
+56,56079,Guillac,1246,D 122,D 122
+56,56079,Guillac,1247,D 122,D 122
+56,56079,Guillac,1248,D 122,Rue Daniau
+56,56079,Guillac,1249,D 122,D 122
+56,56079,Guillac,1250,D 122,D 122
+56,56079,Guillac,1251,D 122,D 122
+56,56165,Ploërmel,1252,D 122,D 122
+56,56165,Ploërmel,1253,D 122,Rue de Guillac
+56,56165,Ploërmel,1254,,Avenue de Guibourg
+56,56165,Ploërmel,1255,,Rue du Général Giraud
+56,56165,Ploërmel,1256,,Rue Saint-Michel
+56,56165,Ploërmel,1257,C 6,C 6
+56,56165,Ploërmel,1258,C 6,Rue de la Croix Perrinet
+56,56165,Ploërmel,1259,,(voie non dénommée)
+56,56165,Ploërmel,1260,,Rue du Clos des Champs
+56,56165,Ploërmel,1261,,(voie non dénommée)
+56,56139,Montertelot,1262,,(voie non dénommée)
+56,56139,Montertelot,1263,D 144,Rue des Barres
+56,56197,Val d'Oust,1264,D 766 A,D 766 A
+56,56197,Val d'Oust,1265,D 166,Rue Jules Ferry
+56,56202,Saint-Abraham,1266,D 166,D 166
+56,56202,Saint-Abraham,1267,,Rue des Écoles
+56,56202,Saint-Abraham,1268,,(voie non dénommée)
+56,56202,Saint-Abraham,1269,D 764,D 764
+56,56035,Caro,1270,D 764,D 764
+56,56133,Missiriac,1271,D 764,D 764
+56,56133,Missiriac,1272,D 764,D 764
+56,56124,Malestroit,1273,D 764,Rue du Bois Pivet
+56,56124,Malestroit,1274,,Rue Des Ponts
+56,56124,Malestroit,1275,D 146,Rue Édouard Entremont
+56,56133,Missiriac,1276,D 146,D 146
+56,56133,Missiriac,1277,D 146,D 146
+56,56133,Missiriac,1278,D 146,D 146
+56,56200,Ruffiac,1279,D 146 A,D 146 A
+56,56224,Saint-Laurent-sur-Oust,1280,D 146 A,D 146 A
+56,56224,Saint-Laurent-sur-Oust,1281,D 147,D 147
+56,56224,Saint-Laurent-sur-Oust,1282,D 147,D 147
+56,56229,Saint-Martin-sur-Oust,1283,D 147,D 147
+56,56211,Saint-Congard,1284,D 764,Route de Redon
+56,56211,Saint-Congard,1285,D 764,D 764
+56,56211,Saint-Congard,1286,D 764,D 764
+56,56211,Saint-Congard,1287,D 764,D 764
+56,56211,Saint-Congard,1288,D 764,D 764
+56,56218,Saint-Gravé,1289,D 764,D 764
+56,56218,Saint-Gravé,1290,D 764,D 764
+56,56218,Saint-Gravé,1291,D 764,D 764
+56,56154,Peillac,1292,D 764,D 764
+56,56154,Peillac,1293,D 764,D 764
+56,56154,Peillac,1294,D 764,D 764
+56,56154,Peillac,1295,D 764,D 764
+56,56154,Peillac,1296,D 764,Rue du Stade
+56,56154,Peillac,1297,D 764,Rue Marcel Callo
+56,56154,Peillac,1298,D 764,D 764
+56,56154,Peillac,1299,D 764,D 764
+56,56154,Peillac,1300,D 764,D 764
+56,56239,Saint-Vincent-sur-Oust,1301,D 764,D 764
+56,56239,Saint-Vincent-sur-Oust,1302,D 764,D 764
+56,56239,Saint-Vincent-sur-Oust,1303,D 764,Rue de Redon
+56,56239,Saint-Vincent-sur-Oust,1304,D 764,D 764
+56,56232,Saint-Perreux,1305,D 764,D 764
+56,56232,Saint-Perreux,1306,D 764,D 764
+56,56232,Saint-Perreux,1307,D 764,D 764
+56,56232,Saint-Perreux,1308,D 764,D 764
+35,35236,Redon,1309,D 164,Rond-Point de Courée
+35,35236,Redon,1310,D 65,Rue de Codilo
+35,35236,Redon,1311,D 65,Avenue de la Gare
+44,44185,Saint-Nicolas-de-Redon,1312,D 775,Avenue Jean Burel
+44,44185,Saint-Nicolas-de-Redon,1313,D 775,Avenue Jean Burel
+44,44185,Saint-Nicolas-de-Redon,1314,D 164,Rue de Nantes
+44,44185,Saint-Nicolas-de-Redon,1315,,(voie non dénommée)
+44,44185,Saint-Nicolas-de-Redon,1316,D 164,D 164
+44,44007,Avessac,1317,D 164,D 164
+44,44185,Saint-Nicolas-de-Redon,1318,D 164,D 164
+44,44057,Fégréac,1319,D 773,D 773
+44,44057,Fégréac,1320,D 773,D 773
+44,44057,Fégréac,1321,D 773,D 773
+44,44057,Fégréac,1322,D 773,D 773
+44,44057,Fégréac,1323,D 773,D 773
+44,44196,Sévérac,1324,D 773,D 773
+44,44196,Sévérac,1325,D 773,D 773
+44,44196,Sévérac,1326,D 773,D 773
+44,44196,Sévérac,1327,D 773,D 773
+44,44196,Sévérac,1328,D 773,D 773
+44,44196,Sévérac,1329,D 773,D 773
+44,44196,Sévérac,1330,D 773,D 773
+44,44161,Saint-Gildas-des-Bois,1331,,Route de Redon
+44,44161,Saint-Gildas-des-Bois,1332,D 2,Rue du Docteur Praux
+44,44161,Saint-Gildas-des-Bois,1333,D 773,Route de Pontchâteau
+44,44161,Saint-Gildas-des-Bois,1334,D 773,D 773
+44,44161,Saint-Gildas-des-Bois,1335,D 773,D 773
+44,44161,Saint-Gildas-des-Bois,1336,D 773,D 773
+44,44053,Drefféac,1337,D 773,D 773
+44,44053,Drefféac,1338,D 773,Grande Rue
+44,44053,Drefféac,1339,D 773,D 773
+44,44053,Drefféac,1340,D 773,Route de Saint-Gildas
+44,44129,Pontchâteau,1341,D 773,Route de Saint-Gildas
+44,44129,Pontchâteau,1342,D 773,D 773
+44,44129,Pontchâteau,1343,D 773,Rue Maurice Sambron
+44,44129,Pontchâteau,1344,,Rue des Acacias
+44,44129,Pontchâteau,1345,D 16,Route de Crossac
+44,44129,Pontchâteau,1346,D 16,Rue de la Herviais
+44,44129,Pontchâteau,1347,D 16,Route du Hainguet
+44,44129,Pontchâteau,1348,D 16,Route du Hainguet
+44,44129,Pontchâteau,1349,D 16,Route de la Planche Marion
+44,44050,Crossac,1350,D 16,Route de Pontchâteau
+44,44050,Crossac,1351,D 16,Route de Pontchâteau
+44,44050,Crossac,1352,D 4,Rue de l'Ancienne Gare
+44,44050,Crossac,1353,D 16,D 16
+44,44050,Crossac,1354,D 16,Route du Pont de l'Île
+44,44168,Saint-Joachim,1355,D 16,Route du Pont de l'Île
+44,44168,Saint-Joachim,1356,D 16,D 16
+44,44168,Saint-Joachim,1357,D 50,Rue Joliot Curie
+44,44168,Saint-Joachim,1358,D 50,Avenue Jean Moulin
+44,44168,Saint-Joachim,1359,D 50,Avenue Jean Moulin
+44,44168,Saint-Joachim,1360,,Rue du Pintré
+44,44176,Saint-Malo-de-Guersac,1361,D 50,Rue Jules Verne
+44,44176,Saint-Malo-de-Guersac,1362,D 50,Rue Émile Zola
+44,44176,Saint-Malo-de-Guersac,1363,D 50,Rue Émile Zola
+44,44103,Montoir-de-Bretagne,1364,D 50,Route de Saint-Malo de Guersac
+44,44103,Montoir-de-Bretagne,1365,D 50,Route de Saint-Malo de Guersac
+44,44103,Montoir-de-Bretagne,1366,D 50,D 50
+44,44103,Montoir-de-Bretagne,1367,D 971,D 971
+44,44103,Montoir-de-Bretagne,1368,D 971,Rue Henri Gautier
+44,44103,Montoir-de-Bretagne,1369,,Rue Henri Gautier
+44,44184,Saint-Nazaire,1370,D 971,Boulevard Émile Zola
+44,44210,Trignac,1371,,(voie non dénommée)
+44,44210,Trignac,1372,,Rue Jean-Marie Perret
+44,44184,Saint-Nazaire,1373,,Rue de la Croix Amisse
+44,44184,Saint-Nazaire,1374,D 971,Rue Henri Gautier
+44,44184,Saint-Nazaire,1375,,Rue Henri Gautier
+44,44184,Saint-Nazaire,1376,D 971,Boulevard de la Légion d'Honneur
+44,44184,Saint-Nazaire,1377,D 971,Boulevard Paul Leferme
+44,44184,Saint-Nazaire,1378,,Avenue de Penhoët
+44,44184,Saint-Nazaire,1379,,Boulevard des Apprentis
+44,44184,Saint-Nazaire,1380,,Boulevard des Apprentis
+44,44103,Montoir-de-Bretagne,1381,,(voie non dénommée)
+44,44103,Montoir-de-Bretagne,1382,D 100,D 100
+44,44103,Montoir-de-Bretagne,1383,D 100,D 100
+44,44103,Montoir-de-Bretagne,1384,D 100,D 100
+44,44103,Montoir-de-Bretagne,1385,D 100,D 100
+44,44103,Montoir-de-Bretagne,1386,D 100,Rue des Grandes Rivières
+44,44103,Montoir-de-Bretagne,1387,,(voie non dénommée)
+44,44052,Donges,1388,D 100,D 100
+44,44052,Donges,1389,D 100,D 100
+44,44052,Donges,1390,,(voie non dénommée)
+44,44052,Donges,1391,D 4,D 4
+44,44052,Donges,1392,D 4,Rue du Stade
+44,44052,Donges,1393,D 100,Rue du Stade
+44,44052,Donges,1394,,(voie non dénommée)
+44,44052,Donges,1395,D 100,D 100
+44,44052,Donges,1396,D 100,D 100
+44,44052,Donges,1397,D 100,D 100
+44,44052,Donges,1398,D 100,D 100
+44,44052,Donges,1399,D 100,D 100
+44,44052,Donges,1400,D 100,D 100
+44,44137,Prinquiau,1401,D 100,D 100
+44,44137,Prinquiau,1402,D 100,D 100
+44,44137,Prinquiau,1403,D 771,Route de Villeneuve
+44,44033,La Chapelle-Launay,1404,D 771,D 771
+44,44033,La Chapelle-Launay,1405,D 771,D 771
+44,44033,La Chapelle-Launay,1406,D 771,D 771
+44,44195,Savenay,1407,,(voie non dénommée)
+44,44195,Savenay,1408,D 771,Rue du Pontreau
+44,44195,Savenay,1409,,Rue de la Soubretière
+44,44195,Savenay,1410,D 17,D 17
+44,44195,Savenay,1411,D 17,D 17
+44,44089,Malville,1412,D 17,D 17
+44,44019,Bouée,1413,D 17,D 17
+44,44089,Malville,1414,D 17,D 17
+44,44045,Cordemais,1415,D 17,D 17
+44,44045,Cordemais,1416,D 17,D 17
+44,44158,Saint-Étienne-de-Montluc,1417,D 17,D 17
+44,44158,Saint-Étienne-de-Montluc,1418,D 17,Route de Savenay
+44,44158,Saint-Étienne-de-Montluc,1419,D 17,Route de Coueron
+44,44158,Saint-Étienne-de-Montluc,1420,D 17,D 17
+44,44158,Saint-Étienne-de-Montluc,1421,D 101,Route de Saint-Etienne de Montluc
+44,44047,Couëron,1422,M 101,Route de Saint-Etienne de Montluc
+44,44047,Couëron,1423,M 101,Route de Saint-Etienne de Montluc
+44,44047,Couëron,1424,,Route de Saint-Etienne de Montluc
+44,44047,Couëron,1425,,Rue des Maraîchers
+44,44162,Saint-Herblain,1426,,Rue Jan Palach
+44,44162,Saint-Herblain,1427,,Rue du Charron
+44,44162,Saint-Herblain,1428,,Boulevard Salvador Allende
+44,44109,Nantes,1429,,Rue Maurice Garin
+44,44109,Nantes,1430,,Rue Maurice Garin
+44,44109,Nantes,1431,,Rue Maurice Garin
+44,44109,Nantes,1432,,Rue de Mascara
+44,44109,Nantes,1433,,Rue Arsène Leloup
+44,44109,Nantes,1434,,Boulevard Émile Gabory
+44,44109,Nantes,1435,,Boulevard Émile Gabory
+44,44109,Nantes,1436,,(voie non dénommée)
+44,44109,Nantes,1437,,Rue du Corps de Garde
+44,44109,Nantes,1438,,Rue du Corps de Garde
+44,44109,Nantes,1439,,Boulevard Léon Jouhaux
+44,44109,Nantes,1440,,Boulevard Salvador Allende
+44,44109,Nantes,1441,,Quai de la Fosse
+44,44109,Nantes,1442,,Pont Anne de Bretagne
+44,44109,Nantes,1443,,Place du Sanitat
+44,44109,Nantes,1444,,Rue du Corps de Garde
+44,44109,Nantes,1445,,Rue du Corps de Garde
+44,44162,Saint-Herblain,1446,,Avenue de Cheverny
+44,44162,Saint-Herblain,1447,,Avenue de l'Angevinière
+44,44162,Saint-Herblain,1448,,Avenue des Thébaudières
+44,44109,Nantes,1449,,Rue Arsène Leloup
+44,44109,Nantes,1450,,Rue Lamartine
+44,44109,Nantes,1451,,Rue Condorcet
+44,44109,Nantes,1452,,Rue Jean-Louis de Girodet
+44,44162,Saint-Herblain,1453,,Boulevard du Massacre
+44,44162,Saint-Herblain,1454,,Avenue des Grands Bois
+44,44162,Saint-Herblain,1455,,Avenue de Cheverny
+44,44162,Saint-Herblain,1456,,Avenue de Cheverny
+44,44109,Nantes,1457,,Quai de la Fosse
+44,44109,Nantes,1458,,Rue Gaston Michel
+44,44109,Nantes,1459,,Rue Gaston Michel
+44,44109,Nantes,1460,,Quai Moncousu
+44,44109,Nantes,1461,,Avenue Jean-Claude Bonduelle
+44,44109,Nantes,1462,,Boulevard du Général de Gaulle
+44,44109,Nantes,1463,,Boulevard Émile Gabory
+44,44109,Nantes,1464,,Place du Sanitat
+44,44109,Nantes,1465,,Rue de Mascara
+44,44109,Nantes,1466,,(voie non dénommée)
+44,44109,Nantes,1467,,Rue Dos d'Âne
+44,44143,Rezé,1468,,Boulevard du Général de Gaulle
+44,44143,Rezé,1469,,Rue du Seil
+44,44109,Nantes,1470,,Quai du Président Wilson
+44,44109,Nantes,1471,,(voie non dénommée)
+44,44109,Nantes,1472,,Mail des Chantiers
+44,44109,Nantes,1473,,Pont Anne de Bretagne
+44,44162,Saint-Herblain,1474,,Avenue des Thébaudières
+44,44114,Orvault,1475,,Avenue de la Morlière
+44,44114,Orvault,1476,,Avenue Félix Vincent
+44,44114,Orvault,1477,,Avenue Félix Vincent
+44,44114,Orvault,1478,,Route de Rennes
+44,44109,Nantes,1479,,(voie non dénommée)
+44,44109,Nantes,1480,,Route de La Chapelle sur Erdre
+44,44035,La Chapelle-sur-Erdre,1481,M 69,Route du Viaduc
+44,44035,La Chapelle-sur-Erdre,1482,M 69,Route de Nantes
+44,44035,La Chapelle-sur-Erdre,1483,M 69,Rue Hervé Le Guyader
+44,44035,La Chapelle-sur-Erdre,1484,M 69,Rue Hervé Le Guyader
+44,44035,La Chapelle-sur-Erdre,1485,,Rue Louise Michel
+44,44035,La Chapelle-sur-Erdre,1486,M 69,M 69
+44,44035,La Chapelle-sur-Erdre,1487,M 69,M 69
+44,44201,Sucé-sur-Erdre,1488,D 69,D 69
+44,44201,Sucé-sur-Erdre,1489,D 69,D 69
+44,44201,Sucé-sur-Erdre,1490,D 69,D 69
+44,44201,Sucé-sur-Erdre,1491,,Rue du Port
+44,44201,Sucé-sur-Erdre,1492,D 69,Rue Descartes
+44,44201,Sucé-sur-Erdre,1493,D 69,Rue de Nort
+44,44201,Sucé-sur-Erdre,1494,D 69,Rue de Nort
+44,44201,Sucé-sur-Erdre,1495,D 69,Rue de Nort
+44,44201,Sucé-sur-Erdre,1496,D 69,Rue de Nort
+44,44201,Sucé-sur-Erdre,1497,D 69,Rue de Nort
+44,44201,Sucé-sur-Erdre,1498,D 69,Rue de Nort
+44,44027,Casson,1499,D 69,D 69
+44,44110,Nort-sur-Erdre,1500,D 69,D 69
+44,44110,Nort-sur-Erdre,1501,D 26,D 26
+44,44110,Nort-sur-Erdre,1502,D 26,D 26
+44,44110,Nort-sur-Erdre,1503,D 26,D 26
+44,44110,Nort-sur-Erdre,1504,D 26,D 26
+44,44110,Nort-sur-Erdre,1505,D 26,Route de Casson
+44,44110,Nort-sur-Erdre,1506,D 26,Rue François Dupas
+44,44110,Nort-sur-Erdre,1507,,Rue de l'Erdre
+44,44110,Nort-sur-Erdre,1508,D 69,Route d'Issé
+44,44110,Nort-sur-Erdre,1509,D 69,D 69
+44,44110,Nort-sur-Erdre,1510,D 69,D 69
+44,44110,Nort-sur-Erdre,1511,D 69,D 69
+44,44110,Nort-sur-Erdre,1512,D 69,D 69
+44,44110,Nort-sur-Erdre,1513,D 69,D 69
+44,44110,Nort-sur-Erdre,1514,D 69,D 69
+44,44110,Nort-sur-Erdre,1515,D 69,D 69
+44,44077,Joué-sur-Erdre,1516,D 69,D 69
+44,44077,Joué-sur-Erdre,1517,D 69,D 69
+44,44077,Joué-sur-Erdre,1518,D 69,Rue de Bellevue
+44,44077,Joué-sur-Erdre,1519,D 69,D 69
+44,44001,Abbaretz,1520,D 69,D 69
+44,44001,Abbaretz,1521,D 69,D 69
+44,44001,Abbaretz,1522,D 69,D 69
+44,44001,Abbaretz,1523,D 69,D 69
+44,44001,Abbaretz,1524,D 69,D 69
+44,44001,Abbaretz,1525,D 69,D 69
+44,44001,Abbaretz,1526,D 69,D 69
+44,44001,Abbaretz,1527,D 69,D 69
+44,44075,Issé,1528,D 69,D 69
+44,44075,Issé,1529,D 69,D 69
+44,44075,Issé,1530,D 69,D 69
+44,44075,Issé,1531,D 69,D 69
+44,44075,Issé,1532,D 18,Grande Rue
+44,44075,Issé,1533,D 35,Rue Saint-Joseph
+44,44075,Issé,1534,D 35,D 35
+44,44075,Issé,1535,D 35,D 35
+44,44075,Issé,1536,D 35,D 35
+44,44075,Issé,1537,D 35,D 35
+44,44085,Louisfert,1538,D 35,D 35
+44,44085,Louisfert,1539,D 35,D 35
+44,44085,Louisfert,1540,D 35,D 35
+44,44085,Louisfert,1541,D 35,D 35
+44,44085,Louisfert,1542,D 35,D 35
+44,44036,Châteaubriant,1543,D 35,Route d'Issé
+44,44036,Châteaubriant,1544,D 35,Rue du Président Kennedy
+44,44036,Châteaubriant,1545,D 163,Rue du 8 Mai 1945
+44,44036,Châteaubriant,1546,,Rue Baptiste Marcet
+44,44036,Châteaubriant,1547,,Rue de la Gare
+44,44036,Châteaubriant,1548,,Rue de Couéré
+44,44036,Châteaubriant,1549,D 163,D 163
+44,44036,Châteaubriant,1550,D 772,D 772
+44,44036,Châteaubriant,1551,D 772,D 772
+44,44036,Châteaubriant,1552,D 772,D 772
+44,44036,Châteaubriant,1553,D 772,D 772
+44,44146,Rougé,1554,D 772,D 772
+44,44146,Rougé,1555,D 772,D 772
+44,44146,Rougé,1556,D 772,D 772
+44,44146,Rougé,1557,D 772,D 772
+44,44148,Ruffigné,1558,D 772,D 772
+44,44146,Rougé,1559,D 772,D 772
+44,44146,Rougé,1560,D 772,D 772
+44,44146,Rougé,1561,D 772,D 772
+44,44146,Rougé,1562,D 772,D 772
+44,44148,Ruffigné,1563,D 772,D 772
+44,44146,Rougé,1564,D 772,D 772
+35,35332,Teillay,1565,D 772,D 772
+35,35332,Teillay,1566,D 772,D 772
+35,35332,Teillay,1567,D 772,Rue Andrée Récipon
+35,35332,Teillay,1568,D 772,Rue de Bain
+35,35238,Rennes,1569,,(voie non dénommée)
+35,35238,Rennes,1570,,Rue d'Orléans
+35,35332,Teillay,1571,D 82,D 82
+35,35106,Ercé-en-Lamée,1572,D 82,D 82
+35,35106,Ercé-en-Lamée,1573,D 82,Rue des Mimosas
+35,35106,Ercé-en-Lamée,1574,D 82,D 82
+35,35106,Ercé-en-Lamée,1575,D 82,D 82
+35,35106,Ercé-en-Lamée,1576,D 82,D 82
+35,35106,Ercé-en-Lamée,1577,D 82,D 82
+35,35106,Ercé-en-Lamée,1578,D 82,D 82
+35,35030,La Bosse-de-Bretagne,1579,D 82,D 82
+35,35030,La Bosse-de-Bretagne,1580,,Rue de la Bascule
+35,35030,La Bosse-de-Bretagne,1581,D 82,D 82
+35,35322,Le Sel-de-Bretagne,1582,D 82,D 82
+35,35322,Le Sel-de-Bretagne,1583,D 82,D 82
+35,35322,Le Sel-de-Bretagne,1584,D 82,Rue Mozart
+35,35322,Le Sel-de-Bretagne,1585,D 82,D 82
+35,35218,Le Petit-Fougeray,1586,D 82,D 82
+35,35218,Le Petit-Fougeray,1587,D 82,D 82
+35,35218,Le Petit-Fougeray,1588,D 82,D 82
+35,35218,Le Petit-Fougeray,1589,D 82,D 82
+35,35054,Chanteloup,1590,D 82,D 82
+35,35054,Chanteloup,1591,D 82,D 82
+35,35054,Chanteloup,1592,D 82,D 82
+35,35054,Chanteloup,1593,D 41,D 41
+35,35032,Bourgbarré,1594,D 41,D 41
+35,35208,Orgères,1595,D 41,D 41
+35,35208,Orgères,1596,D 41,D 41
+35,35208,Orgères,1597,D 286,D 286
+35,35208,Orgères,1598,D 286,D 286
+35,35208,Orgères,1599,D 286,Route de Chanteloup
+35,35208,Orgères,1600,,Rue de Rennes
+35,35208,Orgères,1601,C 6,Rue de Pont-Péan
+35,35363,Pont-Péan,1602,C 6,Route d'Orgères
+35,35363,Pont-Péan,1603,C 6,Route d'Orgères
+35,35363,Pont-Péan,1604,,Rue des Chênes
+35,35363,Pont-Péan,1605,,Rue de la Mine
+35,35047,Bruz,1606,D 36,D 36
+35,35047,Bruz,1607,D 36,Avenue du Général de Gaulle
+35,35047,Bruz,1608,,Boulevard Pasteur
+35,35047,Bruz,1609,,Rue de la Noé
+35,35047,Bruz,1610,D 77,Avenue Jules Tricault
+35,35047,Bruz,1611,D 77,Rue Émile Gernigon
+35,35047,Bruz,1612,D 77,D 77
+35,35047,Bruz,1613,D 77,D 77
+35,35047,Bruz,1614,D 77,D 77
+35,35047,Bruz,1615,D 434,D 434
+35,35281,Saint-Jacques-de-la-Lande,1616,D 434,D 434
+35,35281,Saint-Jacques-de-la-Lande,1617,D 434,D 434
+35,35281,Saint-Jacques-de-la-Lande,1618,,Rue Jacqueline Auriol
+35,35281,Saint-Jacques-de-la-Lande,1619,,Contour du Parc
+35,35281,Saint-Jacques-de-la-Lande,1620,,Mail Léon Blum
+35,35281,Saint-Jacques-de-la-Lande,1621,D 434,Rue Frédéric Benoit
+35,35281,Saint-Jacques-de-la-Lande,1622,,Rue du Temple de Blosne
+35,35281,Saint-Jacques-de-la-Lande,1623,,Rue de Nantes
+35,35238,Rennes,1624,,Rue de Nantes
+35,35238,Rennes,1625,,Rue des Trente
+35,35238,Rennes,1626,,Mail François Mitterrand
+35,35238,Rennes,1627,,Place de la République
+35,35238,Rennes,1628,,Rue d'Orléans
+35,35238,Rennes,1629,,Boulevard de Sévigné
+35,35238,Rennes,1630,,Boulevard de Sévigné
+35,35238,Rennes,1631,,Avenue du Général Leclerc
+35,35238,Rennes,1632,,Avenue du Général Leclerc
+35,35051,Cesson-Sévigné,1633,,Avenue de la Renaudière
+35,35051,Cesson-Sévigné,1634,,Rue du Muguet
+35,35051,Cesson-Sévigné,1635,,Rue de la Croix Connue
+35,35051,Cesson-Sévigné,1636,D 96,Boulevard Saint-Roch
+35,35051,Cesson-Sévigné,1637,D 96,Boulevard Saint-Roch
+35,35334,Thorigné-Fouillard,1638,D 86,Boulevard Bertrand d'Argentré
+35,35334,Thorigné-Fouillard,1639,,Rond-Point de la Porte de Tizé
+35,35334,Thorigné-Fouillard,1640,D 29,D 29
+35,35334,Thorigné-Fouillard,1641,D 29,D 29
+35,35001,Acigné,1642,D 29,D 29
+35,35001,Acigné,1643,,Avenue des Onglées
+35,35001,Acigné,1644,D 29,Rue du Fort de la Motte
+35,35001,Acigné,1645,D 29,D 29
+35,35001,Acigné,1646,D 29,D 29
+35,35001,Acigné,1647,D 29,D 29
+35,35001,Acigné,1648,D 29,D 29
+35,35327,Servon-sur-Vilaine,1649,D 29,D 29
+35,35327,Servon-sur-Vilaine,1650,D 29,Rue Laënnec
+35,35327,Servon-sur-Vilaine,1651,D 33,D 33
+35,35327,Servon-sur-Vilaine,1652,D 33,D 33
+35,35327,Servon-sur-Vilaine,1653,D 33,D 33
+35,35068,Châteaubourg,1654,D 33,D 33
+35,35068,Châteaubourg,1655,D 95,Rue Louis Pasteur
+35,35068,Châteaubourg,1656,D 857,Rue de Paris
+35,35068,Châteaubourg,1657,D 857,Rue de Vitré
+35,35068,Châteaubourg,1658,,Rue du Vieux Moulin
+35,35264,Saint-Didier,1659,,(voie non dénommée)
+35,35264,Saint-Didier,1660,D 33,D 33
+35,35264,Saint-Didier,1661,D 33,D 33
+35,35264,Saint-Didier,1662,D 33,D 33
+35,35264,Saint-Didier,1663,D 33,D 33
+35,35087,Cornillé,1664,D 33,D 33
+35,35087,Cornillé,1665,D 33,Route du Patis de la Chapelle
+35,35087,Cornillé,1666,D 33,D 33
+35,35087,Cornillé,1667,D 33,D 33
+35,35338,Torcé,1668,D 33,D 33
+35,35338,Torcé,1669,D 33,D 33
+35,35338,Torcé,1670,D 33,D 33
+35,35338,Torcé,1671,D 33,D 33
+35,35109,Étrelles,1672,D 33,D 33
+35,35109,Étrelles,1673,D 33,D 33
+35,35109,Étrelles,1674,D 33,D 33
+35,35109,Étrelles,1675,D 33,Rue des Saulniers
+35,35109,Étrelles,1676,D 33,Rue des Saulniers
+35,35109,Étrelles,1677,D 33,D 33
+35,35006,Argentré-du-Plessis,1678,D 33,Boulevard des Saulniers
+35,35006,Argentré-du-Plessis,1679,D 33,Rue du Général Leclerc
+35,35238,Rennes,1680,,Rue de la Motte Fablet
+35,35238,Rennes,1681,,Place Hoche
+35,35238,Rennes,1682,,Boulevard de Sévigné
+35,35360,Vitré,1683,D 857,Promenade Saint-Yves
+35,35360,Vitré,1684,D 857,Rue de Rennes
+35,35360,Vitré,1685,D 857,D 857
+35,35360,Vitré,1686,D 29,D 29
+35,35194,Montreuil-sous-Pérouse,1687,D 29,D 29
+35,35194,Montreuil-sous-Pérouse,1688,D 29,Route de la Robiquette
+35,35194,Montreuil-sous-Pérouse,1689,D 29,D 29
+35,35052,Champeaux,1690,D 29,D 29
+35,35052,Champeaux,1691,D 29,D 29
+35,35052,Champeaux,1692,D 29,D 29
+35,35052,Champeaux,1693,D 29,D 29
+35,35166,Marpiré,1694,D 29,D 29
+35,35166,Marpiré,1695,D 106,D 106
+35,35166,Marpiré,1696,D 106,D 106
+35,35166,Marpiré,1697,D 106,D 106
+35,35031,La Bouëxière,1698,D 106,D 106
+35,35031,La Bouëxière,1699,D 106,D 106
+35,35031,La Bouëxière,1700,D 106,D 106
+35,35031,La Bouëxière,1701,D 106,D 106
+35,35031,La Bouëxière,1702,D 106,D 106
+35,35031,La Bouëxière,1703,D 106,D 106
+35,35031,La Bouëxière,1704,,Rue Théophile Rémond
+35,35031,La Bouëxière,1705,D 106,D 106
+35,35031,La Bouëxière,1706,D 106,D 106
+35,35031,La Bouëxière,1707,D 106,D 106
+35,35152,Liffré,1708,D 528,D 528
+35,35152,Liffré,1709,D 528,D 528
+35,35152,Liffré,1710,D 528,Avenue du Président François Mitterand
+35,35152,Liffré,1711,D 528,Avenue du Président François Mitterand
+35,35152,Liffré,1712,D 92,Rue de Fougères
+35,35152,Liffré,1713,D 812,D 812
+35,35152,Liffré,1714,D 812,D 812
+35,35152,Liffré,1715,D 812,D 812
+35,35121,Gosné,1716,D 812,D 812
+35,35121,Gosné,1717,D 812,Rue Nationale
+35,35121,Gosné,1718,D 812,D 812
+35,35253,Saint-Aubin-du-Cormier,1719,D 812,D 812
+35,35253,Saint-Aubin-du-Cormier,1720,D 812,Rue Nationale
+35,35253,Saint-Aubin-du-Cormier,1721,D 812,Rue Nationale
+35,35253,Saint-Aubin-du-Cormier,1722,D 812,Route de Fougères
+35,35282,Rives-du-Couesnon,1723,D 812,D 812
+35,35282,Rives-du-Couesnon,1724,D 812,D 812
+35,35282,Rives-du-Couesnon,1725,D 812,D 812
+35,35282,Rives-du-Couesnon,1726,D 812,D 812
+35,35282,Rives-du-Couesnon,1727,D 812,D 812
+35,35282,Rives-du-Couesnon,1728,D 812,D 812
+35,35282,Rives-du-Couesnon,1729,D 22,D 22
+35,35063,La Chapelle-Saint-Aubert,1730,D 22,D 22
+35,35063,La Chapelle-Saint-Aubert,1731,D 22,D 22
+35,35282,Rives-du-Couesnon,1732,,Rue de Rennes
+35,35282,Rives-du-Couesnon,1733,D 22,D 22
+35,35282,Rives-du-Couesnon,1734,D 22,D 22
+35,35025,Billé,1735,D 22,D 22
+35,35025,Billé,1736,D 22,D 22
+35,35025,Billé,1737,D 22,D 22
+35,35137,Javené,1738,D 22,D 22
+35,35137,Javené,1739,D 22,D 22
+35,35137,Javené,1740,D 22,D 22
+35,35137,Javené,1741,D 179,D 179
+35,35150,Lécousse,1742,D 179,D 179
+35,35115,Fougères,1743,D 179,Rue de Nantes
+35,35115,Fougères,1744,,Rue de la Monnerie
+35,35115,Fougères,1745,D 798,Avenue Georges Pompidou
+35,35115,Fougères,1746,,Place Aristide Briand
+35,35115,Fougères,1747,,Rue des Fontaines
+35,35150,Lécousse,1748,,Boulevard de Bliche
+35,35150,Lécousse,1749,D 113,D 113
+35,35243,Romagné,1750,D 113,D 113
+35,35243,Romagné,1751,D 113,D 113
+35,35243,Romagné,1752,D 113,D 113
+35,35243,Romagné,1753,D 113,D 113
+35,35310,Saint-Sauveur-des-Landes,1754,D 113,D 113
+35,35310,Saint-Sauveur-des-Landes,1755,,(voie non dénommée)
+35,35310,Saint-Sauveur-des-Landes,1756,,(voie non dénommée)
+35,35310,Saint-Sauveur-des-Landes,1757,,Route de la Luardière
+35,35310,Saint-Sauveur-des-Landes,1758,,Route de la Luardière
+35,35280,Saint-Hilaire-des-Landes,1759,D 103,D 103
+35,35280,Saint-Hilaire-des-Landes,1760,D 103,D 103
+35,35280,Saint-Hilaire-des-Landes,1761,D 103,Rue des Sept Manoirs
+35,35280,Saint-Hilaire-des-Landes,1762,D 103,Bellevue
+35,35280,Saint-Hilaire-des-Landes,1763,D 20,D 20
+35,35280,Saint-Hilaire-des-Landes,1764,D 20,D 20
+35,35304,Saint-Ouen-des-Alleux,1765,D 20,D 20
+35,35304,Saint-Ouen-des-Alleux,1766,D 20,D 20
+35,35304,Saint-Ouen-des-Alleux,1767,D 20,D 20
+35,35304,Saint-Ouen-des-Alleux,1768,D 20,D 20
+35,35261,Saint-Christophe-de-Valains,1769,D 20,D 20
+35,35261,Saint-Christophe-de-Valains,1770,D 20,D 20
+35,35355,Vieux-Vy-sur-Couesnon,1771,D 20,D 20
+35,35355,Vieux-Vy-sur-Couesnon,1772,D 20,D 20
+35,35355,Vieux-Vy-sur-Couesnon,1773,D 20,Rue Yvonnick Laurent
+35,35355,Vieux-Vy-sur-Couesnon,1774,D 20,D 20
+35,35355,Vieux-Vy-sur-Couesnon,1775,D 20,D 20
+35,35355,Vieux-Vy-sur-Couesnon,1776,D 20,D 20
+35,35326,Sens-de-Bretagne,1777,D 794,Avenue Philippe de Volvire
+35,35326,Sens-de-Bretagne,1778,D 20,D 20
+35,35326,Sens-de-Bretagne,1779,D 20,D 20
+35,35326,Sens-de-Bretagne,1780,D 20,D 20
+35,35326,Sens-de-Bretagne,1781,D 20,D 20
+35,35110,Feins,1782,D 20,D 20
+35,35110,Feins,1783,D 20,D 20
+35,35110,Feins,1784,D 20,D 20
+35,35110,Feins,1785,D 20,D 20
+35,35110,Feins,1786,D 20,Rue des Écoles
+35,35110,Feins,1787,D 12,D 12
+35,35195,Montreuil-sur-Ille,1788,D 12,D 12
+35,35195,Montreuil-sur-Ille,1789,D 12,Rue du Clos Gérard
+35,35195,Montreuil-sur-Ille,1790,D 221,Avenue Alexis Rey
+35,35195,Montreuil-sur-Ille,1791,D 221,D 221
+35,35195,Montreuil-sur-Ille,1792,D 221,D 221
+35,35128,Guipel,1793,D 221,D 221
+35,35128,Guipel,1794,D 221,Place Duine
+35,35128,Guipel,1795,D 221,Rue de la Liberté
+35,35128,Guipel,1796,D 221,Rue de la Liberté
+35,35130,Hédé-Bazouges,1797,D 221,Rue de la Liberté
+35,35130,Hédé-Bazouges,1798,D 221,D 221
+35,35130,Hédé-Bazouges,1799,D 221,Rue de la Motte
+35,35130,Hédé-Bazouges,1800,D 221,Rue de la Motte
+35,35130,Hédé-Bazouges,1801,D 87,D 87
+35,35337,Tinténiac,1802,D 637,D 637
+35,35337,Tinténiac,1803,D 637,D 637
+35,35258,Saint-Brieuc-des-Iffs,1804,D 637,D 637
+35,35337,Tinténiac,1805,D 637,D 637
+35,35337,Tinténiac,1806,D 637,Rue Nationale
+35,35337,Tinténiac,1807,,Avenue Félicité de Lamennais
+35,35265,Saint-Domineuc,1808,D 637,D 637
+35,35265,Saint-Domineuc,1809,D 637,D 637
+35,35265,Saint-Domineuc,1810,D 637,D 637
+35,35265,Saint-Domineuc,1811,D 637,D 637
+35,35265,Saint-Domineuc,1812,D 637,Rue Nationale
+35,35265,Saint-Domineuc,1813,D 11,D 11
+35,35345,Trévérien,1814,D 11,D 11
+35,35345,Trévérien,1815,D 11,D 11
+35,35345,Trévérien,1816,D 11,D 11
+35,35345,Trévérien,1817,D 79,Rue de la Forge
+35,35345,Trévérien,1818,D 11,D 11
+22,22306,Saint-Judoce,1819,D 78,D 78
+22,22306,Saint-Judoce,1820,D 78,D 78
+22,22056,Évran,1821,D 78,Rue des Cordiers
+22,22056,Évran,1822,D 2,Rue de la Libération
+22,22056,Évran,1823,D 2,D 2
+22,22056,Évran,1824,D 2,D 2
+22,22056,Évran,1825,D 2,D 2
+22,22035,Les Champs-Géraux,1826,D 2,D 2
+22,22035,Les Champs-Géraux,1827,D 2,D 2
+22,22035,Les Champs-Géraux,1828,D 2,D 2
+22,22035,Les Champs-Géraux,1829,D 2,D 2
+22,22035,Les Champs-Géraux,1830,D 2,D 2
+35,35006,Argentré-du-Plessis,1831,D 33,Rue du Général Leclerc
+35,35006,Argentré-du-Plessis,1832,D 33,Rue du Général Leclerc
+35,35006,Argentré-du-Plessis,1833,D 88,Rue des Sports
+35,35006,Argentré-du-Plessis,1834,D 88,D 88
+35,35006,Argentré-du-Plessis,1835,D 88,D 88
+35,35360,Vitré,1836,D 88,D 88
+35,35360,Vitré,1837,D 88,D 88
+35,35360,Vitré,1838,,(voie non dénommée)
+35,35360,Vitré,1839,,(voie non dénommée)
+35,35360,Vitré,1840,,(voie non dénommée)
+35,35360,Vitré,1841,,Rue des Eaux
+35,35360,Vitré,1842,,Rue des Eaux
+35,35360,Vitré,1843,,Boulevard de la Motte
+35,35360,Vitré,1844,D 857,Rue de Paris
+35,35360,Vitré,1845,,Rue Notre-Dame
+35,35360,Vitré,1846,D 857,Promenade Saint-Yves
+35,35360,Vitré,1847,,Boulevard de la Motte
+35,35360,Vitré,1848,,Rue de Pré Clos
+35,35360,Vitré,1849,D 857,Rue de Paris
+35,35360,Vitré,1850,,Boulevard de la Motte
+35,35360,Vitré,1851,,Boulevard de la Motte
+22,22200,Pléven,1852,D 28,Rue Pierre Heuzé
+22,22200,Pléven,1853,D 28,D 28
+22,22200,Pléven,1854,D 16,D 16
+22,22200,Pléven,1855,D 28,D 28
+22,22175,Plédéliac,1856,D 28,D 28
+22,22175,Plédéliac,1857,D 28,D 28
+22,22175,Plédéliac,1858,D 28,D 28
+22,22175,Plédéliac,1859,D 28,D 28
+22,22175,Plédéliac,1860,D 28,D 28
+22,22175,Plédéliac,1861,D 28,D 28
+22,22175,Plédéliac,1862,D 28,D 28
+22,22093,Lamballe-Armor,1863,D 28,D 28
+22,22093,Lamballe-Armor,1864,D 28,D 28
+22,22093,Lamballe-Armor,1865,D 28,D 28
+22,22093,Lamballe-Armor,1866,D 28,D 28
+22,22093,Lamballe-Armor,1867,D 28,Route des Landes
+22,22093,Lamballe-Armor,1868,D 28,Avenue des Potiers
+22,22093,Lamballe-Armor,1869,D 28,D 28
+22,22093,Lamballe-Armor,1870,,Rue du Pont de Coetquen
+22,22093,Lamballe-Armor,1871,,Rue Paul Langevin
+22,22093,Lamballe-Armor,1872,D 791,Rue du Val
+22,22093,Lamballe-Armor,1873,,Rue du Docteur Lavergne
+22,22093,Lamballe-Armor,1874,,Rue d'Armor
+22,22093,Lamballe-Armor,1875,D 712,D 712
+22,22093,Lamballe-Armor,1876,D 712,Rue de la Déhanne
+22,22093,Lamballe-Armor,1877,,(voie non dénommée)
+22,22044,Coëtmieux,1878,,(voie non dénommée)
+22,22044,Coëtmieux,1879,,Rue de Belleville
+22,22044,Coëtmieux,1880,D 46,Rue de la Glanerie
+22,22044,Coëtmieux,1881,D 46,Rue de la Glanerie
+22,22081,Hillion,1882,,(voie non dénommée)
+22,22081,Hillion,1883,,(voie non dénommée)
+22,22081,Hillion,1884,,Rue du Fraîche Clos
+22,22081,Hillion,1885,D 786,Rue Morin
+22,22081,Hillion,1886,D 712,Rue de Brest
+22,22081,Hillion,1887,D 712,Rue de Brest
+22,22081,Hillion,1888,D 712,Rue Monseigneur Le Mée
+22,22389,Yffiniac,1889,D 81,Rue de Penthièvre
+22,22106,Langueux,1890,,(voie non dénommée)
+22,22106,Langueux,1891,D 712,Rue des Hauts Chemins
+22,22106,Langueux,1892,D 712,Rue de Rennes
+22,22106,Langueux,1893,D 712,Rue de Rennes
+22,22106,Langueux,1894,,Rue de Faligot
+22,22106,Langueux,1895,C 4,Rue du Vau Hervé
+22,22106,Langueux,1896,C 4,Rue de la Grève des Courses
+22,22106,Langueux,1897,C 4,Rue de la Grève des Courses
+22,22278,Saint-Brieuc,1898,,Rue de la Corniche
+22,22278,Saint-Brieuc,1899,,Rue du Commandant Le Conniat
+22,22278,Saint-Brieuc,1900,,Quai Surcouf
+22,22278,Saint-Brieuc,1901,,(voie non dénommée)
+22,22278,Saint-Brieuc,1902,,coulée verte
+22,22278,Saint-Brieuc,1903,,(voie non dénommée)
+22,22278,Saint-Brieuc,1904,,(voie non dénommée)
+22,22278,Saint-Brieuc,1905,,Rue Abbé Garnier
+22,22278,Saint-Brieuc,1906,,Boulevard Carnot
+22,22278,Saint-Brieuc,1907,,Boulevard Laennec
+22,22278,Saint-Brieuc,1908,,Rue Jean Nicolas
+22,22278,Saint-Brieuc,1909,,Rue du Parc
+22,22278,Saint-Brieuc,1910,,Rue des Trois Frères Merlin
+22,22278,Saint-Brieuc,1911,,Rue Lamennais
+22,22278,Saint-Brieuc,1912,,Rue du Port
+22,22278,Saint-Brieuc,1913,,Rue du Port Favigo
+22,22278,Saint-Brieuc,1914,,Quai Armez
+22,22187,Plérin,1915,D 24,Rue Adolphe le Bail
+22,22118,Lanvallay,1916,,Rue Saint-James
+22,22118,Lanvallay,1917,,(voie non dénommée)
+22,22118,Lanvallay,1918,,(voie non dénommée)
+22,22050,Dinan,1919,,Rue du Bourg
+22,22118,Lanvallay,1920,,(voie non dénommée)
+22,22118,Lanvallay,1921,,(voie non dénommée)
+22,22118,Lanvallay,1922,,Chemin du Hâlage Hamon Ferron
+22,22050,Dinan,1923,,Place Saint-Sauveur
+22,22050,Dinan,1924,D 166,Rue Thiers
+22,22050,Dinan,1925,,Rue Deroyer
+22,22050,Dinan,1926,,Rue de la Petite Haie
+22,22259,Quévert,1927,,Rue Sainte-Anne
+22,22259,Quévert,1928,,Route de Dinan
+22,22259,Quévert,1929,D 776,D 776
+22,22364,Trélivan,1930,D 776,D 776
+22,22364,Trélivan,1931,D 776,D 776
+22,22364,Trélivan,1932,D 776,D 776
+22,22003,Aucaleuc,1933,D 776,D 776
+22,22003,Aucaleuc,1934,D 776,D 776
+22,22388,Vildé-Guingalan,1935,D 112,Rue des Templiers
+22,22388,Vildé-Guingalan,1936,,Rue du Pont des Vignes
+22,22388,Vildé-Guingalan,1937,,(voie non dénommée)
+22,22388,Vildé-Guingalan,1938,,(voie non dénommée)
+22,22097,La Landec,1939,,(voie non dénommée)
+22,22097,La Landec,1940,,(voie non dénommée)
+22,22180,Plélan-le-Petit,1941,,(voie non dénommée)
+22,22180,Plélan-le-Petit,1942,D 91,Rue de la Janaie
+22,22180,Plélan-le-Petit,1943,D 19,Route de Saint-Méen-le-Grand à Saint-Cast
+22,22180,Plélan-le-Petit,1944,D 89,D 89
+22,22180,Plélan-le-Petit,1945,D 89,D 89
+22,22317,Saint-Méloir-des-Bois,1946,D 89,D 89
+22,22317,Saint-Méloir-des-Bois,1947,D 89,D 89
+22,22317,Saint-Méloir-des-Bois,1948,D 89,D 89
+22,22014,Bourseul,1949,D 89,D 89
+22,22014,Bourseul,1950,D 89,D 89
+22,22014,Bourseul,1951,D 89,D 89
+22,22205,Plorec-sur-Arguenon,1952,D 89,D 89
+22,22205,Plorec-sur-Arguenon,1953,D 60,D 60
+22,22205,Plorec-sur-Arguenon,1954,D 68,D 68
+22,22205,Plorec-sur-Arguenon,1955,D 68,D 68
+22,22200,Pléven,1956,D 68,D 68
+22,22200,Pléven,1957,D 28,Rue Pierre Heuzé
+22,22187,Plérin,1958,D 24,Rue du Vieux Moulin
+22,22187,Plérin,1959,,Rue du Vieux Moulin
+22,22187,Plérin,1960,D 6,Rue de Beauregard
+22,22187,Plérin,1961,D 24,Rue de Colve
+22,22187,Plérin,1962,,Rue du Pigeon Blanc
+22,22187,Plérin,1963,D 6,Rue de la Côte au Roux
+22,22187,Plérin,1964,D 6,Rue de la Côte au Roux
+22,22187,Plérin,1965,D 6,Rue Jean Jacques Rousseau
+22,22251,Pordic,1966,D 6,Rue Jean Jacques Rousseau
+22,22187,Plérin,1967,D 36,Rue Lamartine
+22,22187,Plérin,1968,D 36,Rue Lamartine
+22,22372,Trémuson,1969,,Rue Commandant Hamon
+22,22182,Plélo,1970,,(voie non dénommée)
+22,22182,Plélo,1971,,(voie non dénommée)
+22,22182,Plélo,1972,,(voie non dénommée)
+22,22182,Plélo,1973,,(voie non dénommée)
+22,22182,Plélo,1974,,(voie non dénommée)
+22,22182,Plélo,1975,,(voie non dénommée)
+22,22182,Plélo,1976,,(voie non dénommée)
+22,22182,Plélo,1977,,(voie non dénommée)
+22,22182,Plélo,1978,,(voie non dénommée)
+22,22182,Plélo,1979,,(voie non dénommée)
+22,22182,Plélo,1980,,(voie non dénommée)
+22,22182,Plélo,1981,,(voie non dénommée)
+22,22182,Plélo,1982,D 712,Rue de la Ville Richard
+22,22206,Châtelaudren-Plouagat,1983,D 712,Rue de Mississipi
+22,22206,Châtelaudren-Plouagat,1984,D 7,D 7
+22,22206,Châtelaudren-Plouagat,1985,D 7,D 7
+22,22206,Châtelaudren-Plouagat,1986,D 7,D 7
+22,22206,Châtelaudren-Plouagat,1987,D 7,D 7
+22,22019,Bringolo,1988,D 7,D 7
+22,22019,Bringolo,1989,D 7,D 7
+22,22019,Bringolo,1990,D 7,D 7
+22,22019,Bringolo,1991,D 7,D 7
+22,22375,Tressignaux,1992,D 7,D 7
+22,22375,Tressignaux,1993,D 7,D 7
+22,22375,Tressignaux,1994,D 7,D 7
+22,22375,Tressignaux,1995,D 7,D 7
+22,22121,Lanvollon,1996,D 7,Rue Pasteur
+22,22121,Lanvollon,1997,D 9,Rue des Fontaines
+22,22177,Pléguien,1998,D 32,D 32
+22,22177,Pléguien,1999,D 32,D 32
+22,22236,Pludual,2000,D 32,D 32
+22,22236,Pludual,2001,D 32,D 32
+22,22222,Plouha,2002,D 32,D 32
+22,22222,Plouha,2003,D 32,D 32
+22,22222,Plouha,2004,D 32,D 32
+22,22222,Plouha,2005,D 786,Rue du 11 Novembre
+22,22222,Plouha,2006,D 786,Rue du Général de Gaulle
+22,22222,Plouha,2007,D 786,D 786
+22,22222,Plouha,2008,D 786,D 786
+22,22222,Plouha,2009,D 786,D 786
+22,22222,Plouha,2010,D 786,D 786
+22,22109,Lanloup,2011,,(voie non dénommée)
+22,22109,Lanloup,2012,D 54,Rue Alain Le Nerrant
+22,22214,Plouézec,2013,,Route du Goas Froment
+22,22214,Plouézec,2014,,Route du Goas Froment
+22,22214,Plouézec,2015,,Route du Goas Froment
+22,22214,Plouézec,2016,,Route de la Grange Buron
+22,22214,Plouézec,2017,,Route de la Grange Buron
+22,22214,Plouézec,2018,D 786,D 786
+22,22214,Plouézec,2019,D 786,Route de Kermanac'h
+22,22162,Paimpol,2020,D 786,Rue de Kermanac'h
+22,22162,Paimpol,2021,,Rue Sainte-Barbe
+22,22162,Paimpol,2022,,Rue du Pulbuec
+22,22162,Paimpol,2023,D 786,Rue de Beauport
+22,22162,Paimpol,2024,D 786,Rue du Commandant Le Conniat
+22,22162,Paimpol,2025,D 786,Rue du Professeur Jean Renaud
+22,22162,Paimpol,2026,,Avenue Général de Gaulle
+22,22162,Paimpol,2027,,Avenue de Guerland
+22,22162,Paimpol,2028,,Hent Feunteun Wern
+22,22162,Paimpol,2029,,Place du Bourg de Plounez
+22,22162,Paimpol,2030,,Chemin de Goasmeur
+22,22162,Paimpol,2031,D 15,D 15
+22,22233,Plourivo,2032,D 15,Route de Pont Min
+22,22233,Plourivo,2033,D 15,Route de Pont Min
+22,22233,Plourivo,2034,D 15,Route de Paimpol
+22,22233,Plourivo,2035,D 82,Route du Pont de Canon
+22,22233,Plourivo,2036,,Route de Saint-Ambroise
+22,22233,Plourivo,2037,,Route du Loudour
+22,22233,Plourivo,2038,,Chemin de Pontrieux à Paimpol
+22,22233,Plourivo,2039,,(voie non dénommée)
+22,22233,Plourivo,2040,D 15,Route de l'Europe
+22,22233,Plourivo,2041,D 15,D 15
+22,22256,Quemper-Guézennec,2042,D 15,D 15
+22,22256,Quemper-Guézennec,2043,D 15,D 15
+22,22256,Quemper-Guézennec,2044,D 15,Rue du Goëlo
+22,22256,Quemper-Guézennec,2045,D 15,Route départementale D 15
+22,22256,Quemper-Guézennec,2046,D 15,Route départementale D 15
+22,22256,Quemper-Guézennec,2047,D 15,Route départementale D 15
+22,22256,Quemper-Guézennec,2048,D 15,Route départementale D 15
+22,22250,Pontrieux,2049,,(voie non dénommée)
+22,22250,Pontrieux,2050,D 15A,D 15A
+22,22250,Pontrieux,2051,D 787,D 787
+22,22283,Saint-Clet,2052,D 787,D 787
+22,22283,Saint-Clet,2053,D 787,D 787
+22,22283,Saint-Clet,2054,D 787,D 787
+22,22283,Saint-Clet,2055,D 787,D 787
+22,22283,Saint-Clet,2056,D 787,Rue du Trégor
+22,22283,Saint-Clet,2057,,Rue de Coz Stang
+22,22283,Saint-Clet,2058,,(voie non dénommée)
+22,22293,Saint-Gilles-les-Bois,2059,,(voie non dénommée)
+22,22293,Saint-Gilles-les-Bois,2060,,(voie non dénommée)
+22,22293,Saint-Gilles-les-Bois,2061,D 65,D 65
+22,22248,Pommerit-le-Vicomte,2062,D 65,D 65
+22,22248,Pommerit-le-Vicomte,2063,D 65,D 65
+22,22248,Pommerit-le-Vicomte,2064,D 65,D 65
+22,22248,Pommerit-le-Vicomte,2065,D 54,Rue Saint-Jacques
+22,22248,Pommerit-le-Vicomte,2066,D 54,Rue de la Corderie
+22,22248,Pommerit-le-Vicomte,2067,D 54,Rue de la Corderie
+22,22248,Pommerit-le-Vicomte,2068,D 54,Hent ar C'hoad
+22,22248,Pommerit-le-Vicomte,2069,D 54,D 54
+22,22248,Pommerit-le-Vicomte,2070,D 54,D 54
+22,22161,Pabu,2071,D 54,D 54
+22,22161,Pabu,2072,D 54,Rue de l'Église
+22,22161,Pabu,2073,D 787,D 787
+22,22161,Pabu,2074,,Giratoire de Saint-Loup
+22,22272,Saint-Agathon,2075,D 712,D 712
+22,22272,Saint-Agathon,2076,D 712,D 712
+22,22272,Saint-Agathon,2077,,Rue François Le Guyader
+22,22272,Saint-Agathon,2078,D 86,Rue de Kervingleu
+22,22272,Saint-Agathon,2079,,Rue de Louis Berthelot
+22,22272,Saint-Agathon,2080,,Impasse du Bel Orme
+22,22272,Saint-Agathon,2081,D 712,Avenue de l'Hippodrome
+22,22272,Saint-Agathon,2082,D 712,Avenue de l'Hippodrome
+22,22225,Ploumagoar,2083,,(voie non dénommée)
+22,22225,Ploumagoar,2084,,Rue Kergillouard
+22,22225,Ploumagoar,2085,,Rue Vincent Auriol
+22,22225,Ploumagoar,2086,D 767,Rue du Pavillon Bleu
+22,22070,Guingamp,2087,D 8,Route de Bourbriac
+22,22067,Grâces,2088,C 6,Route de Sainte-Croix
+22,22067,Grâces,2089,,Rue de Locménard
+22,22067,Grâces,2090,D 54,D 54
+22,22067,Grâces,2091,D 54,Route de Gurunhuel
+22,22067,Grâces,2092,D 100,Rue de l'Église
+22,22223,Plouisy,2093,D 100,D 100
+22,22223,Plouisy,2094,,(voie non dénommée)
+22,22223,Plouisy,2095,,(voie non dénommée)
+22,22223,Plouisy,2096,,(voie non dénommée)
+22,22223,Plouisy,2097,D 8B,Rue de Traou Nen
+22,22223,Plouisy,2098,D 8B,Rue de Traou Nen
+22,22223,Plouisy,2099,D 8,D 8
+22,22070,Guingamp,2100,,(voie non dénommée)
+22,22070,Guingamp,2101,,(voie non dénommée)
+22,22070,Guingamp,2102,,(voie non dénommée)
+22,22070,Guingamp,2103,,stade du Roudourou
+22,22070,Guingamp,2104,,Rue Paul Sérusier
+22,22070,Guingamp,2105,,Rue Paul Sérusier
+22,22070,Guingamp,2106,,Rue Édouard Ollivro
+22,22070,Guingamp,2107,,(voie non dénommée)
