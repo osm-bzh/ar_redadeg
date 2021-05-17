@@ -13,6 +13,7 @@ data/2021/phase_1_*.geojson
 
 data/2022/phase_1_*.geojson
 
+qgis/exports\ PDF/
 
 pg_backup/
 
