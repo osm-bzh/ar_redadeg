@@ -17,14 +17,15 @@ fi
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Récupération des fichiers geojson depuis umap"
+echo "  PK secteurs"
 echo ""
-
 
 # on commence par supprimer la table
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 echo ""
 
+echo "  récupération des fichiers geojson depuis les cartes umap"
+echo ""
 
 # on va lire le fichier de config des couches umap pour boucler
 IFS="="
@@ -45,14 +46,8 @@ do
   echo "  fait"
   echo ""
 
-
 # fin de la boucle de lecture des layers umap
 done < $rep_data/umap_phase_2_layers.txt
-
-
-echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Application des traitements SQL"
-echo ""
 
 echo "  recalage des PK secteurs sur un nœud du réseau routable"
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
@@ -60,6 +55,32 @@ echo "  fait"
 echo ""
 
 
+
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Points de nettoyage"
+echo ""
+
+# on commence par supprimer la table
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
+echo ""
+
+echo "  récupération des fichiers geojson depuis la carte umap"
+echo ""
+curl -sS  http://umap.openstreetmap.fr/fr/datalayer/1899462/ > $rep_data/phase_2_umap_points_nettoyage.geojson
+echo "  fait"
+echo ""
+
+echo "  chargement dans la couche d'import"
+ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
+  $rep_data/phase_2_umap_points_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+echo "  fait"
+echo ""
+
+echo "  recalage des points de nettoyage sur un nœud du réseau routable"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
+echo "  TODO"
+echo ""
 
 echo ""
 echo ""
