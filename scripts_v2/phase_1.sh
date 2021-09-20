@@ -18,6 +18,7 @@ fi
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Récupération des fichiers geojson depuis umap"
+echo ""
 
 # traitement des tracés manuels
 
@@ -41,7 +42,7 @@ do
   # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
   echo "  chargement dans la couche d'import"
-  ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
+  ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
     $rep_data/phase_1_umap_trace_$layer.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
   echo "  fait"
   echo ""
