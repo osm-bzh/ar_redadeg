@@ -57,7 +57,7 @@ GROUP BY a.pk_id, a.name, a.secteur_id, b.node_id, b.the_geom
 ORDER BY a.pk_id ;
 
 
-# un peu de ménage
+-- un peu de ménage
 VACUUM FULL phase_2_pk_secteur ;
 
 
