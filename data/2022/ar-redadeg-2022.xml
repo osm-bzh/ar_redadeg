@@ -41,9 +41,33 @@
     <olscompletion url="http://api-adresse.data.gouv.fr/search/" type="ban"/>
     <searchparameters bbox="false" localities="true" features="false" />   
 
-    <themes> 
-        <theme name="Phase 1"  collapsed="false" id="phase_1" icon="fas fa-users">
+    <themes>
+        <theme name="Phase 2"  collapsed="false" id="phase_2" icon="fas fa-users">
             <layer
+                id="phase_2_pk_secteur"
+                name="PK secteurs"
+                visible="true"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
+            <layer
+                id="phase_2_trace_pgr"
+                name="Tracé recalé sur le réseau viaire OSM"
+                visible="true"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
+        </theme>      
+        <theme name="Phase 1"  collapsed="true" id="phase_1" icon="fas fa-users">
+            <!--<layer
                 id="phase_1_pk_auto"
                 name="PK automatique"
                 visible="true"
@@ -53,11 +77,11 @@
                 searchable="false"
                 queryable="true"
             >
-            </layer>            
+            </layer>-->
             <layer
                 id="phase_1_trace_troncons"
                 name="tracé non recalé"
-                visible="true"
+                visible="false"
                 url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
                 tiled="false"
@@ -77,6 +101,5 @@
             >
             </layer>
         </theme>
-
     </themes>
 </config>
