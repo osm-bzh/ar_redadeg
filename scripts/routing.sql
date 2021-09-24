@@ -108,7 +108,7 @@ FROM pgr_dijkstra(
     'SELECT id, source, target, cost, reverse_cost FROM osm_roads_pgr',
     12872, 12145) as a
 JOIN osm_roads_pgr b
-ON a.edge = b.id 
+ON a.edge = b.id ;
 
 
 
