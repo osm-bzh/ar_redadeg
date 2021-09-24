@@ -167,6 +167,11 @@ echo "  Calcul des itinéraires terminé"
 echo ""
 
 
+echo "  Export GeoJSON pour umap"
+echo ""
+rm -f $rep_data/phase_2_trace_pgr.geojson
+ogr2ogr -f "GeoJSON" $rep_data/phase_2_trace_pgr.geojson PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_pgr_4326
+echo "  fait"
 
 
 echo ""
