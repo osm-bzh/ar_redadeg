@@ -26,8 +26,7 @@ echo ""
 
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-echo ""
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/1903900/ > $rep_data/phase_2_umap_pk_secteur.geojson
+curl -sS  https://umap.openstreetmap.fr/fr/datalayer/1903900/ > $rep_data/phase_2_umap_pk_secteur.geojson
 echo "  fait"
 echo ""
 
@@ -57,8 +56,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
 echo ""
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-echo ""
-curl -sS  http://umap.openstreetmap.fr/fr/datalayer/1899462/ > $rep_data/phase_2_umap_points_nettoyage.geojson
+curl -sS  https://umap.openstreetmap.fr/fr/datalayer/1899462/ > $rep_data/phase_2_umap_points_nettoyage.geojson
 echo "  fait"
 echo ""
 
