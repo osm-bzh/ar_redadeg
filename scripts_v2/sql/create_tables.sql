@@ -382,7 +382,7 @@ CREATE TABLE phase_2_trace_pgr
   name_fr text,
   name_br text,
   the_geom geometry,
-  --CONSTRAINT phase_2_trace_pkey PRIMARY KEY (secteur_id, path_seq),
+  CONSTRAINT phase_2_trace_pgr_pkey PRIMARY KEY (secteur_id, path_seq, node),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
