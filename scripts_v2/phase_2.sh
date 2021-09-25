@@ -71,6 +71,11 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sq
 echo "  TODO"
 echo ""
 
+
+# on appelle le script qui s'occupe du calcul du routage
+. phase_2_routing.sh
+
+
 echo ""
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
