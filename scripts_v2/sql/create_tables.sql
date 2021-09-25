@@ -60,6 +60,7 @@ CREATE TABLE phase_1_trace
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX sidx_phase_1_trace_the_geom ON public.phase_1_trace USING gist (the_geom);
 ALTER TABLE phase_1_trace OWNER to redadeg;
 
 
@@ -74,6 +75,7 @@ CREATE TABLE phase_1_pk_vip
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX sidx_phase_1_pk_vip_the_geom ON public.phase_1_pk_vip USING gist (the_geom);
 ALTER TABLE phase_1_pk_vip OWNER to redadeg;
 
 
@@ -91,6 +93,7 @@ CREATE TABLE phase_1_trace_4326
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
 );
+CREATE INDEX sidx_phase_1_trace_4326_the_geom ON public.phase_1_trace_4326 USING gist (the_geom);
 ALTER TABLE phase_1_trace_4326 OWNER to redadeg;
 
 
@@ -109,6 +112,7 @@ CREATE TABLE phase_1_trace_troncons
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX sidx_phase_1_trace_troncons_the_geom ON public.phase_1_trace_troncons USING gist (the_geom);
 ALTER TABLE phase_1_trace_troncons OWNER to redadeg;
 
 
@@ -173,6 +177,24 @@ CREATE TABLE phase_2_point_nettoyage_3857
 ALTER TABLE phase_2_point_nettoyage_3857 OWNER to redadeg;
 
 
+-- la couche des points pour nettoyer la couche de routage
+DROP TABLE IF EXISTS phase_2_point_nettoyage CASCADE ;
+CREATE TABLE phase_2_point_nettoyage
+(
+  id serial,
+  pt_id bigint,
+  edge_id bigint,
+  distance numeric,
+  the_geom geometry,
+  CONSTRAINT phase_2_point_nettoyage_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+CREATE INDEX sidx_phase_2_point_nettoyage_the_geom ON public.phase_2_point_nettoyage USING gist (the_geom);
+ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
+
+
+
 DROP TABLE IF EXISTS phase_2_pk_secteur CASCADE ;
 CREATE TABLE phase_2_pk_secteur
 (
@@ -185,6 +207,7 @@ CREATE TABLE phase_2_pk_secteur
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX sidx_phase_2_pk_secteur_the_geom ON public.phase_2_pk_secteur USING gist (the_geom);
 ALTER TABLE phase_2_pk_secteur OWNER to redadeg;
 
 
@@ -213,7 +236,7 @@ CREATE TABLE osm_communes
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154),
     CONSTRAINT osm_communes_pkey PRIMARY KEY (gid)
 );
-CREATE INDEX osm_communes_geom_idx ON osm_communes USING gist(the_geom);
+CREATE INDEX sidx_osm_communes_the_geom ON osm_communes USING gist(the_geom);
 ALTER TABLE osm_communes OWNER to redadeg;
 
 
@@ -292,23 +315,9 @@ CREATE TABLE osm_roads_pgr
 );
 CREATE INDEX osm_roads_pgr_source_idx ON osm_roads_pgr (source);
 CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
+CREATE INDEX osm_roads_pgr_geom_idx ON osm_roads_pgr USING gist(the_geom);
 ALTER TABLE osm_roads_pgr OWNER to redadeg;
 
-
--- la couche des points pour nettoyer la couche de routage
-DROP TABLE IF EXISTS phase_2_point_nettoyage CASCADE ;
-CREATE TABLE phase_2_point_nettoyage
-(
-  id serial,
-  pt_id bigint,
-  edge_id bigint,
-  distance numeric,
-  the_geom geometry,
-  CONSTRAINT phase_2_point_nettoyage_pkey PRIMARY KEY (id),
-  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
-  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
-);
-ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
 
 
 -- couche de polygones pour supprimer le contenu de osm_roads_pgr pour la gestion des boucles
@@ -322,6 +331,7 @@ CREATE TABLE osm_roads_pgr_patch_mask
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX osm_roads_pgr_patch_mask_geom_idx ON osm_roads_pgr_patch_mask USING gist(the_geom);
 ALTER TABLE osm_roads_pgr_patch_mask OWNER to redadeg;
 
 
@@ -346,6 +356,7 @@ CREATE TABLE osm_roads_pgr_patch
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX osm_roads_pgr_patch_geom_idx ON osm_roads_pgr_patch USING gist(the_geom);
 ALTER TABLE osm_roads_pgr_patch OWNER to redadeg;
 -- la séquence doit commencer à un chiffre supérieur à 1 car sinon ça fiche la pagaille sur le calcul de routage
 ALTER SEQUENCE osm_roads_pgr_patch_id_seq START WITH 1000 ;
@@ -375,6 +386,7 @@ CREATE TABLE phase_2_trace_pgr
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX phase_2_trace_pgr_geom_idx ON phase_2_trace_pgr USING gist(the_geom);
 ALTER TABLE phase_2_trace_pgr OWNER to redadeg;
 
 -- une vue en 4326 pour export
@@ -402,6 +414,7 @@ CREATE TABLE phase_2_trace_secteur
     the_geom geometry,
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX phase_2_trace_secteur_geom_idx ON phase_2_trace_secteur USING gist(the_geom);
 ALTER TABLE phase_2_trace_secteur OWNER to redadeg;
 
 -- une vue en 4326 pour export
@@ -457,6 +470,7 @@ CREATE TABLE phase_2_trace_troncons
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX phase_2_trace_troncons_geom_idx ON phase_2_trace_troncons USING gist(the_geom);
 ALTER TABLE phase_2_trace_troncons OWNER to redadeg;
 
 
@@ -511,6 +525,7 @@ CREATE TABLE phase_3_trace_troncons
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX phase_3_trace_troncons_geom_idx ON phase_3_trace_troncons USING gist(the_geom);
 ALTER TABLE phase_3_trace_troncons OWNER TO redadeg;
 
 -- la même couche en 4326
@@ -538,6 +553,7 @@ CREATE TABLE phase_3_trace_secteurs
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+CREATE INDEX phase_3_trace_secteurs_geom_idx ON phase_3_trace_secteurs USING gist(the_geom);
 ALTER TABLE phase_3_trace_secteurs OWNER TO redadeg;
 
 -- la même couche en 4326
@@ -580,6 +596,7 @@ CREATE TABLE phase_3_pk_auto
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
+CREATE INDEX phase_3_pk_auto_geom_idx ON phase_3_pk_auto USING gist(the_geom);
 ALTER TABLE phase_3_pk_auto OWNER TO redadeg;
 
 
@@ -609,6 +626,7 @@ CREATE TABLE phase_3_pk_sens_verif
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
+CREATE INDEX phase_3_pk_sens_verif_geom_idx ON phase_3_pk_sens_verif USING gist(the_geom);
 ALTER TABLE phase_3_pk_sens_verif OWNER TO redadeg;
 
 
@@ -681,6 +699,7 @@ CREATE TABLE phase_5_pk_ref
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
+CREATE INDEX phase_5_pk_ref_geom_idx ON phase_5_pk_ref USING gist(the_geom);
 ALTER TABLE phase_5_pk_ref OWNER TO redadeg;
 
 -- on charge cette table avec les données finales de la phase 3
@@ -712,6 +731,7 @@ CREATE TABLE phase_5_pk_umap
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154) 
 );
+CREATE INDEX phase_5_pk_umap_geom_idx ON phase_5_pk_umap USING gist(the_geom);
 ALTER TABLE phase_5_pk_umap OWNER TO redadeg;
 
 
@@ -743,6 +763,7 @@ CREATE TABLE phase_5_pk
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
+CREATE INDEX phase_5_pk_geom_idx ON phase_5_pk USING gist(the_geom);
 ALTER TABLE phase_5_pk OWNER TO redadeg;
 
 
