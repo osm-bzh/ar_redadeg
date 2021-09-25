@@ -165,7 +165,7 @@ done
 
 # ménage pour performances
 PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME \
-    -c "VACUUM FULL phase_2_trace_pgr ;V"
+    -c "VACUUM FULL phase_2_trace_pgr ;"
 
 echo "  Calcul des itinéraires terminé"
 echo ""
