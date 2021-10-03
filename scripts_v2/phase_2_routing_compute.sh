@@ -44,7 +44,8 @@ echo ""
 
 # on commence par vider la table qui contiendra les calculs d'itinéraires
 echo "  vidage de la couche de routage"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DELETE FROM phase_2_trace_pgr WHERE secteur_id = $secteur_id ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+  "DELETE FROM phase_2_trace_pgr WHERE secteur_id = $secteur_id ;" >> /dev/null
 echo "  fait"
 echo ""
 
@@ -99,13 +100,15 @@ FROM pgr_dijkstra(
 JOIN osm_roads_pgr b ON a.edge = b.id ;" >> /dev/null
 
 
+# ménage pour performances
+PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+  "VACUUM FULL phase_2_trace_pgr ;" >> /dev/null
 
 # on fait une requête pour voir la longueur insérée
 # en fait : la longueur totale - la longueur totale lors du précédent calcul
-read longueur_base <<< $(PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --no-align -t --quiet \
-  -c "SELECT trunc(SUM(ST_Length(the_geom))/1000) as longueur_totale FROM phase_2_trace_pgr ;" )
-longueur_inseree=$(($longueur_base-$longueur_totale))
-longueur_totale=$longueur_base
+read longueur_inseree <<< $(PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --no-align -t --quiet -c \
+"SELECT trunc(SUM(ST_Length(the_geom))/1000) FROM phase_2_trace_pgr WHERE secteur_id = $secteur_id" )
+
 
 # une alerte si 0 km insérés
 if [ $longueur_inseree -eq 0 ] ;
@@ -115,19 +118,9 @@ then
   echo ""
   exit 0
 else
-  echo "  fait : $longueur_inseree km (total = $longueur_totale km)"
+  echo "  fait : $longueur_inseree km calculés"
 fi
 
-
-
-
-
-# ménage pour performances
-PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME \
-    -c "VACUUM FULL phase_2_trace_pgr ;"
-
-echo "  Calcul des itinéraires terminé"
-echo ""
 
 
 echo "  Export GeoJSON pour umap"
