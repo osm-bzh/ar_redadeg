@@ -24,25 +24,30 @@ ALTER SEQUENCE public.osm_roads_pgr_noded_id_seq RESTART WITH 1 ;
 
 -- on remplit la couche de lignes
 INSERT INTO osm_roads_pgr
-( SELECT 
-  row_number() over() as id,
-  o.osm_id,
-  o.highway,
-  o.type,
-  o.oneway,
-  o.ref,
-  o.name_fr,
-  o.name_br,
-  NULL as source,
-  NULL as target,
-  NULL as cost,
-  NULL as reverse_cost,
-  e.geom as the_geom
-FROM osm_roads_topo.edge e,
-     osm_roads_topo.relation rel,
-     osm_roads o
-WHERE e.edge_id = rel.element_id
-  AND rel.topogeo_id = (o.topo_geom).id
+(
+  SELECT 
+    o.secteur_id,
+    row_number() over() as id,
+    o.osm_id,
+    o.highway,
+    o.type,
+    o.oneway,
+    o.ref,
+    o.name_fr,
+    o.name_br,
+    NULL as source,
+    NULL as target,
+    NULL as cost,
+    NULL as reverse_cost,
+    e.geom as the_geom
+  FROM
+    osm_roads_topo.edge e,
+    osm_roads_topo.relation rel,
+    osm_roads o
+  WHERE 
+    secteur_id = 100
+    AND e.edge_id = rel.element_id
+    AND rel.topogeo_id = (o.topo_geom).id
 );
 
 -- calcul des 2 attributs de coût (= longueur)

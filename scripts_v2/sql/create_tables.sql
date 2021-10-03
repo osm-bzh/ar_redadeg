@@ -275,7 +275,7 @@ ALTER TABLE osm_municipalities OWNER to redadeg;
 DROP TABLE IF EXISTS osm_roads CASCADE ;
 CREATE TABLE osm_roads
 (
-  uid bigint NOT NULL,
+  secteur_id integer,
   osm_id bigint,
   highway text,
   type text,
@@ -284,19 +284,22 @@ CREATE TABLE osm_roads
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT osm_roads_pkey PRIMARY KEY (uid),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX osm_roads_geom_idx ON osm_roads USING gist(the_geom);
 ALTER TABLE osm_roads OWNER to redadeg;
+-- cette couche supporte une topologie
+SELECT topology.CreateTopology('osm_roads_topo', 2154);
+SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
 
 
 -- la couche en version routable
 DROP TABLE IF EXISTS osm_roads_pgr CASCADE ;
 CREATE TABLE osm_roads_pgr
 (
-  id bigint,
+  id serial,
+  secteur_id integer,
   osm_id bigint,
   highway text,
   type text,
@@ -325,6 +328,7 @@ DROP TABLE IF EXISTS osm_roads_pgr_patch_mask CASCADE ;
 CREATE TABLE osm_roads_pgr_patch_mask
 (
   id serial,
+  secteur_id integer,
   name text,
   the_geom geometry,
   CONSTRAINT osm_roads_pgr_patch_mask_pkid PRIMARY KEY (id),
@@ -340,6 +344,7 @@ DROP TABLE IF EXISTS osm_roads_pgr_patch CASCADE ;
 CREATE TABLE osm_roads_pgr_patch
 (
   id serial,
+  secteur_id integer,
   osm_id bigint,
   highway text,
   type text,

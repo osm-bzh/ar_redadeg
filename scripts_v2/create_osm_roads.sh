@@ -16,18 +16,30 @@ fi
 . config.sh
 
 
-echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  Création de la couche osm_roads"
-echo ""
-echo ""
+# contrôle si argument secteur_id
+if [ -z "$2" ]
+  then
+    echo "Pas de secteur_id en argument --> stop"
+    exit 1
+fi
+secteur_id=$2
 
+# on calcule le code du secteur suivant
+# ex : 200 -> 300
+secteur_id_next="$(( ${secteur_id:0:1} + 1 ))00"
+
+
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Création de la couche osm_roads pour le secteur $secteur_id -> $secteur_id_next"
+echo ""
+echo ""
 
 echo ""
 echo "import phase_1_trace dans la base OSM"
 echo ""
 
 # 1. export du tracé phase 1 depuis la base redadeg
-pg_dump --dbname=postgresql://$DB_USER:$DB_PASSWD@$HOST_DB_redadeg/$DB_NAME \
+pg_dump --dbname=postgresql://$DB_USER:$DB_PASSWD@$DB_HOST:$DB_PORT/$DB_NAME \
     --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
     --table phase_1_trace \
     --file $rep_data/redadeg_trace.sql
@@ -53,7 +65,7 @@ PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $os
 PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "
 CREATE TABLE osm_roads_$millesime
 (
-  uid bigint NOT NULL,
+  secteur_id integer NOT NULL,
   osm_id bigint,
   highway text,
   type text,
@@ -62,7 +74,6 @@ CREATE TABLE osm_roads_$millesime
   name_fr text,
   name_br text,
   the_geom geometry,
-  CONSTRAINT osm_roads_pkey_$millesime PRIMARY KEY (uid),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );"
@@ -73,18 +84,20 @@ echo ""
 echo "  extraction du filaire de voies OSM le long du tracé fourni"
 echo ""
 
-PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "WITH trace_buffer AS (
+PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "
+WITH trace_buffer AS (
   SELECT
     secteur_id,
     ST_Union(ST_Buffer(the_geom, 25, 'quad_segs=2')) AS the_geom
   FROM phase_1_trace_$millesime
+  WHERE secteur_id >= $secteur_id AND secteur_id < $secteur_id_next
   GROUP BY secteur_id
   ORDER BY secteur_id
 )
 INSERT INTO osm_roads_$millesime
 (
   SELECT
-    row_number() over() as id,
+    t.secteur_id,
     osm_id,
     highway,
     CASE 
@@ -112,19 +125,19 @@ echo ""
 
 # 4. export de osm_roads depuis la base OSM
 
-echo "transfert de osm_roads_$millesime depuis la base OSM vers la base redadeg"
+echo "transfert de osm_roads_$millesime + secteur $secteur_id depuis la base OSM vers la base redadeg"
 echo ""
 
-pg_dump --dbname=postgresql://$osmDBUser:$osmDBPassword@$osmDBHost/$osmDBName \
+pg_dump --dbname=postgresql://$osmDBUser:$osmDBPassword@$osmDBHost:$osmDBPort/$osmDBName \
     --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
     --table osm_roads_$millesime \
     --file $rep_data/osm_roads.sql
 
 
 # 5. import dans la base redadeg
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS osm_roads;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS osm_roads_import;"
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < $rep_data/osm_roads.sql
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "ALTER TABLE osm_roads_$millesime RENAME TO osm_roads ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "ALTER TABLE osm_roads_$millesime RENAME TO osm_roads_import ;"
 
 echo ""
 echo "fait"
