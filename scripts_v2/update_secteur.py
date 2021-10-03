@@ -94,7 +94,7 @@ if typemaj == "routage":
   print("maj du routage")
 
   try:
-    subprocess.call(["./phase_2.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
+    subprocess.call(["./phase_2_get_data.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_routing_prepare.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_routing_compute.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
 
