@@ -87,6 +87,20 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where:='true', clean:=false);"
 
 
+# on recale les PK secteur et les points de nettoyage que maitenant
+# car on vient de maj la topologie de routage
+
+echo "  recalage des PK secteurs sur un nœud du réseau routable"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
+echo "  fait"
+echo ""
+
+echo "  recalage des points de nettoyage sur un nœud du réseau routable"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
+echo "  fait"
+echo ""
+
+
 # ensuite : on met un coût ÉNORME sur les tronçons ciblés par la couche de points de nettoyage
 # AVANT de calculer les itinéraires
 echo "  nettoyage de la couche de routage par les points ciblés"
@@ -96,21 +110,6 @@ WHERE
   secteur_id = $secteur_id
   AND id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
 echo "  fait"
-echo ""
-
-
-# on recale les PK secteur et les points de nettoyage que maitenant
-# car on vient de maj la topologie de routage
-
-echo "  recalage des PK secteurs sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
-echo "  fait"
-echo ""
-
-
-echo "  recalage des points de nettoyage sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
-echo "  TODO"
 echo ""
 
 
