@@ -121,8 +121,7 @@ else
   echo "  fait : $longueur_inseree km calculés"
 fi
 
-
-
+echo ""
 echo "  Export GeoJSON pour umap"
 echo ""
 rm -f $rep_data/phase_2_trace_pgr.geojson
