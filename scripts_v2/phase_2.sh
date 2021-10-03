@@ -39,11 +39,6 @@ ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$
 echo "  fait"
 echo ""
 
-echo "  recalage des PK secteurs sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
-echo "  fait"
-echo ""
-
 
 
 
@@ -66,19 +61,11 @@ ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$
 echo "  fait"
 echo ""
 
-echo "  recalage des points de nettoyage sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
-echo "  TODO"
-echo ""
-
-
-# on appelle le script qui s'occupe du calcul du routage
-#. phase_2_routing.sh
 
 
 echo ""
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-echo "  F I N traitements phase 2"
+echo "  F I N récupération des données phase 2"
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo ""
