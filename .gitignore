@@ -26,6 +26,8 @@ scripts/temp.sql
 scripts/notes.txt
 scripts/venv/
 
+scripts_v2/config.sh
+
 api/venv/
 api/__pycache__/
 api1/
@@ -61,5 +63,6 @@ Temporary Items
 .apdisk
 
 
-
+# FME
 *.recover
+
