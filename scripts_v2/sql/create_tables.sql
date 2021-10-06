@@ -184,6 +184,7 @@ CREATE TABLE phase_2_point_nettoyage
   id serial,
   pt_id bigint,
   edge_id bigint,
+  secteur_id integer,
   distance numeric,
   the_geom geometry,
   CONSTRAINT phase_2_point_nettoyage_pkey PRIMARY KEY (id),

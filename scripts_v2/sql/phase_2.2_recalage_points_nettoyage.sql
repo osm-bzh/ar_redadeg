@@ -7,6 +7,7 @@ WITH candidates AS
 SELECT
   pt_org.ogc_fid AS pt_id,
   edge.id AS edge_id,
+  edge.secteur_id,
   ST_Distance(pt_org.the_geom, ST_ClosestPoint(edge.the_geom, pt_org.the_geom)) AS distance,
   ST_Snap(
     pt_org.the_geom,  -- le point d'origine à recaler
@@ -15,7 +16,7 @@ SELECT
   ) AS the_geom
 FROM
   (SELECT ogc_fid::integer, ST_Transform(the_geom,2154) AS the_geom FROM phase_2_point_nettoyage_3857) AS pt_org,
-  (SELECT id, the_geom FROM osm_roads_pgr) AS edge
+  (SELECT id, secteur_id, the_geom FROM osm_roads_pgr) AS edge
 WHERE
 ST_INTERSECTS(edge.the_geom, ST_BUFFER(ST_Transform(pt_org.the_geom,2154) ,2) )
 ORDER BY pt_org.ogc_fid, ST_Distance(pt_org.the_geom, ST_ClosestPoint(edge.the_geom, pt_org.the_geom))
@@ -25,6 +26,7 @@ INSERT INTO phase_2_point_nettoyage
     nextval('phase_2_point_nettoyage_id_seq'::regclass),
     pt_id,
     edge_id,
+    (LEFT(secteur_id::text,1)||'00')::integer AS secteur_id,
     distance,
     the_geom
   FROM candidates ;
