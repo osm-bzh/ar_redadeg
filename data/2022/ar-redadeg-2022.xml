@@ -42,7 +42,7 @@
     <searchparameters bbox="false" localities="true" features="false" />   
 
     <themes>
-        <theme name="Phase 2"  collapsed="false" id="phase_2" icon="fas fa-users">
+        <theme name="Redadeg"  collapsed="false" id="redadeg" icon="fas fa-users">
             <layer
                 id="phase_2_pk_secteur"
                 name="PK secteurs"
@@ -76,19 +76,6 @@
                 queryable="true"
             >
             </layer>
-        </theme>      
-        <theme name="Phase 1"  collapsed="true" id="phase_1" icon="fas fa-users">
-            <!--<layer
-                id="phase_1_pk_auto"
-                name="PK automatique"
-                visible="true"
-                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
-                infoformat="application/vnd.ogc.gml"
-                tiled="false"
-                searchable="false"
-                queryable="true"
-            >
-            </layer>-->
             <layer
                 id="phase_1_trace_troncons"
                 name="tracé non recalé"
