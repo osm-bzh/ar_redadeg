@@ -107,14 +107,19 @@ PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -
 # on fait une requête pour voir la longueur insérée
 # en fait : la longueur totale - la longueur totale lors du précédent calcul
 read longueur_inseree <<< $(PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME --no-align -t --quiet -c \
-"SELECT trunc(SUM(ST_Length(the_geom))/1000) FROM phase_2_trace_pgr WHERE secteur_id = $secteur_id" )
+"SELECT 
+  CASE 
+    WHEN trunc(SUM(ST_Length(the_geom))/1000) IS NULL THEN 0
+    ELSE trunc(SUM(ST_Length(the_geom))/1000)
+  END AS longueur
+FROM phase_2_trace_pgr WHERE secteur_id = $secteur_id;")
 
 
 # une alerte si 0 km insérés
 if [ $longueur_inseree -eq 0 ] ;
 then
-  echo ""
-  echo "    E R R E U R   !!!!!!!!"
+  echo "  >>> aucun itinéraire n'a pu être calculé <<<"
+  echo "  :("
   echo ""
   exit 0
 else
