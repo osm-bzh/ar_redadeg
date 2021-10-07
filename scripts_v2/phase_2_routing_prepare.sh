@@ -107,7 +107,7 @@ echo "  nettoyage de la couche de routage par les points ciblés"
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 
 WHERE 
-  secteur_id = $secteur_id
+  secteur_id >= $secteur_id AND secteur_id < $secteur_id_next
   AND id IN (SELECT r.id FROM osm_roads_pgr r JOIN phase_2_point_nettoyage p ON r.id = p.edge_id);"
 echo "  fait"
 echo ""
