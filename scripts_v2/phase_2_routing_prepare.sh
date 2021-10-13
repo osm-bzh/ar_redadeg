@@ -46,10 +46,10 @@ echo "  suppression des objets de osm_roads_pgr qui intersectent avec les zones 
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "DELETE FROM osm_roads_pgr WHERE id IN
 (
-  SELECT a.id 
-  FROM osm_roads_pgr a, osm_roads_pgr_patch_mask m
-  WHERE 
-    a.secteur_id = $secteur_id
+  SELECT a.id
+  FROM osm_roads_pgr_patch_mask m, osm_roads_pgr a
+  WHERE
+    m.secteur_id = $secteur_id
     AND ST_INTERSECTS(a.the_geom, m.the_geom)
 );"
 echo "  fait"
