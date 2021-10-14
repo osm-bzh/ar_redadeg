@@ -33,9 +33,9 @@ def phase_1():
 
 
 
-def routage():
+def phase_2():
 
-  print("maj du routage")
+  print("maj données phase 2 + calcul d'un itinéraire")
 
   try:
     subprocess.call(["./phase_2_get_data.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
@@ -85,7 +85,8 @@ try:
       # ok : on passe au type de mise à jour demandé
       if len(list_of_args[3]) > 3:
         if list_of_args[3] == "tout": typemaj = "tout"
-        elif list_of_args[3] == "routage": typemaj = "routage"
+        elif list_of_args[3] == "phase_1": typemaj = "phase_1"
+        elif list_of_args[3] == "phase_2": typemaj = "phase_2"
         else:
           print("Mauvais type de traitement en argument")
           sys.exit()
@@ -112,12 +113,13 @@ print("")
 
 if typemaj == "tout":
   phase_1()
-  routage()
+  phase_1()
 
+if typemaj == "phase_1":
+  phase_1()
 
-if typemaj == "routage":
-  routage()
-
+if typemaj == "phase_2":
+  phase_2()
 
 
 # pour connaître le temps d'exécution
