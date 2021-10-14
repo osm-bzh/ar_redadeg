@@ -113,7 +113,7 @@ print("")
 
 if typemaj == "tout":
   phase_1()
-  phase_1()
+  phase_2()
 
 if typemaj == "phase_1":
   phase_1()
