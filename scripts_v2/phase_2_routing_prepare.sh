@@ -103,6 +103,20 @@ echo "  fait"
 echo ""
 
 
+# ensuite : on met un coût x 10 sur les tronçons de certains types
+# AVANT de calculer les itinéraires
+echo "  pondération de la couche de routage selon le type de voies"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+"UPDATE osm_roads_pgr 
+SET cost = st_length(the_geom)*10, reverse_cost = st_length(the_geom)*10 
+WHERE
+  secteur_id >= $secteur_id AND secteur_id < $secteur_id_next
+  AND highway IN ('path','footway','service','cycleway');"
+echo "  fait"
+echo ""
+
+
+
 # ensuite : on met un coût ÉNORME sur les tronçons ciblés par la couche de points de nettoyage
 # AVANT de calculer les itinéraires
 echo "  nettoyage de la couche de routage par les points ciblés"
