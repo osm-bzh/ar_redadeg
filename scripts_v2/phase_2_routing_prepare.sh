@@ -111,7 +111,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 SET cost = st_length(the_geom)*10, reverse_cost = st_length(the_geom)*10 
 WHERE
   secteur_id >= $secteur_id AND secteur_id < $secteur_id_next
-  AND highway IN ('path','footway','service','cycleway');"
+  AND highway IN ('path','footway','service','cycleway','steps');"
 echo "  fait"
 echo ""
 
