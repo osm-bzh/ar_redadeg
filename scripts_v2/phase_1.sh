@@ -63,7 +63,7 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_1_trace.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_1_trace.sql  >> /dev/null
 
 echo "  fait"
 echo ""
