@@ -480,6 +480,20 @@ CREATE INDEX phase_2_trace_troncons_geom_idx ON phase_2_trace_troncons USING gis
 ALTER TABLE phase_2_trace_troncons OWNER to redadeg;
 
 
+-- une vue en 4326 pour export
+DROP VIEW IF EXISTS phase_2_trace_troncons_4326 ;
+CREATE VIEW phase_2_trace_troncons_4326 AS
+  SELECT
+    uid, secteur_id, ordre, km_reel, longueur,
+    osm_id, highway, type, oneway, ref,
+    name_fr, name_br,
+    ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
+  FROM phase_2_trace_troncons ;
+ALTER TABLE phase_2_trace_troncons_4326 OWNER to redadeg;
+
+
+
+
 DROP VIEW IF EXISTS phase_2_tdb ;
 CREATE VIEW phase_2_tdb AS
     WITH total AS

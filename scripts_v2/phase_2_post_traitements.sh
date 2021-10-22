@@ -60,7 +60,7 @@ INSERT INTO phase_2_trace_secteur
     ST_COLLECT(the_geom) AS the_geom
   FROM trace_ordered
   GROUP BY secteur_id
-  ORDER BY secteur_id ;" >> /dev/null
+  ORDER BY secteur_id ;"
 
 # mise à jour des attributs
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
@@ -126,10 +126,10 @@ SET
     ELSE TRUNC( ST_Length(the_geom)::numeric , 0)
   END),
   km = uid -- km redadeg
-WHERE secteur_id = $secteur_id;"
+WHERE secteur_id = $secteur_id;" >> /dev/null
 
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
-"VACUUM ANALYZE phase_2_trace_troncons ;"
+"VACUUM ANALYZE phase_2_trace_troncons ;" >> /dev/null
 
 echo "  fait"
 
