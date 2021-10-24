@@ -23,7 +23,7 @@ def get_shell_script_output_using_check_output():
 
 def main():
 
-  return '<pre>'+get_shell_script_output_using_communicate()+'</pre>'
+  return '<pre>'+get_shell_script_output_using_check_output()+'</pre>'
   pass
 
 
