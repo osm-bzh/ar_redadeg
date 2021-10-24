@@ -27,7 +27,7 @@ echo ""
 
 echo "  récupération des fichiers geojson depuis la carte umap"
 curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/1903900/ > $rep_data/phase_2_umap_pk_secteur.geojson
-# TODO aller chercher l'i du layer dans le fichier umap_phase_2_layers.txt
+# TODO aller chercher l'id du layer dans le fichier umap_phase_2_layers.txt
 echo "  fait"
 echo ""
 
