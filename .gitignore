@@ -16,6 +16,7 @@ data/2021/phase_3_*.geojson
 data/2022/phase_1_*.geojson
 data/2022/phase_2_*.geojson
 data/2022/phase_3_*.geojson
+data/2022/backup/
 
 qgis/exports\ PDF/
 
