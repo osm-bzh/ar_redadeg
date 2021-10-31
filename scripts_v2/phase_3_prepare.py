@@ -197,7 +197,7 @@ WHERE secteur_id = """+secteur +"""  ;"""
   db_redadeg_cursor.execute(sql_update_costs)
 
   # optimisation
-  #db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
+  db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
 
   print("  fait")
   print("")
