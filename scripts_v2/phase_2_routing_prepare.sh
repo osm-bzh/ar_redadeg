@@ -76,7 +76,7 @@ echo ""
 echo "  calcul des 2 attributs de coût (= longueur)"
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
 UPDATE osm_roads_pgr 
-SET cost = st_length(the_geom), reverse_cost = st_length(the_geom)
+SET cost = round(st_length(the_geom)::numeric), reverse_cost = round(st_length(the_geom)::numeric)
 WHERE secteur_id = $secteur_id ;"
 
 echo "  recrée des nœuds uniquement sur les zones de patch"
