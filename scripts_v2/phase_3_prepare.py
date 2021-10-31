@@ -148,7 +148,7 @@ print("")
 try:
 
   # longueur de découpage des tronçons de la phase 2
-  longueur_densification = str(10)
+  longueur_densification = config.get('redadeg', 'longueur_densification')
 
   # ------------------------------------------------------
   print("  Suppression des données du secteur "+secteur)
