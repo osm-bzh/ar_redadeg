@@ -534,6 +534,51 @@ ALTER TABLE phase_2_tdb OWNER TO redadeg;
 ==========================================================================
 */
 
+-- cette table contient les infos de découpage des tronçons
+DROP TABLE IF EXISTS phase_3_secteurs CASCADE ;
+CREATE TABLE phase_3_secteurs
+(
+  secteur_id integer,
+  nom_br text,
+  nom_fr text,
+  longueur_km_redadeg integer,
+  node_start integer,
+  node_stop integer,
+  pk_start integer,
+  pk_stop integer,
+  CONSTRAINT phase_3_secteurs_pkey PRIMARY KEY (secteur_id)
+);
+ALTER TABLE phase_3_secteurs OWNER TO redadeg;
+
+
+-- la table qui va accueillir une couche support de calcul itinéraire phase 3
+-- à savoir les tronçons phase 2 découpés tous les x mètres
+DROP TABLE IF EXISTS phase_3_troncons_pgr CASCADE ;
+CREATE TABLE phase_3_troncons_pgr
+(
+  secteur_id integer,
+  -- info de routage
+  id serial,
+  source bigint,
+  target bigint,
+  cost double precision,
+  reverse_cost double precision,
+  -- info OSM
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  the_geom geometry,
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+CREATE INDEX phase_3_troncons_pgr_geom_idx ON phase_3_troncons_pgr USING gist(the_geom);
+ALTER TABLE phase_3_troncons_pgr OWNER to redadeg;
+
+
 DROP TABLE IF EXISTS phase_3_trace_troncons CASCADE ;
 CREATE TABLE phase_3_trace_troncons
 (
