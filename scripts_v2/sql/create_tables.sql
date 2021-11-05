@@ -579,29 +579,29 @@ CREATE INDEX phase_3_troncons_pgr_geom_idx ON phase_3_troncons_pgr USING gist(th
 ALTER TABLE phase_3_troncons_pgr OWNER to redadeg;
 
 
-DROP TABLE IF EXISTS phase_3_trace_troncons CASCADE ;
-CREATE TABLE phase_3_trace_troncons
+DROP TABLE IF EXISTS phase_3_troncons CASCADE ;
+CREATE TABLE phase_3_troncons
 (
   troncon_id bigint,
   secteur_id int,
   the_geom geometry,
-  CONSTRAINT phase_3_trace_troncons_pkey PRIMARY KEY (troncon_id),
+  CONSTRAINT phase_3_troncons_pkey PRIMARY KEY (troncon_id),
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-CREATE INDEX phase_3_trace_troncons_geom_idx ON phase_3_trace_troncons USING gist(the_geom);
-ALTER TABLE phase_3_trace_troncons OWNER TO redadeg;
+CREATE INDEX phase_3_troncons_geom_idx ON phase_3_trace_troncons USING gist(the_geom);
+ALTER TABLE phase_3_troncons OWNER TO redadeg;
 
 -- la même couche en 4326
-DROP VIEW IF EXISTS phase_3_trace_troncons_4326 ;
-CREATE VIEW phase_3_trace_troncons_4326 AS
+DROP VIEW IF EXISTS phase_3_troncons_4326 ;
+CREATE VIEW phase_3_troncons_4326 AS
   SELECT
     troncon_id,
     secteur_id,
     ST_Transform(the_geom,4326) AS the_geom
-  FROM phase_3_trace_troncons ;
-ALTER TABLE phase_3_trace_troncons_4326 OWNER TO redadeg;
+  FROM phase_3_troncons ;
+ALTER TABLE phase_3_troncons_4326 OWNER TO redadeg;
 
 
 
@@ -634,7 +634,7 @@ ALTER TABLE phase_3_trace_secteurs_4326 OWNER TO redadeg;
 
 
 -- la couche des PK calculés automatiquement
-DROP TABLE IF EXISTS phase_3_pk_auto CASCADE ;
+DROP TABLE IF EXISTS phase_3_pk CASCADE ;
 CREATE TABLE phase_3_pk_auto
 (
   pk_id integer,
@@ -657,17 +657,17 @@ CREATE TABLE phase_3_pk_auto
   way_name_fr text,
   way_name_br text,
   the_geom geometry,
-  CONSTRAINT phase_3_pk_auto_pkey PRIMARY KEY (pk_id),
+  CONSTRAINT phase_3_pk_pkey PRIMARY KEY (pk_id),
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
-CREATE INDEX phase_3_pk_auto_geom_idx ON phase_3_pk_auto USING gist(the_geom);
-ALTER TABLE phase_3_pk_auto OWNER TO redadeg;
+CREATE INDEX phase_3_pk_geom_idx ON phase_3_pk USING gist(the_geom);
+ALTER TABLE phase_3_pk OWNER TO redadeg;
 
 
 -- la même couche en 4326
-DROP VIEW IF EXISTS phase_3_pk_auto_4326 ;
-CREATE VIEW phase_3_pk_auto_4326 AS
+DROP VIEW IF EXISTS phase_3_pk_4326 ;
+CREATE VIEW phase_3_pk_4326 AS
   SELECT
     pk_id,
     pk_x, pk_y, pk_long, pk_lat,
@@ -678,8 +678,8 @@ CREATE VIEW phase_3_pk_auto_4326 AS
     way_osm_id, way_highway, way_type, way_oneway, way_ref,
     way_name_fr, way_name_br,
     ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
-  FROM phase_3_pk_auto ;
-ALTER TABLE phase_3_pk_auto_4326 OWNER TO redadeg;
+  FROM phase_3_pk ;
+ALTER TABLE phase_3_pk_4326 OWNER TO redadeg;
 
 
 -- couche de lignes simples directes de PK à PK
