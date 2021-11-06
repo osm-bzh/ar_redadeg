@@ -247,7 +247,7 @@ try:
   print("  fait")
   print("")
 
-  # on détermine le nb de PK pour ce secteur
+  # on détermine le nb théorique de PK pour ce secteur
   secteur_nb_pk = int(secteur_longueur / secteur_longueur_km_redadeg)
   # et la longueur réelle demandée au calculateur
   longueur_decoupage = int(secteur_longueur_km_redadeg)
@@ -284,6 +284,7 @@ try:
 
   # ------------------------------------------------------
   print("  Calcul des autres PK")
+  print("")
 
   # maintenant on peut itérer jusqu'à la fin du secteur
   node_x = node_zero
@@ -313,11 +314,12 @@ try:
     #print("    nouveau nœud : " + str(node_x))
     #print("    previous_pk_edge : "+ str(previous_pk_edge))
 
-    # on sort une infos tous les 10 PK
-    #if i % 10 == 0:
-    print("  nœud du PK "+str(i)+" : " + str(node_x))
-    print("    " + str(longueur_parcourue) + " m jusqu'à maintenant")
-    print("    " + str(longueur_restante) + " m restant jusqu'à la fin du secteur")
+    # on sort une infos pour suivre si le traitement bosse
+    if (i <= 5) or (i % 10 == 0) or (i >= secteur_nb_pk - 5):
+      print("  nœud du PK "+str(i)+" : " + str(node_x))
+      print("    " + str(longueur_parcourue) + " m jusqu'à maintenant")
+      print("    " + str(longueur_restante) + " m restant jusqu'à la fin du secteur")
+
 
     # ici on construit la requête avec les données du PK
     node_x_data = getPgrNodeInfos(node_x)
