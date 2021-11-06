@@ -339,13 +339,9 @@ try:
     #print(sql_neutralisation)
     db_redadeg_cursor.execute(sql_neutralisation)
 
-
-
   print("")
   print("  Fin de la boucle")
   print("")
-
-
 
   print("  RAZ de la neutralisation des infos de routage pour la boucle")
   sql_reset_neutralisation = "UPDATE phase_3_troncons_pgr SET id = -1*id WHERE id < 0 ;"
@@ -354,12 +350,17 @@ try:
   print("")
 
   print("  Écriture des PK dans la couche phase_3_pk")
-  #print(sql_insert_pks)
   db_redadeg_cursor.execute(sql_insert_pks)
   print("  fait")
   print("")
 
-
+  print("  sauvegarde du dernier PK calculé pour ce secteur")
+  # on est sorti de la boucle alors on va écrire en base l'id du dernier PK calculé
+  sql_update_pk_end = "UPDATE secteur SET pk_stop = " + str(pk_id)
+  sql_update_pk_end += "WHERE id = " + secteur + " ;"
+  db_redadeg_cursor.execute(sql_update_pk_end)
+  print("  fait")
+  print("")
 
   db_redadeg_cursor.close()
 
