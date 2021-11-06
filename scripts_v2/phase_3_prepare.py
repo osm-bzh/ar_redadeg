@@ -187,12 +187,27 @@ WHERE n*"""+longueur_densification+"""/length < 1;"""
 
   db_redadeg_cursor.execute(sql_insert)
 
+  print("  fait")
+  print("")
+
+
+  print("  Optimisations...")
 
   # calcul des attributs de support du calcul pour PGR
   sql_update_costs = """
 UPDATE phase_3_troncons_pgr 
-SET cost = round(st_length(the_geom)::numeric), reverse_cost = round(st_length(the_geom)::numeric)
-WHERE secteur_id = """+secteur +"""  ;"""
+SET
+cost = 
+  CASE 
+    WHEN trunc(st_length(the_geom)::numeric,2) = """ + str( float(longueur_densification) - 0.01 ) + """  THEN """ + longueur_densification + """
+    ELSE trunc(st_length(the_geom)::numeric,2)
+  END,
+reverse_cost =
+  CASE 
+    WHEN trunc(st_length(the_geom)::numeric,2) = """ + str( float(longueur_densification) - 0.01 ) + """  THEN """ + longueur_densification + """
+    ELSE trunc(st_length(the_geom)::numeric,2)
+  END 
+WHERE secteur_id = """ + secteur + """  ;"""
 
   db_redadeg_cursor.execute(sql_update_costs)
 
@@ -214,19 +229,8 @@ WHERE secteur_id = """+secteur +"""  ;"""
 
 
   # ------------------------------------------------------
-  print("  Récupération id des nœuds de début et fin du secteur")
+  print("  Récupération id des nœuds de début et fin du secteur, et la longueur")
 
-  # on commence par supprimer le secteur puis on y remet avec les infos de la table des secteurs
-  sql_init_secteurs = """
-DELETE FROM phase_3_secteurs WHERE secteur_id = """+secteur+""" ;
-INSERT INTO phase_3_secteurs (secteur_id, nom_br, nom_fr, longueur_km_redadeg)
-  SELECT id, nom_br, nom_fr, km_redadeg
-  FROM secteur
-  WHERE id = """+secteur+"""
-  ORDER BY id ;"""
-  db_redadeg_cursor.execute(sql_init_secteurs)
-
-  
   # récupération id node début et fin de secteur
   secteurs_in_clause = secteur+","+str(int(secteur)+100)
   sql_get_nodes = """
@@ -247,9 +251,23 @@ INSERT INTO phase_3_secteurs (secteur_id, nom_br, nom_fr, longueur_km_redadeg)
   node_end_id = node_end[0]
   node_end_geom = node_end[1]
 
+  # la longueur
+  sql_longueur_secteur = """
+SELECT sum(COST) AS longueur
+FROM phase_3_troncons_pgr
+WHERE secteur_id = """ + secteur + """
+GROUP BY secteur_id ;"""
 
-  # on maj les infos dans la table phase_3_secteurs
-  sql_update_nodes_infos = "UPDATE phase_3_secteurs SET node_start = "+str(node_start_id)+", node_stop = "+str(node_end_id)+" WHERE secteur_id = "+secteur +" ;"
+  db_redadeg_cursor.execute(sql_longueur_secteur)
+  longueur_secteur = db_redadeg_cursor.fetchone()[0]
+  longueur_km_secteur = longueur_secteur / 1000
+
+
+  # on maj les infos dans la table secteurs
+  sql_update_nodes_infos = "UPDATE secteur SET "
+  sql_update_nodes_infos += "node_start = " + str(node_start_id) + ", node_stop = " + str(node_end_id) + ", "
+  sql_update_nodes_infos += "longueur = " + str(longueur_secteur) + ", longueur_km = " + str(longueur_km_secteur) + " "
+  sql_update_nodes_infos += "WHERE id = " + secteur + "  ;"
   db_redadeg_cursor.execute(sql_update_nodes_infos)
   print("  fait : "+str(node_start_id)+" -> "+str(node_end_id))
 

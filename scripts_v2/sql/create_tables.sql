@@ -21,13 +21,18 @@
 DROP TABLE IF EXISTS secteur CASCADE ;
 CREATE TABLE secteur
 (
-    id integer,
-    nom_br text,
-    nom_fr text,
-    objectif_km integer,
-    km_redadeg integer
+  id integer,
+  nom_br text,
+  nom_fr text,
+  longueur_km integer,
+  longueur integer,
+  longueur_km_redadeg integer,
+  node_start integer,
+  node_stop integer,
+  pk_start integer,
+  pk_stop integer,
+  CONSTRAINT secteur_pkey PRIMARY KEY (id)
 );
-
 ALTER TABLE secteur OWNER to redadeg;
 
 
