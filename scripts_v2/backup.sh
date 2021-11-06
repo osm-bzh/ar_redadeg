@@ -43,6 +43,8 @@ Tables=(
   "phase_2_pk_secteur"
   "phase_2_point_nettoyage"
   "phase_2_trace_pgr"
+  "phase_2_trace_troncons"
+  "phase_3_pk"
 )
 
 for table in ${Tables[@]}; do
