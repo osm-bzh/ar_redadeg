@@ -262,24 +262,21 @@ try:
   sql_insert_pks = "DELETE FROM phase_3_pk WHERE secteur_id = "+secteur+" ;\n"
 
   # ------------------------------------------------------
-  print("  Calcul du 1er PK")
+  print("  Calcul du 1er PK du secteur")
 
   # on a les infos -> on calcule la route qui va du 1er nœud de départ et qui fait la distance demandée
   # pour récupérer l'id du noeud de fin qui va devenir notre PK
   node_zero = secteur_node_start
-
   node_zero_data = getPgrNodeInfos(node_zero)
 
   sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat) VALUES ("
-  sql_insert_pks += secteur + ",1"
+  sql_insert_pks += secteur + ", " + str(secteur_pk_start)
   sql_insert_pks += ",'" + node_zero_data[0] + "'"
   sql_insert_pks += "," + str(node_zero_data[1]) + "," + str(node_zero_data[2])
   sql_insert_pks += "," + str(node_zero_data[3]) + "," + str(node_zero_data[4])
   sql_insert_pks += ");\n"
 
-  #print(sql_insert_pks)
-  #sys.exit()
-  print("  nœud du PK 1 : " + str(node_zero))
+  print("  nœud du PK " + str(secteur_pk_start) + " : " + str(node_zero))
   print("")
 
   # ------------------------------------------------------
@@ -294,15 +291,19 @@ try:
   if longueur_parcourue is None: longueur_parcourue = 0
   longueur_restante = secteur_longueur - longueur_parcourue
 
-  # le compteur
+  # un compteur pour la boucle
   i = 1
+  # début de l'id des PK qui commence avec le PK de début du secteur
+  pk_id = secteur_pk_start
 
-  #for i in range(2, secteur_nb_pk + 1):
   # tant que la distance restante est supérieure à la distance de découpage
   # on boucle
   while longueur_restante >= longueur_decoupage:
-    # incrément du compteur
+
+    # incrément du compteur de la boucle
     i += 1
+    # incrément du compteur de PK
+    pk_id += 1
 
     # on va trouver le prochain PK
     pk_data = getPKfromRouting(node_x , longueur_decoupage)
@@ -316,7 +317,8 @@ try:
 
     # on sort une infos pour suivre si le traitement bosse
     if (i <= 5) or (i % 10 == 0) or (i >= secteur_nb_pk - 5):
-      print("  nœud du PK "+str(i)+" : " + str(node_x))
+      print("  PK " + str(pk_id))
+      print("    id du nœud : " + str(node_x))
       print("    " + str(longueur_parcourue) + " m jusqu'à maintenant")
       print("    " + str(longueur_restante) + " m restant jusqu'à la fin du secteur")
 
@@ -326,7 +328,7 @@ try:
 
     # on fait une requête SQL d'insert de ce PK
     sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat) VALUES ("
-    sql_insert_pks += secteur + ","+str(i)
+    sql_insert_pks += secteur + "," + str(pk_id)
     sql_insert_pks += ",'" + node_x_data[0] + "'"
     sql_insert_pks += "," + str(node_x_data[1]) + "," + str(node_x_data[2])
     sql_insert_pks += "," + str(node_x_data[3]) + "," + str(node_x_data[4])
@@ -336,6 +338,8 @@ try:
     sql_neutralisation = "UPDATE phase_3_troncons_pgr SET id = -ABS("+str(previous_pk_edge)+") WHERE id = "+str(previous_pk_edge)+" ;"
     #print(sql_neutralisation)
     db_redadeg_cursor.execute(sql_neutralisation)
+
+
 
   print("")
   print("  Fin de la boucle")
