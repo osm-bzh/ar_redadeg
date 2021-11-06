@@ -88,7 +88,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "INSERT INTO phase_2_trace_troncons
   SELECT 
-    row_number() over() as uid,
+    nextval('phase_2_trace_troncons_uid_seq'::regclass),
     -- infos redadeg
     $secteur_id AS secteur_id,
     NULL AS ordre,
