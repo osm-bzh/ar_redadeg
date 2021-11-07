@@ -462,7 +462,7 @@ ALTER TABLE phase_2_trace_trous OWNER to redadeg;
 DROP TABLE IF EXISTS phase_2_trace_troncons CASCADE ;
 CREATE TABLE phase_2_trace_troncons
 (
-  uid bigint,
+  uid serial,
   secteur_id int,
   ordre bigint,
   km bigint,
@@ -640,14 +640,14 @@ ALTER TABLE phase_3_trace_secteurs_4326 OWNER TO redadeg;
 
 -- la couche des PK calculés automatiquement
 DROP TABLE IF EXISTS phase_3_pk CASCADE ;
-CREATE TABLE phase_3_pk_auto
+CREATE TABLE phase_3_pk
 (
   pk_id integer,
   pk_x numeric(8,1),
   pk_y numeric(8,1),
   pk_long numeric(10,8),
   pk_lat numeric(10,8),
-  length_real numeric(6,2),
+  length_real integer,
   length_theorical integer,
   secteur_id integer,
   municipality_admincode text,

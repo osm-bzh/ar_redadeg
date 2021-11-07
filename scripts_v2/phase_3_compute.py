@@ -78,7 +78,7 @@ FROM pgr_drivingDistance('SELECT id, source, target, cost, reverse_cost FROM pha
 WHERE SOURCE IS NOT NULL AND id > 0',
 """+str(start)+""", """+str(distance)+""")
 )
-SELECT node, edge FROM t ORDER BY seq DESC LIMIT 1;"""
+SELECT node, edge, round(agg_cost) FROM t ORDER BY seq DESC LIMIT 1;"""
   
   #print(sql_routage)
 
@@ -89,9 +89,10 @@ SELECT node, edge FROM t ORDER BY seq DESC LIMIT 1;"""
   data = cursor.fetchone()
   node_end = data[0]
   edge = data[1]
+  distance = data[2]
   cursor.close()
   
-  return([node_end, edge])
+  return([node_end, edge, distance])
 
 
 # ==============================================================================
@@ -269,11 +270,12 @@ try:
   node_zero = secteur_node_start
   node_zero_data = getPgrNodeInfos(node_zero)
 
-  sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat) VALUES ("
+  sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat, length_theorical, length_real) VALUES ("
   sql_insert_pks += secteur + ", " + str(secteur_pk_start)
   sql_insert_pks += ",'" + node_zero_data[0] + "'"
   sql_insert_pks += "," + str(node_zero_data[1]) + "," + str(node_zero_data[2])
   sql_insert_pks += "," + str(node_zero_data[3]) + "," + str(node_zero_data[4])
+  sql_insert_pks += f",{longueur_decoupage},0"
   sql_insert_pks += ");\n"
 
   print("  nœud du PK " + str(secteur_pk_start) + " : " + str(node_zero))
@@ -309,6 +311,7 @@ try:
     pk_data = getPKfromRouting(node_x , longueur_decoupage)
     node_x = pk_data[0]
     previous_pk_edge = pk_data[1]
+    longueur_km_redadeg = pk_data[2]
     longueur_parcourue = getLongueurParcourue(node_zero,node_x)
     longueur_restante = secteur_longueur - longueur_parcourue
 
@@ -327,11 +330,12 @@ try:
     node_x_data = getPgrNodeInfos(node_x)
 
     # on fait une requête SQL d'insert de ce PK
-    sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat) VALUES ("
+    sql_insert_pks += "INSERT INTO phase_3_pk (secteur_id, pk_id, the_geom, pk_x, pk_y, pk_long, pk_lat, length_theorical, length_real) VALUES ("
     sql_insert_pks += secteur + "," + str(pk_id)
     sql_insert_pks += ",'" + node_x_data[0] + "'"
     sql_insert_pks += "," + str(node_x_data[1]) + "," + str(node_x_data[2])
     sql_insert_pks += "," + str(node_x_data[3]) + "," + str(node_x_data[4])
+    sql_insert_pks += f",{longueur_decoupage},{longueur_km_redadeg}"
     sql_insert_pks += ");\n"
 
     # on met en négatif l'info de routage du précédent tronçon afin de l'écarter du prochain calcul de routage

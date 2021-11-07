@@ -191,7 +191,7 @@ WHERE n*"""+longueur_densification+"""/length < 1;"""
   print("")
 
 
-  print("  Optimisations...")
+  print("  Calcul des coûts...")
 
   # calcul des attributs de support du calcul pour PGR
   sql_update_costs = """
@@ -211,22 +211,39 @@ WHERE secteur_id = """ + secteur + """  ;"""
 
   db_redadeg_cursor.execute(sql_update_costs)
 
-  # optimisation
-  db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
-
   print("  fait")
   print("")
 
 
   # ------------------------------------------------------
   print("  Création / maj de la topologie pgRouting pour les tronçons nouvellement créés")
-  
-  sql_create_pgr_topology = "SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='true', clean:=true);"
+
+  sql_nb_edges = f"SELECT count(*) FROM phase_3_troncons_pgr WHERE secteur_id = {secteur} ;"
+  db_redadeg_cursor.execute(sql_nb_edges)
+  nb_edges = db_redadeg_cursor.fetchone()[0]
+
+  # estimation du temps de traitement avec 400 edges / s
+  temps_sec = round(nb_edges/400)
+  minutes, seconds = divmod(temps_sec, 60)
+  print(f"  temps de traitement évalué à {minutes} min et {seconds} sec")
+  now = datetime.datetime.now()
+  fin_sec = now.second + seconds
+  fin_min = now.minute + minutes + 1
+  fin_heure = now.hour
+  print(f"  donc fin estimée à {fin_heure}h{fin_min} maximum")
+
+
+  sql_create_pgr_topology = f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='secteur_id={secteur}', clean:=true);"
   db_redadeg_cursor.execute(sql_create_pgr_topology)
   
   print("  fait")
   print("")
 
+  # optimisation
+  print("  vacuum")
+  db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
+  print("  fait")
+  print("")
 
   # ------------------------------------------------------
   print("  Récupération id des nœuds de début et fin du secteur, et la longueur")

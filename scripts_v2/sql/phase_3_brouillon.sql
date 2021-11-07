@@ -125,11 +125,25 @@ SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='true', cle
 
 
 
-
+-------------
 
 
 SELECT * 
 FROM pgr_drivingDistance(
 'SELECT id, source, target, cost, reverse_cost FROM phase_3_troncons_pgr WHERE SOURCE IS NOT NULL',
 107, 300);
+
+
+
+
+-- RAZ de la topologie pgRouting
+TRUNCATE TABLE phase_3_troncons_pgr;
+ALTER SEQUENCE phase_3_troncons_pgr_id_seq RESTART WITH 1;
+VACUUM phase_3_troncons_pgr;
+
+TRUNCATE TABLE phase_3_troncons_pgr_vertices_pgr;
+ALTER SEQUENCE phase_3_troncons_pgr_vertices_pgr_id_seq RESTART WITH 1;
+VACUUM phase_3_troncons_pgr_vertices_pgr;
+
+
 
