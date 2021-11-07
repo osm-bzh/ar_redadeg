@@ -153,7 +153,7 @@ try:
   # ------------------------------------------------------
   print("  Suppression des données du secteur "+secteur)
   sql_delete = "DELETE FROM phase_3_troncons_pgr WHERE secteur_id = "+secteur +" ;"
-  #db_redadeg_cursor.execute(sql_delete)
+  db_redadeg_cursor.execute(sql_delete)
   print("  fait")
   print("")
 
@@ -185,7 +185,7 @@ FROM
 CROSS JOIN generate_series(0,10000) AS n
 WHERE n*"""+longueur_densification+"""/length < 1;"""
 
-  #db_redadeg_cursor.execute(sql_insert)
+  db_redadeg_cursor.execute(sql_insert)
 
   print("  fait")
   print("")
@@ -209,55 +209,24 @@ reverse_cost =
   END 
 WHERE secteur_id = """ + secteur + """  ;"""
 
-  #db_redadeg_cursor.execute(sql_update_costs)
+  db_redadeg_cursor.execute(sql_update_costs)
+
+  # optimisation
+  db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
 
   print("  fait")
   print("")
 
 
   # ------------------------------------------------------
-  print("  Création de la topologie pgRouting pour les tronçons nouvellement créés")
-
-  db_redadeg_cursor.execute(f"SELECT MIN(id), MAX(id) FROM phase_3_troncons_pgr WHERE secteur_id = {secteur} ;")
-  min_id, max_id = db_redadeg_cursor.fetchone()
-  nb_edges = max_id - min_id + 1
-  print(f"  {nb_edges} tronçons à traiter")
-
-  # #estimation du temps de traitement avec 400 edges / s
-  # temps_sec = round(nb_edges/400)
-  # minutes, seconds = divmod(temps_sec, 60)
-  # print(f"  temps de traitement évalué à {minutes} min et {seconds} sec")
-  # now = datetime.datetime.now()
-  # fin_sec = now.second + seconds
-  # fin_min = now.minute + minutes + 1
-  # fin_heure = now.hour
-  # print(f"  donc fin estimée à {fin_heure}h{fin_min} maximum")
-  #
-  # print("  Début du traitement...")
-  # sql_create_pgr_topology = f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.000001, rows_where:='secteur_id={secteur}', clean:=true);"
-  # db_redadeg_cursor.execute(sql_create_pgr_topology)
-  # print("  fait")
-  # print("")
-
-
-
-  # on fait une boucle pour optimiser
-  interval = 10000
-  i = 1
-  for x in range(min_id, max_id + 1, interval):
-    db_redadeg_cursor.execute(
-      f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.000001, rows_where:='id>={x} and id<{x + interval}', clean := true);"
-    )
-    print(f"  {interval*i} tronçons traités")
-    i += 1
-
-
-
-  # optimisation
-  print("  vacuum")
-  db_redadeg_cursor.execute("VACUUM FULL phase_3_troncons_pgr ;")
+  print("  Création / maj de la topologie pgRouting pour les tronçons nouvellement créés")
+  
+  sql_create_pgr_topology = "SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='true', clean:=true);"
+  db_redadeg_cursor.execute(sql_create_pgr_topology)
+  
   print("  fait")
   print("")
+
 
   # ------------------------------------------------------
   print("  Récupération id des nœuds de début et fin du secteur, et la longueur")
