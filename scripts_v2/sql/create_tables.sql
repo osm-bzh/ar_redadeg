@@ -683,7 +683,8 @@ CREATE VIEW phase_3_pk_4326 AS
     way_osm_id, way_highway, way_type, way_oneway, way_ref,
     way_name_fr, way_name_br,
     ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
-  FROM phase_3_pk ;
+  FROM phase_3_pk 
+  ORDER BY pk_id;
 ALTER TABLE phase_3_pk_4326 OWNER TO redadeg;
 
 
