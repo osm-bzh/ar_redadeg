@@ -75,3 +75,5 @@ Temporary Items
 *.recover
 
 data/2022/phase_1_pk_auto.xlsx
+data/2022/osm_br_municipalities.geojson
+data/2022/communes-20210101-shp.zip
