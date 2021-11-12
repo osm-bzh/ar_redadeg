@@ -109,6 +109,17 @@
                 queryable="true"
             >
             </layer>
+            <layer
+                id="osm_communes"
+                name="Communes"
+                visible="false"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
         </theme>
     </themes>
 </config>
