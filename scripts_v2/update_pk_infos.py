@@ -161,6 +161,31 @@ WHERE phase_3_pk.pk_id = sub.pk_id;"""
     print("  fait")
 
 
+
+    print("  Mise à jour des informations sur les communes")
+
+    sql_update_infos_ways = """
+UPDATE phase_3_pk
+SET
+  municipality_admincode = sub.insee ,
+  municipality_name_fr = sub.name_fr ,
+  municipality_name_br = sub.name_br
+FROM (
+  SELECT
+   pk.pk_id,
+   com.insee,
+   com.name_fr,
+   com.name_br
+  FROM phase_3_pk pk, osm_communes com
+  WHERE ST_INTERSECTS(pk.the_geom, com.the_geom)
+  ORDER BY pk_id 
+) sub
+WHERE phase_3_pk.pk_id = sub.pk_id;"""
+
+    db_redadeg_cursor.execute(sql_update_infos_ways)
+    print("  fait")
+
+
     print("")
     print("")
 
