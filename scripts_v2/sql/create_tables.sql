@@ -228,52 +228,20 @@ CREATE VIEW phase_2_pk_secteur_4326 AS
 ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
--- les polygones des communes source OSM France
+-- la couche des communes source OSM
 DROP TABLE IF EXISTS osm_communes CASCADE ;
 CREATE TABLE osm_communes
 (
-    gid serial,
-    insee character varying(80),
-    nom character varying(80),
-    wikipedia character varying(80),
-    surf_ha numeric,
+    insee character varying(5),
+    name_fr text,
+    name_br text,
     the_geom geometry,
     CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text),
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154),
-    CONSTRAINT osm_communes_pkey PRIMARY KEY (gid)
+    CONSTRAINT osm_communes_pkey PRIMARY KEY (insee)
 );
 CREATE INDEX sidx_osm_communes_the_geom ON osm_communes USING gist(the_geom);
 ALTER TABLE osm_communes OWNER to redadeg;
-
-
--- la couche avec les info langue minoritaire
-DROP TABLE IF EXISTS osm_municipalities CASCADE ;
-CREATE TABLE osm_municipalities
-(
-    id serial,
-    osm_id bigint,
-    type text,
-    admin_level text,
-    name text,
-    name_fr text,
-    name_br text,
-    source_name_br text,
-    admincode text,
-    postcode text,
-    wikidata text,
-    surf_ha numeric,
-    x numeric,
-    y numeric,
-    the_geom geometry,
-    CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text),
-    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154),
-    CONSTRAINT osm_municipalities_pkey PRIMARY KEY (id)
-);
-CREATE INDEX osm_municipalities_geom_idx ON osm_municipalities USING gist(the_geom);
-CREATE INDEX osm_municipalities_admincode_idx ON osm_municipalities(admincode);
-ALTER TABLE osm_municipalities OWNER to redadeg;
-
-
 
 
 
