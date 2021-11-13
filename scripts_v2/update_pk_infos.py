@@ -152,7 +152,7 @@ FROM (
    pk.pk_id,
    t.osm_id, t.highway, t."type", t.oneway, t."ref", t.name_fr, t.name_br 
   FROM phase_3_pk pk, phase_3_troncons_pgr t
-  WHERE ST_INTERSECTS(pk.the_geom, t.the_geom)
+  WHERE ST_INTERSECTS(ST_BUFFER(pk.the_geom,1), t.the_geom)
   ORDER BY pk_id 
 ) sub
 WHERE phase_3_pk.pk_id = sub.pk_id;"""
@@ -164,7 +164,7 @@ WHERE phase_3_pk.pk_id = sub.pk_id;"""
 
     print("  Mise à jour des informations sur les communes")
 
-    sql_update_infos_ways = """
+    sql_update_infos_communes = """
 UPDATE phase_3_pk
 SET
   municipality_admincode = sub.insee ,
@@ -182,7 +182,7 @@ FROM (
 ) sub
 WHERE phase_3_pk.pk_id = sub.pk_id;"""
 
-    db_redadeg_cursor.execute(sql_update_infos_ways)
+    db_redadeg_cursor.execute(sql_update_infos_communes)
     print("  fait")
 
 
