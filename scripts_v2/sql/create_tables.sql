@@ -629,7 +629,7 @@ CREATE VIEW phase_3_pk_4326 AS
   SELECT
     pk_id,
     pk_x, pk_y, pk_long, pk_lat,
-    length_real, length_theorical,
+    length_real, length_total,
     secteur_id,
     municipality_admincode, municipality_postcode,
     municipality_name_fr, municipality_name_br,
