@@ -135,6 +135,31 @@ print("")
 
 try:
 
+    print("  Mise à jour des informations sur les géométries")
+
+    sql_update_infos_geom = """
+UPDATE phase_3_pk
+SET
+  pk_x = sub.x ,
+  pk_y = sub.y ,
+  pk_long = sub.long ,
+  pk_lat = sub.lat
+FROM (
+  SELECT
+    pk_id
+    ,trunc(st_x(the_geom)::numeric,2) AS x
+    ,trunc(st_y(the_geom)::numeric,2) AS y
+    ,trunc(st_x(st_transform(the_geom,4326))::numeric,8) AS long
+    ,trunc(st_y(st_transform(the_geom,4326))::numeric,8) AS lat
+  FROM phase_3_pk
+  ORDER BY pk_id 
+) sub
+WHERE phase_3_pk.pk_id = sub.pk_id ;"""
+
+    db_redadeg_cursor.execute(sql_update_infos_geom)
+    print("  fait")
+
+
     print("  Mise à jour des informations sur les voies")
 
     sql_update_infos_ways = """
