@@ -204,7 +204,7 @@ SELECT
   ,{secteur}
   ,{longueur_decoupage}
   ,i
-  ,(ST_Dump(ST_GeometryN(ST_LocateAlong(the_geom, i), 1))).geom AS the_geom
+  ,ST_Force_2D((ST_Dump(ST_GeometryN(ST_LocateAlong(the_geom, i), 1))).geom) AS the_geom
 FROM linemeasure ;
 """
 

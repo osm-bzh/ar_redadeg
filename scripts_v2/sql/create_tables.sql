@@ -616,7 +616,7 @@ CREATE TABLE phase_3_pk
   way_name_br text,
   the_geom geometry,
   CONSTRAINT phase_3_pk_pkey PRIMARY KEY (pk_id),
-  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
 CREATE INDEX phase_3_pk_geom_idx ON phase_3_pk USING gist(the_geom);
