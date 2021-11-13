@@ -507,31 +507,15 @@ ALTER TABLE phase_2_tdb OWNER TO redadeg;
 ==========================================================================
 */
 
--- cette table contient les infos de découpage des tronçons
-DROP TABLE IF EXISTS phase_3_secteurs CASCADE ;
-CREATE TABLE phase_3_secteurs
-(
-  secteur_id integer,
-  nom_br text,
-  nom_fr text,
-  longueur_km_redadeg integer,
-  node_start integer,
-  node_stop integer,
-  pk_start integer,
-  pk_stop integer,
-  CONSTRAINT phase_3_secteurs_pkey PRIMARY KEY (secteur_id)
-);
-ALTER TABLE phase_3_secteurs OWNER TO redadeg;
-
 
 -- la table qui va accueillir une couche support de calcul itinéraire phase 3
--- à savoir les tronçons phase 2 découpés tous les x mètres
 DROP TABLE IF EXISTS phase_3_troncons_pgr CASCADE ;
 CREATE TABLE phase_3_troncons_pgr
 (
   secteur_id integer,
   -- info de routage
   id serial,
+  path_seq bigint,
   source bigint,
   target bigint,
   cost double precision,
@@ -552,6 +536,7 @@ CREATE INDEX phase_3_troncons_pgr_geom_idx ON phase_3_troncons_pgr USING gist(th
 ALTER TABLE phase_3_troncons_pgr OWNER to redadeg;
 
 
+/*
 DROP TABLE IF EXISTS phase_3_troncons CASCADE ;
 CREATE TABLE phase_3_troncons
 (
@@ -575,7 +560,7 @@ CREATE VIEW phase_3_troncons_4326 AS
     ST_Transform(the_geom,4326) AS the_geom
   FROM phase_3_troncons ;
 ALTER TABLE phase_3_troncons_4326 OWNER TO redadeg;
-
+*/
 
 
 DROP TABLE IF EXISTS phase_3_trace_secteurs CASCADE ;
@@ -617,6 +602,7 @@ CREATE TABLE phase_3_pk
   pk_lat numeric(10,8),
   length_real integer,
   length_theorical integer,
+  length_total integer,
   secteur_id integer,
   municipality_admincode text,
   municipality_postcode text,
@@ -631,7 +617,7 @@ CREATE TABLE phase_3_pk
   way_name_br text,
   the_geom geometry,
   CONSTRAINT phase_3_pk_pkey PRIMARY KEY (pk_id),
-  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
+  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 ) ;
 CREATE INDEX phase_3_pk_geom_idx ON phase_3_pk USING gist(the_geom);

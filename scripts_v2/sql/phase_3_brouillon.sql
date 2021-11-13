@@ -134,6 +134,14 @@ FROM pgr_drivingDistance(
 107, 300);
 
 
+WITH t AS (
+SELECT * 
+FROM pgr_drivingDistance('SELECT id, source, target, cost, reverse_cost FROM phase_3_troncons_pgr 
+WHERE SOURCE IS NOT NULL AND id > 0',
+1,915)
+)
+SELECT node, edge, round(agg_cost) FROM t ORDER BY seq DESC LIMIT 1;
+
 
 
 -- RAZ de la topologie pgRouting

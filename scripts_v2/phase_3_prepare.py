@@ -159,31 +159,14 @@ try:
 
 
   # ------------------------------------------------------
-  print("  Chargement de tronçons découpés tous les "+longueur_densification+" m depuis la couche des tronçons phase 2")
-  
-  # on charge, pour le secteur concerné des tronçons courts découpés tous les x mètres
-  # (densification avec ST_LineSubstring )
+  print("  Chargement des tronçons de la phase 2")
 
-  sql_insert = """
-INSERT INTO phase_3_troncons_pgr (secteur_id, osm_id, highway, type, oneway, ref, name_fr, name_br, the_geom)
- SELECT
-  secteur_id, osm_id, highway, type, oneway, ref, name_fr, name_br,
-  ST_LineSubstring(the_geom, """+longueur_densification+"""*n/length,
-  CASE
-  WHEN """+longueur_densification+"""*(n+1) < length THEN """+longueur_densification+"""*(n+1)/length
-  ELSE 1
-  END) As the_geom
-FROM
-  (
+  sql_insert = f"""
+INSERT INTO phase_3_troncons_pgr (secteur_id, path_seq, osm_id, highway, type, oneway, ref, name_fr, name_br, the_geom)
   SELECT
-    secteur_id, osm_id, highway, type, oneway, ref, name_fr, name_br,
-    ST_Length(the_geom) AS length,
-    the_geom
-  FROM phase_2_trace_troncons
-  WHERE secteur_id = """+secteur+""" 
-  ) AS t
-CROSS JOIN generate_series(0,10000) AS n
-WHERE n*"""+longueur_densification+"""/length < 1;"""
+    secteur_id, path_seq, osm_id, highway, type, oneway, ref, name_fr, name_br, the_geom
+  FROM phase_2_trace_pgr
+WHERE secteur_id = {secteur} ;"""
 
   db_redadeg_cursor.execute(sql_insert)
 
@@ -194,20 +177,12 @@ WHERE n*"""+longueur_densification+"""/length < 1;"""
   print("  Calcul des coûts...")
 
   # calcul des attributs de support du calcul pour PGR
-  sql_update_costs = """
+  sql_update_costs = f"""
 UPDATE phase_3_troncons_pgr 
 SET
-cost = 
-  CASE 
-    WHEN trunc(st_length(the_geom)::numeric,2) = """ + str( float(longueur_densification) - 0.01 ) + """  THEN """ + longueur_densification + """
-    ELSE trunc(st_length(the_geom)::numeric,2)
-  END,
-reverse_cost =
-  CASE 
-    WHEN trunc(st_length(the_geom)::numeric,2) = """ + str( float(longueur_densification) - 0.01 ) + """  THEN """ + longueur_densification + """
-    ELSE trunc(st_length(the_geom)::numeric,2)
-  END 
-WHERE secteur_id = """ + secteur + """  ;"""
+cost = trunc(st_length(the_geom)::numeric,2),
+reverse_cost = trunc(st_length(the_geom)::numeric,2)
+WHERE secteur_id = {secteur} ;"""
 
   db_redadeg_cursor.execute(sql_update_costs)
 
