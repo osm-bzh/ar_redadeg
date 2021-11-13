@@ -233,7 +233,7 @@ WHERE secteur_id = """ + secteur + """  ;"""
   print(f"  donc fin estimée à {fin_heure}h{fin_min} maximum")
 
 
-  sql_create_pgr_topology = f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='secteur_id={secteur}', clean:=true);"
+  sql_create_pgr_topology = f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='secteur_id={secteur}', clean:=false);"
   db_redadeg_cursor.execute(sql_create_pgr_topology)
   
   print("  fait")
