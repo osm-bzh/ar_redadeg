@@ -11,6 +11,7 @@ import datetime
 import time
 import configparser
 import psycopg2
+import math
 
 # from logguer import log_verif
 
@@ -164,11 +165,11 @@ try:
     print("")
 
     # on détermine le nb théorique de PK pour ce secteur
-    secteur_nb_pk = secteur_pk_stop - secteur_pk_start
+    secteur_nb_pk = (secteur_pk_stop - secteur_pk_start) + 1
     # et ainsi la longueur réelle entre chaque PK
-    longueur_decoupage = int(secteur_longueur / secteur_nb_pk)
+    longueur_decoupage = math.ceil(secteur_longueur / secteur_nb_pk)
 
-    print("  " + str(secteur_nb_pk + 1) + " KM redadeg de " + str(longueur_decoupage) + " m vont être créés")
+    print("  " + str(secteur_nb_pk) + " KM redadeg de " + str(longueur_decoupage) + " m vont être créés")
     print("  pour une longeur réelle de " + '{:,}'.format(secteur_longueur).replace(',', ' ') + " m")
     print("")
 
