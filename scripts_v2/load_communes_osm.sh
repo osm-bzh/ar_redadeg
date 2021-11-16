@@ -70,6 +70,7 @@ echo ""
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "TRUNCATE TABLE osm_communes ;"
 
+# on remplit avec toutes les communes FR + géométries
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "WITH comm_multi AS (
 SELECT
@@ -77,18 +78,32 @@ SELECT
   fr.nom,
   ST_Multi(ST_Union(fr.the_geom)) AS the_geom 
 FROM osm_communes_fr_4326 fr
+WHERE substring(insee,1,2)::int IN (22,29,35,44,56)
 GROUP BY fr.insee, fr.nom
 )
 INSERT INTO osm_communes 
 SELECT
   fr.insee,
   fr.nom AS name_fr, 
-  br.name_br,
+  NULL AS name_br,
   ST_Transform(fr.the_geom,2154)
-FROM comm_multi fr, osm_communes_br_4326 br
-WHERE ST_Intersects(br.the_geom,fr.the_geom) AND fr.nom = br.name 
-ORDER BY fr.insee ;"
+FROM comm_multi fr ;"
 
+# puis le name:br par intersection spatiale car il manque le code INSEE dans les données
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+"UPDATE osm_communes c
+SET name_br = a.name_br
+FROM
+(
+SELECT
+  c.insee, 
+  br.name_br
+FROM osm_communes c, osm_communes_br_4326 br
+WHERE ST_Intersects(st_transform(br.the_geom,2154),c.the_geom) 
+) a
+WHERE c.insee = a.insee ;"
+
+# performances
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "VACUUM FULL osm_communes ;"
 
