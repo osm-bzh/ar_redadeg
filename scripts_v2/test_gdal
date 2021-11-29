@@ -1,0 +1,6 @@
+import sys
+try:
+    from osgeo import ogr, osr, gdal
+    print('it works !')
+except:
+    sys.exit('ERROR: cannot find GDAL/OGR modules')
