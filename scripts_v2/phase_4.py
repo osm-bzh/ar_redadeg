@@ -143,8 +143,6 @@ try:
 
   print("  Export des PK en geojson par secteur (pour les cartes umap phase 5)")
 
-  # besoin de la chaîne de connexion
-
   # on commence par chercher la table des secteurs pour récupérer les id
   # puis boucler dessus
 
