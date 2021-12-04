@@ -144,7 +144,7 @@ try:
 
   print("  Vidage de la table d'import")
   sql_truncate = "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
-  db_redadeg_cursor.execute(sql_truncate)
+  #db_redadeg_cursor.execute(sql_truncate)
   print("  fait")
   print("")
 
@@ -164,7 +164,7 @@ try:
     layer_file = f"../data/{millesime}/umap_phase_5_pk_{layer}.geojson"
 
     # on récupère le fichier
-    #wget.download(layer_url, layer_file)
+    wget.download(layer_url, layer_file)
 
     # on l'importe avec gdal
     cmd = ["ogr2ogr", "-f",
@@ -179,8 +179,7 @@ try:
     # on efface le fichier aussitôt
     os.remove(layer_file)
 
-  print("  Chargement de la couche phase_5_pk_umap")
-
+  #print("  Chargement de la couche phase_5_pk_umap")
   sql_trunc_load = """
 TRUNCATE TABLE phase_5_pk_umap ; 
 INSERT INTO phase_5_pk_umap
@@ -190,6 +189,35 @@ ORDER BY pk_id ;"""
 
   db_redadeg_cursor.execute(sql_trunc_load)
   print("  fait")
+  print("")
+
+  # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  print("  Test : nb de pk par secteur")
+
+  # on utilise la vue faite pour ça
+  # normalement c'est impossible car pk_id est clé primaire
+
+  sql_test_nb = "SELECT * FROM phase_5_pk_diff ;"
+  db_redadeg_cursor.execute(sql_test_nb)
+  controle_table = db_redadeg_cursor.fetchall()
+
+  for record in controle_table:
+    secteur_id = record[0]
+    nb_ref = record[1]
+    nb_umap = record[2]
+    diff = record[3]
+
+    # le test
+    nb_pb = 0
+    if nb_umap != nb_ref:
+      nb_pb += 1
+      print(f"    secteur {secteur_id} : PROBLEME : {diff} de différence")
+    else:
+      print(f"    secteur {secteur_id} : ok -> {nb_ref} PK")
+
+    if nb_pb > 0:
+      print("  ARRÊT : corriger puis relancer")
+      sys.exit(1)
 
 
 
