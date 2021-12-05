@@ -760,6 +760,34 @@ CREATE INDEX phase_5_pk_umap_geom_idx ON phase_5_pk_umap USING gist(the_geom);
 ALTER TABLE phase_5_pk_umap OWNER TO redadeg;
 
 
+-- une vue de contrôle
+DROP VIEW IF EXISTS phase_5_pk_diff ;
+CREATE VIEW phase_5_pk_diff AS
+  WITH ref AS (
+    SELECT secteur_id, COUNT(pk_id) as ref 
+    FROM phase_5_pk_ref
+    GROUP BY secteur_id
+  ),
+  umap AS (
+    SELECT secteur_id, COUNT(pk_id) as umap 
+    FROM phase_5_pk_umap
+    GROUP BY secteur_id
+  )
+  SELECT
+    r.secteur_id,
+    r.ref,
+    u.umap,
+    r.ref - u.umap AS diff,
+    CASE
+      WHEN r.ref < u.umap THEN 'plus'
+      WHEN r.ref > u.umap THEN 'moins'
+      WHEN r.ref = u.umap THEN 'pareil'
+      ELSE 'problème'
+    END AS test
+  FROM "ref" r JOIN umap u ON r.secteur_id = u.secteur_id
+  ORDER BY r.secteur_id ;
+
+
 -- la table finale
 DROP TABLE IF EXISTS phase_5_pk CASCADE ;
 CREATE TABLE phase_5_pk

@@ -144,7 +144,7 @@ try:
 
   print("  Vidage de la table d'import")
   sql_truncate = "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
-  #db_redadeg_cursor.execute(sql_truncate)
+  db_redadeg_cursor.execute(sql_truncate)
   print("  fait")
   print("")
 
@@ -174,7 +174,7 @@ try:
            "-nln", "phase_5_pk_umap_4326",
            "-lco", "GEOMETRY_NAME=the_geom"]
     #print(cmd)
-    #subprocess.call(cmd)
+    subprocess.call(cmd)
 
     # on efface le fichier aussitôt
     os.remove(layer_file)
@@ -219,7 +219,47 @@ ORDER BY pk_id ;"""
       print("  ARRÊT : corriger puis relancer")
       sys.exit(1)
 
+  print("")
 
+
+  # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  print("  Test : nb de pk déplacés par secteur")
+
+  sql_tdb_mouvements = """
+WITH secteurs AS (
+  SELECT id FROM secteur 
+  WHERE id > 0 AND id < 999
+  ORDER BY id
+),
+test AS (
+SELECT r.secteur_id, COUNT(*)
+FROM phase_5_pk_ref r FULL OUTER JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
+WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1 
+GROUP BY r.secteur_id 
+)
+SELECT
+  secteurs.id,
+  test.count
+FROM secteurs FULL OUTER JOIN test ON secteurs.id = test.secteur_id
+"""
+
+  db_redadeg_cursor.execute(sql_tdb_mouvements)
+  controle_table = db_redadeg_cursor.fetchall()
+  total_pk_deplaces = 0
+
+  for record in controle_table:
+    secteur_id = record[0]
+    nb_pk_deplaces = record[1]
+
+    if nb_pk_deplaces is None :
+      nb_pk_deplaces = 0
+      print(f"    aucun PK déplacé pour le secteur {secteur_id}")
+    else:
+      print(f"    {nb_pk_deplaces} PK déplacés pour le secteur {secteur_id}")
+
+    total_pk_deplaces += nb_pk_deplaces
+
+  print(f"    {total_pk_deplaces} PK déplacés au total")
 
 
   print("")
