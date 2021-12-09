@@ -799,6 +799,7 @@ CREATE TABLE phase_5_pk
   pk_lat numeric(10,8),
   length_real numeric(6,2),
   length_theorical integer,
+  length_total integer,
   secteur_id integer,
   municipality_admincode text,
   municipality_postcode text,

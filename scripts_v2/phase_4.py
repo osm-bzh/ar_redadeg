@@ -170,11 +170,15 @@ ORDER BY id ;"""
   print("")
 
   print("  Import des PK dans la table phase_5_pk_ref")
-
-  sql_transfert =  "TRUNCATE TABLE phase_5_pk_ref ; "
+  sql_transfert = "TRUNCATE TABLE phase_5_pk_ref ; "
   sql_transfert += "INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk ORDER BY pk_id ;"
   db_redadeg_cursor.execute(sql_transfert)
+  print("  fait")
 
+  print("  Import des PK dans la table phase_5_pk")
+  sql_transfert = "TRUNCATE TABLE phase_5_pk ; "
+  sql_transfert += "INSERT INTO phase_5_pk SELECT * FROM phase_3_pk ORDER BY pk_id ;"
+  db_redadeg_cursor.execute(sql_transfert)
   print("  fait")
 
 
