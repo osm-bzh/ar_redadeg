@@ -260,6 +260,36 @@ FROM secteurs FULL OUTER JOIN test ON secteurs.id = test.secteur_id
     total_pk_deplaces += nb_pk_deplaces
 
   print(f"    {total_pk_deplaces} PK déplacés au total")
+  print("")
+
+
+  # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  print("  Recalage des PK déplacés")
+
+  # on commence par supprimer les attributs, par sécurité
+  sql_clear_attibutes = """
+WITH pk_deplaces AS (
+  -- table des PK déplacés
+  SELECT
+    r.pk_id
+    ,ST_Distance(r.the_geom, u.the_geom) AS distance
+    ,u.the_geom 
+  FROM phase_5_pk_ref r FULL OUTER JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
+  WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1 
+  ORDER BY r.pk_id 
+)
+UPDATE phase_5_pk ph5
+SET (pk_x, pk_y, pk_long, pk_lat, length_real, length_theorical, length_total,
+municipality_admincode, municipality_postcode, municipality_name_fr, municipality_name_br, 
+way_osm_id, way_highway, way_type, way_oneway, way_ref, way_name_fr, way_name_br)
+= (NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+FROM pk_deplaces
+WHERE ph5.pk_id = pk_deplaces.pk_id"""
+  db_redadeg_cursor.execute(sql_clear_attibutes)
+
+  # recalage par projection du PK déplacé sur le filaire de voie
+  sql_recalage = ""
+
 
 
   print("")
