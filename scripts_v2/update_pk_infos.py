@@ -94,6 +94,21 @@ try:
     else:
         millesime = list_of_args[1]
 
+        # millesime ok : maintenant on teste la phase demandée
+        if len(list_of_args[2]) != 1:
+            print("Pas d'id phase en argument")
+            sys.exit(1)
+        else:
+            test = list_of_args[2]
+            if test == "3" or test == "5":
+                phase = "phase_"+test
+            else:
+                print("Mauvais id en argument")
+                sys.exit(1)
+
+            # ok : tout est bon on peut commencer
+            # sortie des tests
+
 
 except SystemExit:
     print("Erreur dans les arguments --> stop")
@@ -106,7 +121,7 @@ except:
 print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 print("")
-print(" Mise à jour des informations OSM des PK pour le millésime " + str(millesime))
+print(f" Mise à jour des informations OSM des PK pour le millésime {str(millesime)} et la phase {phase}")
 print("")
 
 print("  Lecture du fichier de configuration ")
@@ -137,8 +152,8 @@ try:
 
     print("  Mise à jour des informations sur les géométries")
 
-    sql_update_infos_geom = """
-UPDATE phase_3_pk
+    sql_update_infos_geom = f"""
+UPDATE {phase}_pk
 SET
   pk_x = sub.x ,
   pk_y = sub.y ,
@@ -151,10 +166,10 @@ FROM (
     ,trunc(st_y(the_geom)::numeric,2) AS y
     ,trunc(st_x(st_transform(the_geom,4326))::numeric,8) AS long
     ,trunc(st_y(st_transform(the_geom,4326))::numeric,8) AS lat
-  FROM phase_3_pk
+  FROM {phase}_pk
   ORDER BY pk_id 
 ) sub
-WHERE phase_3_pk.pk_id = sub.pk_id ;"""
+WHERE {phase}_pk.pk_id = sub.pk_id ;"""
 
     db_redadeg_cursor.execute(sql_update_infos_geom)
     print("  fait")
@@ -162,8 +177,8 @@ WHERE phase_3_pk.pk_id = sub.pk_id ;"""
 
     print("  Mise à jour des informations sur les voies")
 
-    sql_update_infos_ways = """
-UPDATE phase_3_pk
+    sql_update_infos_ways = f"""
+UPDATE {phase}_pk
 SET
   way_osm_id = sub.osm_id ,
   way_highway = sub.highway ,
@@ -176,11 +191,11 @@ FROM (
   SELECT
    pk.pk_id,
    t.osm_id, t.highway, t."type", t.oneway, t."ref", t.name_fr, t.name_br 
-  FROM phase_3_pk pk, phase_3_troncons_pgr t
+  FROM {phase}_pk pk, phase_3_troncons_pgr t
   WHERE ST_INTERSECTS(ST_BUFFER(pk.the_geom,1), t.the_geom)
   ORDER BY pk_id 
 ) sub
-WHERE phase_3_pk.pk_id = sub.pk_id;"""
+WHERE {phase}_pk.pk_id = sub.pk_id;"""
 
     db_redadeg_cursor.execute(sql_update_infos_ways)
     print("  fait")
@@ -189,8 +204,8 @@ WHERE phase_3_pk.pk_id = sub.pk_id;"""
 
     print("  Mise à jour des informations sur les communes")
 
-    sql_update_infos_communes = """
-UPDATE phase_3_pk
+    sql_update_infos_communes = f"""
+UPDATE {phase}_pk
 SET
   municipality_admincode = sub.insee ,
   municipality_name_fr = sub.name_fr ,
@@ -201,11 +216,11 @@ FROM (
    com.insee,
    com.name_fr,
    com.name_br
-  FROM phase_3_pk pk, osm_communes com
+  FROM {phase}_pk pk, osm_communes com
   WHERE ST_INTERSECTS(pk.the_geom, com.the_geom)
   ORDER BY pk_id 
 ) sub
-WHERE phase_3_pk.pk_id = sub.pk_id;"""
+WHERE {phase}_pk.pk_id = sub.pk_id;"""
 
     db_redadeg_cursor.execute(sql_update_infos_communes)
     print("  fait")
