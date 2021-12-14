@@ -53,7 +53,7 @@ WITH pk_recales AS (
 UPDATE phase_5_pk
 SET the_geom = pk_recales.the_geom
 FROM pk_recales
-WHERE phase_5_pk.pk_id = pk_recales.pk_id
+WHERE phase_5_pk.pk_id = pk_recales.pk_id ;
 
 
 -- un peu de ménage

@@ -288,9 +288,44 @@ WHERE ph5.pk_id = pk_deplaces.pk_id"""
   db_redadeg_cursor.execute(sql_clear_attibutes)
 
   # recalage par projection du PK déplacé sur le filaire de voie
-  sql_recalage = ""
+  sql_recalage = """
+ WITH pk_recales AS (
+  WITH candidates AS (
+    WITH pt AS (
+      -- table des PK déplacés
+      SELECT
+        r.pk_id
+        ,ST_Distance(r.the_geom, u.the_geom) AS distance
+        ,u.the_geom 
+      FROM phase_5_pk_ref r FULL OUTER JOIN phase_5_pk_umap u ON r.pk_id = u.pk_id 
+      WHERE TRUNC(ST_Distance(r.the_geom, u.the_geom)::numeric,2) > 1 
+      ORDER BY r.pk_id 
+    )
+    -- place un point projeté sur la ligne la plus proche
+    SELECT
+      ROW_NUMBER() OVER(PARTITION BY pt.pk_id ORDER BY pt.distance DESC) AS RANK,
+      pt.pk_id,
+      round(pt.distance) AS distance,
+      ST_ClosestPoint(lines.the_geom, pt.the_geom) AS the_geom
+    FROM pt, phase_2_trace_pgr lines
+    WHERE ST_DWithin(pt.the_geom, lines.the_geom, 10)
+  )
+  SELECT 
+    pk_id, distance, the_geom 
+  FROM candidates
+  WHERE RANK = 1
+  ORDER BY pk_id
+)
+UPDATE phase_5_pk
+SET the_geom = pk_recales.the_geom
+FROM pk_recales
+WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
+  print("fait")
 
+  #
+  # TODO : export geojson pour merour
+  #
 
   print("")
   print("")
