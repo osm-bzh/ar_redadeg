@@ -321,11 +321,18 @@ SET the_geom = pk_recales.the_geom
 FROM pk_recales
 WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
-  print("fait")
+  print("  fait")
 
-  #
-  # TODO : export geojson pour merour
-  #
+  # on finit par l'export geojson pour merour
+  print("  Export geojson pour merour")
+  export_cmd = ["ogr2ogr", "-f", "GeoJSON",
+                f"../data/{millesime}/phase_5_pk.geojson",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "phase_5_pk", "-t_srs", "EPSG:4326"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
 
   print("")
   print("")
