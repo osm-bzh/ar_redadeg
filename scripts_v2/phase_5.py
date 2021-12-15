@@ -321,6 +321,7 @@ SET the_geom = pk_recales.the_geom
 FROM pk_recales
 WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
+  db_redadeg_cursor.execute(sql_recalage)
   print("  fait")
 
   # on finit par l'export geojson pour merour
