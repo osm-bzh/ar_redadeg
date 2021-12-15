@@ -287,6 +287,8 @@ FROM pk_deplaces
 WHERE ph5.pk_id = pk_deplaces.pk_id"""
   db_redadeg_cursor.execute(sql_clear_attibutes)
 
+  #
+
   # recalage par projection du PK déplacé sur le filaire de voie
   sql_recalage = """
  WITH pk_recales AS (
@@ -323,6 +325,86 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   db_redadeg_cursor.execute(sql_recalage)
   print("  fait")
+
+  #
+
+  print("  Mise à jour des informations sur les géométries")
+
+  sql_update_infos_geom = f"""
+  UPDATE phase_5_pk
+  SET
+    pk_x = sub.x ,
+    pk_y = sub.y ,
+    pk_long = sub.long ,
+    pk_lat = sub.lat
+  FROM (
+    SELECT
+      pk_id
+      ,trunc(st_x(the_geom)::numeric,2) AS x
+      ,trunc(st_y(the_geom)::numeric,2) AS y
+      ,trunc(st_x(st_transform(the_geom,4326))::numeric,8) AS long
+      ,trunc(st_y(st_transform(the_geom,4326))::numeric,8) AS lat
+    FROM phase_5_pk
+    ORDER BY pk_id 
+  ) sub
+  WHERE phase_5_pk.pk_id = sub.pk_id ;"""
+
+  db_redadeg_cursor.execute(sql_update_infos_geom)
+  print("  fait")
+
+  #
+
+  print("  Mise à jour des informations sur les voies")
+
+  sql_update_infos_ways = f"""
+  UPDATE phase_5_pk
+  SET
+    way_osm_id = sub.osm_id ,
+    way_highway = sub.highway ,
+    way_type = sub."type" ,
+    way_oneway = sub.oneway ,
+    way_ref = sub."ref" ,
+    way_name_fr = sub.name_fr ,
+    way_name_br = sub.name_br
+  FROM (
+    SELECT
+     pk.pk_id,
+     t.osm_id, t.highway, t."type", t.oneway, t."ref", t.name_fr, t.name_br 
+    FROM phase_5_pk pk, phase_3_troncons_pgr t
+    WHERE ST_INTERSECTS(ST_BUFFER(pk.the_geom,1), t.the_geom)
+    ORDER BY pk_id 
+  ) sub
+  WHERE phase_5_pk.pk_id = sub.pk_id;"""
+
+  db_redadeg_cursor.execute(sql_update_infos_ways)
+  print("  fait")
+
+  #
+
+  print("  Mise à jour des informations sur les communes")
+
+  sql_update_infos_communes = f"""
+  UPDATE phase_5_pk
+  SET
+    municipality_admincode = sub.insee ,
+    municipality_name_fr = sub.name_fr ,
+    municipality_name_br = sub.name_br
+  FROM (
+    SELECT
+     pk.pk_id,
+     com.insee,
+     com.name_fr,
+     com.name_br
+    FROM phase_5_pk pk, osm_communes com
+    WHERE ST_INTERSECTS(pk.the_geom, com.the_geom)
+    ORDER BY pk_id 
+  ) sub
+  WHERE phase_5_pk.pk_id = sub.pk_id;"""
+
+  db_redadeg_cursor.execute(sql_update_infos_communes)
+  print("  fait")
+
+  #
 
   # on finit par l'export geojson pour merour
   print("  Export geojson pour merour")
