@@ -10,7 +10,13 @@ But : créer des données de tracés et points kilométriques basé sur le filai
 
 Ceci afin d'avoir un tracé le plus précis possible par rapport aux longueurs et de connaître le nom des voies utilisées.
 
-[TODO : décrire le processus depuis umap puis merour. expliquer les limitation (FME)]
+
+## Principes
+
+Ar Redadeg fonctionne par millésime.
+
+TODO
+
 
 
 ## Prérequis
@@ -20,21 +26,11 @@ Une machine sous linux ou OS X.
 Une base OpenStreetMap au format natif (osm2pgsql) nommée "osm".
 Voir [ce script](https://github.com/osm-bzh/osmbr-mapstyle/blob/master/scripts/update_db.sh) qui fait ça très bien. Attention : 18 Go de disque consommé pour le grand ouest de la France.
 
-Un serveur PostgreSQL 11 + PostGIS 2.5 + PGrouting 2.6
+* Un serveur PostgreSQL 11 + PostGIS 2.5 + PGrouting 2.6
+* Python > 3.8
 
 
 ## Installation
-
-### Installer ogr2ogr
-
-ogr2ogr nous servira pour charger des données dans la base.
-
-ogr2ogr fait partie du paquet 'gdal-bin'
-
-```
-sudo apt-get install gdal-bin
-ogr2ogr --version
-```
 
 ### Cloner ce dépôt
 
@@ -44,55 +40,112 @@ Allez où vous voulez sur votre ordinateur, puis :
 
 `git clone https://github.com/osm-bzh/ar_redadeg.git`
 
-Puis on se déplace dans le répertoire
 
-`cd ar_redadeg/scripts/`
+### Installer ogr2ogr
 
+ogr2ogr servira pour charger des données dans la base.
+
+ogr2ogr fait partie du paquet 'gdal-bin'
+
+```
+sudo apt-get install gdal-bin
+ogr2ogr --version
+```
+
+### Python
+
+À partir de la phase 4, on utilise un environnement virtuel Python 3.
+Et à terme, tous les scripts seront en python.
+
+Généralités pour Python3 :
+
+```bash
+sudo apt install libpq-dev python3-dev
+sudo apt install python-is-python3
+```
+
+Création d'un environnement virtuel Python pour le projet :
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+
+python -m pip install --upgrade pip setuptools
+python -m pip install psycopg2 wget
+```
+
+
+## Configuration d'un millésime
+
+
+### Création du répertoire des données
+
+Créer un répertoire de données pour le millésime.
+
+`mkdir -p data/{millesime}/backup`
+
+Et lui positionner les bonnes permissions.
+
+`chmod -R g+s data/{millesime}/`
+
+Ce répertoire recevra tous les fichiers temporaires nécessaires : exports GEOJSON depuis / vers umap, dumps SQL, etc.
+
+
+### Fichier de configuration
+
+Modifier le fichier `config.ini` pour y mettre les informations de connexion aux bases de données (la base OpenStreetMap et les bases redadeg).
 
 
 
 ### Créer la base de données
 
-Utiliser le script suivant avec un compte linux qui dispose d'un rôle 'superuser' sur la base PostgreSQL
+Se déplacer dans le répertoire des scripts : `cd ar_redadeg/scripts_v2/`
+
+Utiliser le script suivant avec un compte linux qui dispose d'un rôle 'superuser' sur la base PostgreSQL. Donc idéalement, à exécuter avec le user postgres.
 
 [scripts/create_database.sh](scripts/create_database.sh)
 
-`./create_database.sh {millesime}`
+`su postgres
+./create_database.sh {millesime}`
 
 Il va créer :
-* un compte (rôle) redadeg / redadeg
-* une base 'redadeg' 
-* les extensions postgis, postgis_topology et pgrouting
-* et mettre le rôle 'redadeg' en propriétaire de tout ça
+* un compte (rôle) `redadeg`
+* une base `redadeg_{millesime}` 
+* les extensions `postgis`, `postgis_topology` et `pgrouting`
+* et mettre le rôle `redadeg` en propriétaire de tout ça
 
 
-Note : l'extension postgis_topology crée forcément un schéma *topology* dans la base de données.
-
-**Rajouter à la main la connexion à la base dans son pgpass !**
-
-`nano ~/.pgpass`
-
-`localhost:5432:redadeg:redadeg:redadeg`
-
-TODO : modification en cours des scripts pour utiliser les infos de connexion uniquement dans le script.
+Note : l'extension `postgis_topology` crée forcément un schéma *topology* dans la base de données.
 
 
 ### Créer les tables
 
-On exécute ensuite le scripts SQL qui va créer toutes les tables
+On exécute ensuite le script qui va créer toutes les tables :
 
 `./create_tables.sh {millesime}`
 
-La table de référence des secteurs est remplie avec le script `update_infos_secteurs.sql`. Modifier appliquer ce script SQL si nécessaire.
+La table de référence des secteurs est remplie avec le script `update_infos_secteurs.sql`. Adapater ce script SQL en fonction de Ar Redadeg.
+
+
+Note : le principe est de travailler dans le système de projection IGN Lambert93. Les tables / couches dans ce système ne sont pas suffixé. Les tables d'import depuis umap sont suffixées en "3857" et les tables ou vues d'export sont suffixées en "4326".
+
+```
+import depuis umap -> traitements -> export pour umap /stal / merour
+    EPSG:3857      ->  EPSG:2154  ->    EPSG:4326
+```
 
 
 ### couche des communes
 
-`./load_communes_osm_fr.sh`
+`./load_communes_osm.sh {millesime}`
 
 Ce script va récupérer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
 
-Problème en cours (voir [#1](https://github.com/osm-bzh/ar_redadeg/issues/1)) : il faut utiliser la couche `osm_municipalities` qui est crée avec le script `load_osm_municipalities.fmw`.
+**Attention !** changer le millésime à utiliser ligne 26 : `millesimeSHP=20210101` si nécessaire.
+
+
+
+## Charger et traiter les données
 
 
 ### Création du filaire de voies support du routage
@@ -153,16 +206,6 @@ Si juste besoin de recalculer un itinéraire si les données Redadeg phase 1 ou 
 
 
 
-## Charger et traiter les données
-
-Le principe est de travailler dans le système de projection Lambert93. Les tables / couches dans ce système ne sont pas suffixé. Les tables d'import depuis umap sont suffixées en "3857" et les tables ou vues d'export sont suffixées en "4326".
-
-import depuis umap -> traitements -> export vers umap (ou autres)
-3857 -> 2154 -> 4326
-
-
-
-
 ### Phase 1
 
 `./traitements_phase_1.sh {millesime}`
@@ -183,7 +226,7 @@ import depuis umap -> traitements -> export vers umap (ou autres)
 	* `phase_1_pk_auto_4326.xls`
 
 
-### Phase 2
+### Phase 2 (obsolète : à reprendre)
 
 `./traitements_phase_2.sh`
 
@@ -212,13 +255,10 @@ Si on veut modifier radicalement le tracé (pas dans la zone tampon de 25 m), il
 S'il faut patcher manuellement un secteur voir plus haut "Création du filaire de voies support du routage".
 
 
-### Phase 3
+### Phase 3 : 
 
-Création de :
-* une couche tronçons coupés à la longueur relative d'un km "redadeg". La longueur d'un tronçon varie en effet d'un secteur à un autre…
-* une couche de PK auto placés à la fin de chaque tronçon créé précedemment
+Cette phase consiste à découper…
 
-Pour cette étape on ne peut pas se servir de la couche de routage phase_2_trace_pgr créé précédemment car les géométries sont en fait des agrégats de la couche osm_roads_pgr. On utilise donc un traitement FME.
 
 
 ### Phase 4
