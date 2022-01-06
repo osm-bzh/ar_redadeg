@@ -411,7 +411,8 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
                 f"../data/{millesime}/phase_5_pk.geojson",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-                "phase_5_pk", "-t_srs", "EPSG:4326"]
+                "-sql", "SELECT * FROM phase_5_pk ORDER BY pk_id ;",
+                "-t_srs", "EPSG:4326"]
   # on exporte
   subprocess.check_output(export_cmd)
   print("  fait")
