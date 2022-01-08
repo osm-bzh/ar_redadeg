@@ -141,7 +141,7 @@ import depuis umap -> traitements -> export pour umap /stal / merour
 
 Ce script va récupérer une couche des communes de France (source OpenStreetMap) et la charger dans la base de données dans la table `osm_communes`.
 
-**Attention !** changer le millésime à utiliser ligne 26 : `millesimeSHP=20210101` si nécessaire.
+**Attention !** changer le millésime à utiliser ligne 26 : `millesimeSHP=20220101` si nécessaire.
 
 
 
