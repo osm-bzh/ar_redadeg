@@ -181,9 +181,9 @@ try:
 
   #print("  Chargement de la couche phase_5_pk_umap")
   sql_trunc_load = """
-TRUNCATE TABLE phase_5_pk_umap ; 
+TRUNCATE TABLE phase_5_pk_umap ;
 INSERT INTO phase_5_pk_umap
-SELECT pk_id, secteur_id, st_transform(the_geom, 2154) 
+SELECT pk_id, secteur_id, st_transform(the_geom, 2154)
 FROM phase_5_pk_umap_4326
 ORDER BY pk_id ;"""
 
@@ -350,6 +350,27 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   WHERE phase_5_pk.pk_id = sub.pk_id ;"""
 
   db_redadeg_cursor.execute(sql_update_infos_geom)
+  print("  fait")
+
+  #
+
+  print("  Mise à jour de la distance théorique")
+
+  sql_update_length_theorical = f"""
+  UPDATE phase_5_pk
+  SET
+    length_theorical = sub.length_theorical
+  FROM (
+    SELECT
+      pk.pk_id
+      ,pk.secteur_id
+      ,s.longueur_km_redadeg AS length_theorical
+    FROM phase_5_pk pk JOIN secteur s ON pk.secteur_id = s.id
+    ORDER BY pk_id
+  ) sub
+  WHERE phase_5_pk.pk_id = sub.pk_id ;"""
+
+  db_redadeg_cursor.execute(sql_update_length_theorical)
   print("  fait")
 
   #
