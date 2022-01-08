@@ -23,7 +23,7 @@ echo "  Récupération des communes FR"
 echo ""
 
 echo "  téléchargement"
-millesimeSHP=20210101
+millesimeSHP=20220101
 {
   wget -nc http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-$millesimeSHP-shp.zip -O communes-$millesimeSHP-shp.zip
   unzip -oq communes-$millesimeSHP-shp.zip
