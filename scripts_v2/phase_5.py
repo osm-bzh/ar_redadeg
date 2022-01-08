@@ -375,6 +375,41 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   #
 
+  print("  Mise à jour de la distance réelle")
+
+  sql_update_length_length_real = f"""
+  UPDATE phase_5_pk
+  SET
+    length_real = sub.length_real
+  FROM (
+    SELECT
+      pk.pk_id
+      ,pk.secteur_id
+      ,s.longueur_km_redadeg AS length_theorical
+      ,diff.deplace
+      ,CASE
+      	WHEN diff.deplace = FALSE THEN pk.length_theorical
+      	ELSE 0
+      END AS length_real
+    FROM phase_5_pk pk
+    	JOIN secteur s ON pk.secteur_id = s.id
+    	JOIN phase_5_pk_diff diff ON pk.pk_id = diff.pk_id
+    ORDER BY pk_id
+  ) sub
+  WHERE phase_5_pk.pk_id = sub.pk_id ;
+
+  UPDATE phase_5_pk pk
+  SET length_real = 0
+  FROM (SELECT pk_id,(pk_id -1) AS pk_moins_1 FROM phase_5_pk WHERE length_real = 0 ORDER BY pk_id) x
+  WHERE pk.pk_id = x.pk_moins_1 ;
+"""
+  # avec cette requête 'length_real' = 0 pour les PK déplacés et le PK le précédant
+
+  db_redadeg_cursor.execute(sql_update_length_length_real)
+  print("  fait")
+
+  #
+
   print("  Mise à jour des informations sur les voies")
 
   sql_update_infos_ways = f"""
