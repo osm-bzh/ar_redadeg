@@ -148,6 +148,27 @@ Ce script va récupérer une couche des communes de France (source OpenStreetMap
 ## Charger et traiter les données
 
 
+
+### Phase 1
+
+`./traitements_phase_1.sh {millesime}`
+
+* chargement des données depuis la [carte umap phase 1](http://umap.openstreetmap.fr/fr/map/ar_redadeg_2020_phase_1_274091) dans les tables :
+	* `phase_1_trace_3857`
+	* `phase_1_pk_vip_3857`
+* chargement des tables de travail en Lambert 93 : 
+	* `phase_1_trace`
+	* `phase_1_pk_vip --> ne sert pas au final`
+* traitements :
+	* La table `phase_1_trace_troncons` est remplie à partir de la couche `phase_1_trace`. Les lignes du tracé sont découpées en tronçons de 1000 m. Mais attention : on repart à zéro à chaque nouvelle section de la couche `phase_1_trace`. Cette couche de points est surtout là pour donner une vague idée du nb de km "vrais".
+	* La vue `phase_1_pk_auto` consiste à placer un point à chaque extrémité de chaque ligne de la couche `phase_1_trace_troncons`.
+* export en geojson WGS84 pour umap des tables :
+	* `phase_1_trace_4326.geojson`
+	* `phase_1_pk_auto_4326.geojson`
+* export en Excel des tables :
+	* `phase_1_pk_auto_4326.xls`
+
+
 ### Création du filaire de voies support du routage
 
 #### filaire de voies OSM
@@ -206,24 +227,6 @@ Si juste besoin de recalculer un itinéraire si les données Redadeg phase 1 ou 
 
 
 
-### Phase 1
-
-`./traitements_phase_1.sh {millesime}`
-
-* chargement des données depuis la [carte umap phase 1](http://umap.openstreetmap.fr/fr/map/ar_redadeg_2020_phase_1_274091) dans les tables :
-	* `phase_1_trace_3857`
-	* `phase_1_pk_vip_3857`
-* chargement des tables de travail en Lambert 93 : 
-	* `phase_1_trace`
-	* `phase_1_pk_vip --> ne sert pas au final`
-* traitements :
-	* La table `phase_1_trace_troncons` est remplie à partir de la couche `phase_1_trace`. Les lignes du tracé sont découpées en tronçons de 1000 m. Mais attention : on repart à zéro à chaque nouvelle section de la couche `phase_1_trace`. Cette couche de points est surtout là pour donner une vague idée du nb de km "vrais".
-	* La vue `phase_1_pk_auto` consiste à placer un point à chaque extrémité de chaque ligne de la couche `phase_1_trace_troncons`.
-* export en geojson WGS84 pour umap des tables :
-	* `phase_1_trace_4326.geojson`
-	* `phase_1_pk_auto_4326.geojson`
-* export en Excel des tables :
-	* `phase_1_pk_auto_4326.xls`
 
 
 ### Phase 2 (obsolète : à reprendre)

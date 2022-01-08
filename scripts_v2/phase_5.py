@@ -197,7 +197,7 @@ ORDER BY pk_id ;"""
   # on utilise la vue faite pour ça
   # normalement c'est impossible car pk_id est clé primaire
 
-  sql_test_nb = "SELECT * FROM phase_5_pk_diff ;"
+  sql_test_nb = "SELECT * FROM phase_5_pk_diff_secteur ;"
   db_redadeg_cursor.execute(sql_test_nb)
   controle_table = db_redadeg_cursor.fetchall()
 
