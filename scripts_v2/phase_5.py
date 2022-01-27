@@ -58,7 +58,7 @@ def initConnRedadegDB():
       sys.exit()
 
 
-# ==============================================================================
+# ============================================================================================================
 
 def closeConnRedadegDB():
 
@@ -68,7 +68,63 @@ def closeConnRedadegDB():
   except:
     pass
 
+# ============================================================================================================
 
+def truncate_reload():
+
+  print("  Vidage de la table d'import")
+  sql_truncate = "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
+  db_redadeg_cursor.execute(sql_truncate)
+  print("  fait")
+  print("")
+
+  print("  Récupération et import des PK depuis umap")
+
+  # on ouvre le fichier qui contient la liste des layers à récupérer
+  f_layers = open(f"../data/{millesime}/umap_phase_5_layers.txt",'r')
+  lines = f_layers.readlines()
+  f_layers.close()
+
+  # boucle
+  for line in lines:
+    # pb retour à la ligne intempestif (que sur mac ?)
+    layer = line[:-1]
+
+    layer_url = f"https://umap.openstreetmap.fr/fr/datalayer/{layer}/"
+    layer_file = f"../data/{millesime}/umap_phase_5_pk_{layer}.geojson"
+
+    # on récupère le fichier
+    wget.download(layer_url, layer_file)
+
+    # on l'importe avec gdal
+    cmd = ["ogr2ogr", "-f",
+           "PostgreSQL",
+           f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+           f"../data/{millesime}/umap_phase_5_pk_{layer}.geojson",
+           "-nln", "phase_5_pk_umap_4326",
+           "-lco", "GEOMETRY_NAME=the_geom"]
+    #print(cmd)
+    subprocess.call(cmd)
+
+    # on efface le fichier aussitôt
+    os.remove(layer_file)
+
+  #print("  Chargement de la couche phase_5_pk_umap")
+  sql_trunc_load = """
+TRUNCATE TABLE phase_5_pk_umap ;
+INSERT INTO phase_5_pk_umap
+SELECT pk_id, secteur_id, st_transform(the_geom, 2154)
+FROM phase_5_pk_umap_4326
+ORDER BY pk_id ;"""
+
+  db_redadeg_cursor.execute(sql_trunc_load)
+  print("  fait")
+  print("")
+
+# ============================================================================================================
+
+
+# ============================================================================================================
 #
 # Functions
 #
@@ -82,8 +138,8 @@ startTime = time.perf_counter()
 # on récupère les arguments passés
 list_of_args = sys.argv
 
-millesime=""
-secteur=""
+global millesime
+global secteur
 typemaj=""
 
 # et on fait des tests
@@ -134,6 +190,7 @@ db_redadeg_conn_str = "host="+db_redadeg_host+" port="+db_redadeg_port+" dbname=
 initConnRedadegDB()
 
 # le cursor
+global db_redadeg_cursor
 db_redadeg_cursor = db_redadeg_pg_conn.cursor()
 
 print("")
@@ -142,54 +199,7 @@ print("")
 
 try:
 
-  print("  Vidage de la table d'import")
-  sql_truncate = "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
-  db_redadeg_cursor.execute(sql_truncate)
-  print("  fait")
-  print("")
-
-  print("  Récupération et import des PK depuis umap")
-
-  # on ouvre le fichier qui contient la liste des layers à récupérer
-  f_layers = open(f"../data/{millesime}/umap_phase_5_layers.txt",'r')
-  lines = f_layers.readlines()
-  f_layers.close()
-
-  # boucle
-  for line in lines:
-    # pb retour à la ligne intempestif (que sur mac ?)
-    layer = line[:-1]
-
-    layer_url = f"https://umap.openstreetmap.fr/fr/datalayer/{layer}/"
-    layer_file = f"../data/{millesime}/umap_phase_5_pk_{layer}.geojson"
-
-    # on récupère le fichier
-    wget.download(layer_url, layer_file)
-
-    # on l'importe avec gdal
-    cmd = ["ogr2ogr", "-f",
-           "PostgreSQL",
-           f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-           f"../data/{millesime}/umap_phase_5_pk_{layer}.geojson",
-           "-nln", "phase_5_pk_umap_4326",
-           "-lco", "GEOMETRY_NAME=the_geom"]
-    #print(cmd)
-    subprocess.call(cmd)
-
-    # on efface le fichier aussitôt
-    os.remove(layer_file)
-
-  #print("  Chargement de la couche phase_5_pk_umap")
-  sql_trunc_load = """
-TRUNCATE TABLE phase_5_pk_umap ;
-INSERT INTO phase_5_pk_umap
-SELECT pk_id, secteur_id, st_transform(the_geom, 2154)
-FROM phase_5_pk_umap_4326
-ORDER BY pk_id ;"""
-
-  db_redadeg_cursor.execute(sql_trunc_load)
-  print("  fait")
-  print("")
+  truncate_reload()
 
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   print("  Test : nb de pk par secteur")
