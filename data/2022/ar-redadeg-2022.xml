@@ -34,6 +34,12 @@
             url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
             layers="satellite" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
             visible="false" />
+        <baselayer
+            type="WMS" id="ign_plan" label="Plan IGN v2" title="Plan IGN v2" attribution="IGN via CRAIG"
+            thumbgallery="img/basemap/scan.jpg" 
+            url="https://wxs.ign.fr/1wexxrf38g4k60sfffkgyotp/geoportail/r/wms" maxzoom="20" 
+            layers="GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="false" />
     </baselayers>
 
     <proxy url=""/>
