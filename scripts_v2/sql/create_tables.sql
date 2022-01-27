@@ -837,8 +837,25 @@ ALTER TABLE phase_5_pk OWNER TO redadeg;
 
 
 
+/*
+==========================================================================
 
+    phase 5 : export préfectures
 
+==========================================================================
+*/
+
+DROP VIEW IF EXISTS phase_5_prefecture_liste ;
+CREATE VIEW phase_5_prefecture_liste AS
+  SELECT
+    pk_id 
+  , substring(municipality_admincode,1,2) AS dpt
+  , municipality_admincode AS comm_insee
+  , municipality_name_fr AS comm_nom
+  , way_ref AS voie_ref
+  , way_name_fr AS voie_nom
+  FROM phase_5_pk pp 
+  ORDER BY pk_id ;
 
 
 

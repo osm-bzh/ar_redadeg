@@ -472,7 +472,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   #
 
-  # on finit par l'export geojson pour merour
+  # export geojson pour merour
   print("  Export geojson pour merour")
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
                 f"../data/{millesime}/phase_5_pk.geojson",
@@ -483,6 +483,20 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   subprocess.check_output(export_cmd)
   print("  fait")
 
+  #
+
+  # export CSV liste des voies pour préfectures
+  print("  Export CSV liste des voies pour préfectures")
+  export_cmd = ["ogr2ogr", "-f", "CSV",
+                f"../data/{millesime}/phase_5_prefecture_liste.csv",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "-sql", "SELECT * FROM phase_5_prefecture_liste ORDER BY pk_id ;",
+                "-lco", "SEPARATOR=SEMICOLON"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
+  #
 
   print("")
   print("")
