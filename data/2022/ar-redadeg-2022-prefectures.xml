@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application
+        title="Ar Redadeg 2022 (préfectures)"
+        mouseposition="false"
+        logo=""
+        help="mviewer_help.html"
+        measuretools="true"
+        exportpng="true"
+        style="css/themes/wet_asphalt.css"
+        togglealllayersfromtheme="true"/>
+
+    <mapoptions
+        projection="EPSG:3857"
+        maxzoom="19"
+        center="-220750.13768758904,6144925.57790189"
+        zoom="8"
+        projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+  
+    <baselayers style="default"><!-- style="default"||gallery" -->
+        <baselayer
+            type="WMTS" id="ign" label="Cartes IGN" title="Cartes IGN" attribution="IGN via GéoBretagne"
+            thumbgallery="img/basemap/scan.jpg" 
+            url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
+            layers="carte" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="true" />
+        <baselayer
+            type="WMS" id="ign_plan" label="Plan IGN" title="Plan IGN" attribution="IGN via CRAIG"
+            thumbgallery="img/basemap/scan.jpg" 
+            url="https://wxs.ign.fr/1wexxrf38g4k60sfffkgyotp/geoportail/r/wms" maxzoom="20" 
+            layers="GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="false" />
+        <baselayer
+            type="WMTS" id="ortho" label="Ortophotographie" title="Photographie aérienne composite" attribution="GéoBretagne et ses partenaires"
+            thumbgallery="img/basemap/osm.png" 
+            url="https://tile.geobretagne.fr/gwc02/service/wmts" maxzoom="20" 
+            layers="satellite" format="image/jpeg" style="_null" matrixset="EPSG:3857" fromcapacity="false" 
+            visible="false" />
+        <baselayer
+            type="OSM" id="osm-br" label="OSM e brezhoneg" title="OSM e brezhoneg" attribution="OpenStreetMap e brezhoneg" 
+            thumbgallery="img/basemap/osm.png" 
+            url="https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png" maxzoom="20" 
+            visible="false" />
+        <baselayer
+            type="OSM" id="osm-fr" label="OSM FR" title="OSM FR" attribution="OpenStreetMap France"
+            thumbgallery="img/basemap/osm.png" 
+            url="https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png" maxzoom="20" 
+            visible="false" />
+    </baselayers>
+
+    <proxy url=""/>
+
+    <olscompletion url="http://api-adresse.data.gouv.fr/search/" type="ban"/>
+    <searchparameters bbox="false" localities="true" features="false" />   
+
+    <themes>
+        <theme name="Tracé Ar Redadeg 2022" collapsed="false" id="redadeg" icon="">
+            <layer
+                id="trace_prefecture"
+                name="Tracé recalé sur le réseau viaire OSM"
+                visible="true"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            />
+        </theme>
+    </themes>
+</config>
