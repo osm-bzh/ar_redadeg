@@ -48,10 +48,10 @@
     <searchparameters bbox="false" localities="true" features="false" />   
 
     <themes>
-        <theme name="Redadeg"  collapsed="false" id="redadeg" icon="fas fa-users">
+        <theme name="Tracé en production"  collapsed="false" id="production" icon="fas fa-users">
             <layer
                 id="phase_5_pk"
-                name="PK phase 5"
+                name="phase 5 : PK"
                 visible="true"
                 url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
@@ -60,6 +60,19 @@
                 queryable="true"
             >
             </layer>
+            <layer
+                id="phase_5_trace"
+                name="phase 5 : tracé"
+                visible="true"
+                url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
+                infoformat="application/vnd.ogc.gml"
+                tiled="false"
+                searchable="false"
+                queryable="true"
+            >
+            </layer>
+        </theme>
+        <theme name="Données de travail"  collapsed="true" id="work" icon="fas fa-users">
             <layer
                 id="phase_3_pk"
                 name="PK phase 3"
@@ -74,7 +87,7 @@
             <layer
                 id="phase_2_pk_secteur"
                 name="PK secteurs"
-                visible="true"
+                visible="false"
                 url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
                 tiled="false"
@@ -96,7 +109,7 @@
             <layer
                 id="phase_2_trace_pgr"
                 name="Tracé recalé sur le réseau viaire OSM"
-                visible="true"
+                visible="false"
                 url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2022/wms"
                 infoformat="application/vnd.ogc.gml"
                 tiled="false"
