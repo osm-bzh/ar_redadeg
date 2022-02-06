@@ -803,7 +803,7 @@ CREATE VIEW phase_5_pk_diff AS
 
 
 
--- la table finale
+-- la table finale des PK
 DROP TABLE IF EXISTS phase_5_pk CASCADE ;
 CREATE TABLE phase_5_pk
 (
@@ -835,6 +835,21 @@ CREATE TABLE phase_5_pk
 CREATE INDEX phase_5_pk_geom_idx ON phase_5_pk USING gist(the_geom);
 ALTER TABLE phase_5_pk OWNER TO redadeg;
 
+
+-- la table finale du tracé regroupé par secteur
+-- pour affichage uniquement
+DROP TABLE IF EXISTS phase_5_trace_troncons CASCADE ;
+CREATE TABLE phase_5_trace_troncons
+(
+  troncon_id serial,
+  secteur_id int,
+  the_geom geometry,
+  CONSTRAINT phase_5_trace_troncons_pkey PRIMARY KEY (troncon_id),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
+  CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
+);
+CREATE INDEX phase_5_trace_troncons_geom_idx ON phase_5_trace_troncons USING gist(the_geom);
+ALTER TABLE phase_5_trace_troncons OWNER to redadeg;
 
 
 /*

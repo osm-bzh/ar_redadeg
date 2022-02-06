@@ -70,13 +70,12 @@ def closeConnRedadegDB():
 
 # ============================================================================================================
 
-def truncate_reload():
+def truncate_reload_pk():
 
-  print("  Vidage de la table d'import")
+  print("  Vidage de la table d'import des PK umap")
   sql_truncate = "TRUNCATE TABLE phase_5_pk_umap_4326 ;"
   db_redadeg_cursor.execute(sql_truncate)
   print("  fait")
-  print("")
 
   print("  Récupération et import des PK depuis umap")
 
@@ -116,14 +115,43 @@ INSERT INTO phase_5_pk_umap
 SELECT pk_id, secteur_id, st_transform(the_geom, 2154)
 FROM phase_5_pk_umap_4326
 ORDER BY pk_id ;"""
-
   db_redadeg_cursor.execute(sql_trunc_load)
+  print("  fait")
+
+  print("  Vacuum")
+  sql_vacuum = "VACUUM FULL phase_5_pk_umap ;"
+  db_redadeg_cursor.execute(sql_vacuum)
+  print("  fait")
+  print("")
+
+
+# ============================================================================================================
+
+def truncate_reload_trace():
+
+  print("  Vidage de la couche phase_5_trace")
+  sql_truncate = "TRUNCATE TABLE phase_5_trace ;"
+  db_redadeg_cursor.execute(sql_truncate)
+  print("  fait")
+
+  print("  Remplissage de la couche phase_5_trace depuis phase_3_troncons_pgr")
+  sql_load = """
+INSERT INTO phase_5_trace
+  SELECT
+    secteur_id,
+    st_linemerge(ST_Collect(the_geom))
+  FROM phase_3_troncons_pgr
+  GROUP BY secteur_id ;"""
+  db_redadeg_cursor.execute(sql_load)
+  print("  fait")
+
+  print("  Vacuum")
+  sql_vacuum = "VACUUM FULL phase_5_trace ;"
+  db_redadeg_cursor.execute(sql_vacuum)
   print("  fait")
   print("")
 
 # ============================================================================================================
-
-
 # ============================================================================================================
 #
 # Functions
@@ -168,7 +196,7 @@ except:
 print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 print("")
-print(" Phase 5 : création des PK consolidés pour le millésime "+str(millesime))
+print(" Phase 5 : création des données consolidées pour le millésime "+str(millesime))
 print("")
 
 print(" Lecture du fichier de configuration ")
@@ -199,7 +227,11 @@ print("")
 
 try:
 
-  truncate_reload()
+  # mise à jour de la couche du tracé
+  truncate_reload_trace()
+
+  # mise à jour des données PK pour travail dessus
+  truncate_reload_pk()
 
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   print("  Test : nb de pk par secteur")
@@ -468,6 +500,12 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   WHERE phase_5_pk.pk_id = sub.pk_id;"""
 
   db_redadeg_cursor.execute(sql_update_infos_communes)
+  print("  fait")
+  print("")
+
+  print("  Vacuum")
+  sql_vacuum = "VACUUM FULL phase_5_pk ;"
+  db_redadeg_cursor.execute(sql_vacuum)
   print("  fait")
   print("")
 
