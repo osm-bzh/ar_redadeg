@@ -45,7 +45,8 @@ Tables=(
   "phase_2_trace_pgr"
   "phase_2_trace_troncons"
   "phase_3_pk"
-  "public.phase_5_pk"
+  "phase_5_pk"
+  "phase_5_trace"
 )
 
 for table in ${Tables[@]}; do
