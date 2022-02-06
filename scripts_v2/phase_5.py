@@ -469,6 +469,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   db_redadeg_cursor.execute(sql_update_infos_communes)
   print("  fait")
+  print("")
 
   #
 
@@ -479,6 +480,20 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT * FROM phase_5_pk ORDER BY pk_id ;",
                 "-t_srs", "EPSG:4326"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
+  #
+
+  # export GPX pour qui veut
+  print("  Export gpx")
+  export_cmd = ["ogr2ogr", "-f", "GPX",
+                f"../data/{millesime}/gpx/ar_redadeg_{millesime}.gpx",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "phase_5_trace",
+                "-t_srs", "EPSG:4326",
+                "-lco", "FORCE_GPX_TRACK=YES"]
   # on exporte
   subprocess.check_output(export_cmd)
   print("  fait")
