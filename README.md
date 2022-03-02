@@ -21,13 +21,10 @@ TODO
 
 ## Prérequis
 
-Une machine sous linux ou OS X.
-
-Une base OpenStreetMap au format natif (osm2pgsql) nommée "osm".
-Voir [ce script](https://github.com/osm-bzh/osmbr-mapstyle/blob/master/scripts/update_db.sh) qui fait ça très bien. Attention : 18 Go de disque consommé pour le grand ouest de la France.
-
-* Un serveur PostgreSQL 11 + PostGIS 2.5 + PGrouting 2.6
+* Une machine sous linux ou OS X.
+* Un serveur PostgreSQL 12.9 + PostGIS 2.5 + PGrouting 2.6
 * Python > 3.8
+* Une base OpenStreetMap au format natif (osm2pgsql) nommée "osm".
 
 
 ## Installation
@@ -73,6 +70,13 @@ source .venv/bin/activate
 python -m pip install --upgrade pip setuptools
 python -m pip install psycopg2 wget
 ```
+
+## Mise à jour des données OpenStreetMap
+
+Il est important de disposer de données OSM à jour car on s'appuie sur le filaire de voie OSM. 
+Le script [`update_db_osm.sh`](https://github.com/osm-bzh/ar_redadeg/blob/master/scripts_v2/update_db_osm.sh) permet de mettre à jour les données depuis un dump PBF France entière.
+Attention : 18 Go de disque consommé pour la base pour le grand ouest de la France. Plus 5 Go pour les dumps.
+Une mise à jour prend environ 45 minutes.
 
 
 ## Configuration d'un millésime
@@ -144,60 +148,116 @@ Ce script va récupérer une couche des communes de France (source OpenStreetMap
 **Attention !** changer le millésime à utiliser ligne 26 : `millesimeSHP=20220101` si nécessaire.
 
 
+## Phase 1 et 2 : obtenir un tracé calé sur le filaire de voies OSM
 
-## Charger et traiter les données
+Le script `update_secteur.py` rassemble toutes les étapes nécessaires pour, à partir du tracé à main levé dans les cartes umap, obtenir un tracé recalé sur le filaire de voies OSM.
 
+### Utilisation
 
+* se placer à la racine du répertoire du projet et activer une session virtuelle python : `source .venv/bin/activate`
+* se placer dans le répertoire `script_v2` : `cd script_v2`
+* lancer le script en indiquant les paramètres : `update_secteur.py {millésime} {secteur} {phase_1 | phase_2 | tout}`
 
-### Phase 1
+### Traitements
 
-`./traitements_phase_1.sh {millesime}`
+**Phase 1** : `phase_1.sh {millésime}`
 
-* chargement des données depuis la [carte umap phase 1](http://umap.openstreetmap.fr/fr/map/ar_redadeg_2020_phase_1_274091) dans les tables :
-	* `phase_1_trace_3857`
-	* `phase_1_pk_vip_3857`
-* chargement des tables de travail en Lambert 93 : 
-	* `phase_1_trace`
-	* `phase_1_pk_vip --> ne sert pas au final`
-* traitements :
-	* La table `phase_1_trace_troncons` est remplie à partir de la couche `phase_1_trace`. Les lignes du tracé sont découpées en tronçons de 1000 m. Mais attention : on repart à zéro à chaque nouvelle section de la couche `phase_1_trace`. Cette couche de points est surtout là pour donner une vague idée du nb de km "vrais".
-	* La vue `phase_1_pk_auto` consiste à placer un point à chaque extrémité de chaque ligne de la couche `phase_1_trace_troncons`.
-* export en geojson WGS84 pour umap des tables :
-	* `phase_1_trace_4326.geojson`
-	* `phase_1_pk_auto_4326.geojson`
-* export en Excel des tables :
-	* `phase_1_pk_auto_4326.xls`
+* récupération des tracés des cartes umap phase 1 (calque `phase_1_trace`)
+* chargement dans la base (tables `phase_1_trace_3857` et `phase_1_trace`)
+* création de la couche `phase_1_trace_troncons` avec un découpage automatique tous les 1000 m (obsolète : à supprimer)
+* exports : `phase_1_trace_4326.geojson`et `phase_1_pk_auto.geojson`
 
 
-### Création du filaire de voies support du routage
+**Extraction d'un filaire de voie depuis les données OSM** : `create_osm_roads.sh {millésime} {secteur}`
 
-#### filaire de voies OSM
-
-`./create_osm_roads.sh {millesime}`
-
-Opérations effectuées :
 * import du tracé phase 1 dans la base OSM
-* dans la base OSM : extraction du réseau de voies (couche `planet_osm_line` à proximité du tracé manuel (zone tampon de 25 m) dans une couche `osm_roads`
-* chargement de la couche `osm_roads` obtenue dans la base `redadeg`
+* dans la base OSM : extraction du réseau de voies (couche `planet_osm_line` à proximité du tracé manuel (zone tampon de 25 m) dans une couche `osm_roads_{millesime}`
+* export
+* chargement de cette couche dans la table `osm_roads_import` dans la base `redadeg_{millesime}`
 
-La durée de cette étape varie selon votre machine : de 5 à 25 minutes…
+La durée de cette étape varie selon le secteur : de 2 à 10 minutes.
 
-Mais les données brutes OSM ne sont pas structurées pour pouvoir calculer un itinéraire.
+Les données brutes OSM ne sont pas structurées pour pouvoir calculer un itinéraire, il faut donc enchaîner avec l'étape suivante.
 
 
-#### filaire de voies OSM routable
+**Création d'un filaire routable** : `update_osm_roads_pgr.sh {millesime} {secteur}`
 
-`./create_osm_roads_pgr.sh {millesime}`
+1/ calcul d'un graphe routier topologique
 
-Opérations effectuées :
-* création d'une topologie à partir de la couche osm_roads. Le résultat est un schéma osm_roads_topo qui contient des tables / couches qui constituent un graphe planaire.
-* ajout d'un nouvel attribut géométrique sur la table osm_roads
+* suppression des données du secteur des couches `osm_roads` et `osm_roads_pgr` 
+* import du filaire de voirie à jour dans la couche topologique `osm_roads`
+* calcul du graphe topologique (calcul de la connectivité entre chaque tronçon et chaque nœud). Cette étape permet aussi de corriger les erreurs de saisie.
 
-On a ici juste créé ce qu'il faut pour disposer d'une topologie. Il faut maintenant la calculer.
+2/ préparation de la couche support pour PGrouting
 
-Opérations effectuées :
-* calcul du graphe topologique
-* mise à jour de la couche osm_roads_pgr qui sert au routage / au calcul d'itinéraire
+* import des données préparées à l'étape d'avant dans la couche `osm_roads_pgr`
+* calcul des attributs de coût
+
+
+**Phase 2**
+
+* `phase_2_get_data.sh {millesime} {secteur}` : 
+  * récupération et import des données phase 2 depuis les cartes umap : **PK secteurs** et **points de nettoyage** (tables `phase_2_pk_secteur_3857` et `phase_2_point_nettoyage_3857`)
+* `phase_2_routing_prepare.sh {millesime} {secteur}` :
+  * Patch de la couche osm_roads_pgr pour les cas particuliers : utilisation des couches `osm_roads_pgr_patch_mask` et `osm_roads_pgr_patch`
+  * recalcul des attributs de coût (longueur)
+  * recalcul des nœuds uniquement sur les zones de patch
+  * recalcul de la topologie pgRouting uniquement sur les zones de patch
+  * recalage des PK secteurs sur un nœud du réseau routable
+  * recalage des points de nettoyage sur un nœud du réseau routable
+  * recalcul des attributs de coût (type de voies et points de nettoyage)
+* `phase_2_routing_compute.sh {millesime} {secteur}` :
+  * vidage de la couche de routage pour le secteur : couche `phase_2_trace_pgr`
+  * calcul d'un itinéraire entre les nœuds PK de début et fin du secteur
+  * exports : `phase_2_trace_pgr.geojson`
+* `phase_2_post_traitements.sh {millesime} {secteur}` :
+  * création d'une ligne unique par secteur (couche `phase_2_trace_secteur`)
+  * création couche de tronçons ordonnés de 1000 m de longueurs (couche `phase_2_trace_troncons`)
+  * exports : `phase_2_trace_secteur.geojson`, `phase_2_trace_troncons.geojson`
+
+
+
+## Phase 3 : Calcul des PK
+
+Cette phase consiste à découper le tracé d'un secteur en n tronçons de la longueur définie dans la table de référence `secteur`
+
+* `phase_3_prepare.py  {millesime} {secteur}` :
+  * nettoyage de la couche `phase_3_troncons_pgr` des données du secteur
+  * réinsertion des données pour le secteur dans la couche `phase_3_troncons_pgr` avec des tronçons venant de la couche `phase_2_trace_troncons`. Ces tronçons sont volontairement TRÈS courts pour permettre un découpage fin à l'étape suivante. La valeur de découpage est dans le fichier `config.ini`, valeur `longueur_densification` (10 m par défaut)
+  * calcul des attributs de coût (longeur) sur la couche `phase_3_troncons_pgr`
+  * création / maj de la topologie pgRouting pour les tronçons nouvellement créés
+  * mise à jour des données de la table `secteur`pour le secteur concerné
+
+* `phase_3_compute.py  {millesime} {secteur}` :
+  * détermination du nombre théorique de PK pour ce secteur et ainsi la longueur réelle entre chaque PK
+  * création des nouveaux PK dans la couche `phase_3_pk`
+
+
+
+## Phase 4 TODO
+
+Transition vers phase 5 = 
+* déactivation des scripts automatiques sur les serveurs.
+* exports des données pour les cartes umap
+
+
+## Phase 5 TODO
+
+À partir de cette phase : les PK sont gérés manuellement.
+Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récupérer et mettre à jour le filaire OpenStreetMap. Ou pour prendre en compte des modifications sur le tracé.
+
+Les PK sont gérés à partir de cartes umap : 1 par secteur.
+voir [http://umap.openstreetmap.fr/fr/user/osm-bzh/](http://umap.openstreetmap.fr/fr/user/osm-bzh/)
+
+Si on a fait une modification du tracé, la couche à jour est phase_2_trace_pgr
+
+celà veut dire de nouvelles voies empruntées et des PK de référence qui ne sont plus au bon endroit.
+
+
+
+
+
+## Détails sur les traitements
 
 
 #### Patch manuel du filaire de voies
@@ -214,74 +274,6 @@ Ce script va :
 3. recalculer la topologie de routage (car la structure du réseau a été modifié à ces endroits)
 
 
-#### Automatisation
-
-Si besoin de mettre à jour les données depuis une base OSM fraîche, jouer :
-* `./create_osm_roads.sh {millesime}`
-* `./update_osm_roads_pgr.sh {millesime}`
-* `psql -h localhost -U redadeg -d redadeg < patch_osm_roads_pgr.sql`
-
-
-Si juste besoin de recalculer un itinéraire si les données Redadeg phase 1 ou 2 changent dans la zone tampon des 25 m existante, jouer seulement :
-* `./update_osm_roads_pgr.sh {millesime}`
-
-
-
-
-
-### Phase 2 (obsolète : à reprendre)
-
-`./traitements_phase_2.sh`
-
-* chargement des données depuis la [carte umap phase 2](http://umap.openstreetmap.fr/fr/map/ar_redadeg_2020_phase_2_309120) dans les tables :
-	* `phase_2_pk_secteur_3857`
-	* `phase_2_point_nettoyage_3857`
-* traitements :
-	* recalage des PK secteurs sur les nœuds de la couche `osm_roads_pgr_vertices_pgr` (sommets de la couche du filaire de voie routable) => chargement de la couche `phase_2_pk_secteur`
-	* recalage des points de nettoyage de la même façon => chargement de la couche `phase_2_point_nettoyage`
-	* calcul d'un itinéraire pour chaque secteur en utilisant les PK de début (ou fin) de chaque secteur => remplissage de la couche `phase_2_trace_pgr`
-	* création de la couche `phase_2_trace_secteur` à partir de `phase_2_trace_pgr`
-* export en geojson WGS84 pour umap des tables :
-	* `phase_2_pk_secteur.geojson`
-	* `phase_2_trace_pgr.geojson`
-	* `phase_2_trace_secteur.geojson`
-* exports en Excel des tables :
-	* `phase_2_tdb.xls`
-	* `phase_2_tdb.csv`
-
-
-Si on veut modifier radicalement le tracé (pas dans la zone tampon de 25 m), il faut donc :
-* modifier le tracé sur la carte umap phase 1
-* placer des points coupe-trace sur la carte umap phase 2
-* puis relancer `./traitements_phase_2.sh`
-
-S'il faut patcher manuellement un secteur voir plus haut "Création du filaire de voies support du routage".
-
-
-### Phase 3 : 
-
-Cette phase consiste à découper…
-
-
-
-### Phase 4
-
-Transition vers phase 5 = 
-* déactivation des scripts automatiques sur les serveurs.
-* exports des données pour les cartes umap
-
-
-### Phase 5
-
-À partir de cette phase : les PK sont gérés manuellement.
-Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récupérer et mettre à jour le filaire OpenStreetMap. Ou pour prendre en compte des modifications sur le tracé.
-
-Les PK sont gérés à partir de cartes umap : 1 par secteur.
-voir [http://umap.openstreetmap.fr/fr/user/osm-bzh/](http://umap.openstreetmap.fr/fr/user/osm-bzh/)
-
-Si on a fait une modification du tracé, la couche à jour est phase_2_trace_pgr
-
-celà veut dire de nouvelles voies empruntées et des PK de référence qui ne sont plus au bon endroit.
 
 
 
