@@ -10,7 +10,7 @@ import subprocess
 import time
 
 #
-# Functions
+# ===============================================================================================
 #
 
 def phase_1():
@@ -31,7 +31,9 @@ def phase_1():
   except subprocess.CalledProcessError as e:
       raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
-
+#
+# ===============================================================================================
+#
 
 def phase_2():
 
@@ -42,6 +44,30 @@ def phase_2():
     subprocess.call(["./phase_2_routing_prepare.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_routing_compute.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_post_traitements.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
+
+    print("")
+    stopTime = time.perf_counter()
+    hours, rem = divmod(stopTime - startTime, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("Exécuté en {:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
+
+  except subprocess.CalledProcessError as e:
+      raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+  
+  print("")
+
+#
+# ===============================================================================================
+#
+
+def phase_3():
+
+  print("maj données phase 3 + calcul des PK autos")
+
+  try:
+    subprocess.call(["python phase_3_prepare.py "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
+    subprocess.call(["python phase_3_compute.py "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
+    subprocess.call(["./phase_3_export.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
 
     print("")
     stopTime = time.perf_counter()
@@ -85,9 +111,14 @@ try:
 
       # ok : on passe au type de mise à jour demandé
       if len(list_of_args[3]) > 3:
-        if list_of_args[3] == "tout": typemaj = "tout"
-        elif list_of_args[3] == "phase_1": typemaj = "phase_1"
-        elif list_of_args[3] == "phase_2": typemaj = "phase_2"
+        if list_of_args[3] == "tout":
+          typemaj = "tout"
+        elif list_of_args[3] == "phase_1":
+          typemaj = "phase_1"
+        elif list_of_args[3] == "phase_2":
+          typemaj = "phase_2"
+        elif list_of_args[3] == "phase_3":
+          typemaj = "phase_3"
         else:
           print("Mauvais type de traitement en argument")
           sys.exit()
@@ -115,12 +146,16 @@ print("")
 if typemaj == "tout":
   phase_1()
   phase_2()
+  phase_3()
 
 if typemaj == "phase_1":
   phase_1()
 
 if typemaj == "phase_2":
   phase_2()
+
+if typemaj == "phase_3":
+  phase_3()
 
 
 # pour connaître le temps d'exécution
