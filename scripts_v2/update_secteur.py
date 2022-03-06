@@ -146,7 +146,7 @@ print("")
 if typemaj == "tout":
   phase_1()
   phase_2()
-  phase_3()
+  #phase_3()
 
 if typemaj == "phase_1":
   phase_1()
