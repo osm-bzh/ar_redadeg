@@ -134,14 +134,13 @@ def truncate_reload_trace():
   db_redadeg_cursor.execute(sql_truncate)
   print("  fait")
 
-  print("  Remplissage de la couche phase_5_trace depuis phase_3_troncons_pgr")
+  print("  Remplissage de la couche phase_5_trace depuis phase_2_trace_secteur")
   sql_load = """
 INSERT INTO phase_5_trace
   SELECT
     secteur_id,
-    st_linemerge(ST_Collect(the_geom))
-  FROM phase_3_troncons_pgr
-  GROUP BY secteur_id ;"""
+    the_geom
+  FROM phase_2_trace_secteur ;"""
   db_redadeg_cursor.execute(sql_load)
   print("  fait")
 
