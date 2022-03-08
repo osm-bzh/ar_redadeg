@@ -182,6 +182,25 @@ ORDER BY id ;"""
   print("  fait")
 
 
+  print("  Remplissage de la couche phase_5_trace depuis phase_2_trace_secteur")
+  sql_truncate = "TRUNCATE TABLE phase_5_trace ;"
+  db_redadeg_cursor.execute(sql_truncate)
+
+  sql_load = """
+INSERT INTO phase_5_trace
+  SELECT
+    secteur_id,
+    the_geom
+  FROM phase_2_trace_secteur ;"""
+  db_redadeg_cursor.execute(sql_load)
+  print("  fait")
+
+  print("  Vacuum")
+  sql_vacuum = "VACUUM FULL phase_5_trace ;"
+  db_redadeg_cursor.execute(sql_vacuum)
+  print("  fait")
+  print("")
+
   print("")
   print("")
 
