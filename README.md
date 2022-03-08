@@ -13,7 +13,7 @@ Ceci afin d'avoir un tracé le plus précis possible par rapport aux longueurs e
 
 ## Principes
 
-Ar Redadeg fonctionne par millésime.
+Ar Redadeg fonctionne par millésime et par secteurs.
 
 TODO
 
@@ -217,9 +217,11 @@ Les données brutes OSM ne sont pas structurées pour pouvoir calculer un itiné
 
 
 
-## Phase 3 : Calcul des PK
+## Phase 3 : Calcul du positionnement des PK
 
-Cette phase consiste à découper le tracé d'un secteur en n tronçons de la longueur définie dans la table de référence `secteur`
+Cette phase consiste à découper le tracé d'un secteur en n tronçons de la longueur définie dans la table de référence `secteur`.
+
+Cette phase doit être faire, en théorie, 1 seule fois. Ensuite, on passe directement de la phase 2 à la phase 5.
 
 * `phase_3_prepare.py  {millesime} {secteur}` :
   * nettoyage de la couche `phase_3_troncons_pgr` des données du secteur
@@ -234,26 +236,29 @@ Cette phase consiste à découper le tracé d'un secteur en n tronçons de la lo
 
 
 
-## Phase 4 TODO
+## Phase 4 : mise en production des données
 
-Transition vers phase 5 = 
-* déactivation des scripts automatiques sur les serveurs.
-* exports des données pour les cartes umap
+Le script `phase_4.py {millesime}` sert 1 seule et unique fois et permet d'alimenter de verser les données de la phase 3 (les PK calculées automatiquement et le tracé) dans les tables de la phase 5.
+
+Cela correspond au moment où les données rentrent en phase de production et les PK en phase de vente.
+
+* depuis la couche `phase_3_pk` :
+  * copie vers la table `phase_5_pk_ref` (table archives pour pouvoir faire les comparaisons ultérieures et traquer les déplacements de PK manuels)
+  * copie vers la table `phase_5_pk`
+* remplissage de la couche `phase_5_trace` depuis la couche `phase_2_trace_secteur` 
 
 
-## Phase 5 TODO
+
+## Phase 5 : maintenance en phase de production / vente
 
 À partir de cette phase : les PK sont gérés manuellement.
 Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récupérer et mettre à jour le filaire OpenStreetMap. Ou pour prendre en compte des modifications sur le tracé.
 
 Les PK sont gérés à partir de cartes umap : 1 par secteur.
-voir [http://umap.openstreetmap.fr/fr/user/osm-bzh/](http://umap.openstreetmap.fr/fr/user/osm-bzh/)
+voir les liens listés sur [la page du millésime](https://ar-redadeg.openstreetmap.bzh/)
 
-Si on a fait une modification du tracé, la couche à jour est phase_2_trace_pgr
-
-celà veut dire de nouvelles voies empruntées et des PK de référence qui ne sont plus au bon endroit.
-
-
+On va donc utiliser les scripts de la phase 1, phase 2 et phase 5.
+Le script `update_secteur.py {millesime} {secteur}` permet d'enchaîner toutes les tâches des phase 1 et 2. Après vérification on peut lancer le script `phase_5.py {millesime}`.
 
 
 
