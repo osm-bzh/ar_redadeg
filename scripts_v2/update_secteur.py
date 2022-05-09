@@ -42,7 +42,7 @@ def phase_2():
   try:
     subprocess.call(["./phase_2_get_data.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_routing_prepare.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
-    subprocess.call(["./phase_2_routing_compute.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
+    subprocess.call(["python phase_2_routing_compute.py "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
     subprocess.call(["./phase_2_post_traitements.sh "+millesime+" "+secteur],shell=True,stderr=subprocess.STDOUT)
 
     print("")
