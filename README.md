@@ -206,7 +206,7 @@ Les données brutes OSM ne sont pas structurées pour pouvoir calculer un itiné
   * recalage des PK secteurs sur un nœud du réseau routable
   * recalage des points de nettoyage sur un nœud du réseau routable
   * recalcul des attributs de coût (type de voies et points de nettoyage)
-* `phase_2_routing_compute.sh {millesime} {secteur}` :
+* `python phase_2_routing_compute.py {millesime} {secteur}` :
   * vidage de la couche de routage pour le secteur : couche `phase_2_trace_pgr`
   * calcul d'un itinéraire entre les nœuds PK de début et fin du secteur
   * exports : `phase_2_trace_pgr.geojson`
@@ -221,7 +221,8 @@ Les données brutes OSM ne sont pas structurées pour pouvoir calculer un itiné
 
 Cette phase consiste à découper le tracé d'un secteur en n tronçons de la longueur définie dans la table de référence `secteur`.
 
-Cette phase doit être faire, en théorie, 1 seule fois. Ensuite, on passe directement de la phase 2 à la phase 5.
+**Cette phase doit être faire, en théorie, 1 seule fois.** Ou tout du moins jusqu'à une validation du positionnement des PK / de la longueur par secteur.
+En phase de production, on passera directement de la phase 2 à la phase 5.
 
 * `phase_3_prepare.py  {millesime} {secteur}` :
   * nettoyage de la couche `phase_3_troncons_pgr` des données du secteur
@@ -257,8 +258,15 @@ Par contre : on peut toujours utiliser les traitements phase 1 et 2 pour récup�
 Les PK sont gérés à partir de cartes umap : 1 par secteur.
 voir les liens listés sur [la page du millésime](https://ar-redadeg.openstreetmap.bzh/)
 
-On va donc utiliser les scripts de la phase 1, phase 2 et phase 5.
+**On va donc utiliser les scripts de la phase 1, phase 2 et phase 5.**
 Le script `update_secteur.py {millesime} {secteur}` permet d'enchaîner toutes les tâches des phase 1 et 2. Après vérification on peut lancer le script `phase_5.py {millesime}`.
+
+Exemple : 
+`python update_secteur.py 2022 900 phase_1`
+`python update_secteur.py 2022 900 phase_2`
+`python phase_5.py {millesime}`
+
+ou, plus directement : `python update_secteur.py 2022 900 tout ; python phase_5.py 2022`
 
 
 
