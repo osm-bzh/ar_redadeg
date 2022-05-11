@@ -151,10 +151,10 @@ try:
     #
 
     print("  Recherche du node_id du PK de début et du node_id du PK de fin")
-    sql_get_nodes = """
+    sql_get_nodes = f"""
 SELECT id, secteur_id, pgr_node_id 
 FROM phase_2_pk_secteur 
-WHERE secteur_id >= 900
+WHERE secteur_id >= {secteur}
 ORDER BY id
 LIMIT 2;"""
     db_redadeg_cursor.execute(sql_get_nodes)
