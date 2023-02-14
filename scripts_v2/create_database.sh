@@ -32,7 +32,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "
 
 # suppression de la base de donnée existante
 # on stoppe si impossible genre des connectiosn en cours
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "DROP DATABASE $DB_NAME ;"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "DROP DATABASE IF EXISTS $DB_NAME ;"
 
 # create database with owner redadeg
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "CREATE DATABASE $DB_NAME WITH OWNER = $DB_USER ENCODING = 'UTF8';" || true
