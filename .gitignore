@@ -16,17 +16,21 @@ data/2022/phase_4_*.geojson
 data/2022/phase_5_*.geojson
 
 data/2022/phase_1_*.geojson
+data/2022/phase_1_pk_auto.xlsx
 data/2022/phase_2_*.geojson
 data/2022/phase_3_*.geojson
 data/2022/phase_4_*.geojson
 data/2022/phase_5_*.geojson
+data/2022/phase_5_prefecture_liste.csv
+data/2022/osm_br_municipalities.geojson
+data/2022/communes-20210101-shp.zip
 data/2022/backup/
 data/2022/pdf/*.pdf
 data/2022/gpx/*.gpx
 
 qgis/exports\ PDF/
 
-pg_backup/
+backup/
 
 scripts/test.bash
 scripts/temp.sql
@@ -41,7 +45,6 @@ api1/
 api2/
 
 ssh/
-ct_backup/
 
 .venv/
 __pycache__/
@@ -81,7 +84,4 @@ Temporary Items
 # FME
 *.recover
 
-data/2022/phase_1_pk_auto.xlsx
-data/2022/osm_br_municipalities.geojson
-data/2022/communes-20210101-shp.zip
-data/2022/phase_5_prefecture_liste.csv
+
