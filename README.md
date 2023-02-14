@@ -22,7 +22,7 @@ TODO
 ## Prérequis
 
 * Une machine sous linux ou OS X.
-* Un serveur PostgreSQL 12.9 + PostGIS 2.5 + PGrouting 2.6
+* Un serveur PostgreSQL 12.9 + PostGIS 2.5 + PGrouting 3.1
 * Python > 3.8
 * Une base OpenStreetMap au format natif (osm2pgsql) nommée "osm".
 
