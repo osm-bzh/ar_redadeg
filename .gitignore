@@ -28,6 +28,9 @@ data/2022/backup/
 data/2022/pdf/*.pdf
 data/2022/gpx/*.gpx
 
+data/2024/backup/
+data/2024/rsync_bed110.sh
+
 qgis/exports\ PDF/
 
 backup/
