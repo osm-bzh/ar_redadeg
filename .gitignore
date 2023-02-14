@@ -41,6 +41,7 @@ api1/
 api2/
 
 ssh/
+ct_backup/
 
 .venv/
 __pycache__/
