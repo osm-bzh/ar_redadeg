@@ -12,36 +12,49 @@ server {
 
     # global
     autoindex on;
+    autoindex_localtime on;
+    autoindex_exact_size off;
     index index.html;
 
     location / {
         root /data/projets/ar_redadeg/www/;
     }
 
+
+    # les répertoires de données
+    location ~/2022/(.*)$ {
+        alias /data/projets/ar_redadeg/data/2022/$1 ;
+    }
     location ~/2021/(.*)$ {
         alias /data/projets/ar_redadeg/data/2021/$1 ;
     }
 
-    location ~/2022/(.*)$ {
-        alias /data/projets/ar_redadeg/data/2022/$1 ;
-    }
 
-
-    # geoserver reverse proxy vers tomcat
+    # reverse proxy geoserver
     location /geoserver/  {
         proxy_pass http://localhost:8080/geoserver/;
         proxy_ignore_client_abort on;
     }
 
+    # visionneuse
     location /mviewer/ {
         alias /data/projets/mviewer/;
     }
 
+    # API hello test
     location = /hello { rewrite ^ /hello/; }
     location /hello { try_files $uri @hello; }
     location @hello {
       include uwsgi_params;
       uwsgi_pass unix:/tmp/hello.sock;
+    }
+
+    # API
+    location = /api { rewrite ^ /api/; }
+    location /api { try_files $uri @api; }
+    location @api {
+      include uwsgi_params;
+      uwsgi_pass unix:/tmp/api_redadeg.sock;
     }
 
 }
