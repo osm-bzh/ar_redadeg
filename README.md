@@ -159,7 +159,8 @@ Ce script va récupérer une couche des communes de France (source OpenStreetMap
 
 ### Cartes umap
 
-TODO
+Se connecter à [uMap](http://umap.openstreetmap.fr/fr/user/osm-bzh/) avec le compte "OSM e Bzh". Pour cela choisir une authentification par OpenStreetMap. L'adresse e-mail est `osm@breizhpositive.bzh`.
+
 
 
 ### Couches GeoServer
@@ -169,7 +170,29 @@ TODO
 
 ### Page HTML du millésime
 
-TODO
+* Dupliquer un fichier d'un millésime précédent dans le répertoire `www/`
+* Le nommer correctement
+* Remplacer les liens par les bons liens vers les différentes ressources
+
+
+### Configuration nginx
+
+Modifier la configuration du vhost nginx pour rajouter un millésime. Cette configuration permet de lister le contenu du dossier `data`. Important pour stal et merour.
+une sauvegarde de ce fichier est dans le répertoire `nginx`.
+
+`sudo nano /etc/nginx/sites-enabled/bzh_openstreetmap_ar_redadeg`
+
+```
+    location ~/2024/(.*)$ {
+        alias /data/projets/ar_redadeg/data/2024/$1 ;
+    }
+```
+
+Test de la configuration : `sudo nginx -t`.
+
+Rechargement de la config nginx : `sudo service nginx reload`
+
+Test : [https://ar-redadeg.openstreetmap.bzh/2024/](https://ar-redadeg.openstreetmap.bzh/2024/)
 
 
 ### sauvegardes
