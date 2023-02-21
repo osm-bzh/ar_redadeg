@@ -77,3 +77,24 @@ echo "fait"
 echo ""
 echo "FIN"
 
+
+# +++++++++++++++++++++++++++++
+
+# Pour restaurer
+
+# psql \
+#   --host localhost \
+#   --port 5432 \
+#   --username redadeg \
+#   --no-password \
+#   --dbname redadeg_2022 \
+#   -c "TRUNCATE TABLE public.secteur;"
+
+# psql \
+#   --host localhost \
+#   --port 5432 \
+#   --username redadeg \
+#   --no-password \
+#   --dbname redadeg_2022 \
+#   < secteur.sql
+
