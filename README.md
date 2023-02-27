@@ -161,6 +161,14 @@ Ce script va récupérer une couche des communes de France (source OpenStreetMap
 
 Se connecter à [uMap](http://umap.openstreetmap.fr/fr/user/osm-bzh/) avec le compte "OSM e Bzh". Pour cela choisir une authentification par OpenStreetMap. L'adresse e-mail est `osm@breizhpositive.bzh`.
 
+Pour les cartes phase 1, 2 et 5 :
+
+* en choisir une de l'ancienne édition
+* entrer en mode édition
+* Paramètres > Actions avancées : Cloner
+* Paramètres > Nom : changer le nom pour respecter le motif `arredadeg_{millesime}_{phase}_{secteur}`
+* Pour chaque couche de données qui le nécessite : Gérer les calques > {un calque} > Actions avancées : Vider
+* Ne pas oublier d'enregistrer la carte pour finir
 
 
 ### Couches GeoServer
@@ -172,7 +180,7 @@ TODO
 
 * Dupliquer un fichier d'un millésime précédent dans le répertoire `www/`
 * Le nommer correctement
-* Remplacer les liens par les bons liens vers les différentes ressources
+* Remplacer les anciens liens par les bons liens vers les différentes ressources
 
 
 ### Configuration nginx
