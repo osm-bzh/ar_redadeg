@@ -30,6 +30,9 @@ data/2022/gpx/*.gpx
 
 data/2024/backup/
 data/2024/rsync_bed110.sh
+data/2024/phase_1*
+data/2024/osm_roads.sql
+data/2024/redadeg_trace.sql
 
 qgis/exports\ PDF/
 
