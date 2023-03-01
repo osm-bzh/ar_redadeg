@@ -258,6 +258,7 @@ CREATE TABLE osm_roads
   name_fr text,
   name_br text,
   the_geom geometry,
+  topo_geom topology.topogeometry
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
