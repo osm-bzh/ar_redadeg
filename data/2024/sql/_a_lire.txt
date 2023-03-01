@@ -1,0 +1,1 @@
+Ce répertoire contient des fichiers SQL temporaires pour le transfert de données entre base de données.

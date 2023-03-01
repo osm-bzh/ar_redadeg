@@ -35,7 +35,7 @@ do
   layer=$line
 
   echo "  umap layer id = $layer"
-  wget -q -O $rep_data/phase_1_umap_trace_$layer.geojson  https://umap.openstreetmap.fr/fr/datalayer/$layer
+  wget -q -O $rep_data/import/phase_1_umap_trace_$layer.geojson  https://umap.openstreetmap.fr/fr/datalayer/$layer
   echo "  recup ok"
 
   # on charge dans postgis
@@ -43,7 +43,7 @@ do
 
   echo "  chargement dans la couche d'import"
   ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
-    $rep_data/phase_1_umap_trace_$layer.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+    $rep_data/import/phase_1_umap_trace_$layer.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
   echo "  fait"
   echo ""
 
@@ -77,15 +77,15 @@ echo "  exports geojson"
 echo ""
 
 # et on exporte vers Geojson
-rm -f $rep_data/phase_1_pk_auto.geojson
-ogr2ogr -f "GeoJSON" $rep_data/phase_1_pk_auto.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
-rm -f $rep_data/phase_1_trace_4326.geojson
-ogr2ogr -f "GeoJSON" $rep_data/phase_1_trace_4326.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
+rm -f $rep_data/export/phase_1_pk_auto.geojson
+ogr2ogr -f "GeoJSON" $rep_data/export/phase_1_pk_auto.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
+rm -f $rep_data/export/phase_1_trace_4326.geojson
+ogr2ogr -f "GeoJSON" $rep_data/export/phase_1_trace_4326.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
 # les fichiers sont ensuite tout de suite visible dans umap
 
 # exports supplémentaires
-rm -f $rep_data/phase_1_pk_auto.xlsx
-ogr2ogr -f "XLSX" $rep_data/phase_1_pk_auto.xlsx PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
+rm -f $rep_data/export/phase_1_pk_auto.xlsx
+ogr2ogr -f "XLSX" $rep_data/export/phase_1_pk_auto.xlsx PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_pk_auto_4326
 
 echo "  fait"
 echo ""

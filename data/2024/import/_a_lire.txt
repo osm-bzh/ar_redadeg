@@ -1,0 +1,2 @@
+Ce répertoire contient les données à importer en base.
+Ex : GeoJSON des cartes umap

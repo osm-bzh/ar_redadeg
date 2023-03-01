@@ -42,12 +42,12 @@ echo ""
 pg_dump --dbname=postgresql://$DB_USER:$DB_PASSWD@$DB_HOST:$DB_PORT/$DB_NAME \
     --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
     --table phase_1_trace \
-    --file $rep_data/redadeg_trace.sql
+    --file $rep_data/sql/redadeg_trace.sql
 
 
 # 2. import dans la base OSM
 PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "DROP TABLE IF EXISTS phase_1_trace_$millesime ;"
-PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName < $rep_data/redadeg_trace.sql
+PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName < $rep_data/sql/redadeg_trace.sql
 PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -c "ALTER TABLE phase_1_trace RENAME TO phase_1_trace_$millesime ;"
 
 echo ""
@@ -131,12 +131,12 @@ echo ""
 pg_dump --dbname=postgresql://$osmDBUser:$osmDBPassword@$osmDBHost:$osmDBPort/$osmDBName \
     --format=p --no-owner --section=pre-data --section=data --no-privileges --no-tablespaces --no-unlogged-table-data --no-comments \
     --table osm_roads_$millesime \
-    --file $rep_data/osm_roads.sql
+    --file $rep_data/sql/osm_roads.sql
 
 
 # 5. import dans la base redadeg
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS osm_roads_import;"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < $rep_data/osm_roads.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < $rep_data/sql/osm_roads.sql
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "ALTER TABLE osm_roads_$millesime RENAME TO osm_roads_import ;"
 
 echo ""
