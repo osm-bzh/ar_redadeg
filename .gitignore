@@ -46,6 +46,7 @@ scripts/notes.txt
 scripts/venv/
 
 scripts_v2/config.sh
+scripts_v2/config.ini
 
 api/venv/
 api/__pycache__/
