@@ -90,6 +90,24 @@ Pour les cartes phase 1, 2 et 5 :
 * Ne pas oublier d'enregistrer la carte pour finir
 
 
+### Fichiers contenant les identifiants des couches umap
+
+Il faut ensuite repérer les identifiants des couches des tracés pour les stocker dans un fichier `umap_phase_1_layers.txt`. Ce fichier est important car les scripts vont s'en servir pour aller récupérer les données des cartes umap.
+
+Pour faire cela, par exemple pour les cartes de la phase 1 :
+
+* ouvrir une carte umap
+* ouvrir les outils de développements web (souvent F12 avec les navigateurs sous Windows)
+* aller sur l'onglet "Réseau"
+* rafraîchir / recharger la page
+* repérer / filter les url contenant `datalayer` : il y en a une pour chaque couche configuée dans la carte umap
+* pour les cartes phase 1 : repérer la plus lourde : il s'agit de la couche du tracé manuel
+* copier l'identifiant. Exemple : `2656876 ` dans `https://umap.openstreetmap.fr/fr/datalayer/2656876/`
+* le coller dans le fichier texte
+
+Bien entendu, pour le fichier `umap_phase_1_layers.txt`, l'ordre des identifiants = l'ordre des secteurs.
+
+
 ### Page HTML du millésime
 
 * Dupliquer un fichier d'un millésime précédent dans le répertoire `www/`
@@ -122,7 +140,7 @@ Test : [https://ar-redadeg.openstreetmap.bzh/2024/](https://ar-redadeg.openstree
 TODO
 
 
-### Carte mveiwer de contrôle
+### Carte mviewer de contrôle
 
 TODO
 
