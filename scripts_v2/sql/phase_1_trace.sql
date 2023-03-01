@@ -7,7 +7,7 @@ INSERT INTO phase_1_trace
     secteur_id::int,
     ordre::int,
     0 AS longueur,
-    ST_Transform(the_geom,2154) AS the_geom
+    ST_Force2D(ST_Transform(the_geom,2154)) AS the_geom
   FROM phase_1_trace_3857
   WHERE ST_LENGTH(the_geom) > 0
   ORDER BY secteur_id ASC, ordre ASC ;
