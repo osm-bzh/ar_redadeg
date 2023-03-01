@@ -43,6 +43,7 @@ data/2024/export/
 data/2024/sql/
 data/2024/rsync_bed110.sh
 data/2024/phase_1*
+data/2024/phase_2*
 data/2024/communes*
 data/2024/LICENCE.txt
 
