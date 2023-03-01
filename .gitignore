@@ -10,10 +10,18 @@
 data/2020_/
 
 data/2021/phase_1_*.geojson
+data/2021/phase_1_pk_auto.xlsx
 data/2021/phase_2_*.geojson
 data/2021/phase_3_*.geojson
-data/2022/phase_4_*.geojson
-data/2022/phase_5_*.geojson
+data/2021/phase_4_*.geojson
+data/2021/phase_5_*.geojson
+data/2021/phase_5_prefecture_liste.csv
+data/2021/osm_br_municipalities.geojson
+data/2021/communes*
+data/2021/LICENCE.txt
+data/2021/backup/
+data/2021/pdf/*.pdf
+data/2021/gpx/*.gpx
 
 data/2022/phase_1_*.geojson
 data/2022/phase_1_pk_auto.xlsx
@@ -23,7 +31,8 @@ data/2022/phase_4_*.geojson
 data/2022/phase_5_*.geojson
 data/2022/phase_5_prefecture_liste.csv
 data/2022/osm_br_municipalities.geojson
-data/2022/communes-20210101-shp.zip
+data/2022/communes*
+data/2022/LICENCE.txt
 data/2022/backup/
 data/2022/pdf/*.pdf
 data/2022/gpx/*.gpx
@@ -34,8 +43,7 @@ data/2024/export/
 data/2024/sql/
 data/2024/rsync_bed110.sh
 data/2024/phase_1*
-data/2024/communes-20220101-shp.zip
-data/2024/communes-descriptif.txt
+data/2024/communes*
 data/2024/LICENCE.txt
 
 qgis/exports\ PDF/
