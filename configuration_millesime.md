@@ -207,12 +207,29 @@ find ./ -name "featuretype.xml" | xargs sed -i 's/123c3cee/redadeg_2024/g'
 
 ### Carte mviewer de contrôle
 
-TODO
+Dupliquer le fichier `ar-redadeg-xxxx.xml` de l'édition précédente dans le répertoire du millésime.
+
+L'ouvrir et remplacer toutes les occurrences `2022` par `2024`, par exemple.
+
+Puis, sur le serveur, on va créer un alias pour cette nouvelle carte.
+
+```
+cd /data/projets/mviewer/apps/
+ln -s /data/projets/ar_redadeg/data/2024/ar-redadeg-2024.xml ar-redadeg-2024
+```
+
+Puis tester : [https://ar-redadeg.openstreetmap.bzh/mviewer/?config=apps/ar-redadeg-2024](https://ar-redadeg.openstreetmap.bzh/mviewer/?config=apps/ar-redadeg-2024)
 
 
 ### Projet QGIS de contrôle
 
-TODO
+*  dupliquer le projet de l'année précédente
+*  renommer le qgz en zip
+*  dézipper
+*  ouvrir le projet qgis
+*  changer les infos de connexion à la base de données
+*  tester
+*  ré-enregistrer sous en qgz
 
 
 ### sauvegardes
