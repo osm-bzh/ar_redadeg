@@ -137,12 +137,78 @@ Test : [https://ar-redadeg.openstreetmap.bzh/2024/](https://ar-redadeg.openstree
 
 ### Couches GeoServer
 
-TODO
+#### Par l'interface d'administration
+
+Dans l'interface de GeoServer : 
+
+Espace de travail > Ajouter un nouvel espace de travail nommé `redadeg_xxxx` et avec l'url `https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_xxxx`.
+
+Entrepôts > Ajouter un nouvel entrepôt :
+
+*  type = PostGIS
+*  espace de travail = `redadeg_xxxx`
+*  nom = `redadeg_xxxx`
+*  connexion : localhost + 5432 + redadeg_xxxx + redadeg + {lemdp}
+*  Expose primary keys
+
+
+Ensuite, publier les couches 1 à 1 (et ouais…).
+
+
+
+#### par duplication du workspace
+
+**/!\ ci-dessous ne marche pas !!!!**
+
+Dans l'interface de GeoServer, créer un nouveau workspace nommé `redadeg_new`
+
+
+```
+cd /var/lib/tomcat9/webapps/geoserver/data/workspaces/
+
+cp -r --preserve redadeg_2022/ redadeg_2024
+
+```
+
+On met le bon nom de workspace dans les fichiers principaux :
+
+```
+cd redadeg_2024/
+
+find *.xml -type f | xargs sed -i 's/redadeg_2022/redadeg_2024/g'
+```
+
+on renomme le datastore : `mv redadeg_2022/ redadeg_2024/`
+
+on applique ce renommage dans tous les fichiers : `find ./ -name "*.xml" | xargs sed -i 's/redadeg_2022/redadeg_2024/g'`
+
+on peut vérifier le datastore : `nano redadeg_2024/datastore.xml`
+
+
+
+Ensuite on repère 2 choses : 
+
+* l'id du workspace tel qu'il est, qui doit être encore identique à celui de l'édition précédente : `cat workspace.xml`=> `<id>WorkspaceInfoImpl--26e11ea9:1783d521a27:-7fff</id>`
+
+* l'id du workspace `redadeg_new` que l'on a créé précédemment : `cat ../redadeg_new/workspace.xml` => `<id>WorkspaceInfoImpl--2b9f8ffe:186b0a72551:-7ff6</id>`
+
+
+find ./ -name "*.xml" | xargs sed -i 's/26e11ea9:1783d521a27/2b9f8ffe:186b0a72551/g
+
+à ce stade, il reste à changer les id des couches qui sont identiques à celle de l'édition précédentes
+
+nano redadeg_2024/phase_1_trace_3857/featuretype.xml
+123c3cee
+
+find ./ -name "featuretype.xml" | xargs sed -i 's/123c3cee/redadeg_2024/g'
+
+
 
 
 ### Carte mviewer de contrôle
 
 TODO
+
 
 ### Projet QGIS de contrôle
 
