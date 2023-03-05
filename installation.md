@@ -153,6 +153,6 @@ Tester avec [https://ar-redadeg.openstreetmap.bzh/mviewer/demo/](https://ar-reda
 Puis on (re)fait les liens symboliques vers les fichiers de configurations xml.
 
 ```
-cd apps
+cd /data/projets/mviewer/apps
 ln -s /data/projets/ar_redadeg/data/2024/mviewer/kartenn_kontroll.xml ar-redadeg-2024
 ```
