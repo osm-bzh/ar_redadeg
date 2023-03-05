@@ -142,4 +142,17 @@ TODO
 
 ## mviewer
 
-TODO
+```
+cd /data/projets/
+sudo git clone https://github.com/mviewer/mviewer.git
+sudo chown -R mreboux:redadeg mviewer/
+```
+
+Tester avec [https://ar-redadeg.openstreetmap.bzh/mviewer/demo/](https://ar-redadeg.openstreetmap.bzh/mviewer/demo/)
+
+Puis on (re)fait les liens symboliques vers les fichiers de configurations xml.
+
+```
+cd apps
+ln -s /data/projets/ar_redadeg/data/2024/mviewer/kartenn_kontroll.xml ar-redadeg-2024
+```
