@@ -9,7 +9,7 @@ Le script `update_secteur.py` rassemble toutes les étapes nécessaires pour, à
 
 * se placer à la racine du répertoire du projet et activer une session virtuelle python : `source .venv/bin/activate`
 * se placer dans le répertoire `script_v2` : `cd script_v2`
-* lancer le script en indiquant les paramètres : `update_secteur.py {millésime} {secteur} {phase_1 | phase_2 | tout}`
+* lancer le script en indiquant les paramètres : `update_secteur.py {millésime} {secteur} {phase_1 | phase_2 | phase_3 | tout}`
 
 ### Traitements
 
