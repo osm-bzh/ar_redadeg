@@ -6,6 +6,7 @@
 *.ffs
 *(backup).fmw
 
+data/template/
 
 data/2020_/
 
