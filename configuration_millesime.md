@@ -204,6 +204,20 @@ Entrepôts > Ajouter un nouvel entrepôt :
 Ensuite, publier les couches 1 à 1 (et ouais…).
 
 
+Pour la couche `phase_3_pk`, il faut que ce soit une source SQL car on a besoin de calculer un modulo pour avoir un style sympa :
+
+```sql
+SELECT
+  *,
+  CASE
+    WHEN pk_id % 100 = 0 THEN 100
+    WHEN pk_id % 50 = 0 THEN 50
+    WHEN pk_id % 10 = 0 THEN 10
+    ELSE NULL
+  END as modulo
+FROM phase_3_pk
+```
+
 
 #### par duplication du workspace
 
