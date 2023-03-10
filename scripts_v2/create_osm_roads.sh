@@ -22,11 +22,22 @@ if [ -z "$2" ]
     echo "Pas de secteur_id en argument --> stop"
     exit 1
 fi
+
 secteur_id=$2
 
 # on calcule le code du secteur suivant
-# ex : 200 -> 300
-secteur_id_next="$(( ${secteur_id:0:1} + 1 ))00"
+# ex : 200 -> 300 / 900 -> 1000
+
+secteur_id_len=${#secteur_id}
+
+if [ $secteur_id_len == 2 ]
+then secteur_id_next="$(( ${secteur_id:0:1} + 1 ))0"
+elif [ $secteur_id_len == 3 ]
+then secteur_id_next="$(( ${secteur_id:0:1} + 1 ))00"
+elif [ $secteur_id_len == 4 ]
+then secteur_id_next="$(( ${secteur_id:0:1} + 1 ))000"
+fi
+
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"

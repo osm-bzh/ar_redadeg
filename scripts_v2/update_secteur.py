@@ -103,7 +103,7 @@ try:
     millesime = list_of_args[1]
     
     # millesime ok : on passe au secteur
-    if len(list_of_args[2]) != 3:
+    if len(list_of_args[2]) < 3:
       print("Pas d'id secteur en argument")
       sys.exit()
     else:
