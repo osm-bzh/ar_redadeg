@@ -149,11 +149,11 @@ echo ""
 echo "  Exports GeoJSON pour umap"
 
 rm -f $rep_data/phase_2_trace_secteur.geojson
-ogr2ogr -f "GeoJSON" $rep_data/phase_2_trace_secteur.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_secteur_4326
+ogr2ogr -f "GeoJSON" $rep_data/export/phase_2_trace_secteur.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_secteur_4326
 echo "  fait"
 
 rm -f $rep_data/phase_2_trace_troncons.geojson
-ogr2ogr -f "GeoJSON" $rep_data/phase_2_trace_troncons.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_troncons_4326
+ogr2ogr -f "GeoJSON" $rep_data/export/phase_2_trace_troncons.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_2_trace_troncons_4326
 echo "  fait"
 
 
