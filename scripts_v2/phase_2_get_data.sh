@@ -20,14 +20,16 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  PK secteurs"
 echo ""
 
+# récupération de l'id dans le fichier de configuration
+id_layer_pk_secteur=$(sed '1!d' $rep_data/umap_phase_2_layers.txt)
+
 # on commence par supprimer la table
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 echo ""
 
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/1903900/ > $rep_data/phase_2_umap_pk_secteur.geojson
-# TODO aller chercher l'id du layer dans le fichier umap_phase_2_layers.txt
+curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$id_layer_pk_secteur/ > $rep_data/import/phase_2_umap_pk_secteur.geojson
 echo "  fait"
 echo ""
 
@@ -36,7 +38,7 @@ echo ""
 
 echo "  chargement dans la couche d'import"
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
-  $rep_data/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+  $rep_data/import/phase_2_umap_pk_secteur.geojson -nln phase_2_pk_secteur_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
 echo "  fait"
 echo ""
 
@@ -47,21 +49,23 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Points de nettoyage"
 echo ""
 
+# récupération de l'id dans le fichier de configuration
+id_layer_point_nettoyage=$(sed '2!d' $rep_data/umap_phase_2_layers.txt)
+
 # on commence par supprimer la table
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
 echo ""
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/1899462/ > $rep_data/phase_2_umap_points_nettoyage.geojson
+curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$id_layer_point_nettoyage/ > $rep_data/import/phase_2_umap_points_nettoyage.geojson
 echo "  fait"
 echo ""
 
 echo "  chargement dans la couche d'import"
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
-  $rep_data/phase_2_umap_points_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+  $rep_data/import/phase_2_umap_points_nettoyage.geojson -nln phase_2_point_nettoyage_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
 echo "  fait"
 echo ""
-
 
 
 echo ""
