@@ -80,9 +80,10 @@ Ce script va récupérer une couche des communes de France (source OpenStreetMap
 
 Se connecter à [uMap](http://umap.openstreetmap.fr/fr/user/osm-bzh/) avec le compte "OSM e Bzh". Pour cela choisir une authentification par OpenStreetMap. L'adresse e-mail est `osm@breizhpositive.bzh`.
 
-Pour les cartes phase 1, 2 et 5 :
 
-* en choisir une de l'ancienne édition
+#### Cartes umap phase 1
+
+* choisir une carte umap de l'édition précédente une de l'ancienne édition
 * entrer en mode édition
 * Paramètres > Actions avancées : Cloner
 * Paramètres > Nom : changer le nom pour respecter le motif `arredadeg_{millesime}_{phase}_{secteur}`
@@ -90,22 +91,70 @@ Pour les cartes phase 1, 2 et 5 :
 * Ne pas oublier d'enregistrer la carte pour finir
 
 
+#### Carte umap phase 2
+
+Charger le fichier `pk_secteurs.json` du répertoire `init_phase_2` dans QGIS.
+
+Placer les PK pour correspondre au nouveau millésime. Enregister.
+
+Dans la carte umap de la phase 2 créé à l'étape précédente, charger le fichier JSON dans la couche `pk_secteurs`. Enregistrer.
+
+Charger de la même manière le fichier JSON `phase_2_points_nettoyage_trace` dans la couche du même nom. Enregistrer. Cette couche contient 1 point fictif, pour initialiser la couche.
+
+
+
+### Initialiser les tracés, par secteur
+
+Pour initialiser un tracé correct, utiliser le site [https://maps.openrouteservice.org
+](https://maps.openrouteservice.org).
+
+Réaliser un calcul d'itinéraire en choisissant le profil "Route vélo".
+
+Télécharger un fichier du tracé au format GeoJSON, le nommer de façon à distinguer le secteur.
+
+Placer ce fichier dans le répertoire `init_phase_1`.
+
+Charger ce fichier dans la carte umap du secteur, choisir l'option de remplacer tout le contenu du calque.
+
+
+
 ### Fichiers contenant les identifiants des couches umap
+
+#### phase 1
 
 Il faut ensuite repérer les identifiants des couches des tracés pour les stocker dans un fichier `umap_phase_1_layers.txt`. Ce fichier est important car les scripts vont s'en servir pour aller récupérer les données des cartes umap.
 
 Pour faire cela, par exemple pour les cartes de la phase 1 :
 
-* ouvrir une carte umap
+* ouvrir une carte umap de la phase 1
 * ouvrir les outils de développements web (souvent F12 avec les navigateurs sous Windows)
 * aller sur l'onglet "Réseau"
 * rafraîchir / recharger la page
 * repérer / filter les url contenant `datalayer` : il y en a une pour chaque couche configuée dans la carte umap
-* pour les cartes phase 1 : repérer la plus lourde : il s'agit de la couche du tracé manuel
+* pour les cartes phase 1 : repérer la plus lourde : il s'agit de la couche du tracé
 * copier l'identifiant. Exemple : `2656876 ` dans `https://umap.openstreetmap.fr/fr/datalayer/2656876/`
 * le coller dans le fichier texte
 
 Bien entendu, pour le fichier `umap_phase_1_layers.txt`, l'ordre des identifiants = l'ordre des secteurs.
+
+
+#### phase 2
+
+Pour la phase 2 :
+
+* ouvrir la carte umap phase 2
+* ouvrir les outils de développements web (souvent F12 avec les navigateurs sous Windows)
+* aller sur l'onglet "Réseau"
+* rafraîchir / recharger la page
+* repérer / filter les url contenant `datalayer` : il y en a 3. Seules 2 nous intéresse.
+* repérer quelle est la couche des secteurs et celle des points de nettoyage en examinant le contenu de l'onglet "Réponse". La couche du point de nettyage fictif ne contient qu'un seul objet tandis que celle des secteurs le nombre des secteurs.
+* copier l'identifiant. Exemple : `2656876 ` dans `https://umap.openstreetmap.fr/fr/datalayer/2656876/`
+* le coller dans le fichier texte
+
+Dans le fichier `umap_phase_2_layers.txt`, l'ordre est le suivant :
+
+* ligne 1 = PK secteurs
+* ligne 2 = points de nettoyage / forçage du tracé
 
 
 ### Page HTML du millésime
