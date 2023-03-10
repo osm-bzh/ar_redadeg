@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"_umap_options": { "displayOnLoad": true, "browsable": true, "name": "pk_secteurs.json", "remoteData": { }, "iconClass": "Ball", "color": "Red", "id": 1903900, "popupTemplate": "Table", "showLabel": true },
+"name": "pk_secteurs",
+"features": [
+{ "type": "Feature", "properties": { "name": "Beg ar Raz", "secteur_id_end": "200", "secteur_id_start": "100", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -4.719700813293457, 48.033760884731841 ] } },
+{ "type": "Feature", "properties": { "name": "Kemperle", "secteur_id_end": "300", "secteur_id_start": "200", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -3.547468185424805, 47.873122719913361 ] } },
+{ "type": "Feature", "properties": { "name": "Ar Roc'h Bernez", "secteur_id_end": "400", "secteur_id_start": "300", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -2.298073768615723, 47.520098986414915 ] } },
+{ "type": "Feature", "properties": { "name": "Plesei", "secteur_id_end": "500", "secteur_id_start": "400", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -1.88741683959961, 47.541164731624967 ] } },
+{ "type": "Feature", "properties": { "name": "Evrann", "secteur_id_end": "600", "secteur_id_start": "500", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -1.980843544006348, 48.382848554543763 ] } },
+{ "type": "Feature", "properties": { "name": "Gwengamp", "secteur_id_end": "700", "secteur_id_start": "600", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -3.149428367614747, 48.562280547811959 ] } },
+{ "type": "Feature", "properties": { "name": "Plijidi", "secteur_id_end": "800", "secteur_id_start": "700", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -3.120009899139404, 48.447834851826279 ] } },
+{ "type": "Feature", "properties": { "name": "Landerne", "secteur_id_end": "900", "secteur_id_start": "800", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -4.25074338912964, 48.449898581784304 ] } },
+{ "type": "Feature", "properties": { "name": "Kastell-Paol", "secteur_id_end": "1000", "secteur_id_start": "900", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -3.987109065055848, 48.685503166683027 ] } },
+{ "type": "Feature", "properties": { "name": "Montroulez", "secteur_id_end": "1100", "secteur_id_start": "1000", "_umap_options": null, "description": null }, "geometry": { "type": "Point", "coordinates": [ -3.835864663124085, 48.584592191927413 ] } }
+]
+}
