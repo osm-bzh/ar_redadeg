@@ -141,10 +141,17 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
     AND rel.topogeo_id = (o.topo_geom).id
 );"
 
-# calcul des 2 attributs de coût (= longueur)
+echo "  calcul de la topologie sur ces nouveaux tronçons"
 PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
-"UPDATE osm_roads_pgr SET cost = st_length(the_geom), reverse_cost = st_length(the_geom) WHERE secteur_id >= $secteur_id AND secteur_id < $secteur_id_next ;"
+"SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where:='true', clean:=false);"
+echo "fait"
+echo ""
 
+echo "  calcul des 2 attributs de coût (= longueur)"
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
+UPDATE osm_roads_pgr 
+SET cost = round(st_length(the_geom)::numeric), reverse_cost = round(st_length(the_geom)::numeric)
+WHERE secteur_id = $secteur_id ;"
 echo "fait"
 echo ""
 
