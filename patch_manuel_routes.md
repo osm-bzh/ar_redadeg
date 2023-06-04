@@ -122,3 +122,12 @@ Ci-dessous la procédure pour calculer manuellement un itinéraire entre 2 nœud
 
 ![](docs/images/calcul_iti_test.png)
 
+
+## Que faire quand le calcul d'itinéraire ne se fait pas ?
+
+Le traitement phase 2 ne parvient pas à créer un itinéraire ?
+Il y a très certainement une interruption du réseau filaire quelque part.
+
+Pour le trouver : soit on suit le tracé phase 1 avec la couche `osm_roads_pgr` affichée soit on lance un calcul d'itinéraire manuel (voir ci-dessus) entre le début du secteur puis de loin en loin jusqu'à trouver l'endroit qui pose problème. Dans l'exemple ci-dessous on constate que la saisie du tracé phase 1 manuel s'est fait trop loin de la route.
+
+![](docs/images/calcul_iti_interruption.png)
