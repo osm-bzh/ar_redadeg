@@ -132,3 +132,10 @@ Pour le trouver : soit on suit le tracé phase 1 avec la couche `osm_roads_pgr` 
 
 ![](docs/images/calcul_iti_interruption_01.png)
 ![](docs/images/calcul_iti_interruption_02.png)
+
+Pour ces cas, il faut :
+
+* reprendre le tracé phase 1 sou umap et le recaler / l'améliorer
+* enchaîner le traitement phase 1 et 2 : `python update_secteur.py 2024 100 phase_2`
+* relancer un calcul d'itinéraire manuel pour voir si ça passe jusqu'après la zone corrigée
+
