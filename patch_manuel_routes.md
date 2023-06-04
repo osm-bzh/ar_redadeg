@@ -132,6 +132,7 @@ Pour le trouver : soit on suit le tracé phase 1 avec la couche `osm_roads_pgr` 
 
 ![](docs/images/calcul_iti_interruption_01.png)
 ![](docs/images/calcul_iti_interruption_02.png)
+![](docs/images/calcul_iti_interruption_03.png)
 
 Pour ces cas, il faut :
 
