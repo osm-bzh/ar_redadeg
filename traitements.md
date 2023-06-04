@@ -68,7 +68,7 @@ Les données brutes OSM ne sont pas structurées pour pouvoir calculer un itiné
   * création couche de tronçons ordonnés de 1000 m de longueurs (couche `phase_2_trace_troncons`)
   * exports : `phase_2_trace_secteur.geojson`, `phase_2_trace_troncons.geojson`
 
-
+C'est à cette étape que l'on gère les zones de patch manuellement. Voir [la procédure spécifique](patch_manuel_routes.md).
 
 ## Phase 3 : Calcul du positionnement des PK
 
@@ -121,22 +121,5 @@ Exemple :
 
 ou, plus directement : `python update_secteur.py 2022 900 tout ; python phase_5.py 2022`
 
-
-
-## Détails sur les traitements
-
-
-#### Patch manuel du filaire de voies
-
-À cause de la configuration des données à certains endroits ou à cause des boucles en centre-ville il est nécessaire de "patcher" le filaire routable brut.
-Pour cela il faut :
-* dessiner une zone d'emprise dans la couche osm_roads_pgr_patch_mask
-* dessiner un nouveau filaire de voie dans la couche osm_roads_pgr_patch
-* appliquer le script `psql -h localhost -U redadeg -d redadeg < patch_osm_roads_pgr.sql` 
-
-Ce script va :
-1. supprimer les tronçons de voies de la couche osm_roads_pgr intersectés par les polygones de osm_roads_pgr_patch_mask
-2. copier les tronçons de voies de la couche osm_roads_pgr_patch dans osm_roads_pgr
-3. recalculer la topologie de routage (car la structure du réseau a été modifié à ces endroits)
 
 
