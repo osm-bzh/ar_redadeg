@@ -130,4 +130,5 @@ Il y a très certainement une interruption du réseau filaire quelque part.
 
 Pour le trouver : soit on suit le tracé phase 1 avec la couche `osm_roads_pgr` affichée soit on lance un calcul d'itinéraire manuel (voir ci-dessus) entre le début du secteur puis de loin en loin jusqu'à trouver l'endroit qui pose problème. Dans l'exemple ci-dessous on constate que la saisie du tracé phase 1 manuel s'est fait trop loin de la route.
 
-![](docs/images/calcul_iti_interruption.png)
+![](docs/images/calcul_iti_interruption_01.png)
+![](docs/images/calcul_iti_interruption_02.png)
