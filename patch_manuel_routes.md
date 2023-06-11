@@ -27,11 +27,11 @@
 
 ### Créer un filaire de voies optimisé
 
-* afficher les couches `phase_1_trace` et `osm_roads.the_geom`
+* afficher les couches `phase_1_trace` et `osm_roads_pgr`
 
 ![](docs/images/patch_00.png)
 
-* sélectionner la couche `osm_roads.the_geom` dans la liste des couches
+* sélectionner la couche `osm_roads_pgr` dans la liste des couches
 * changer l'outil de sélection pour pouvoir sélectionner par polygone
 
 ![](docs/images/patch_select_polygone.png)
