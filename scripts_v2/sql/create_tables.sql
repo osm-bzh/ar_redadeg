@@ -265,6 +265,7 @@ CREATE TABLE osm_roads
 CREATE INDEX osm_roads_geom_idx ON osm_roads USING gist(the_geom);
 ALTER TABLE osm_roads OWNER to redadeg;
 -- cette couche supporte une topologie
+-- SELECT topology.DropTopology('osm_roads_topo');
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
 SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
 
