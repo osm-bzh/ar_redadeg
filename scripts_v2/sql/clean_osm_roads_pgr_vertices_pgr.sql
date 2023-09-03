@@ -8,3 +8,11 @@ WHERE
 ;
 -- on renode derrière quand même
 SELECT pgr_nodeNetwork('osm_roads_pgr', 0.001);
+
+
+-- on peut ensuite supprimer les tronçons isolés
+DELETE FROM osm_roads_pgr
+WHERE
+  "source" NOT IN (SELECT id FROM osm_roads_pgr_vertices_pgr)
+  OR target NOT IN (SELECT id FROM osm_roads_pgr_vertices_pgr)
+;
