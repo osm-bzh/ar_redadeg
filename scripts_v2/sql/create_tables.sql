@@ -854,6 +854,17 @@ CREATE INDEX phase_5_trace_troncons_geom_idx ON phase_5_trace_troncons USING gis
 ALTER TABLE phase_5_trace_troncons OWNER to redadeg;
 
 
+DROP TABLE IF EXISTS phase_5_trace;
+CREATE TABLE phase_5_trace (
+  secteur_id int4 NOT NULL,
+  the_geom geometry NULL,
+  CONSTRAINT enforce_geotype_the_geom CHECK (((geometrytype(the_geom) = 'LINESTRING'::text) OR (geometrytype(the_geom) = 'MULTILINESTRING'::text))),
+  CONSTRAINT enforce_srid_the_geom CHECK ((st_srid(the_geom) = 2154)),
+  CONSTRAINT phase_5_trace_pkey PRIMARY KEY (secteur_id)
+);
+CREATE INDEX phase_5_trace_geom_idx ON phase_5_trace USING gist (the_geom);
+ALTER TABLE phase_5_trace_troncons OWNER to redadeg;
+
 /*
 ==========================================================================
 
