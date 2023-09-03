@@ -101,6 +101,20 @@ Cela correspond au moment où les données rentrent en phase de production et le
   * copie vers la table `phase_5_pk`
 * remplissage de la couche `phase_5_trace` depuis la couche `phase_2_trace_secteur` 
 
+Il faut également créer les 2 couches phase 5 sur le GeoServer.
+La couche des PK doit comporter un attribut `modulo`. La source SQL est donc :
+
+```sql
+SELECT
+  *,
+  CASE
+    WHEN pk_id % 100 = 0 THEN 100
+    WHEN pk_id % 50 = 0 THEN 50
+    WHEN pk_id % 10 = 0 THEN 10
+    ELSE NULL
+  END as modulo
+FROM phase_5_pk
+```
 
 
 ## Phase 5 : maintenance en phase de production / vente
