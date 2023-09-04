@@ -159,7 +159,7 @@ ORDER BY id ;"""
   for secteur in secteur_ids:
     # on fait la commande d'export
     export_cmd = ["ogr2ogr", "-f", "GeoJSON",
-                 f"../data/{millesime}/phase_4_pk_{secteur[0]}.geojson",
+                 f"../data/{millesime}/export/phase_4_pk_{secteur[0]}.geojson",
                  f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                  "-sql", f"SELECT pk_id, secteur_id, the_geom FROM phase_3_pk_4326 WHERE secteur_id = {secteur[0]} ;"]
     # on exporte
