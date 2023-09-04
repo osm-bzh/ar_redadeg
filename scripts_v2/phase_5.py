@@ -90,7 +90,7 @@ def truncate_reload_pk():
     layer = line[:-1]
 
     layer_url = f"https://umap.openstreetmap.fr/fr/datalayer/{layer}/"
-    layer_file = f"../data/import/{millesime}/umap_phase_5_pk_{layer}.geojson"
+    layer_file = f"../data/{millesime}/import/umap_phase_5_pk_{layer}.geojson"
 
     # on récupère le fichier
     wget.download(layer_url, layer_file)
@@ -99,7 +99,7 @@ def truncate_reload_pk():
     cmd = ["ogr2ogr", "-f",
            "PostgreSQL",
            f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-           f"../data/import/{millesime}/umap_phase_5_pk_{layer}.geojson",
+           f"../data/{millesime}/import/umap_phase_5_pk_{layer}.geojson",
            "-nln", "phase_5_pk_umap_4326",
            "-lco", "GEOMETRY_NAME=the_geom"]
     #print(cmd)
@@ -513,7 +513,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   # export geojson pour merour
   print("  Export geojson pour merour")
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
-                f"../data/export/{millesime}/phase_5_pk.geojson",
+                f"../data/{millesime}/export/phase_5_pk.geojson",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT * FROM phase_5_pk ORDER BY pk_id ;",
                 "-t_srs", "EPSG:4326"]
@@ -526,7 +526,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   # export GPX du tracé
   print("  Export gpx du tracé")
   export_cmd = ["ogr2ogr", "-f", "GPX",
-                f"../data/export/{millesime}/gpx/ar_redadeg_{millesime}_trace.gpx",
+                f"../data/{millesime}/export/gpx/ar_redadeg_{millesime}_trace.gpx",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT 'secteur '||secteur_id AS name, ST_Simplify(the_geom, 1.0) FROM phase_5_trace ORDER BY secteur_id",
                 "-t_srs", "EPSG:4326",
@@ -541,7 +541,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   # export GPX des PK
   print("  Export gpx des PK")
   export_cmd = ["ogr2ogr", "-f", "GPX",
-                f"../data/export/{millesime}/gpx/ar_redadeg_{millesime}_pk.gpx",
+                f"../data/{millesime}/export/gpx/ar_redadeg_{millesime}_pk.gpx",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT pk_id AS name, way_name_fr ||', '||municipality_name_fr AS desc, the_geom FROM phase_5_pk ORDER BY pk_id",
                 "-t_srs", "EPSG:4326",
@@ -555,7 +555,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   # export CSV liste des voies pour préfectures
   print("  Export CSV liste des voies pour préfectures")
   export_cmd = ["ogr2ogr", "-f", "CSV",
-                f"../data/export/{millesime}/phase_5_prefecture_liste.csv",
+                f"../data/{millesime}/export/phase_5_prefecture_liste.csv",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT * FROM phase_5_prefecture_liste ORDER BY pk_id ;",
                 "-lco", "SEPARATOR=SEMICOLON"]
