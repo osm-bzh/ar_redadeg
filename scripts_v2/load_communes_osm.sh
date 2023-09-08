@@ -16,14 +16,28 @@ fi
 . config.sh
 
 
-cd $rep_data
+# contrôle si argument secteur_id
+if [ -z "$2" ]
+  then
+    echo "Pas de millésime couche communes en argument --> stop"
+    exit 1
+fi
+
+millesimeSHP=$2
+
+
+# lecture du fichier de configuration
+. config.sh
+
+
+cd $rep_data/init_communes/
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Récupération des communes FR"
 echo ""
 
 echo "  téléchargement"
-millesimeSHP=20220101
+
 {
   wget -nc http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-$millesimeSHP-shp.zip -O communes-$millesimeSHP-shp.zip
   unzip -oq communes-$millesimeSHP-shp.zip
@@ -47,18 +61,16 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Récupération des communes BR"
 echo ""
 
-echo "  téléchargement"
-{
-  wget -nc https://tile.openstreetmap.bzh/data/br/osm_br_municipalities.geojson
-} ||
+# echo "  téléchargement"
+# {
+#   wget -nc https://tile.openstreetmap.bzh/data/br/osm_br_municipalities.geojson
+# } ||
+# echo "  fait"
+# echo ""
 
-echo "  fait"
-echo ""
 echo "  chargement en base"
-
 ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
   osm_br_municipalities.geojson -nln osm_communes_br_4326 -lco GEOMETRY_NAME=the_geom -overwrite
-
 echo "  fait"
 echo ""
 

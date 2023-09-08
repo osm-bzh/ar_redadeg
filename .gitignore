@@ -39,6 +39,7 @@ data/2022/pdf/*.pdf
 data/2022/gpx/*.gpx
 
 data/2024/backup/
+data/2024/init_communes/
 data/2024/import/
 data/2024/export/
 data/2024/sql/
