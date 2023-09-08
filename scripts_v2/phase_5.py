@@ -510,12 +510,23 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   #
 
-  # export geojson pour merour
-  print("  Export geojson pour merour")
+  # export geojson du tracé pour merour
+  print("  Export geojson du tracé pour merour")
+  export_cmd = ["ogr2ogr", "-f", "GeoJSON",
+                f"../data/{millesime}/export/phase_5_trace.geojson",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "-sql", "SELECT 'secteur '||secteur_id AS name, ST_Simplify(the_geom, 1.0) FROM phase_5_trace ORDER BY secteur_id",
+                "-t_srs", "EPSG:4326"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
+  # export geojson des PK pour merour
+  print("  Export geojson des PK pour merour")
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
                 f"../data/{millesime}/export/phase_5_pk.geojson",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-                "-sql", "SELECT * FROM phase_5_pk ORDER BY pk_id ;",
+                "-sql", "SELECT * FROM phase_5_pk ORDER BY pk_id",
                 "-t_srs", "EPSG:4326"]
   # on exporte
   subprocess.check_output(export_cmd)
