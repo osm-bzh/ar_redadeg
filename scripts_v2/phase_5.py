@@ -184,11 +184,11 @@ try:
 
 except SystemExit:
   print("Erreur dans les arguments --> stop")
-  sys.exit()  
+  sys.exit()
 except:
   print("oups : vérifiez vos arguments passés au script !")
   print("stop")
-  sys.exit()  
+  sys.exit()
 
 
 
@@ -429,12 +429,12 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
       ,s.longueur_km_redadeg AS length_theorical
       ,diff.deplace
       ,CASE
-      	WHEN diff.deplace = FALSE THEN pk.length_theorical
-      	ELSE 0
+        WHEN diff.deplace = FALSE THEN pk.length_theorical
+        ELSE 0
       END AS length_real
     FROM phase_5_pk pk
-    	JOIN secteur s ON pk.secteur_id = s.id
-    	JOIN phase_5_pk_diff diff ON pk.pk_id = diff.pk_id
+        JOIN secteur s ON pk.secteur_id = s.id
+        JOIN phase_5_pk_diff diff ON pk.pk_id = diff.pk_id
     ORDER BY pk_id
   ) sub
   WHERE phase_5_pk.pk_id = sub.pk_id ;
