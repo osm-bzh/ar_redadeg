@@ -521,6 +521,17 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   subprocess.check_output(export_cmd)
   print("  fait")
 
+  # export geojson encoded polyline du tracé pour merour
+  print("  Export geojson encoded polyline du tracé pour merour")
+  export_cmd = ["ogr2ogr", "-f", "GeoJSON",
+                f"../data/{millesime}/export/phase_5_trace_encoded.geojson",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "-sql", "SELECT secteur_id AS name ,ST_AsEncodedPolyline(geom) as geom FROM (SELECT secteur_id ,ST_LineMerge((dumped.geom_dump).geom) as geom FROM (SELECT secteur_id ,ST_Dump(ST_Transform(the_geom,4326)) AS geom_dump FROM phase_5_trace ) dumped ) merged",
+                "-t_srs", "EPSG:4326"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
   # export geojson des PK pour merour
   print("  Export geojson des PK pour merour")
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
