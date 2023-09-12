@@ -135,10 +135,11 @@ Le script `update_secteur.py {millesime} {secteur}` permet d'enchaîner toutes l
 * lancer le script en indiquant les paramètres : `python phase_5.py {millésime}`
 
 Exemple d'enchaînement phase 1 + phase 2 + phase 5 : 
-`python update_secteur.py {millesime} {secteur} phase_1`
-`python update_secteur.py {millesime} {secteur} phase_2`
-`python phase_5.py {millesime}`
-ou, en une seule commande : `python update_secteur.py {millesime} {secteur} phase_1 ; python update_secteur.py {millesime} {secteur} phase_2 ; python phase_5.py {millesime}` 
+
+* `python update_secteur.py {millesime} {secteur} phase_1`
+* `python update_secteur.py {millesime} {secteur} phase_2`
+* `python phase_5.py {millesime}`
+* ou, en une seule commande : `python update_secteur.py {millesime} {secteur} phase_1 ; python update_secteur.py {millesime} {secteur} phase_2 ; python phase_5.py {millesime}` 
 
 
 
