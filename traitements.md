@@ -128,12 +128,21 @@ voir les liens listés sur [la page du millésime](https://ar-redadeg.openstreet
 **On va donc utiliser les scripts de la phase 1, phase 2 et phase 5.**
 Le script `update_secteur.py {millesime} {secteur}` permet d'enchaîner toutes les tâches des phase 1 et 2. Après vérification on peut lancer le script `phase_5.py {millesime}`.
 
-Exemple : 
-`python update_secteur.py 2022 900 phase_1`
-`python update_secteur.py 2022 900 phase_2`
-`python phase_5.py {millesime}`
+### Utilisation
 
-ou, plus directement : `python update_secteur.py 2022 900 tout ; python phase_5.py 2022`
+* se placer à la racine du répertoire du projet et activer une session virtuelle python : `source .venv/bin/activate`
+* se placer dans le répertoire `script_v2` : `cd script_v2`
+* lancer le script en indiquant les paramètres : `python phase_5.py {millésime}`
+
+Exemple d'enchaînement phase 1 + phase 2 + phase 5 : 
+`python update_secteur.py {millesime} {secteur} phase_1`
+`python update_secteur.py {millesime} {secteur} phase_2`
+`python phase_5.py {millesime}`
+ou, en une seule commande : `python update_secteur.py {millesime} {secteur} phase_1 ; python update_secteur.py {millesime} {secteur} phase_2 ; python phase_5.py {millesime}` 
+
+
+
+
 
 
 
