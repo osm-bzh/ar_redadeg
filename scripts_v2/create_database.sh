@@ -28,7 +28,7 @@ echo ""
 
 
 # create role
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWD' SUPERUSER;" || true
+# PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -d postgres -U $DB_USER -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWD' SUPERUSER;" || true
 
 # suppression de la base de donnée existante
 # on stoppe si impossible genre des connectiosn en cours
