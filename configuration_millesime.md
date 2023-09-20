@@ -14,25 +14,40 @@ Et lui positionner les bonnes permissions.
 Ce répertoire recevra tous les fichiers temporaires nécessaires : exports GEOJSON depuis / vers umap, dumps SQL, etc.
 
 
-### Fichier de configuration
+### Fichiers de configuration
 
-Modifier le fichier `config.ini` dans le répertoire `scripts_v2` pour y mettre les informations de connexion aux bases de données (la base OpenStreetMap et les bases redadeg).
+#### config.ini
+
+* aller dans le répertoire `scripts_v2`
+* dupliquer le fichier `config.sample.ini`
+* le renommer `config.ini`
+* y mettre les informations de connexion aux bases de données (la base OpenStreetMap et les bases redadeg).
+
+
+#### config.sh
+
+* aller dans le répertoire `scripts_v2`
+* dupliquer le fichier `config.sample.sh`
+* le renommer `config.sh`
+* y mettre les informations de connexion aux bases de données (la base OpenStreetMap et les bases redadeg).
 
 
 
 ### Créer la base de données
 
-Se déplacer dans le répertoire des scripts : `cd scripts_v2/`
+Avec un compte *superuser* ou *postgres* : créer le rôle *redadeg* comme suit : 
 
-Utiliser le script suivant avec un compte linux qui dispose d'un rôle 'superuser' sur la base PostgreSQL. Donc idéalement, à exécuter avec le user postgres.
+`CREATE ROLE redadeg SUPERUSER CREATEDB NOCREATEROLE NOINHERIT LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'xxxxx';`
+
+Puis, se déplacer dans le répertoire des scripts : `cd scripts_v2/`
+
+Et lancer le script suivant :
 
 [scripts/create_database.sh](scripts/create_database.sh)
 
-`su postgres
-./create_database.sh {millesime}`
+`./create_database.sh {millesime}`
 
 Il va créer :
-* un compte (rôle) `redadeg`
 * une base `redadeg_{millesime}` 
 * les extensions `postgis`, `postgis_topology` et `pgrouting`
 * et mettre le rôle `redadeg` en propriétaire de tout ça
