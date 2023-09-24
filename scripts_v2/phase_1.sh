@@ -23,8 +23,8 @@ echo ""
 # traitement des tracés manuels
 
 # on commence par supprimer la table
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_trace_3857 CASCADE;"
-# PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_pk_vip_3857;"
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_trace_3857 CASCADE;"
+# $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_1_pk_vip_3857;"
 echo ""
 
 
@@ -63,7 +63,7 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_1_trace.sql  >> /dev/null
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_1_trace.sql  >> /dev/null
 
 echo "  fait"
 echo ""

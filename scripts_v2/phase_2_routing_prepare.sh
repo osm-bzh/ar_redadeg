@@ -53,7 +53,7 @@ echo ""
 
 
 echo "  suppression des objets de osm_roads_pgr qui intersectent avec les zones de boucles"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "DELETE FROM osm_roads_pgr WHERE id IN
 (
   SELECT a.id
@@ -67,7 +67,7 @@ echo ""
 
 
 echo "  collage des objets de la couche osm_roads_pgr_patch à la place des objets supprimés"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "INSERT INTO osm_roads_pgr
   SELECT
     nextval('osm_roads_pgr_id_seq') AS uid,
@@ -84,18 +84,18 @@ echo ""
 
 
 echo "  calcul des 2 attributs de coût (= longueur)"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
 UPDATE osm_roads_pgr 
 SET cost = round(st_length(the_geom)::numeric), reverse_cost = round(st_length(the_geom)::numeric)
 WHERE secteur_id = $secteur_id ;"
 
 echo "  recrée des nœuds uniquement sur les zones de patch"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "SELECT pgr_nodeNetwork('osm_roads_pgr', 0.001, rows_where:='true');"
 
 echo "  recalcul la topologie pgRouting uniquement sur les zones de patch"
 # avec nettoyage de la topologie précédente
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where:='true', clean:=false);"
 
 
@@ -103,12 +103,12 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 # car on vient de maj la topologie de routage
 
 echo "  recalage des PK secteurs sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.1_recalage_pk_secteurs.sql
 echo "  fait"
 echo ""
 
 echo "  recalage des points de nettoyage sur un nœud du réseau routable"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_2.2_recalage_points_nettoyage.sql
 echo "  fait"
 echo ""
 
@@ -116,7 +116,7 @@ echo ""
 # ensuite : on met un coût x 10 sur les tronçons de certains types
 # AVANT de calculer les itinéraires
 echo "  pondération de la couche de routage selon le type de voies"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE osm_roads_pgr 
 SET cost = st_length(the_geom)*10, reverse_cost = st_length(the_geom)*10 
 WHERE
@@ -130,7 +130,7 @@ echo ""
 # ensuite : on met un coût ÉNORME sur les tronçons ciblés par la couche de points de nettoyage
 # AVANT de calculer les itinéraires
 echo "  nettoyage de la couche de routage par les points ciblés"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE osm_roads_pgr SET cost = 1000000, reverse_cost = 1000000 
 WHERE 
   secteur_id >= $secteur_id AND secteur_id < $secteur_id_next

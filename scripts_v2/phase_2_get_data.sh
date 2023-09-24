@@ -24,7 +24,7 @@ echo ""
 id_layer_pk_secteur=$(sed '1!d' $rep_data/umap_phase_2_layers.txt)
 
 # on commence par supprimer la table
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
 echo ""
 
 
@@ -53,7 +53,7 @@ echo ""
 id_layer_point_nettoyage=$(sed '2!d' $rep_data/umap_phase_2_layers.txt)
 
 # on commence par supprimer la table
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
 echo ""
 
 echo "  récupération des fichiers geojson depuis la carte umap"

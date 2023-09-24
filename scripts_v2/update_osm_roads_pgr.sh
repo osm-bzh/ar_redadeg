@@ -47,18 +47,18 @@ echo ""
 # # la couche osm_roads vient d'être mise à jour ou recrée
 
 # # on efface la topologie existante
-# PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;"
+# $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT DropTopology('osm_roads_topo') ;"
 
 # # création d'un schéma qui va accueillir le réseau topologique de la couche osm_roads
-# PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT topology.CreateTopology('osm_roads_topo', 2154);"
+# $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT topology.CreateTopology('osm_roads_topo', 2154);"
 
 # # ajout d'un nouvel attribut sur la table osm_roads
-# PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');"
+# $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');"
 
 
 # # on a besoin du layer_id
 # # au cas où ça change : on le récupère par requête
-# PGPASSWORD=$DB_PASSWD $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME \
+# $PSQL -X -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME \
 #     -c "SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads' ;" \
 #     --single-transaction \
 #     --set AUTOCOMMIT=off \
@@ -82,9 +82,9 @@ layer_id=1
 
 
 echo "  suppression des données du secteur à mettre à jour"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
   "DELETE FROM osm_roads WHERE secteur_id >= $secteur_id AND secteur_id < $secteur_id_next ;"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
   "DELETE FROM osm_roads_pgr WHERE secteur_id >= $secteur_id AND secteur_id < $secteur_id_next ;"
 echo "  fait"
 echo ""
@@ -93,7 +93,7 @@ echo ""
 echo "  import du filaire de voirie à jour dans la couche topologique (osm_roads)"
 
 # import des données
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "INSERT INTO osm_roads 
   SELECT secteur_id, osm_id, highway, "type", oneway, "ref", name_fr, name_br, the_geom, NULL AS topo_geom 
   FROM osm_roads_import"
@@ -102,7 +102,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 # pour le secteur en cours de mise à jour uniquement
 # le 1er chiffre est l'identifiant du layer dans la table topology.layer
 # le 2e chiffre est la tolérance en mètres
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE osm_roads SET topo_geom = topology.toTopoGeom(the_geom, 'osm_roads_topo', $layer_id, 0.00001) "\
 "WHERE secteur_id >= $secteur_id AND secteur_id < $secteur_id_next ;"
 
@@ -110,11 +110,11 @@ echo "fait"
 echo ""
 
 #echo ">> maj de la couche osm_roads_pgr qui sert au routage depuis la topologie"
-#PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/update_osm_roads_pgr.sql
+#$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/update_osm_roads_pgr.sql
 
 
 echo "  remplissage de la couche de routage (osm_roads_pgr)"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "INSERT INTO osm_roads_pgr
 (
   SELECT 
@@ -142,13 +142,13 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 );"
 
 echo "  calcul de la topologie sur ces nouveaux tronçons"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where:='true', clean:=false);"
 echo "fait"
 echo ""
 
 echo "  calcul des 2 attributs de coût (= longueur)"
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "
 UPDATE osm_roads_pgr 
 SET cost = round(st_length(the_geom)::numeric), reverse_cost = round(st_length(the_geom)::numeric)
 WHERE secteur_id = $secteur_id ;"

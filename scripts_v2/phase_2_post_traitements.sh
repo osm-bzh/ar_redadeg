@@ -62,10 +62,10 @@ echo "  fait"
 echo "  création d'une ligne unique par secteur (phase_2_trace_secteur)"
 
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "DELETE FROM phase_2_trace_secteur WHERE secteur_id = $secteur_id ;" >> /dev/null
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "WITH trace_ordered AS (
   SELECT secteur_id, the_geom
   FROM phase_2_trace_pgr
@@ -81,7 +81,7 @@ INSERT INTO phase_2_trace_secteur
   ORDER BY secteur_id ;"
 
 # mise à jour des attributs
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE phase_2_trace_secteur a
 SET 
   nom_fr = b.nom_fr,
@@ -100,10 +100,10 @@ echo ""
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  création couche de tronçons ordonnés (phase_2_trace_troncons)"
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "DELETE FROM phase_2_trace_troncons WHERE secteur_id = $secteur_id ;" >> /dev/null
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "INSERT INTO phase_2_trace_troncons
   SELECT 
     nextval('phase_2_trace_troncons_uid_seq'::regclass),
@@ -135,7 +135,7 @@ PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
   WHERE n*1000.00/length < 1
   ORDER BY t.uid ;"
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "UPDATE phase_2_trace_troncons
 SET 
   longueur = 
@@ -146,7 +146,7 @@ SET
   km = uid -- km redadeg
 WHERE secteur_id = $secteur_id;" >> /dev/null
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
+$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c \
 "VACUUM ANALYZE phase_2_trace_troncons ;" >> /dev/null
 
 echo "  fait"
