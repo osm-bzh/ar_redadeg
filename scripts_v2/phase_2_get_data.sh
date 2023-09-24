@@ -21,7 +21,12 @@ echo "  PK secteurs"
 echo ""
 
 # récupération de l'id dans le fichier de configuration
-id_layer_pk_secteur=$(sed '1!d' $rep_data/umap_phase_2_layers.txt)
+umap_datalayer=$(sed '1!d' $rep_data/umap_phase_2_layers.txt)
+IFS='/'
+read -ra ITEM <<<"$umap_datalayer"
+umap_map=${ITEM[0]}
+umap_layer=${ITEM[1]}
+IFS=""
 
 # on commence par supprimer la table
 $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_pk_secteur_3857 CASCADE;"
@@ -29,7 +34,7 @@ echo ""
 
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$id_layer_pk_secteur/ > $rep_data/import/phase_2_umap_pk_secteur.geojson
+curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$umap_map/$umap_layer/ > $rep_data/import/phase_2_umap_pk_secteur.geojson
 echo "  fait"
 echo ""
 
@@ -50,14 +55,19 @@ echo "  Points de nettoyage"
 echo ""
 
 # récupération de l'id dans le fichier de configuration
-id_layer_point_nettoyage=$(sed '2!d' $rep_data/umap_phase_2_layers.txt)
+umap_datalayer=$(sed '2!d' $rep_data/umap_phase_2_layers.txt)
+IFS='/'
+read -ra ITEM <<<"$umap_datalayer"
+umap_map=${ITEM[0]}
+umap_layer=${ITEM[1]}
+IFS=""
 
 # on commence par supprimer la table
 $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 CASCADE;"
 echo ""
 
 echo "  récupération des fichiers geojson depuis la carte umap"
-curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$id_layer_point_nettoyage/ > $rep_data/import/phase_2_umap_points_nettoyage.geojson
+curl -sSk  https://umap.openstreetmap.fr/fr/datalayer/$umap_map/$umap_layer/ > $rep_data/import/phase_2_umap_points_nettoyage.geojson
 echo "  fait"
 echo ""
 
