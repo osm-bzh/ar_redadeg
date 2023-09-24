@@ -59,21 +59,32 @@ echo ""
 IFS="="
 while read -r line
 do
-  layer=$line
+  IFS='/'
+  read -ra ITEM <<<"$line"
+  umap_map=${ITEM[0]}
+  umap_layer=${ITEM[1]}
 
-  echo "  umap layer id = $layer"
-  wget -q -O $rep_data/import/phase_1_umap_trace_$layer.geojson  https://umap.openstreetmap.fr/fr/datalayer/$layer
+  url_umap="https://umap.openstreetmap.fr/fr/datalayer/${umap_map}/${umap_layer}/"
+  dest_file="${rep_data}/import/phase_1_umap_trace_${umap_layer}.geojson"
+  wget_command="wget -q -O \"$dest_file\" \"$url_umap\""
+
+  echo "  umap layer id = $umap_layer"
+  # echo "$wget_command"
+  eval "$wget_command"
   echo "  recup ok"
 
   # on charge dans postgis
   # note : les coordonnées sont en 3857 mais la déclaration de la table = 4326
 
+  ogr2ogr_command="ogr2ogr -f \"PostgreSQL\" \
+  PG:\"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME\" \
+  $dest_file -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections"
+
   echo "  chargement dans la couche d'import"
-  ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
-    $rep_data/import/phase_1_umap_trace_$layer.geojson -nln phase_1_trace_3857 -lco GEOMETRY_NAME=the_geom -explodecollections
+  # echo "$ogr2ogr_command"
+  eval "$ogr2ogr_command"
   echo "  fait"
   echo ""
-
 
 # fin de la boucle de lecture des layers umap
 done < $rep_data/umap_phase_1_layers.txt
@@ -90,8 +101,9 @@ echo "  Application des traitements SQL "
 echo ""
 
 # on crée les tables en 3948
-$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME < sql/phase_1_trace.sql  >> /dev/null
-
+psql_command="$PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f sql/phase_1_trace.sql"
+# echo $psql_command
+eval "$psql_command"
 echo "  fait"
 echo ""
 
@@ -108,7 +120,9 @@ echo ""
 
 
 remove_file_if_exists "$rep_data/export/phase_1_trace_4326.geojson"
-ogr2ogr -f "GeoJSON" $rep_data/export/phase_1_trace_4326.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
+ogr2ogr_command="ogr2ogr -f \"GeoJSON\" $rep_data/export/phase_1_trace_4326.geojson \
+PG:\"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME\" phase_1_trace_4326"
+eval "$ogr2ogr_command"
 
 # plus besoin des PK auto depuis 2022
 # rm -f $rep_data/export/phase_1_pk_auto.geojson
