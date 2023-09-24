@@ -352,7 +352,7 @@ WHERE ph5.pk_id = pk_deplaces.pk_id"""
       round(pt.distance) AS distance,
       ST_ClosestPoint(lines.the_geom, pt.the_geom) AS the_geom
     FROM pt, phase_2_trace_pgr lines
-    WHERE ST_DWithin(pt.the_geom, lines.the_geom, 10)
+    WHERE ST_DWithin(pt.the_geom, lines.the_geom, 20)
   )
   SELECT 
     pk_id, distance, the_geom 
