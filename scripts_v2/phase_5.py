@@ -87,10 +87,11 @@ def truncate_reload_pk():
   # boucle
   for line in lines:
     # pb retour à la ligne intempestif (que sur mac ?)
-    layer = line[:-1]
+    umap_map = line[:-1].split('/')[0]
+    umap_layer = line[:-1].split('/')[1]
 
-    layer_url = f"https://umap.openstreetmap.fr/fr/datalayer/{layer}/"
-    layer_file = f"../data/{millesime}/import/umap_phase_5_pk_{layer}.geojson"
+    layer_url = f"https://umap.openstreetmap.fr/fr/datalayer/{umap_map}/{umap_layer}/"
+    layer_file = f"../data/{millesime}/import/umap_phase_5_pk_{umap_layer}.geojson"
 
     # on récupère le fichier
     wget.download(layer_url, layer_file)
@@ -99,7 +100,7 @@ def truncate_reload_pk():
     cmd = ["ogr2ogr", "-f",
            "PostgreSQL",
            f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-           f"../data/{millesime}/import/umap_phase_5_pk_{layer}.geojson",
+           f"../data/{millesime}/import/umap_phase_5_pk_{umap_layer}.geojson",
            "-nln", "phase_5_pk_umap_4326",
            "-lco", "GEOMETRY_NAME=the_geom"]
     #print(cmd)
