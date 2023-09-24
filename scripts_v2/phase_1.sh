@@ -6,6 +6,33 @@ set -e
 #set -u
 
 
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+remove_file_if_exists () {
+
+  local file_path="$1"
+
+  if [ -f "$file_path" ]; then
+      # echo "File exists and is a regular file."
+      rm -f file_path
+  # else
+  #     echo "File does not exist or is not a regular file."
+  fi
+
+}
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
 if [ -z "$1" ]
   then
     echo "Pas de millésime en argument --> stop"
@@ -53,7 +80,7 @@ done < $rep_data/umap_phase_1_layers.txt
 
 
 # PK VIP
-# plus besoin en 2021 
+# plus besoin depuis 2021 
 #ogr2ogr -f "PostgreSQL" PG:"host=$DB_HOST user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" data/phase_1_umap_pk_vip.geojson -nln phase_1_pk_vip_3857 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite
 
 
@@ -80,7 +107,7 @@ echo ""
 # les fichiers sont ensuite tout de suite visible dans umap
 
 
-rm -f $rep_data/export/phase_1_trace_4326.geojson
+remove_file_if_exists "$rep_data/export/phase_1_trace_4326.geojson"
 ogr2ogr -f "GeoJSON" $rep_data/export/phase_1_trace_4326.geojson PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" phase_1_trace_4326
 
 # plus besoin des PK auto depuis 2022
