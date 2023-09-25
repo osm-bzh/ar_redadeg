@@ -5,6 +5,9 @@
 
 server {
 
+    listen 80;
+    listen [::]:80;
+
     server_name  ar-redadeg.openstreetmap.bzh;
 
     access_log   /var/log/nginx/bzh_openstreetmap_ar_redadeg_access.log combined;
