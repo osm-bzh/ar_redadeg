@@ -36,15 +36,16 @@ chown -R {user}:redadeg /data/projets/ar_redadeg/
 ```
 
 
-## Installer ogr2ogr
+## Installer ogr2ogr, osm2pgsql et osmctools
 
 ogr2ogr servira pour charger des données dans la base.
 
 ogr2ogr fait partie du paquet 'gdal-bin'
 
 ```
-sudo apt install gdal-bin
+sudo apt install gdal-bin osm2pgsql osmctools
 ogr2ogr --version
+osm2pgsql --version
 ```
 
 ## Python
@@ -169,8 +170,22 @@ https://dev.to/iamtekson/using-nginx-to-put-geoserver-https-4204
 
 ## nginx
 
-TODO
+```bash
+sudo nano /etc/nginx/sites-available/redadeg.conf
+```
 
+et y coller le contenu de https://github.com/osm-bzh/ar_redadeg/blob/master/nginx/conf_nginx
+
+```bash
+ln -s /etc/nginx/sites-available/redadeg.conf /etc/nginx/sites-enabled/redadeg.conf
+rm /etc/nginx/sites-enabled/default 
+nginx -t
+service nginx reload
+```
+
+Tester en allante sur [http://ar-redadeg.openstreetmap.bzh](http://ar-redadeg.openstreetmap.bzh).
+
+Installer un certificat SSL avec certbot.
 
 
 ## mviewer
@@ -178,7 +193,7 @@ TODO
 ```
 cd /data/projets/
 sudo git clone https://github.com/mviewer/mviewer.git
-sudo chown -R mreboux:redadeg mviewer/
+sudo chown -R {user}:redadeg mviewer/
 ```
 
 Tester avec [https://ar-redadeg.openstreetmap.bzh/mviewer/demo/](https://ar-redadeg.openstreetmap.bzh/mviewer/demo/)
@@ -189,3 +204,4 @@ Puis on (re)fait les liens symboliques vers les fichiers de configurations xml.
 cd /data/projets/mviewer/apps
 ln -s /data/projets/ar_redadeg/data/2024/mviewer/kartenn_kontroll.xml ar-redadeg-2024
 ```
+
