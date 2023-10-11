@@ -130,11 +130,12 @@ Le script `update_secteur.py {millesime} {secteur}` permet d'enchaîner toutes l
 
 ### Utilisation
 
-* se placer à la racine du répertoire du projet et activer une session virtuelle python : `source .venv/bin/activate`
-* se placer dans le répertoire `script_v2` : `cd script_v2`
+* se placer à la racine du répertoire du projet : `cd /data/projets/ar_redadeg/`
+* activer une session virtuelle python : `source .venv/bin/activate`
+* se placer dans le répertoire `scripts_v2` : `cd scripts_v2`
 * lancer le script en indiquant les paramètres : `python phase_5.py {millésime}`
 
-Exemple d'enchaînement phase 1 + phase 2 + phase 5 : 
+Exemple d'enchaînement phase 1 + phase 2 + phase 5 :
 
 * `python update_secteur.py {millesime} {secteur} phase_1`
 * `python update_secteur.py {millesime} {secteur} phase_2`
