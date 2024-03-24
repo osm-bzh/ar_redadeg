@@ -493,8 +493,8 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
      com.insee,
      com.name_fr,
      com.name_br
-    FROM phase_5_pk pk, osm_communes com
-    WHERE ST_INTERSECTS(pk.the_geom, com.the_geom)
+    FROM phase_5_pk pk, osm_municipalities_polygon com
+    WHERE ST_INTERSECTS(pk.the_geom, com.geom)
     ORDER BY pk_id 
   ) sub
   WHERE phase_5_pk.pk_id = sub.pk_id;"""
