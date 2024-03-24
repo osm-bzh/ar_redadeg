@@ -207,13 +207,15 @@ WHERE {phase}_pk.pk_id = sub.pk_id;"""
     sql_update_infos_communes = f"""
 UPDATE {phase}_pk
 SET
-  municipality_admincode = sub.insee ,
-  municipality_name_fr = sub.name_fr ,
+  municipality_admincode = sub.city_code,
+  municipality_postcode = sub.postal_code,
+  municipality_name_fr = sub.name_fr,
   municipality_name_br = sub.name_br
 FROM (
   SELECT
    pk.pk_id,
-   com.city_code AS insee,
+   com.city_code,
+   com.postal_code,
    com.name_fr,
    com.name_br
   FROM {phase}_pk pk, osm_municipalities_polygon com
