@@ -213,7 +213,7 @@ SET
 FROM (
   SELECT
    pk.pk_id,
-   com.insee,
+   com.city_code AS insee,
    com.name_fr,
    com.name_br
   FROM {phase}_pk pk, osm_municipalities_polygon com

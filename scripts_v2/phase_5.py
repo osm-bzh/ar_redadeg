@@ -490,7 +490,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   FROM (
     SELECT
      pk.pk_id,
-     com.insee,
+     com.city_code AS insee,
      com.name_fr,
      com.name_br
     FROM phase_5_pk pk, osm_municipalities_polygon com
