@@ -468,7 +468,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
     SELECT
      pk.pk_id,
      t.osm_id, t.highway, t."type", t.oneway, t."ref", t.name_fr, t.name_br 
-    FROM phase_5_pk pk, phase_3_troncons_pgr t
+    FROM phase_5_pk pk, phase_2_trace_troncons t
     WHERE ST_INTERSECTS(ST_BUFFER(pk.the_geom,1), t.the_geom)
     ORDER BY pk_id 
   ) sub
