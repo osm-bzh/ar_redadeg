@@ -46,6 +46,7 @@ Tables=(
   "phase_2_trace_troncons"
   "phase_3_pk"
   "phase_5_pk"
+  "phase_5_trace"
   "phase_5_trace_troncons"
 )
 
