@@ -155,8 +155,8 @@ SELECT
   --,ST_AsText(ST_EndPoint(the_geom)) AS end_point
   ,ST_AsText(ST_ReducePrecision(ST_EndPoint(the_geom)::geometry, 1.0)) AS end_point
 FROM public.phase_2_trace_pgr
-WHERE secteur_id = 200 AND path_seq BETWEEN 1700 AND 1710 
---WHERE secteur_id = -1 ;
+--WHERE secteur_id = 200 AND path_seq BETWEEN 1700 AND 1710 
+WHERE secteur_id = -1 ;
 """
 
 db_redadeg_cursor.execute(sql_get_segments)
@@ -198,6 +198,19 @@ for segment in segments:
         print(f"  {secteur_id}-{path_seq} : ce segment est à l'endroit")
       else:
         print(f"  {secteur_id}-{path_seq} : ce segment est à l'envers")
+        # on va donc le remettre à l'endroit
+        sql_update_segment = f"""
+UPDATE public.phase_2_trace_pgr
+	SET the_geom  = 
+	(
+		SELECT ST_Reverse(the_geom)
+		FROM public.phase_2_trace_pgr
+		WHERE secteur_id = {secteur_id} AND path_seq = {path_seq}
+	)
+WHERE secteur_id = -1 AND path_seq = 3 ;
+"""
+        db_redadeg_cursor.execute(sql_update_segment)
+        print("  remis à l'endroit !")
 
     # on est à la fin donc on enregistre le vertex de fin du segment courant
     # pour pouvoir le comparer dans la prochaine itération
