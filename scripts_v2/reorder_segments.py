@@ -87,30 +87,36 @@ startTime = time.perf_counter()
 # on récupère les arguments passés
 list_of_args = sys.argv
 
-global millesime
-global secteur
-typemaj=""
+millesime = ""
+secteur = ""
 
 # et on fait des tests
 
 try:
-  if len(list_of_args[1]) != 4:
-    print("Pas de millésime en argument")
-    sys.exit()
-  else:
-    millesime = list_of_args[1]
+    if len(list_of_args[1]) != 4:
+        print("Pas de millésime en argument")
+        sys.exit()
+    else:
+        millesime = list_of_args[1]
 
-    # ok : tout est bon on peut commencer
-    # sortie des tests
+        # millesime ok : on passe au secteur
+        if len(list_of_args[2]) != 3:
+            print("Pas d'id secteur en argument")
+            sys.exit()
+        else:
+            secteur = list_of_args[2]
+
+            # ok : tout est bon on peut commencer
+            # sortie des tests
 
 
 except SystemExit:
-  print("Erreur dans les arguments --> stop")
-  sys.exit()
+    print("Erreur dans les arguments --> stop")
+    sys.exit()
 except:
-  print("oups : vérifiez vos arguments passés au script !")
-  print("stop")
-  sys.exit()
+    print("oups : vérifiez vos arguments passés au script !")
+    print("stop")
+    sys.exit()
 
 
 
@@ -147,17 +153,14 @@ print("")
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # on fait un recordset avec l'ensemble des points de débuts et fin de chaque segment
-sql_get_segments = """
+sql_get_segments = f"""
 SELECT
    secteur_id, path_seq
-  --,ST_AsText(ST_StartPoint(the_geom)) AS start_point
   ,ST_AsText(ST_ReducePrecision(ST_StartPoint(the_geom)::geometry, 1.0)) AS start_point
-  --,ST_AsText(ST_EndPoint(the_geom)) AS end_point
   ,ST_AsText(ST_ReducePrecision(ST_EndPoint(the_geom)::geometry, 1.0)) AS end_point
 FROM public.phase_2_trace_pgr
---WHERE secteur_id = 200 AND path_seq BETWEEN 1700 AND 1710 
-WHERE secteur_id = -1 ;
-"""
+WHERE secteur_id = {secteur} 
+ORDER BY path_seq ASC ;"""
 
 db_redadeg_cursor.execute(sql_get_segments)
 segments = db_redadeg_cursor.fetchall()
@@ -166,6 +169,7 @@ nb_total_segments = db_redadeg_cursor.rowcount
 print(f"  Il y a {nb_total_segments} segments à analyser")
 
 cpt_segment = 1
+cpt_segment_reversed = 0
 
 previous_end_point = ""
 
@@ -195,9 +199,10 @@ for segment in segments:
       pass
     else:
       if start_point == previous_end_point:
-        print(f"  {secteur_id}-{path_seq} : ce segment est à l'endroit")
+        # print(f"  {secteur_id}-{path_seq} : ce segment est à l'endroit")
+        pass
       else:
-        print(f"  {secteur_id}-{path_seq} : ce segment est à l'envers")
+        # print(f"  {secteur_id}-{path_seq} : ce segment est à l'envers")
         # on va donc le remettre à l'endroit
         sql_update_segment = f"""
 UPDATE public.phase_2_trace_pgr
@@ -210,7 +215,8 @@ UPDATE public.phase_2_trace_pgr
 WHERE secteur_id = -1 AND path_seq = 3 ;
 """
         db_redadeg_cursor.execute(sql_update_segment)
-        print("  remis à l'endroit !")
+        cpt_segment_reversed += 1
+        # print("  remis à l'endroit !")
 
     # on est à la fin donc on enregistre le vertex de fin du segment courant
     # pour pouvoir le comparer dans la prochaine itération
@@ -227,6 +233,7 @@ WHERE secteur_id = -1 AND path_seq = 3 ;
     sys.exit()
 
 print("")
+print(f"  {cpt_segment_reversed} segments traités pour le secteur {secteur}, soit {round((cpt_segment_reversed/cpt_segment)*100, 1)} %")
 
 del segments
 
