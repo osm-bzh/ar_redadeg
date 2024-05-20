@@ -212,7 +212,7 @@ UPDATE public.phase_2_trace_pgr
 		FROM public.phase_2_trace_pgr
 		WHERE secteur_id = {secteur_id} AND path_seq = {path_seq}
 	)
-WHERE secteur_id = -1 AND path_seq = 3 ;
+WHERE secteur_id = {secteur_id} AND path_seq = {path_seq} ;
 """
         db_redadeg_cursor.execute(sql_update_segment)
         cpt_segment_reversed += 1
