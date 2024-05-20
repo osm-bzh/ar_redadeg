@@ -205,7 +205,8 @@ for segment in segments:
 
     cpt_segment += 1
 
-    if 
+    if cpt_segment % 200 == 0:
+      print(f"  {cpt_segment}...")
 
   except Exception as err:
     print("  ERREUR : " + str(err))
