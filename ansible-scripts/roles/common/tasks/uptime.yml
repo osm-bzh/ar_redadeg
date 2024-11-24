@@ -1,0 +1,9 @@
+
+- name: Exécuter la commande uptime pour extraire les jours
+  ansible.builtin.shell:
+    cmd: uptime | awk -F',|up' '{print $2}'
+  register: uptime_days
+
+- name: Afficher les jours d'uptime
+  ansible.builtin.debug:
+    msg: "Le système {{ inventory_hostname }} est actif depuis : {{ uptime_days.stdout }}"

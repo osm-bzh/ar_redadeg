@@ -1,0 +1,52 @@
+
+
+# Pour récupérer des informations de la machine
+# comme la variable ansible_distribution
+- name: Gathering facts
+  setup:
+
+- import_tasks: uptime.yml
+
+- name: Mettre à jour la liste des paquets
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Mettre à jour les paquets installés
+  ansible.builtin.apt:
+    upgrade: dist  # Effectue une mise à jour complète
+    autoremove: yes  # Supprime automatiquement les paquets inutiles
+    autoclean: yes  # Nettoie les fichiers inutiles dans le cache
+
+- name: Installation de Python
+  apt:
+    update_cache: no
+    state: latest
+    pkg:
+      - python3
+      - python-is-python3
+      - python3-apt
+
+- name: Installation paquets de base
+  apt:
+    update_cache: no
+    state: latest
+    pkg:
+      - lsb-release
+      - nano
+      - htop
+      - iotop
+      - multitail
+      - zip
+      - unzip
+      - git
+      - wget
+      - curl
+      - links
+      - rsync
+      - screen
+      - logrotate
+      - ca-certificates
+      - sudo
+
+- import_tasks: locales.yml
+
