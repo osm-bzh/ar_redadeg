@@ -1,8 +1,6 @@
 - hosts: all
   roles:
-    - init
-    - install_gis
-
-- hosts: nondocker
-  roles:
-    - security
+    - users
+    # - init
+    # - security
+    # - install_gis

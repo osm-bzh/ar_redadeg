@@ -2,9 +2,14 @@
 
 An Ansible project to configure reproducible VMs for the Redadeg (https://ar-redadeg.bzh)
 
-To launch:
+To build and launch a VM:
 
 ```
-$ docker-compose up -d
-$ uv run ansible-playbook setup.yaml
+$ make run_vm
+```
+
+To launch the playbook (after having installed and created the first user the VM):
+
+```
+$ uv run ansible-playbook --ask-vault-pass
 ```

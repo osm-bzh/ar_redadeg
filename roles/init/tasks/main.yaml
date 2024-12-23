@@ -1,26 +1,24 @@
 ---
 - name: Update apt
+  become: true
   apt:
     update_cache: yes
 - name: Upgrade packages
+  become: true
   apt:
     upgrade: full
 - name: Install required packages
+  become: true
   apt:
-    name: curl,pipx,sudo
+    name: curl,pipx,sudo,unzip
     state: present
 - name: Install uv
+  become: true
   pip:
     name: uv
-- name: Create redadeg group
-  group:
-    name: redadeg
-    state: present
-- name: Create redadeg user
-  user: 
-    name: redadeg
-    groups: redadeg,sudo
+    break_system_packages: true
 - name: Create the project repo
+  become: true
   file:
     path: /data/projects/ar_redadeg
     state: directory
