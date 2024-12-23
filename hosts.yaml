@@ -1,0 +1,7 @@
+docker:
+  hosts:
+    osm:
+      ansible_connection: docker
+      ansible_container: osm
+      
+

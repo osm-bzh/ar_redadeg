@@ -1,0 +1,34 @@
+---
+- name: Update apt
+  apt:
+    update_cache: yes
+- name: Upgrade packages
+  apt:
+    upgrade: full
+- name: Install required packages
+  apt:
+    name: gdal-bin,osm2pgsql,osmctools,python3-dev,python-is-python3,curl,pipx,openjdk-11-jdk,tomcat9
+    state: present
+- name: Install uv
+  pip:
+    name: uv
+- name: Create redadeg group
+  group:
+    name: redadeg
+    state: present
+- name: Create redadeg user
+  user: 
+    name: redadeg
+    groups: redadeg,sudo
+- name: Create the project repo
+  file:
+    path: /data/projects/ar_redadeg
+    state: directory
+    owner: redadeg
+    group: redadeg
+- name: Create a venv for the project and install packages
+  moreati.uv.pip:
+    name: setuptools,psycopg2-binary
+    virtualenv: /data/projects/ar_redadeg/.venv
+
+

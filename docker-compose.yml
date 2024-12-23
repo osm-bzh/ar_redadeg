@@ -1,0 +1,5 @@
+services:
+  osm:
+    build: .
+    container_name: osm
+    command: sleep infinity
