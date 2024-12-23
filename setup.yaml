@@ -1,3 +1,4 @@
-- hosts: docker
+- hosts: all
   roles:
     - init
+    - install_gis

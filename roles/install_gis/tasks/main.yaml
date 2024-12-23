@@ -1,0 +1,10 @@
+---
+- name: Update apt
+  apt:
+    update_cache: yes
+- name: Install required packages
+  apt:
+    name: gdal-bin,osm2pgsql,osmctools,python3-dev,python-is-python3,openjdk-11-jdk,tomcat9
+    state: present
+
+

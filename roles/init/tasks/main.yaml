@@ -7,7 +7,7 @@
     upgrade: full
 - name: Install required packages
   apt:
-    name: gdal-bin,osm2pgsql,osmctools,python3-dev,python-is-python3,curl,pipx,openjdk-11-jdk,tomcat9
+    name: curl,pipx,sudo
     state: present
 - name: Install uv
   pip:
