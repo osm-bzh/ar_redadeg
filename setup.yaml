@@ -2,3 +2,7 @@
   roles:
     - init
     - install_gis
+
+- hosts: nondocker
+  roles:
+    - security

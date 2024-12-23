@@ -1,0 +1,35 @@
+---
+- name: Install ufw
+  become: true
+  apt:
+    name: ufw
+    update_cache: yes
+    state: present
+- name: Set allowed ports
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+  loop:
+    - 80
+    - 443
+    - 8080
+- name: Set limited ports
+  become: true
+  community.general.ufw:
+    rule: limit
+    port: '{{ item }}'
+    proto: tcp
+  loop:
+    - ssh
+- name: Deny everything and enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+    policy: deny
+- name: Set logging
+  become: true
+  community.general.ufw:
+    logging: 'on'
+
