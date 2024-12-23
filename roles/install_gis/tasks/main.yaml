@@ -1,10 +1,45 @@
 ---
-- name: Update apt
-  apt:
-    update_cache: yes
 - name: Install required packages
+  become: true
   apt:
-    name: gdal-bin,osm2pgsql,osmctools,python3-dev,python-is-python3,openjdk-11-jdk,tomcat9
+    name: gdal-bin,osm2pgsql,osmctools,python3-dev,python-is-python3,openjdk-11-jdk,tomcat10
     state: present
-
-
+    update_cache: yes
+# -----------------------
+# Geoserver
+- name: Create geoserver dir
+  file:
+    path: /data/projects/geoserver
+    state: directory
+    owner: redadeg
+    group: redadeg
+- name: Download Geoserver source
+  get_url:
+    url: https://sourceforge.net/projects/geoserver/files/GeoServer/2.23.2/geoserver-2.23.2-war.zip
+    dest: /data/projects/geoserver/geoserver-2.23.2.zip
+    checksum: sha256:2d4f9f89b103a540982a1f1a82036ecba9c24367384afdacdb855b0e39320a86
+- name: Unzip Geoserver source
+  unarchive:
+    src: /data/projects/geoserver/geoserver-2.23.2.zip
+    dest: /data/projects/geoserver/
+    remote_src: yes
+- name: Create geoserver/webapps if necessary
+  file:
+    name: /data/projects/geoserver/webapps
+    state: directory
+# TODO: backup directory before copying
+- name: Clean geoserver/webapps (if any)
+  shell: /bin/rm -rf /data/projects/geoserver/webapps/geoserver
+- name: Copy geoserver.war
+  copy:
+    src: /data/projects/geoserver/geoserver.war
+    dest: /data/projects/geoserver/webapps/geoserver.war
+    owner: redadeg
+    group: redadeg
+    remote_src: yes
+- name: Restart tomcat10
+  become: true
+  service:
+    name: tomcat10
+    state: restarted
+    enabled: yes

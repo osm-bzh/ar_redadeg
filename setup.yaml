@@ -1,6 +1,6 @@
 - hosts: all
   roles:
     - users
-    # - init
-    # - security
-    # - install_gis
+    - security
+    - init
+    - install_gis
