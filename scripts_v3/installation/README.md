@@ -12,7 +12,6 @@ mkdir /data/
 2. On y clone le dépôt.
 
 ```bash
-mkdir /data/
 cd /data/
 git clone https://github.com/osm-bzh/ar_redadeg.git
 ```
