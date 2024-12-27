@@ -72,6 +72,8 @@ api2/
 
 ssh/
 
+ansible-scripts/
+
 .venv/
 __pycache__/
 

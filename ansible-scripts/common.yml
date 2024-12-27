@@ -1,9 +1,0 @@
-- name: default configuration
-  hosts: all
-  gather_facts: no
-  # exécuté en tant que root
-  become: no
-
-  roles:
-    - common
-    #- accounts
