@@ -56,5 +56,5 @@
   tags:
     - installation_vm
 
-- import_tasks: locales.yml
+# - import_tasks: locales.yml
 
