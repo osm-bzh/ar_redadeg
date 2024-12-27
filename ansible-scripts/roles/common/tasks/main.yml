@@ -10,12 +10,16 @@
 - name: Mettre à jour la liste des paquets
   ansible.builtin.apt:
     update_cache: yes
+  tags:
+    - installation_vm
 
 - name: Mettre à jour les paquets installés
   ansible.builtin.apt:
     upgrade: dist  # Effectue une mise à jour complète
     autoremove: yes  # Supprime automatiquement les paquets inutiles
     autoclean: yes  # Nettoie les fichiers inutiles dans le cache
+  tags:
+    - installation_vm
 
 - name: Installation de Python
   apt:
@@ -25,6 +29,8 @@
       - python3
       - python-is-python3
       - python3-apt
+  tags:
+    - installation_vm
 
 - name: Installation paquets de base
   apt:
@@ -47,6 +53,8 @@
       - logrotate
       - ca-certificates
       - sudo
+  tags:
+    - installation_vm
 
 - import_tasks: locales.yml
 
