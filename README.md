@@ -11,5 +11,5 @@ $ make run_vm
 To launch the playbook (after having installed and created the first user the VM):
 
 ```
-$ uv run ansible-playbook --ask-vault-pass
+$ uv run ansible-playbook setup.yaml --ask-vault-pass
 ```
