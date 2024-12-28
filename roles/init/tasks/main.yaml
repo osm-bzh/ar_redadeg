@@ -10,7 +10,7 @@
 - name: Install required packages
   become: true
   apt:
-    name: curl,pipx,sudo,unzip
+    name: curl,pipx,sudo,unzip,git,neovim
     state: present
 - name: Install uv
   become: true
@@ -26,7 +26,7 @@
     group: redadeg
 - name: Create a venv for the project and install packages
   moreati.uv.pip:
-    name: setuptools,psycopg2-binary
+    name: setuptools,psycopg2-binary,wget
     virtualenv: /data/projects/ar_redadeg/.venv
 
 
