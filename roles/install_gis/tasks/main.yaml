@@ -15,12 +15,12 @@
     group: redadeg
 - name: Download Geoserver source
   get_url:
-    url: https://sourceforge.net/projects/geoserver/files/GeoServer/2.23.2/geoserver-2.23.2-war.zip
-    dest: /data/projects/geoserver/geoserver-2.23.2.zip
-    checksum: sha256:2d4f9f89b103a540982a1f1a82036ecba9c24367384afdacdb855b0e39320a86
+    url: https://sourceforge.net/projects/geoserver/files/GeoServer/2.26.1/geoserver-2.26.1-war.zip
+    dest: /data/projects/geoserver/geoserver-2.26.1.zip
+    checksum: sha256:5af0fdcaac1e27ca367638ee6c33aa68ad5a3c13b961bb5761b402566423cb98
 - name: Unzip Geoserver source
   unarchive:
-    src: /data/projects/geoserver/geoserver-2.23.2.zip
+    src: /data/projects/geoserver/geoserver-2.26.1.zip
     dest: /data/projects/geoserver/
     remote_src: yes
 - name: Create geoserver/webapps if necessary
