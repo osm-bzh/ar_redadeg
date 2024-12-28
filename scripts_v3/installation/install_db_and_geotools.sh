@@ -32,6 +32,15 @@ service postgresql restart
 
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Création des rôles PostgreSQL'"
+echo ""
+
+su - postgres
+psql -c "CREATE ROLE redadeg WITH SUPERUSER INHERIT LOGIN PASSWORD 'betekantrech';"
+psql -c "CREATE ROLE osmbr WITH LOGIN PASSWORD 'm4d31nbr31zh';"
+
+echo ""
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Installation des paquets géo"
 echo ""
 
