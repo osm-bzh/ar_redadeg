@@ -14,7 +14,6 @@
   loop:
     - 80
     - 443
-    - 8080
 - name: Set limited ports
   become: true
   community.general.ufw:
