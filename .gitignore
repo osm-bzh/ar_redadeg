@@ -64,6 +64,8 @@ scripts_v2/config.sh
 scripts_v2/config.ini
 
 scripts_v3/installation/files/authorized_keys
+scripts_v3/installation/files/postgresql.conf~default
+scripts_v3/installation/files/postgresql_filtered.conf
 
 api/venv/
 api/__pycache__/
@@ -111,5 +113,6 @@ Temporary Items
 
 # FME
 *.recover
+
 
 
