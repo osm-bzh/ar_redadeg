@@ -63,7 +63,7 @@ scripts/venv/
 scripts_v2/config.sh
 scripts_v2/config.ini
 
-scripts_v3/installation/authorized_keys
+scripts_v3/installation/files/authorized_keys
 
 api/venv/
 api/__pycache__/
