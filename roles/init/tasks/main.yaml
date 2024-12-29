@@ -10,7 +10,7 @@
 - name: Install required packages
   become: true
   apt:
-    name: curl,pipx,sudo,unzip,git,neovim,nginx
+    name: curl,pipx,sudo,unzip,git,neovim,nginx,acl
     state: present
 - name: Install uv
   become: true
