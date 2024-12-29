@@ -90,3 +90,14 @@
   systemd_service:
     name: tomcat.service
     state: restarted
+# -----------------------
+# mviewer
+- name: Clone mviewer repo
+  git:
+    repo: https://github.com/mviewer/mviewer.git
+    dest: /data/projets/mviewer
+- name: Symlink for mviewer config
+  file:
+    src: /data/projets/ar_redadeg/data/2024/mviewer/kartenn_kontroll.xml
+    dest: /data/projets/mviewer/apps/ar-redadeg-2024
+    state: link
