@@ -12,7 +12,7 @@
 - name: Be sure that postgresql is installed
   become: true
   apt:
-    name: postgresql-postgis
+    name: postgresql-postgis, postgresql-pgrouting
     state: present
 - name: Change postgres local authentication
   become: true
@@ -40,3 +40,47 @@
     password: "{{ db_password }}"
     role_attr_flags: "SUPERUSER,CREATEDB,NOCREATEROLE,NOINHERIT,LOGIN,NOREPLICATION,NOBYPASSRLS"
     state: present
+# -----------------------
+# Postgresql database and extensions
+- name: Drop database if it exists
+  community.postgresql.postgresql_db:
+    name: "{{ db_name }}"
+    state: absent
+    force: true
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
+- name: Create a database
+  community.postgresql.postgresql_db:
+    name: "{{ db_name }}"
+    owner: "{{ db_user }}"
+    encoding: UTF-8
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+- name: Add postgis extensions
+  community.postgresql.postgresql_ext:
+    name: "{{ item }}"
+    db: "{{ db_name }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  loop:
+    - postgis
+    - postgis_topology
+    - pgrouting
+- name: Set owner to public schema
+  community.postgresql.postgresql_schema:
+    db: "{{ db_name }}"
+    name: public
+    owner: "{{ db_user }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+- name: Set owner to topology table
+  community.postgresql.postgresql_table:
+    db: "{{ db_name }}"
+    name: "{{ item }}"
+    owner: "{{ db_user }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  loop:
+    - topology.layer
+    - topology.topology
