@@ -9,7 +9,7 @@
 # Tomcat9 manually
 - name: Create tomcat9 dir
   file:
-    path: /data/projects/tomcat9
+    path: /data/projets/tomcat9
     state: directory
     owner: redadeg
     group: redadeg
@@ -24,7 +24,7 @@
 - name: Download tomcat9
   get_url:
     url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz
-    dest: /data/projects/tomcat9/
+    dest: /data/projets/tomcat9/
     checksum: sha512:07d87286e8ee84bb291069c596cf36233e56a14e3ecb6d65eea0fa7c7042ce5e75f5db31f210b96b6b25b80b34e626dd26c5a6ed5c052384a8587d62658b5e16
 - name: Create /opt/tomcat dir
   become: true
@@ -36,7 +36,7 @@
 - name: Unzip tomcat9
   become: true
   unarchive:
-    src: /data/projects/tomcat9/apache-tomcat-9.0.98.tar.gz
+    src: /data/projets/tomcat9/apache-tomcat-9.0.98.tar.gz
     dest: /opt/tomcat
     remote_src: yes
     owner: tomcat
@@ -65,24 +65,24 @@
 # Geoserver
 - name: Create geoserver dir
   file:
-    path: /data/projects/geoserver
+    path: /data/projets/geoserver
     state: directory
     owner: redadeg
     group: redadeg
 - name: Download Geoserver source
   get_url:
     url: https://sourceforge.net/projects/geoserver/files/GeoServer/2.26.1/geoserver-2.26.1-war.zip
-    dest: /data/projects/geoserver/geoserver-2.26.1.zip
+    dest: /data/projets/geoserver/geoserver-2.26.1.zip
     checksum: sha256:5af0fdcaac1e27ca367638ee6c33aa68ad5a3c13b961bb5761b402566423cb98
 - name: Unzip Geoserver source
   unarchive:
-    src: /data/projects/geoserver/geoserver-2.26.1.zip
-    dest: /data/projects/geoserver/
+    src: /data/projets/geoserver/geoserver-2.26.1.zip
+    dest: /data/projets/geoserver/
     remote_src: yes
 - name: Symlink geoserver.war to webapps
   become: true
   file:
-    src: /data/projects/geoserver/geoserver.war
+    src: /data/projets/geoserver/geoserver.war
     dest: /opt/tomcat/latest/webapps/geoserver.war
     state: link
 - name: Restart tomcat9 
