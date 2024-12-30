@@ -111,3 +111,19 @@
     login_user: "{{ db_user }}"
     login_password: "{{ db_password }}"
   when: drop_db == true
+# -----------------------
+# Cities layer
+- name: Download cities from OSM
+  unarchive:
+    src: "http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-{{ millesime_shp }}-shp.zip"
+    dest: "/data/{{ millesime }}/tmp/"
+    remote_src: yes
+    creates: "/data/{{ millesime }}/tmp/communes-{{ millesime_shp }}.shp"
+  when: update_cities == true
+- name: Load cities to database
+  shell: >
+    ogr2ogr -f "PostgreSQL" PG:"host={{ db_host }} port={{ db_port }} user={{ db_user }} password={{ db_password }} dbname={{ db_name }}"
+    /data/{{ millesime }}/tmp/communes-{{ millesime_shp }}.shp -nln osm_communes_fr_4326 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite -where "substr(insee,0,2) IN ('22','29','35','44','56')"
+  when: update_cities == true
+  
+  
