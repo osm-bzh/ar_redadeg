@@ -31,7 +31,7 @@ CREATE TABLE secteur
   pk_stop integer,
   CONSTRAINT secteur_pkey PRIMARY KEY (id)
 );
-ALTER TABLE secteur OWNER to redadeg;
+ALTER TABLE secteur OWNER to {{ db_user }};
 
 
 
@@ -40,14 +40,14 @@ CREATE TABLE phase_1_trace_3857
 (
     fake_column integer
 );
-ALTER TABLE phase_1_trace_3857 OWNER to redadeg;
+ALTER TABLE phase_1_trace_3857 OWNER to {{ db_user }};
 
 DROP TABLE IF EXISTS phase_1_pk_vip_3857 ;
 CREATE TABLE phase_1_pk_vip_3857
 (
     fake_column integer
 );
-ALTER TABLE phase_1_pk_vip_3857 OWNER to redadeg;
+ALTER TABLE phase_1_pk_vip_3857 OWNER to {{ db_user }};
 
 
 
@@ -64,7 +64,7 @@ CREATE TABLE phase_1_trace
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX sidx_phase_1_trace_the_geom ON public.phase_1_trace USING gist (the_geom);
-ALTER TABLE phase_1_trace OWNER to redadeg;
+ALTER TABLE phase_1_trace OWNER to {{ db_user }};
 
 
 DROP TABLE IF EXISTS phase_1_pk_vip CASCADE ;
@@ -79,7 +79,7 @@ CREATE TABLE phase_1_pk_vip
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX sidx_phase_1_pk_vip_the_geom ON public.phase_1_pk_vip USING gist (the_geom);
-ALTER TABLE phase_1_pk_vip OWNER to redadeg;
+ALTER TABLE phase_1_pk_vip OWNER to {{ db_user }};
 
 
 -- on crée aussi une version correcte en 4326 pour export vers umap
@@ -97,7 +97,7 @@ CREATE TABLE phase_1_trace_4326
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 4326)
 );
 CREATE INDEX sidx_phase_1_trace_4326_the_geom ON public.phase_1_trace_4326 USING gist (the_geom);
-ALTER TABLE phase_1_trace_4326 OWNER to redadeg;
+ALTER TABLE phase_1_trace_4326 OWNER to {{ db_user }};
 
 
 -- table des tronçons créés à partir des longs tracés
@@ -116,7 +116,7 @@ CREATE TABLE phase_1_trace_troncons
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX sidx_phase_1_trace_troncons_the_geom ON public.phase_1_trace_troncons USING gist (the_geom);
-ALTER TABLE phase_1_trace_troncons OWNER to redadeg;
+ALTER TABLE phase_1_trace_troncons OWNER to {{ db_user }};
 
 
 
@@ -125,10 +125,10 @@ DROP VIEW IF EXISTS phase_1_pk_auto ;
 CREATE VIEW phase_1_pk_auto AS
   SELECT
     uid, secteur_id, ordre, km, km_reel,
-    ST_Line_Interpolate_Point(the_geom, 1)::geometry(Point, 2154) AS the_geom
+    ST_LineInterpolatePoint(the_geom, 1)::geometry(Point, 2154) AS the_geom
   FROM phase_1_trace_troncons
   ORDER BY secteur_id ASC, ordre ASC, km ASC ;
-ALTER TABLE phase_1_pk_auto OWNER to redadeg;
+ALTER TABLE phase_1_pk_auto OWNER to {{ db_user }};
 
 -- la même mais en 4326 pour export
 DROP VIEW IF EXISTS phase_1_pk_auto_4326 ;
@@ -138,7 +138,7 @@ CREATE VIEW phase_1_pk_auto_4326 AS
      ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_1_pk_auto
   ORDER BY secteur_id ASC, ordre ASC, km ASC ;
-ALTER TABLE phase_1_pk_auto_4326 OWNER to redadeg;
+ALTER TABLE phase_1_pk_auto_4326 OWNER to {{ db_user }};
 
 -- vue tableau de bord de synthèse
 DROP VIEW IF EXISTS phase_1_tdb ;
@@ -150,7 +150,7 @@ CREATE VIEW phase_1_tdb AS
   FROM phase_1_trace t JOIN secteur s ON t.secteur_id = s.id
   GROUP BY secteur_id, nom_br, nom_fr
   ORDER BY secteur_id ;
-ALTER TABLE phase_1_tdb OWNER to redadeg;
+ALTER TABLE phase_1_tdb OWNER to {{ db_user }};
 
 
 
@@ -170,14 +170,14 @@ CREATE TABLE phase_2_pk_secteur_3857
 (
     fake_column integer
 );
-ALTER TABLE phase_2_pk_secteur_3857 OWNER to redadeg;
+ALTER TABLE phase_2_pk_secteur_3857 OWNER to {{ db_user }};
 
 DROP TABLE IF EXISTS phase_2_point_nettoyage_3857 ;
 CREATE TABLE phase_2_point_nettoyage_3857
 (
     fake_column integer
 );
-ALTER TABLE phase_2_point_nettoyage_3857 OWNER to redadeg;
+ALTER TABLE phase_2_point_nettoyage_3857 OWNER to {{ db_user }};
 
 
 -- la couche des points pour nettoyer la couche de routage
@@ -195,7 +195,7 @@ CREATE TABLE phase_2_point_nettoyage
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX sidx_phase_2_point_nettoyage_the_geom ON public.phase_2_point_nettoyage USING gist (the_geom);
-ALTER TABLE phase_2_point_nettoyage OWNER to redadeg;
+ALTER TABLE phase_2_point_nettoyage OWNER to {{ db_user }};
 
 
 
@@ -212,7 +212,7 @@ CREATE TABLE phase_2_pk_secteur
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX sidx_phase_2_pk_secteur_the_geom ON public.phase_2_pk_secteur USING gist (the_geom);
-ALTER TABLE phase_2_pk_secteur OWNER to redadeg;
+ALTER TABLE phase_2_pk_secteur OWNER to {{ db_user }};
 
 
 -- une vue en 4326 pour export
@@ -223,7 +223,7 @@ CREATE VIEW phase_2_pk_secteur_4326 AS
     ST_Transform(pk.the_geom,4326)::geometry(Point, 4326) AS the_geom
   FROM phase_2_pk_secteur pk JOIN secteur s ON pk.id = s.id
   ORDER BY pk.id ;
-ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
+ALTER TABLE phase_2_pk_secteur_4326 OWNER to {{ db_user }};
 
 
 -- la couche des communes source OSM
@@ -239,7 +239,7 @@ CREATE TABLE osm_communes
     CONSTRAINT osm_communes_pkey PRIMARY KEY (insee)
 );
 CREATE INDEX sidx_osm_communes_the_geom ON osm_communes USING gist(the_geom);
-ALTER TABLE osm_communes OWNER to redadeg;
+ALTER TABLE osm_communes OWNER to {{ db_user }};
 
 
 
@@ -261,11 +261,12 @@ CREATE TABLE osm_roads
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX osm_roads_geom_idx ON osm_roads USING gist(the_geom);
-ALTER TABLE osm_roads OWNER to redadeg;
+ALTER TABLE osm_roads OWNER to {{ db_user }};
 -- cette couche supporte une topologie
 -- SELECT topology.DropTopology('osm_roads_topo');
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
-SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
+-- TODO(ewen): commented due to error
+-- SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'public', 'osm_roads', 'topo_geom', 'LINESTRING');
 
 
 -- la couche en version routable
@@ -293,7 +294,7 @@ CREATE TABLE osm_roads_pgr
 CREATE INDEX osm_roads_pgr_source_idx ON osm_roads_pgr (source);
 CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
 CREATE INDEX osm_roads_pgr_geom_idx ON osm_roads_pgr USING gist(the_geom);
-ALTER TABLE osm_roads_pgr OWNER to redadeg;
+ALTER TABLE osm_roads_pgr OWNER to {{ db_user }};
 
 
 
@@ -310,7 +311,7 @@ CREATE TABLE osm_roads_pgr_patch_mask
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX osm_roads_pgr_patch_mask_geom_idx ON osm_roads_pgr_patch_mask USING gist(the_geom);
-ALTER TABLE osm_roads_pgr_patch_mask OWNER to redadeg;
+ALTER TABLE osm_roads_pgr_patch_mask OWNER to {{ db_user }};
 
 
 -- couche jumelle de osm_roads mais avec des lignes gérées à la main pour les boucles
@@ -336,7 +337,7 @@ CREATE TABLE osm_roads_pgr_patch
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX osm_roads_pgr_patch_geom_idx ON osm_roads_pgr_patch USING gist(the_geom);
-ALTER TABLE osm_roads_pgr_patch OWNER to redadeg;
+ALTER TABLE osm_roads_pgr_patch OWNER to {{ db_user }};
 -- la séquence doit commencer à un chiffre supérieur à 1 car sinon ça fiche la pagaille sur le calcul de routage
 ALTER SEQUENCE osm_roads_pgr_patch_id_seq START WITH 1000 ;
 
@@ -366,7 +367,7 @@ CREATE TABLE phase_2_trace_pgr
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX phase_2_trace_pgr_geom_idx ON phase_2_trace_pgr USING gist(the_geom);
-ALTER TABLE phase_2_trace_pgr OWNER to redadeg;
+ALTER TABLE phase_2_trace_pgr OWNER to {{ db_user }};
 
 -- une vue en 4326 pour export
 DROP VIEW IF EXISTS phase_2_trace_pgr_4326 ;
@@ -377,7 +378,7 @@ CREATE VIEW phase_2_trace_pgr_4326 AS
     osm_id, highway, type, oneway, ref, name_fr, name_br,
     ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
   FROM phase_2_trace_pgr ;
-ALTER TABLE phase_2_trace_pgr_4326 OWNER to redadeg;
+ALTER TABLE phase_2_trace_pgr_4326 OWNER to {{ db_user }};
 
 
 
@@ -394,7 +395,7 @@ CREATE TABLE phase_2_trace_secteur
     CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX phase_2_trace_secteur_geom_idx ON phase_2_trace_secteur USING gist(the_geom);
-ALTER TABLE phase_2_trace_secteur OWNER to redadeg;
+ALTER TABLE phase_2_trace_secteur OWNER to {{ db_user }};
 
 -- une vue en 4326 pour export
 DROP VIEW IF EXISTS phase_2_trace_secteur_4326 ;
@@ -404,7 +405,7 @@ CREATE VIEW phase_2_trace_secteur_4326 AS
     longueur, longueur_km,
     ST_Transform(the_geom,4326)::geometry(MultiLineString, 4326) AS the_geom
   FROM phase_2_trace_secteur ;
-ALTER TABLE phase_2_trace_secteur_4326 OWNER to redadeg;
+ALTER TABLE phase_2_trace_secteur_4326 OWNER to {{ db_user }};
 
 
 -- ça sert à quoi ça ?
@@ -418,7 +419,7 @@ CREATE TABLE phase_2_trace_trous
   CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POINT'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
-ALTER TABLE phase_2_trace_trous OWNER to redadeg;
+ALTER TABLE phase_2_trace_trous OWNER to {{ db_user }};
 
 
 
@@ -450,7 +451,7 @@ CREATE TABLE phase_2_trace_troncons
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX phase_2_trace_troncons_geom_idx ON phase_2_trace_troncons USING gist(the_geom);
-ALTER TABLE phase_2_trace_troncons OWNER to redadeg;
+ALTER TABLE phase_2_trace_troncons OWNER to {{ db_user }};
 
 
 -- une vue en 4326 pour export
@@ -462,7 +463,7 @@ CREATE VIEW phase_2_trace_troncons_4326 AS
     name_fr, name_br,
     ST_Transform(the_geom,4326)::geometry(LineString, 4326) AS the_geom
   FROM phase_2_trace_troncons ;
-ALTER TABLE phase_2_trace_troncons_4326 OWNER to redadeg;
+ALTER TABLE phase_2_trace_troncons_4326 OWNER to {{ db_user }};
 
 
 
@@ -532,7 +533,7 @@ CREATE TABLE phase_3_troncons_pgr
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX phase_3_troncons_pgr_geom_idx ON phase_3_troncons_pgr USING gist(the_geom);
-ALTER TABLE phase_3_troncons_pgr OWNER to redadeg;
+ALTER TABLE phase_3_troncons_pgr OWNER to {{ db_user }};
 
 
 /*
@@ -642,7 +643,7 @@ ALTER TABLE phase_3_pk_4326 OWNER TO redadeg;
 
 
 -- couche de lignes simples directes de PK à PK
-DROP TABLE IF EXISTS phase_3_pk_sens_verif ;
+DROP TABLE IF EXISTS phase_3_pk_sens_verif CASCADE;
 CREATE TABLE phase_3_pk_sens_verif
 (
   secteur_id integer,
@@ -675,14 +676,15 @@ ALTER TABLE phase_3_pk_sens_verif_4326 OWNER TO redadeg;
 */
 
 
-DROP VIEW IF EXISTS phase_4_pk_auto_4326 CASCADE ;
-CREATE VIEW phase_4_pk_auto_4326 AS
-  SELECT
-    pk_id,
-    secteur_id,
-    ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
-  FROM phase_3_pk_auto ;
-ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
+-- TODO(ewen): commented due to error
+-- DROP VIEW IF EXISTS phase_4_pk_auto_4326 CASCADE ;
+-- CREATE VIEW phase_4_pk_auto_4326 AS
+--   SELECT
+--     pk_id,
+--     secteur_id,
+--     ST_Transform(the_geom,4326)::geometry(Point, 4326) AS the_geom
+--   FROM phase_3_pk_auto ;
+-- ALTER TABLE phase_4_pk_auto_4326 OWNER TO redadeg;
 
 
 
@@ -729,7 +731,8 @@ ALTER TABLE phase_5_pk_ref OWNER TO redadeg;
 
 -- on charge cette table avec les données finales de la phase 3
 TRUNCATE TABLE phase_5_pk_ref ;
-INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk_auto ;
+-- TODO(ewen): commented due to error
+-- INSERT INTO phase_5_pk_ref SELECT * FROM phase_3_pk_auto ;
 
 
 -- on définit manuellement la couche avec un type mixte parce qu'on a des lignes dans la couche de points…
@@ -849,7 +852,7 @@ CREATE TABLE phase_5_trace_troncons
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
 CREATE INDEX phase_5_trace_troncons_geom_idx ON phase_5_trace_troncons USING gist(the_geom);
-ALTER TABLE phase_5_trace_troncons OWNER to redadeg;
+ALTER TABLE phase_5_trace_troncons OWNER to {{ db_user }};
 
 
 DROP TABLE IF EXISTS phase_5_trace;
@@ -861,7 +864,7 @@ CREATE TABLE phase_5_trace (
   CONSTRAINT phase_5_trace_pkey PRIMARY KEY (secteur_id)
 );
 CREATE INDEX phase_5_trace_geom_idx ON phase_5_trace USING gist (the_geom);
-ALTER TABLE phase_5_trace_troncons OWNER to redadeg;
+ALTER TABLE phase_5_trace_troncons OWNER to {{ db_user }};
 
 /*
 ==========================================================================

@@ -86,3 +86,27 @@
     - topology.topology
 # -----------------------
 # Postgresql tables
+- name: Copy table script
+  template:
+    src: create_tables.sql.j2
+    dest: /tmp/create_tables.sql
+  loop:
+  - create_tables.sql
+- name: Create tables with script
+  community.postgresql.postgresql_script:
+    db: "{{ db_name }}"
+    path: /tmp/create_tables.sql
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
+- name: Copy reference table script
+  copy:
+    src: update_infos_secteurs.sql
+    dest: /tmp/update_infos_secteurs.sql
+- name: Init reference table
+  community.postgresql.postgresql_script:
+    db: "{{ db_name }}"
+    path: /tmp/update_infos_secteurs.sql
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
