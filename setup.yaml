@@ -3,4 +3,5 @@
     - security
     - init
     - install_gis
+    - setup_osm_db
     - create_millesime

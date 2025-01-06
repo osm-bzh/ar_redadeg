@@ -1,0 +1,94 @@
+---
+- include_vars: vault.yaml
+- name: Create postgres role
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ osm_db_user }}"
+    password: "{{ osm_db_password }}"
+    role_attr_flags: "SUPERUSER,CREATEDB,NOCREATEROLE,NOINHERIT,LOGIN,NOREPLICATION,NOBYPASSRLS"
+    state: present
+# -----------------------
+# Postgresql database and extensions
+- name: Drop database if it exists
+  community.postgresql.postgresql_db:
+    name: "{{ osm_db_name }}"
+    state: absent
+    force: true
+    login_user: "{{ osm_db_user }}"
+    login_password: "{{ osm_db_password }}"
+  when: osm_drop_db == true
+- name: Create a database
+  community.postgresql.postgresql_db:
+    name: "{{ osm_db_name }}"
+    owner: "{{ osm_db_user }}"
+    encoding: UTF-8
+    login_user: "{{ osm_db_user }}"
+    login_password: "{{ osm_db_password }}"
+- name: Add postgis extensions
+  community.postgresql.postgresql_ext:
+    name: "{{ item }}"
+    db: "{{ osm_db_name }}"
+    login_user: "{{ osm_db_user }}"
+    login_password: "{{ osm_db_password }}"
+  loop:
+    - postgis
+    - hstore 
+- name: Create dump directory
+  file:
+    path: /data/dump
+    state: directory
+    owner: redadeg
+    group: redadeg
+- name: Download OSM France dump
+  vars:
+    exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+  get_url:
+    url: https://download.geofabrik.de/europe/france-latest.osm.pbf
+    dest: "/data/dump/france-{{ exec_date }}.osm.pbf"
+    force: false
+  when: osm_update_db == true
+- name: Symlink to latest OSM France dump
+  vars:
+    exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+  file:
+    src: "france-{{ exec_date }}.osm.pbf"
+    dest: /data/dump/france-latest.osm.pbf
+    state: link
+    force: true
+  when: osm_update_db == true
+- name: Copy the poly file (around Brittany) to the host
+  copy:
+    src: breizh.poly
+    dest: "/data/dump/breizh.poly"
+- name: Truncate OSM dump to keep only Brittany
+  vars:
+    exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+  command: "osmconvert /data/dump/france-latest.osm.pbf -B=/data/dump/breizh.poly --complete-ways -v -o=/data/dump/breizh-{{ exec_date }}.osm.pbf"
+  args:
+    creates: "/data/dump/breizh-{{ exec_date }}.osm.pbf"
+  when: osm_update_db == true
+- name: Symlink to latest OSM Breizh dump
+  vars:
+    exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+  file:
+    src: "breizh-{{ exec_date }}.osm.pbf"
+    dest: /data/dump/breizh-latest.osm.pbf
+    state: link
+    force: true
+  when: osm_update_db == true
+- name: Import the dump into postgres
+  expect: 
+    command: "osm2pgsql --host {{ osm_db_host }} --user {{ osm_db_user }} --password --database {{ osm_db_name }} --hstore --slim --cache 3000 -E 3857 -v /data/dump/breizh-latest.osm.pbf"
+    responses:
+      "Password:": "{{ osm_db_password }}"
+    timeout: 3600
+  when: osm_update_db == true
+- name: Delete old dumps
+  shell: 
+    cmd: '{ find . -type l -exec readlink {} \; ; find . -type f -exec basename {} \; ;} | sort | uniq -u | xargs rm'
+  args:
+    chdir: /data/dump
+  when: osm_clean_dumps == true
+
+
