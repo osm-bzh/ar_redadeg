@@ -13,7 +13,12 @@
     state: directory
     owner: redadeg
     group: redadeg
-- name: tomcat user and group
+- name: Create a tomcat group
+  become: true
+  group:
+    name: tomcat
+    state: present
+- name: Create a tomcat user
   become: true
   user:
     name: tomcat

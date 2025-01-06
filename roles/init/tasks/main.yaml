@@ -10,25 +10,27 @@
 - name: Install required packages
   become: true
   apt:
-    name: curl,pipx,sudo,unzip,git,neovim,nginx,acl
+    name: curl,python3-pip,pipx,sudo,unzip,git,neovim,nginx,acl
     state: present
 - name: Install uv
   become: true
   pip:
     name: uv
     break_system_packages: true
-- name: Clone the project repo
-  become: true
-  git:
-    repo: https://github.com/osm-bzh/ar_redadeg.git
-    dest: /data/projets/ar_redadeg
-- name: Set owner to project repo
+- name: Create project dirs to project repo
   become: true
   file:
-    path: /data/projets/ar_redadeg
+    path: "{{ item }}"
     state: directory
     owner: redadeg
     group: redadeg
+  loop:
+    - /data
+    - /data/projets
+- name: Clone the project repo
+  git:
+    repo: https://github.com/osm-bzh/ar_redadeg.git
+    dest: /data/projets/ar_redadeg
 - name: Create a venv for the project and install packages
   moreati.uv.pip:
     name: setuptools,psycopg2-binary,wget
