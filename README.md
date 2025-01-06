@@ -8,7 +8,13 @@ To build and launch a VM:
 $ make run_vm
 ```
 
-To launch the playbook (after having installed and created the first user the VM):
+First, create users and groups:
+
+```
+$ uv run ansible-playbook users.yaml --extra-vars "ansible_user=user_in_vm ansible_ssh_private_key_file=ssh_key_for_vm" -K --ask-vault-pass
+```
+
+And then, launch the main playbook:
 
 ```
 $ uv run ansible-playbook setup.yaml --ask-vault-pass
