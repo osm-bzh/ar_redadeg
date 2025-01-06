@@ -10,27 +10,6 @@
     - "/data/{{ millesime }}"
     - "/data/{{ millesime }}/backup"
     - "/data/{{ millesime }}/tmp"
-- name: Be sure that postgresql is installed
-  become: true
-  apt:
-    name: postgresql-postgis, postgresql-pgrouting
-    state: present
-- name: Change postgres local authentication
-  become: true
-  community.postgresql.postgresql_pg_hba:
-    dest: /etc/postgresql/16/main/pg_hba.conf
-    contype: local
-    users: all
-    databases: all
-    method: scram-sha-256
-    address: ""
-    netmask: ""
-- name: Activate and enable postgresql
-  become: true
-  systemd_service:
-    name: postgresql.service
-    enabled: true
-    state: restarted
 # -----------------------
 # Postgresql role
 - name: Create postgres role
