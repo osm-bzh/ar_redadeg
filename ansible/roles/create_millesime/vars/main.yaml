@@ -1,0 +1,4 @@
+millesime: 2026
+drop_db: false
+update_cities: false
+millesime_shp: "20230101" # Go to https://osm13.openstreetmap.fr/~cquest/openfla/export/ to check what is available
