@@ -1,0 +1,108 @@
+---
+- include_vars: vault.yaml
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: redadeg
+    group: redadeg
+  loop:
+    - "/data/{{ millesime }}"
+    - "/data/{{ millesime }}/backup"
+    - "/data/{{ millesime }}/tmp"
+# -----------------------
+# Postgresql role
+- name: Create postgres role
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    role_attr_flags: "SUPERUSER,CREATEDB,NOCREATEROLE,NOINHERIT,LOGIN,NOREPLICATION,NOBYPASSRLS"
+    state: present
+# -----------------------
+# Postgresql database and extensions
+- name: Drop database if it exists
+  community.postgresql.postgresql_db:
+    name: "{{ db_name }}"
+    state: absent
+    force: true
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
+- name: Create a database
+  community.postgresql.postgresql_db:
+    name: "{{ db_name }}"
+    owner: "{{ db_user }}"
+    encoding: UTF-8
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+- name: Add postgis extensions
+  community.postgresql.postgresql_ext:
+    name: "{{ item }}"
+    db: "{{ db_name }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  loop:
+    - postgis
+    - postgis_topology
+    - pgrouting
+- name: Set owner to public schema
+  community.postgresql.postgresql_schema:
+    db: "{{ db_name }}"
+    name: public
+    owner: "{{ db_user }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+- name: Set owner to topology table
+  community.postgresql.postgresql_table:
+    db: "{{ db_name }}"
+    name: "{{ item }}"
+    owner: "{{ db_user }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  loop:
+    - topology.layer
+    - topology.topology
+# -----------------------
+# Postgresql tables
+- name: Copy table script
+  template:
+    src: create_tables.sql.j2
+    dest: "/data/{{ millesime }}/tmp/create_tables.sql"
+  loop:
+    - create_tables.sql
+- name: Create tables with script
+  community.postgresql.postgresql_script:
+    db: "{{ db_name }}"
+    path: "/data/{{ millesime }}/tmp/create_tables.sql"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
+- name: Copy reference table script
+  copy:
+    src: update_infos_secteurs.sql
+    dest: "/data/{{ millesime }}/tmp/update_infos_secteurs.sql"
+- name: Init reference table
+  community.postgresql.postgresql_script:
+    db: "{{ db_name }}"
+    path: "/data/{{ millesime }}/tmp/update_infos_secteurs.sql"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
+  when: drop_db == true
+# -----------------------
+# Cities layer
+- name: Download cities from OSM
+  unarchive:
+    src: "http://osm13.openstreetmap.fr/~cquest/openfla/export/communes-{{ millesime_shp }}-shp.zip"
+    dest: "/data/{{ millesime }}/tmp/"
+    remote_src: yes
+    creates: "/data/{{ millesime }}/tmp/communes-{{ millesime_shp }}.shp"
+  when: update_cities == true
+- name: Load cities to database
+  shell: >
+    ogr2ogr -f "PostgreSQL" PG:"host={{ db_host }} port={{ db_port }} user={{ db_user }} password={{ db_password }} dbname={{ db_name }}"
+    /data/{{ millesime }}/tmp/communes-{{ millesime_shp }}.shp -nln osm_communes_fr_4326 -lco GEOMETRY_NAME=the_geom -explodecollections -overwrite -where "substr(insee,0,2) IN ('22','29','35','44','56')"
+  when: update_cities == true
+  
+  

@@ -1,0 +1,25 @@
+---
+- name: Create redadeg group
+  become: true
+  group:
+    name: redadeg
+    state: present
+- name: Create users
+  become: true
+  user: 
+    name: "{{ item.name }}"
+    groups: redadeg,sudo,www-data
+  with_items: "{{ users }}"
+- name: Add authorized ssh keys to users
+  become: true
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.identity_pub }}"
+  with_items: "{{ users }}"
+- name: Add users to sudoers file
+  become: true
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: ^%sudo
+    line: "%sudo ALL=(ALL) NOPASSWD:ALL"

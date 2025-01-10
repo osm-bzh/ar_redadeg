@@ -1,0 +1,9 @@
+[project]
+name = "ansible-redadeg"
+version = "0.1.0"
+description = "An Ansible project to configure reproducible VMs for the Redadeg (https://ar-redadeg.bzh)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ansible>=11.1.0",
+]

@@ -116,3 +116,10 @@ Temporary Items
 
 
 
+# Local VM
+*.raw
+*.iso
+*.qcow2
+
+# Playbook for testing
+testing.yaml

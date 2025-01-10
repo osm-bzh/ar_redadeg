@@ -1,0 +1,3 @@
+osm_drop_db: false
+osm_update_db: false
+osm_clean_dumps: false
