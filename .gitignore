@@ -66,6 +66,7 @@ scripts_v2/config.ini
 scripts_v3/installation/files/authorized_keys
 scripts_v3/installation/files/postgresql.conf~default
 scripts_v3/installation/files/postgresql_filtered.conf
+scripts_v3/rsync.sh
 
 api/venv/
 api/__pycache__/
@@ -123,3 +124,4 @@ Temporary Items
 
 # Playbook for testing
 testing.yaml
+
