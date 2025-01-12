@@ -116,4 +116,10 @@ Temporary Items
 
 
 
-scripts_v3/rsync.sh
+# Local VM
+*.raw
+*.iso
+*.qcow2
+
+# Playbook for testing
+testing.yaml
