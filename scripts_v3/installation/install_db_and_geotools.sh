@@ -37,7 +37,6 @@ echo ""
 
 su - postgres
 psql -c "CREATE ROLE redadeg WITH SUPERUSER INHERIT LOGIN PASSWORD 'betekantrech';"
-psql -c "CREATE ROLE osmbr WITH LOGIN PASSWORD 'm4d31nbr31zh';"
 
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"

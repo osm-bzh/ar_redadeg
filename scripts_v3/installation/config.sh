@@ -21,3 +21,6 @@ redadegDBName=redadeg_$millesime
 redadegDBSchema=public
 redadegDBUser=redadeg
 redadegDBPassword=betekantrech
+
+#BD OpenStreetMap
+osmDBName=osm
