@@ -29,10 +29,20 @@ cd /data/ar_redadeg/scripts_v3/installation/
 Après cette étape on a un utilisateur `redadeg` qui est sudo et un répertoire `/data/` qui appartient à l'utilisateur `redadeg`. Et les logiciels de base installés.
 
 
-## PostgreSQL + PostGIS + logiciel géo
+4. PostgreSQL + PostGIS + logiciel géo
 
 ```bash
 ./install_db_and_geotools.sh
 ```
 
+Après cette étape on a une instance PostgreSQL configurée prête à l'emploi.
 
+
+## Base de données
+
+Création d'une base de données `redadeg` pour le millésime courant.
+
+
+```bash
+./setup_db_redadeg.sh
+```
