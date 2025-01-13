@@ -46,3 +46,10 @@ Création d'une base de données `redadeg` pour le millésime courant.
 ```bash
 ./setup_db_redadeg.sh
 ```
+
+Création d'une base de données `osm` qui contient les données support : graphe de voies et toponymie.
+
+
+```bash
+./setup_osm_redadeg.sh
+```
