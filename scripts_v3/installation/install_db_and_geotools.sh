@@ -38,6 +38,16 @@ echo ""
 su - postgres
 psql -c "CREATE ROLE redadeg WITH SUPERUSER INHERIT LOGIN PASSWORD 'betekantrech';"
 
+
+echo ""
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "  Installation du pgpass'"
+echo ""
+
+cp -f pgpass /home/redadeg/.pgpass
+chmod 600 /home/redadeg/.pgpass
+
+
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Installation des paquets géo"
