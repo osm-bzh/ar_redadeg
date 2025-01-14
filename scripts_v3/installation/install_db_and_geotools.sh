@@ -45,8 +45,8 @@ echo "  Installation du pgpass'"
 echo ""
 
 cp -f pgpass /home/redadeg/.pgpass
+chown redadeg:redadeg /home/redadeg/.pgpass
 chmod 600 /home/redadeg/.pgpass
-
 
 echo ""
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
