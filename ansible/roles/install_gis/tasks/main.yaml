@@ -70,7 +70,7 @@
   copy:
     src: tomcat.service
     dest: /etc/systemd/system/tomcat.service
-- name: Reload systemd, enable and start tomcatt
+- name: Reload systemd, enable and start tomcat
   become: true
   systemd_service:
     name: tomcat.service
