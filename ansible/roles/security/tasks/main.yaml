@@ -5,6 +5,13 @@
     name: ufw
     update_cache: yes
     state: present
+- name: Disable connection to ssh with password
+  become: true
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+  notify: restart ssh service
 - name: Set allowed ports
   become: true
   community.general.ufw:
