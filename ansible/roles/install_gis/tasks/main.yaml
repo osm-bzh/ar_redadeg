@@ -1,4 +1,15 @@
 ---
+- name: Add sources to be able to install openjdk-11-jdk
+  become: true
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: "deb http://deb.debian.org/debian unstable main non-free contrib"
+    state: present
+- name: Update apt preferences
+  become: true
+  copy:
+    src: prefer-stable.pref
+    dest: /etc/apt/preferences.d/prefer-stable.pref
 - name: Install required packages
   become: true
   apt:
