@@ -124,10 +124,16 @@
   apt:
     name: postgresql-postgis, postgresql-pgrouting
     state: present
+- name: Get postgres version
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_info:
+    filter: version
+  register: postgres_info
 - name: Change postgres local authentication
   become: true
   community.postgresql.postgresql_pg_hba:
-    dest: /etc/postgresql/16/main/pg_hba.conf
+    dest: "/etc/postgresql/{{ postgres_info.version.major }}/main/pg_hba.conf"
     contype: local
     users: all
     databases: all
