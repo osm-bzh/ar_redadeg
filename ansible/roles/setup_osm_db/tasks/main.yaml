@@ -23,6 +23,7 @@
     name: "{{ osm_db_name }}"
     owner: "{{ osm_db_user }}"
     encoding: UTF-8
+    template: template0
     login_user: "{{ osm_db_user }}"
     login_password: "{{ osm_db_password }}"
 - name: Add postgis extensions

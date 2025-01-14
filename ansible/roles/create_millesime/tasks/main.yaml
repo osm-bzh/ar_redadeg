@@ -35,6 +35,7 @@
     name: "{{ db_name }}"
     owner: "{{ db_user }}"
     encoding: UTF-8
+    template: template0
     login_user: "{{ db_user }}"
     login_password: "{{ db_password }}"
 - name: Add postgis extensions
