@@ -48,7 +48,7 @@
     url: https://download.geofabrik.de/europe/france-latest.osm.pbf
     dest: "/data/dump/france-{{ exec_date }}.osm.pbf"
     force: false
-  when: osm_update_db == true
+  when: osm_download_data == true
 - name: Symlink to latest OSM France dump
   vars:
     exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
@@ -57,7 +57,7 @@
     dest: /data/dump/france-latest.osm.pbf
     state: link
     force: true
-  when: osm_update_db == true
+  when: osm_download_data == true
 - name: Copy the poly file (around Brittany) to the host
   copy:
     src: breizh.poly
@@ -68,7 +68,7 @@
   command: "osmconvert /data/dump/france-latest.osm.pbf -B=/data/dump/breizh.poly --complete-ways -v -o=/data/dump/breizh-{{ exec_date }}.osm.pbf"
   args:
     creates: "/data/dump/breizh-{{ exec_date }}.osm.pbf"
-  when: osm_update_db == true
+  when: osm_download_data == true
 - name: Symlink to latest OSM Breizh dump
   vars:
     exec_date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
@@ -77,7 +77,7 @@
     dest: /data/dump/breizh-latest.osm.pbf
     state: link
     force: true
-  when: osm_update_db == true
+  when: osm_download_data == true
 - name: Import the dump into postgres
   expect: 
     command: "osm2pgsql --host {{ osm_db_host }} --user {{ osm_db_user }} --password --database {{ osm_db_name }} --hstore --slim --cache 3000 -E 3857 -v /data/dump/breizh-latest.osm.pbf"
