@@ -12,7 +12,7 @@ if [ -z "$1" ]
 fi
 
 # lecture du fichier de configuration
-. config.sh
+. ../config.sh
 
 
 
