@@ -10,7 +10,7 @@
 - name: Install required packages
   become: true
   apt:
-    name: curl,python3-pip,pipx,sudo,unzip,git,neovim,nginx,acl
+    name: curl,python3-pip,python3-pexpect,pipx,sudo,unzip,git,neovim,nginx,acl
     state: present
 - name: Install uv
   become: true
