@@ -33,7 +33,17 @@ def setup_db_redadeg(millesime):
     )
 
     with engine.connect() as conn:
-        # 1 : suppression de la base de données
+        # 1 : fermeture des connexions la base de données
+        try:
+            close_conn_sql  = f"SELECT pg_terminate_backend(pid) FROM pg_stat_activity\n"
+            close_conn_sql += f"WHERE datname = '{db_name}' AND leader_pid IS NULL;"
+            conn.execute(text(close_conn_sql))
+            logging.info(f"Fermeture des connexions à la base")
+        except Exception as e:
+            print(f"Impossible de supprimer la base de données {db_name} : {e}")
+            sys.exit(1)
+
+        # 2 : suppression de la base de données
         try:
             delete_db_sql = f"DROP DATABASE IF EXISTS {db_name} ;"
             conn.execute(text(delete_db_sql))
@@ -42,7 +52,7 @@ def setup_db_redadeg(millesime):
             print(f"Impossible de supprimer la base de données {db_name} : {e}")
             sys.exit(1)
 
-        # 2 : création de la base de données
+        # 3 : création de la base de données
         try:
             create_db_sql = f"CREATE DATABASE {db_name} WITH OWNER = {db_user} ENCODING = 'UTF8';"
             conn.execute(text(create_db_sql))
