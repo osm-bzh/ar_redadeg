@@ -1,0 +1,6 @@
+- name: Rebuild locales database
+  become: true
+  command: "{{ item }}"
+  loop:
+    - dpkg-reconfigure locales -f nointeractive
+    - /usr/sbin/locale-gen

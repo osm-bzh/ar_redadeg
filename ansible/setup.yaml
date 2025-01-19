@@ -1,7 +1,6 @@
 - hosts: all
   roles:
     - security
-    - init
+    - setup_machine 
     - install_gis
     - setup_osm_db
-    - create_millesime

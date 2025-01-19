@@ -10,13 +10,56 @@
 - name: Install required packages
   become: true
   apt:
-    name: curl,python3-pip,python3-pexpect,pipx,sudo,unzip,git,neovim,nginx,acl
+    name:
+      - acl
+      - ca-certificates
+      - curl
+      - git
+      - htop
+      - iotop
+      - links
+      - logrotate
+      - lsb-release
+      - multitail
+      - nano
+      - neovim
+      - nginx
+      - pipx
+      - python-is-python3
+      - python3
+      - python3-apt
+      - python3-pexpect
+      - python3-pip
+      - python3-venv
+      - rsync
+      - screen
+      - sudo
+      - unzip
+      - wget
+      - zip
     state: present
 - name: Install uv
   become: true
   pip:
     name: uv
     break_system_packages: true
+- name: Locales configuration, generated locales
+  become: true
+  lineinfile:
+    dest: /etc/locale.gen
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - { regexp: "^#? fr_FR.UTF-8 UTF-8", line: "fr_FR.UTF-8 UTF-8", state: present }
+- name: Locales configuration, default locale
+  become: true
+  debconf:
+    name: locales
+    question: locales/default_environment_locale
+    value: fr_FR.UTF-8 UTF-8
+    vtype: select
+  notify: Rebuild locales database
 - name: Create project dirs to project repo
   become: true
   file:
