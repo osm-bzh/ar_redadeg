@@ -3,7 +3,6 @@ import sys
 import argparse
 import logging
 
-from setup import setup_db_redadeg
 from phase1 import run_phase1
 from phase2 import run_phase2
 
@@ -15,7 +14,6 @@ def main():
     parser = argparse.ArgumentParser(description="Gestion des phases d'un projet.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
     parser.add_argument("--phase", type=int, required=True, choices=[1, 2], help="Phase du projet.")
-    parser.add_argument("--setup", type =str, required=False, choices=['oui'], help="Initialisation d'un millésime.")
     parser.add_argument("--debug", type =str, required=False, choices=['oui'], help="si 'oui' : mode verbeux pour voir plus de messages")
 
     args = parser.parse_args()
@@ -37,6 +35,13 @@ def main():
 
     # =========================================
     # configuration du logguer
+
+    # un format commun à la console et au fichier
+    # simple : juste le message
+    logformat_simple = '%(message)s'
+    # compliqué
+    logformat_complexe = '%(asctime)s [%(levelname)-7s] %(message)s'
+
     logging.basicConfig(
         level=log_level,
         format=log_format,
@@ -56,16 +61,12 @@ def main():
     """)
 
 
-    if args.setup == 'oui':
-        logging.info(f"Création du millésime {args.millesime}.")
-        setup_db_redadeg(args.millesime)
-    else:
-        if args.phase == 1:
-            # logging.info(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
-            run_phase1(args.millesime)
-        elif args.phase == 2:
-            # logging.info(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
-            run_phase2(args.millesime)
+    if args.phase == 1:
+        # logging.info(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
+        run_phase1(args.millesime)
+    elif args.phase == 2:
+        # logging.info(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
+        run_phase2(args.millesime)
 
     logging.info("")
     logging.info("F I N")
