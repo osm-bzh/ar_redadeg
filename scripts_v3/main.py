@@ -52,6 +52,16 @@ def main():
     # test mode debug
     logging.debug("\n/!\ Le script va s'exécuter en mode verbeux\n")
 
+    # welcome message
+    logging.info("""
+    _           ____          _           _            
+   / \   _ __  |  _ \ ___  __| | __ _  __| | ___  __ _ 
+  / _ \ | '__| | |_) / _ \/ _` |/ _` |/ _` |/ _ \/ _` |
+ / ___ \| |    |  _ <  __/ (_| | (_| | (_| |  __/ (_| |
+/_/   \_\_|    |_| \_\___|\__,_|\__,_|\__,_|\___|\__, |
+                                                 |___/ 
+    """)
+
 
     if args.phase == 1:
         # logging.info(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
