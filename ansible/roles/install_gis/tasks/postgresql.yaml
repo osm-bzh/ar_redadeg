@@ -1,0 +1,28 @@
+---
+- name: Be sure that postgresql is installed
+  become: true
+  apt:
+    name: postgresql-postgis, postgresql-pgrouting, libpq5, postgresql
+    state: present
+- name: Get postgres version
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_info:
+    filter: version
+  register: postgres_info
+- name: Change postgres local authentication
+  become: true
+  community.postgresql.postgresql_pg_hba:
+    dest: "/etc/postgresql/{{ postgres_info.version.major }}/main/pg_hba.conf"
+    contype: local
+    users: all
+    databases: all
+    method: scram-sha-256
+    address: ""
+    netmask: ""
+- name: Activate and enable postgresql
+  become: true
+  systemd_service:
+    name: postgresql.service
+    enabled: true
+    state: restarted
