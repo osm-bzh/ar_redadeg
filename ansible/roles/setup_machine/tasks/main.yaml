@@ -73,11 +73,11 @@
 - name: Clone the project repo
   git:
     repo: https://github.com/osm-bzh/ar_redadeg.git
-    dest: /data/projets/ar_redadeg
+    dest: /data/ar_redadeg
 - name: Create a venv for the project and install packages
   moreati.uv.pip:
     name: setuptools,psycopg2-binary,wget
-    virtualenv: /data/projets/ar_redadeg/.venv
+    virtualenv: /data/ar_redadeg/.venv
 - name: Start and enable nginx
   become: true
   systemd_service:
