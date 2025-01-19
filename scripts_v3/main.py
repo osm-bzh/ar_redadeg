@@ -1,7 +1,5 @@
 
-import os
 import sys
-import configparser
 import argparse
 import logging
 
@@ -70,6 +68,8 @@ def main():
         # logging.info(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
         run_phase2(args.millesime)
 
+    logging.info("")
+    logging.info("F I N")
 
 if __name__ == "__main__":
     main()
