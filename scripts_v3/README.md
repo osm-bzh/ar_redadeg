@@ -24,6 +24,10 @@ python setup.py --millesime 2025                                                
                                                  |___/ 
     
 
+ATTENTION : la base de données redadeg_2025 va être supprimée !
+TOUTES les données seront supprimées !
+Voulez-vous continuer ? (oui/non) : oui
+
 Création d'une base de données pour le millésime 2025.
 Fermeture des connexions à la base
 Base de données redadeg_2025 supprimée avec succès

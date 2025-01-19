@@ -11,8 +11,6 @@ def setup_db_redadeg(millesime):
     logging.info(f"")
     start_time = time.perf_counter()
 
-    logging.info(f"Création d'une base de données pour le millésime {millesime}.")
-
     # lecture du fichier de configuration
     config = functions.get_configuration()
     # définition des variables
@@ -21,6 +19,25 @@ def setup_db_redadeg(millesime):
     db_user = config.get('database', 'user')
     db_name = f"redadeg_{millesime}"
     schema = 'redadeg'
+
+    logging.info(f"ATTENTION : la base de données {db_name} va être supprimée !")
+    logging.info(f"TOUTES les données seront supprimées !")
+
+    while True:
+        response = input("Voulez-vous continuer ? (oui/non) : ").strip().lower()
+        if response == "oui":
+            break
+        elif response == "non":
+            print("ok : fin")
+            exit(0)
+        else:
+            logging.info("Veuillez répondre par 'oui' ou 'non'.")
+
+
+    logging.info("")
+
+    # on continue
+    logging.info(f"Création d'une base de données pour le millésime {millesime}.")
 
     from sqlalchemy import create_engine, text
     from sqlalchemy.orm import Session
