@@ -35,6 +35,7 @@ Base de données redadeg_2025 créée avec succès
 Extensions créées avec succès
 Schéma redadeg créé avec succès
 Permissions appliquées avec succès
+Tables crées avec succès
 
 F I N
 Temps écoulé : 00:01

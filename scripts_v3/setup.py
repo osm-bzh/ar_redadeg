@@ -108,14 +108,23 @@ def setup_db_redadeg(millesime):
             print(f"Impossible de créer le schéma : {e}")
             sys.exit(1)
 
-        # permissions
+        # permissions spécifiques
         try:
             sql_permissions =  f"ALTER TABLE topology.layer OWNER TO {db_user};"
             sql_permissions += f"ALTER TABLE topology.topology OWNER TO {db_user};"
             conn.execute(text(sql_permissions))
-            logging.info(f"Permissions appliquées avec succès")
+            logging.info(f"Permissions spécifiques appliquées avec succès")
         except Exception as e:
-            print(f"Problèmes avec les permissions : {e}")
+            print(f"Problèmes avec les permissions spécifiques : {e}")
+            sys.exit(1)
+
+        # création des tables
+        try:
+            sql_tables = open('sql/create_tables.sql', 'r').read()
+            conn.execute(text(sql_tables))
+            logging.info(f"Tables crées avec succès")
+        except Exception as e:
+            print(f"Problèmes avec la création des tables : {e}")
             sys.exit(1)
 
     logging.info("")
