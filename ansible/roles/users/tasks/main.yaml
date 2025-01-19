@@ -10,13 +10,14 @@
     name: "{{ item.name }}"
     uid: "{{ item.uid }}"
     groups: redadeg,sudo,www-data
+    shell: /bin/bash
   loop: "{{ users }}"
 - name: Add authorized ssh keys to users
   become: true
   authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.identity_pub }}"
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 - name: Add users to sudoers file
   become: true
   lineinfile:
@@ -24,3 +25,18 @@
     state: present
     regexp: ^%sudo
     line: "%sudo ALL=(ALL) NOPASSWD:ALL"
+- name: Set bashrc file to users
+  become: true
+  copy:
+    src: bashrc_user
+    dest: "/home/{{ item.name }}/.bashrc"
+    owner: "{{ item.name }}"
+    group: redadeg
+  loop: "{{ users }}"
+- name: set bashrc file to root
+  become: true
+  copy:
+    src: bashrc_root
+    dest: /root/.bashrc
+    owner: root
+    group: root
