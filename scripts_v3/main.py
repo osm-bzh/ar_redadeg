@@ -35,13 +35,6 @@ def main():
 
     # =========================================
     # configuration du logguer
-
-    # un format commun à la console et au fichier
-    # simple : juste le message
-    logformat_simple = '%(message)s'
-    # compliqué
-    logformat_complexe = '%(asctime)s [%(levelname)-7s] %(message)s'
-
     logging.basicConfig(
         level=log_level,
         format=log_format,

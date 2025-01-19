@@ -40,7 +40,6 @@ def setup_db_redadeg(millesime):
     logging.info(f"Création d'une base de données pour le millésime {millesime}.")
 
     from sqlalchemy import create_engine, text
-    from sqlalchemy.orm import Session
 
     # Créer une connexion SQLAlchemy
     # dans la base postgres
