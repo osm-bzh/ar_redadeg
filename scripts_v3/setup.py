@@ -26,27 +26,74 @@ def setup_db_redadeg(millesime):
     from sqlalchemy.orm import Session
 
     # Créer une connexion SQLAlchemy
+    # dans la base postgres
     engine = create_engine(
         f"postgresql://{db_user}@{db_host}:{db_port}/postgres"
+        ,isolation_level="AUTOCOMMIT"
     )
 
-    # on crée une session pour commiter manuellement
-    session = Session(engine)
+    with engine.connect() as conn:
+        # 1 : suppression de la base de données
+        try:
+            delete_db_sql = f"DROP DATABASE IF EXISTS {db_name} ;"
+            conn.execute(text(delete_db_sql))
+            logging.info(f"Base de données {db_name} supprimée avec succès")
+        except Exception as e:
+            print(f"Impossible de supprimer la base de données {db_name} : {e}")
+            sys.exit(1)
 
-    # 1 : suppression de la base de données
-    try:
-        del_db_sql = f"DROP DATABASE IF EXISTS redadeg_{millesime} ;"
-        session.execute(text(del_db_sql))
-        session.commit()
-        logging.info(f"Base de données redadeg_{millesime} supprimée avec succès")
+        # 2 : création de la base de données
+        try:
+            create_db_sql = f"CREATE DATABASE {db_name} WITH OWNER = {db_user} ENCODING = 'UTF8';"
+            conn.execute(text(create_db_sql))
+            logging.info(f"Base de données {db_name} créée avec succès")
+        except Exception as e:
+            print(f"Impossible de créer la base de données {db_name} : {e}")
+            sys.exit(1)
 
-    except Exception as e:
-        print(f"Impossible de supprimer la base de données redadeg_{millesime} : {e}")
+    del engine
 
-    # nettoyage
-    session.close()
+    #
 
-    time.sleep(1)
+    # on passe maintenant dans la base qui vient d'être créée
+    engine = create_engine(
+        f"postgresql://{db_user}@{db_host}:{db_port}/{db_name}"
+        , isolation_level="AUTOCOMMIT"
+    )
+
+    with engine.connect() as conn:
+        # extensions
+        try:
+            sql_extensions =  f"CREATE EXTENSION postgis;"
+            sql_extensions += f"CREATE EXTENSION postgis_topology;"
+            sql_extensions += f"CREATE EXTENSION pgrouting;"
+            conn.execute(text(sql_extensions))
+            logging.info(f"Extensions créées avec succès")
+        except Exception as e:
+            print(f"Impossible de créer les extensions : {e}")
+            sys.exit(1)
+
+        # schéma
+        try:
+            sql_schema= f"CREATE SCHEMA {schema} AUTHORIZATION {db_user};"
+            conn.execute(text(sql_schema))
+            logging.info(f"Schéma {schema} créé avec succès")
+        except Exception as e:
+            print(f"Impossible de créer le schéma : {e}")
+            sys.exit(1)
+
+        # permissions
+        try:
+            sql_permissions =  f"ALTER TABLE topology.layer OWNER TO {db_user};"
+            sql_permissions += f"ALTER TABLE topology.topology OWNER TO {db_user};"
+            conn.execute(text(sql_permissions))
+            logging.info(f"Permissions appliquées avec succès")
+        except Exception as e:
+            print(f"Problèmes avec les permissions : {e}")
+            sys.exit(1)
+
+    logging.info("")
+    logging.info("F I N")
 
     # chrono final
     chrono = functions.get_chrono(start_time, time.perf_counter())
