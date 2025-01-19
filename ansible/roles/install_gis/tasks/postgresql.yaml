@@ -1,4 +1,5 @@
 ---
+- include_vars: vault.yaml
 - name: Be sure that postgresql is installed
   become: true
   apt:
@@ -26,3 +27,11 @@
     name: postgresql.service
     enabled: true
     state: restarted
+- name: Create a role
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    role_attr_flags: "{{ db_role_flags }}"
+    state: present
