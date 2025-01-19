@@ -56,7 +56,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(close_conn_sql))
             logging.info(f"Fermeture des connexions à la base")
         except Exception as e:
-            logging.info(f"Impossible de supprimer la base de données {db_name} : {e}")
+            logging.error(f"Impossible de supprimer la base de données {db_name} : {e}")
             sys.exit(1)
 
         # 2 : suppression de la base de données
@@ -65,7 +65,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(delete_db_sql))
             logging.info(f"Base de données {db_name} supprimée avec succès")
         except Exception as e:
-            logging.info(f"Impossible de supprimer la base de données {db_name} : {e}")
+            logging.error(f"Impossible de supprimer la base de données {db_name} : {e}")
             sys.exit(1)
 
         # 3 : création de la base de données
@@ -74,7 +74,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(create_db_sql))
             logging.info(f"Base de données {db_name} créée avec succès")
         except Exception as e:
-            logging.info(f"Impossible de créer la base de données {db_name} : {e}")
+            logging.error(f"Impossible de créer la base de données {db_name} : {e}")
             sys.exit(1)
 
     del engine
@@ -96,7 +96,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(sql_extensions))
             logging.info(f"Extensions créées avec succès")
         except Exception as e:
-            logging.info(f"Impossible de créer les extensions : {e}")
+            logging.error(f"Impossible de créer les extensions : {e}")
             sys.exit(1)
 
         # schéma
@@ -105,7 +105,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(sql_schema))
             logging.info(f"Schéma {schema} créé avec succès")
         except Exception as e:
-            logging.info(f"Impossible de créer le schéma : {e}")
+            logging.error(f"Impossible de créer le schéma : {e}")
             sys.exit(1)
 
         # permissions spécifiques
@@ -115,7 +115,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(sql_permissions))
             logging.info(f"Permissions spécifiques appliquées avec succès")
         except Exception as e:
-            logging.info(f"Problèmes avec les permissions spécifiques : {e}")
+            logging.error(f"Problèmes avec les permissions spécifiques : {e}")
             sys.exit(1)
 
         # création des tables
@@ -124,7 +124,7 @@ def setup_db_redadeg(millesime):
             conn.execute(text(sql_tables))
             logging.info(f"Tables crées avec succès")
         except Exception as e:
-            logging.info(f"Problèmes avec la création des tables : {e}")
+            logging.error(f"Problèmes avec la création des tables : {e}")
             sys.exit(1)
 
     logging.info("")
