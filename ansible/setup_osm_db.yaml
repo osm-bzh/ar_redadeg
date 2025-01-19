@@ -1,0 +1,3 @@
+- hosts: current_redadeg
+  roles:
+    - setup_osm_db

@@ -1,5 +1,6 @@
-- hosts: all
+- hosts: current_redadeg
   roles:
+    - users
     - security
     - setup_machine 
     - install_gis
