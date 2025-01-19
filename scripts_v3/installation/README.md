@@ -38,17 +38,9 @@ Après cette étape on a un utilisateur `redadeg` qui est sudo et un répertoire
 Après cette étape on a une instance PostgreSQL configurée prête à l'emploi.
 
 
-## Base de données
-
-Création d'une base de données `redadeg` pour le millésime courant.
-
-
-```bash
-./setup_db_redadeg.sh
-```
+## Base de données OpenStreetMap
 
 Création d'une base de données `osm` qui contient les données support : graphe de voies et toponymie.
-
 
 ```bash
 ./setup_osm_redadeg.sh
