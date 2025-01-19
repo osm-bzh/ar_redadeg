@@ -1,0 +1,21 @@
+---
+- name: Start and enable nginx
+  become: true
+  systemd_service:
+    name: nginx
+    state: started
+    enabled: true
+- name: Copy nginx config
+  become: true
+  copy:
+    src: redadeg.conf
+    dest: /etc/nginx/sites-available/redadeg.conf
+- name: Enable redadeg config in nginx
+  become: true
+  file:
+    src: /etc/nginx/sites-available/redadeg.conf
+    dest: /etc/nginx/sites-enabled/redadeg.conf
+    state: link
+- name: Reload nginx
+  become: true
+  shell: nginx -t && nginx -s reload
