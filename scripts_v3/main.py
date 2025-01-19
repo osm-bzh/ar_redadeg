@@ -1,4 +1,9 @@
+
+import os
+import sys
+import configparser
 import argparse
+import logging
 
 from phase1 import run_phase1
 from phase2 import run_phase2
@@ -7,17 +12,52 @@ from phase2 import run_phase2
 # ==================================================================================================
 
 def main():
+
     parser = argparse.ArgumentParser(description="Gestion des phases d'un projet.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
-    parser.add_argument("--phase", type=int, required=True, choices=[1, 2], help="Phase du projet (1 ou 2).")
+    parser.add_argument("--phase", type=int, required=True, choices=[1, 2], help="Phase du projet.")
+    parser.add_argument("--debug", type =str, required=False, choices=['oui'], help="si 'oui' : mode verbeux pour voir plus de messages")
 
     args = parser.parse_args()
 
+    # par défaut
+    log_level = logging.INFO
+    log_format = '%(message)s'
+
+    # on regarde les arguments passés
+
+    if '--help' in sys.argv:
+        parser.print_help()
+        sys.exit(0)
+    if '--debug' in sys.argv:
+        log_level = logging.DEBUG
+        # log_format = '%(asctime)s [%(levelname)-7s] %(message)s'
+        # log_format = '%(levelname)s: %(message)s'
+        log_format = '%(message)s'
+
+    # =========================================
+    # configuration du logguer
+
+    # un format commun à la console et au fichier
+    # simple : juste le message
+    logformat_simple = '%(message)s'
+    # compliqué
+    logformat_complexe = '%(asctime)s [%(levelname)-7s] %(message)s'
+
+    logging.basicConfig(
+        level=log_level,
+        format=log_format,
+    )
+
+    # test mode debug
+    logging.debug("\n/!\ Le script va s'exécuter en mode verbeux\n")
+
+
     if args.phase == 1:
-        print(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
+        # logging.info(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
         run_phase1(args.millesime)
     elif args.phase == 2:
-        print(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
+        # logging.info(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
         run_phase2(args.millesime)
 
 
