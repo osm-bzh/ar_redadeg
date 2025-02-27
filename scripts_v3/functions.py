@@ -1,7 +1,7 @@
 import configparser
 import logging
 import requests
-
+from shapely.geometry import LineString
 
 # ==============================================================================
 
@@ -54,9 +54,22 @@ def save_url_content_to_file(url, file_path):
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(response.text)
 
-        print(f"Contenu de l'URL sauvegardé dans {file_path}")
+        logging.debug(f"Contenu de l'URL sauvegardé dans {file_path}")
 
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la récupération du contenu de l'URL : {e}")
 
+
 # ==============================================================================
+
+def to_2d(geom):
+    # Fonction pour convertir une LineString Z en LineString 2D
+
+    if geom.is_empty:
+        return geom
+    if geom.has_z:
+        return LineString([xy[:2] for xy in geom.coords])
+    return geom
+
+# ==============================================================================
+
