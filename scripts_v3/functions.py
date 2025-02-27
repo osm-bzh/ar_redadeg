@@ -1,6 +1,6 @@
-
 import configparser
 import logging
+import requests
 
 
 # ==============================================================================
@@ -38,5 +38,25 @@ def get_configuration():
     logging.debug("fait")
 
     return config
+
+
+# ==============================================================================
+
+def save_url_content_to_file(url, file_path):
+    try:
+        # Effectuer une requête GET pour obtenir le contenu de l'URL
+        response = requests.get(url)
+
+        # Vérifier si la requête a réussi
+        response.raise_for_status()
+
+        # Écrire le contenu dans un fichier texte
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(response.text)
+
+        print(f"Contenu de l'URL sauvegardé dans {file_path}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur lors de la récupération du contenu de l'URL : {e}")
 
 # ==============================================================================
