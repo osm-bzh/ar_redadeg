@@ -19,7 +19,7 @@ def get_umap_data(conn):
         sql_get_umap_layers = "SELECT * FROM umap_layers WHERE phase = 1 ORDER BY secteur ;"
         result = conn.execute(text(sql_get_umap_layers))
     except Exception as e:
-        logging.error(f"impossible de requêter la table umap : {e}")
+        logging.error(f"impossible de requêter la table umap_layers : {e}")
         sys.exit(1)
 
     # Initialiser un GeoDataFrame vide
@@ -67,8 +67,30 @@ def get_umap_data(conn):
     # Création du dataframe final
     final_gdf = work_gdf[['id','secteur_id','longueur','geometry']]
 
+    # Renommer la colonne 'geometry' en 'geom'
+    final_gdf = final_gdf.rename(columns={'geometry': 'geom'})
+    final_gdf = final_gdf.set_geometry('geom')
+    # final_gdf.set_crs(epsg=2154, inplace=True)
+
+    # Afficher le résultat
+    print(final_gdf)
+
+
     # Sauvegarder le GeoDataFrame combiné dans un fichier
     final_gdf.to_file("tmp_files/phase_1_umap_layers.geojson", driver="GeoJSON")
+
+
+    # On vide la table cible
+    try:
+        sql_truncate = "TRUNCATE TABLE phase_1_trace_umap ;"
+        conn.execute(text(sql_truncate))
+    except Exception as e:
+        logging.error(f"impossible de vider la table phase_1_trace_umap : {e}")
+        sys.exit(1)
+
+    # On la remplit
+    final_gdf.to_postgis('phase_1_trace_umap',conn, schema='redadeg', if_exists='append')
+
 
     # purger
     del combined_gdf
