@@ -14,7 +14,8 @@ def main():
     parser = argparse.ArgumentParser(description="Gestion des phases d'un projet.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
     parser.add_argument("--phase", type=int, required=True, choices=[1, 2], help="Phase du projet.")
-    parser.add_argument("--debug", type =str, required=False, choices=['oui'], help="si 'oui' : mode verbeux pour voir plus de messages")
+    parser.add_argument("--debug", action='store_true', help="si 'oui' : mode verbeux pour voir plus de messages")
+
 
     args = parser.parse_args()
 
