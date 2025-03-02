@@ -23,6 +23,8 @@ def main():
     # par défaut
     log_level = logging.INFO
     log_format = '%(message)s'
+    # pour request
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
 
     # on regarde les arguments passés
 
@@ -35,6 +37,8 @@ def main():
         # log_format = '%(asctime)s [%(levelname)-7s] %(message)s'
         # log_format = '%(levelname)s: %(message)s'
         log_format = '%(message)s'
+        # pour request
+        logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
     # =========================================
     # configuration du logguer
