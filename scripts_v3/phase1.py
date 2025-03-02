@@ -102,6 +102,36 @@ def get_umap_data(secteur, conn):
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+def transfert_trace_to_osm_db(secteur, conn, osm_conn):
+
+    logging.info(f"Transfert du tracé du {secteur} vers la base de données OSM")
+    start_time = time.perf_counter()
+
+    # on charge le tracé dans un geodataframe
+    try:
+        sql_get_secteur = f"SELECT id, secteur_id, geom FROM phase_1_trace_umap WHERE secteur_id = {secteur};"
+        gdf = gpd.read_postgis(sql_get_secteur, conn, geom_col='geom')
+    except Exception as e:
+        logging.error(f"impossible de charger le secteur : {e}")
+        sys.exit(1)
+
+    # puis on l'écrit dans une table dans la base OSM
+    try:
+        gdf.to_postgis(f'phase_1_trace_{shared_data.SharedData.millesime}', osm_conn, if_exists='replace')
+    except Exception as e:
+        logging.error(f"impossible de remplacer la table phase_1_trace_{shared_data.SharedData.millesime} dans la BD OSM: {e}")
+        sys.exit(1)
+
+    # nettoyage
+    del gdf
+
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
+    logging.info("")
+
+    pass
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 def run_phase1():
     logging.info(f"")
@@ -153,7 +183,8 @@ def run_phase1():
 
     #
 
-    get_umap_data(shared_data.SharedData.secteur, conn)
+    # get_umap_data(shared_data.SharedData.secteur, conn)
+    transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn, osm_conn)
 
     # fermeture des connexions aux bases de données
     conn.close()
