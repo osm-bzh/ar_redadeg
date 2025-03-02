@@ -7,12 +7,11 @@ import geopandas as gpd
 import pandas as pd
 
 import functions
-
+import shared_data
 
 
 def get_umap_data(conn):
 
-    logging.info("")
     logging.info("Récupération des données depuis umap")
 
     try:
@@ -68,21 +67,20 @@ def get_umap_data(conn):
     final_gdf = work_gdf[['id','secteur_id','longueur','geometry']]
 
     # Renommer la colonne 'geometry' en 'geom'
-    final_gdf = final_gdf.rename(columns={'geometry': 'geom'})
-    final_gdf = final_gdf.set_geometry('geom')
-    # final_gdf.set_crs(epsg=2154, inplace=True)
+    final_gdf = final_gdf.rename_geometry('geom')
 
-    # Afficher le résultat
-    print(final_gdf)
+    # Forçage du système de coordonnées
+    final_gdf.set_crs(epsg=2154, inplace=True)
 
 
-    # Sauvegarder le GeoDataFrame combiné dans un fichier
-    final_gdf.to_file("tmp_files/phase_1_umap_layers.geojson", driver="GeoJSON")
-
+    # Sauvegarder le GeoDataFrame combiné dans un fichier si mode debug
+    if shared_data.SharedData.debug_mode:
+        logging.debug("sauvegarde des données umap dans tmp_files/phase_1_umap_layers.geojson")
+        final_gdf.to_file("tmp_files/phase_1_umap_layers.geojson", driver="GeoJSON")
 
     # On vide la table cible
     try:
-        sql_truncate = "TRUNCATE TABLE phase_1_trace_umap ;"
+        sql_truncate = "TRUNCATE TABLE phase_1_trace_umap RESTART IDENTITY CASCADE ;"
         conn.execute(text(sql_truncate))
     except Exception as e:
         logging.error(f"impossible de vider la table phase_1_trace_umap : {e}")
@@ -91,13 +89,14 @@ def get_umap_data(conn):
     # On la remplit
     final_gdf.to_postgis('phase_1_trace_umap',conn, schema='redadeg', if_exists='append')
 
+    logging.info(f"nb d'objets insérés dans phase_1_trace_umap : {final_gdf.shape[0]}")
+    logging.info("")
 
     # purger
     del combined_gdf
     del exploded_gdf
     del work_gdf
-
-    logging.info("fait")
+    del final_gdf
 
     pass
 
@@ -126,7 +125,7 @@ def run_phase1(millesime):
         , isolation_level="AUTOCOMMIT"
     )
     conn = engine.connect()
-    logging.debug(f"connexion à la base de données {db_name} : ok")
+    logging.debug(f"connexion à la base de données {db_name} : ok\n")
 
     get_umap_data(conn)
 

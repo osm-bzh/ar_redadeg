@@ -35,7 +35,7 @@ def get_configuration():
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8')
 
-    logging.debug("fait")
+    logging.debug("fait\n")
 
     return config
 
@@ -54,7 +54,7 @@ def save_url_content_to_file(url, file_path):
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(response.text)
 
-        logging.debug(f"Contenu de l'URL sauvegardé dans {file_path}")
+        logging.debug(f"Contenu de l'URL sauvegardé dans {file_path}\n")
 
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la récupération du contenu de l'URL : {e}")

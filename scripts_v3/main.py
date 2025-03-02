@@ -5,6 +5,7 @@ import logging
 
 from phase1 import run_phase1
 from phase2 import run_phase2
+from shared_data import SharedData
 
 
 # ==================================================================================================
@@ -29,6 +30,7 @@ def main():
         parser.print_help()
         sys.exit(0)
     if '--debug' in sys.argv:
+        SharedData.debug_mode = True
         log_level = logging.DEBUG
         # log_format = '%(asctime)s [%(levelname)-7s] %(message)s'
         # log_format = '%(levelname)s: %(message)s'
@@ -42,7 +44,7 @@ def main():
     )
 
     # test mode debug
-    logging.debug("\n/!\ Le script va s'exécuter en mode verbeux\n")
+    logging.debug("\n/!\ Le script va s'exécuter en mode verbeux")
 
     # welcome message
     logging.info("""
