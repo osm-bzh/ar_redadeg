@@ -13,6 +13,7 @@ import shared_data
 def get_umap_data(secteur, conn):
 
     logging.info(f"Récupération des données du secteur {secteur} depuis umap")
+    start_time = time.perf_counter()
 
     try:
         sql_get_umap_layers = f"SELECT * FROM umap_layers WHERE phase = 1 AND secteur = {secteur} ;"
@@ -88,6 +89,7 @@ def get_umap_data(secteur, conn):
     final_gdf.to_postgis('phase_1_trace_umap',conn, schema='redadeg', if_exists='append')
 
     logging.info(f"nb d'objets insérés dans phase_1_trace_umap : {final_gdf.shape[0]}")
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
     logging.info("")
 
     # purger
@@ -125,9 +127,11 @@ def run_phase1():
     conn = engine.connect()
     logging.debug(f"connexion à la base de données {db_name} : ok\n")
 
-    get_umap_data(shared_data.SharedData.secteur, conn)
+    # get_umap_data(shared_data.SharedData.secteur, conn)
+    transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn)
 
     conn.close()
+    logging.debug(f"déconnexion de la base de données {db_name} : ok\n")
 
     # chrono final
     final_chrono = functions.get_chrono(start_time, time.perf_counter())
