@@ -132,6 +132,96 @@ def transfert_trace_to_osm_db(secteur, conn, osm_conn):
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+def compute_osm_roads(osm_conn):
+
+    logging.info(f"Création de la couche des tronçons de routes OSM")
+    start_time = time.perf_counter()
+
+    # on crée une table qui va accueillir le résultat de la sélection
+    try:
+        sql_create_table = f"""
+DROP TABLE IF EXISTS osm_roads_{shared_data.SharedData.millesime} ;
+CREATE TABLE osm_roads_{shared_data.SharedData.millesime}
+(
+  secteur_id integer NOT NULL,
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  geom geometry
+);
+-- commentaires
+COMMENT ON TABLE osm_roads_{shared_data.SharedData.millesime} IS 'Cette table contient les tronçons sélectionnés à partir des routes OSM.';
+-- contraintes
+ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT osm_roads_{shared_data.SharedData.millesime}_pkey PRIMARY KEY (osm_id);
+ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
+ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
+ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(geom) = 'LINESTRING'::text OR geometrytype(geom) = 'MULTILINESTRING'::text);
+"""
+
+        osm_conn.execute(text(sql_create_table))
+        logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} créée avec succès.")
+
+    except Exception as e:
+        logging.error(f"impossible de créer la table osm_roads_{shared_data.SharedData.millesime} : {e}")
+        sys.exit(1)
+
+    #
+
+    try:
+        sql_extract = f"""
+WITH trace_buffer AS (
+  SELECT
+    secteur_id,
+    ST_Union(ST_Buffer(geom, 25, 'quad_segs=2')) AS the_geom
+  FROM phase_1_trace_{shared_data.SharedData.millesime}
+  WHERE secteur_id = {shared_data.SharedData.secteur}
+  GROUP BY secteur_id
+  ORDER BY secteur_id
+)
+INSERT INTO osm_roads_{shared_data.SharedData.millesime}
+(
+  SELECT
+    t.secteur_id,
+    osm_id,
+    highway,
+    CASE 
+        WHEN highway IN ('motorway', 'trunk') THEN 'motorway' 
+        WHEN highway IN ('primary', 'secondary') THEN 'mainroad' 
+        WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad' 
+        WHEN highway IN ('service', 'track') THEN 'service' 
+        WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto' 
+        ELSE 'other' 
+    END AS type,
+    oneway,
+    ref,
+    name AS name_fr,
+    COALESCE(tags -> 'name:br'::text) as name_br,
+    ST_Intersection(ST_Transform(o.way,2154), t.the_geom) AS the_geom
+  FROM planet_osm_line o, trace_buffer t
+  WHERE highway IS NOT NULL AND ST_INTERSECTS(t.the_geom, ST_Transform(o.way,2154))
+) ;
+"""
+        osm_conn.execute(text(sql_extract))
+        logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} remplie avec succès.")
+
+    except Exception as e:
+        logging.error(f" : {e}")
+        sys.exit(1)
+
+
+    #
+
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
+    logging.info("")
+
+    pass
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 def run_phase1():
     logging.info(f"")
@@ -174,7 +264,7 @@ def run_phase1():
     )
     try:
         osm_conn = osm_engine.connect()
-        logging.debug(f"connexion à la base de données {db_name} : ok")
+        logging.debug(f"connexion à la base de données {osm_db_name} : ok")
     except Exception as e:
         logging.error(f"impossible de se connecter à la base de données {osm_db_name} : {e}")
         sys.exit(1)
@@ -183,8 +273,9 @@ def run_phase1():
 
     #
 
-    # get_umap_data(shared_data.SharedData.secteur, conn)
+    get_umap_data(shared_data.SharedData.secteur, conn)
     transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn, osm_conn)
+    compute_osm_roads(osm_conn)
 
     # fermeture des connexions aux bases de données
     conn.close()
