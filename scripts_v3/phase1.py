@@ -124,14 +124,43 @@ def run_phase1():
         f"postgresql://{db_user}@{db_host}:{db_port}/{db_name}"
         , isolation_level="AUTOCOMMIT"
     )
-    conn = engine.connect()
-    logging.debug(f"connexion à la base de données {db_name} : ok\n")
+    try:
+        conn = engine.connect()
+        logging.debug(f"connexion à la base de données {db_name} : ok")
+    except Exception as e:
+        logging.error(f"impossible de se connecter à la base de données {db_name} : {e}")
+        sys.exit(1)
 
-    # get_umap_data(shared_data.SharedData.secteur, conn)
-    transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn)
 
+    # idem pour la connexion vers la base OSM
+    osm_db_host = config.get('database_osm', 'host')
+    osm_db_port = config.get('database_osm', 'port')
+    osm_db_user = config.get('database_osm', 'user')
+    osm_db_name = config.get('database_osm', 'database')
+
+    osm_engine = create_engine(
+        f"postgresql://{osm_db_user}@{osm_db_host}:{osm_db_port}/{osm_db_name}"
+        , isolation_level="AUTOCOMMIT"
+    )
+    try:
+        osm_conn = osm_engine.connect()
+        logging.debug(f"connexion à la base de données {db_name} : ok")
+    except Exception as e:
+        logging.error(f"impossible de se connecter à la base de données {osm_db_name} : {e}")
+        sys.exit(1)
+
+    logging.debug(f"")
+
+    #
+
+    get_umap_data(shared_data.SharedData.secteur, conn)
+
+    # fermeture des connexions aux bases de données
     conn.close()
-    logging.debug(f"déconnexion de la base de données {db_name} : ok\n")
+    logging.debug(f"déconnexion de la base de données {db_name} : ok")
+    osm_conn.close()
+    logging.debug(f"déconnexion de la base de données {osm_db_name} : ok")
+    logging.debug(f"")
 
     # chrono final
     final_chrono = functions.get_chrono(start_time, time.perf_counter())
