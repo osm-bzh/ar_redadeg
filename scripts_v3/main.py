@@ -3,6 +3,7 @@ import sys
 import argparse
 import logging
 
+import shared_data
 from phase1 import run_phase1
 from phase2 import run_phase2
 from shared_data import SharedData
@@ -15,6 +16,7 @@ def main():
     parser = argparse.ArgumentParser(description="Gestion des phases d'un projet.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
     parser.add_argument("--phase", type=int, required=True, choices=[1, 2], help="Phase du projet.")
+    parser.add_argument("--secteur", type=int, required=True, help="Secteur à traiter.")
     parser.add_argument("--debug", action='store_true', help="si 'oui' : mode verbeux pour voir plus de messages")
 
 
@@ -47,6 +49,10 @@ def main():
         format=log_format,
     )
 
+    # on enregistre le millésime et le secteur dans une variable globale
+    shared_data.SharedData.millesime = args.millesime
+    shared_data.SharedData.secteur = args.secteur
+
     # test mode debug
     logging.debug("\n/!\ Le script va s'exécuter en mode verbeux")
 
@@ -62,11 +68,9 @@ def main():
 
 
     if args.phase == 1:
-        # logging.info(f"Exécution de la phase 1 pour le millésime {args.millesime}.")
-        run_phase1(args.millesime)
+        run_phase1()
     elif args.phase == 2:
-        # logging.info(f"Exécution de la phase 2 pour le millésime {args.millesime}.")
-        run_phase2(args.millesime)
+        run_phase2()
 
     logging.info("")
     logging.info("F I N")

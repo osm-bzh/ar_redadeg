@@ -10,12 +10,12 @@ import functions
 import shared_data
 
 
-def get_umap_data(conn):
+def get_umap_data(secteur, conn):
 
-    logging.info("Récupération des données depuis umap")
+    logging.info(f"Récupération des données du secteur {secteur} depuis umap")
 
     try:
-        sql_get_umap_layers = "SELECT * FROM umap_layers WHERE phase = 1 ORDER BY secteur ;"
+        sql_get_umap_layers = f"SELECT * FROM umap_layers WHERE phase = 1 AND secteur = {secteur} ;"
         result = conn.execute(text(sql_get_umap_layers))
     except Exception as e:
         logging.error(f"impossible de requêter la table umap_layers : {e}")
@@ -55,16 +55,13 @@ def get_umap_data(conn):
     # WGS84 -> Lambert93
     work_gdf = work_gdf.to_crs(epsg=2154)
 
-    # Ajouter une colonne 'id' avec des valeurs incrémentales
-    work_gdf['id'] = range(1, len(work_gdf) + 1)
-
     # Ajouter une colonne 'longueur' avec la longueur de chaque LineString
     work_gdf['longueur'] = work_gdf.geometry.length
     # Arrondir les valeurs de la colonne 'longueur' pour qu'elles soient des entiers
     work_gdf['longueur'] = work_gdf['longueur'].round(0).astype(int)
 
     # Création du dataframe final
-    final_gdf = work_gdf[['id','secteur_id','longueur','geometry']]
+    final_gdf = work_gdf[['secteur_id','longueur','geometry']]
 
     # Renommer la colonne 'geometry' en 'geom'
     final_gdf = final_gdf.rename_geometry('geom')
@@ -75,15 +72,16 @@ def get_umap_data(conn):
 
     # Sauvegarder le GeoDataFrame combiné dans un fichier si mode debug
     if shared_data.SharedData.debug_mode:
-        logging.debug("sauvegarde des données umap dans tmp_files/phase_1_umap_layers.geojson")
-        final_gdf.to_file("tmp_files/phase_1_umap_layers.geojson", driver="GeoJSON")
+        tmp_file = f"tmp_files/phase_1_umap_secteur_{secteur}.geojson"
+        logging.debug(f"sauvegarde des données umap dans {tmp_file}")
+        final_gdf.to_file(tmp_file, driver="GeoJSON")
 
     # On vide la table cible
     try:
-        sql_truncate = "TRUNCATE TABLE phase_1_trace_umap RESTART IDENTITY CASCADE ;"
-        conn.execute(text(sql_truncate))
+        sql_delete = f"DELETE FROM phase_1_trace_umap WHERE secteur_id = {secteur} ;"
+        conn.execute(text(sql_delete))
     except Exception as e:
-        logging.error(f"impossible de vider la table phase_1_trace_umap : {e}")
+        logging.error(f"impossible de supprimer le secteur {secteur} de la table phase_1_trace_umap : {e}")
         sys.exit(1)
 
     # On la remplit
@@ -100,10 +98,10 @@ def get_umap_data(conn):
 
     pass
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-
-def run_phase1(millesime):
+def run_phase1():
     logging.info(f"")
     start_time = time.perf_counter()
 
@@ -116,7 +114,7 @@ def run_phase1(millesime):
     db_host = config.get('database', 'host')
     db_port = config.get('database', 'port')
     db_user = config.get('database', 'user')
-    db_name = f"redadeg_{millesime}"
+    db_name = f"redadeg_{shared_data.SharedData.millesime}"
     schema = 'redadeg'
 
     # création d'une connexion qui sera partagée
@@ -127,7 +125,7 @@ def run_phase1(millesime):
     conn = engine.connect()
     logging.debug(f"connexion à la base de données {db_name} : ok\n")
 
-    get_umap_data(conn)
+    get_umap_data(shared_data.SharedData.secteur, conn)
 
     conn.close()
 

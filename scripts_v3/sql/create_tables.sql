@@ -52,7 +52,7 @@ ALTER TABLE umap_layers OWNER to redadeg;
 DROP TABLE IF EXISTS phase_1_trace_umap CASCADE ;
 CREATE TABLE phase_1_trace_umap
 (
-   id integer,
+   id serial
   ,secteur_id integer
   ,longueur integer
   ,geom geometry
