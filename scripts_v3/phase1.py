@@ -79,17 +79,17 @@ def get_umap_data(secteur, conn):
 
     # On vide la table cible
     try:
-        sql_delete = f"DELETE FROM phase_1_trace_umap WHERE secteur_id = {secteur} ;"
+        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur} ;"
         conn.execute(text(sql_delete))
     except Exception as e:
-        logging.error(f"impossible de supprimer le secteur {secteur} de la table phase_1_trace_umap : {e}")
+        logging.error(f"impossible de supprimer le secteur {secteur} de la table phase_1_trace_umap :\n{e}")
         sys.exit(1)
 
     # On la remplit
     final_gdf.to_postgis('phase_1_trace_umap',conn, schema='redadeg', if_exists='append')
 
     logging.info(f"nb d'objets insérés dans phase_1_trace_umap : {final_gdf.shape[0]}")
-    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
     logging.info("")
 
     # purger
@@ -104,28 +104,28 @@ def get_umap_data(secteur, conn):
 
 def transfert_trace_to_osm_db(secteur, conn, osm_conn):
 
-    logging.info(f"Transfert du tracé du {secteur} vers la base de données OSM")
+    logging.info(f"Transfert du tracé du secteur vers la base de données OSM")
     start_time = time.perf_counter()
 
     # on charge le tracé dans un geodataframe
     try:
-        sql_get_secteur = f"SELECT id, secteur_id, geom FROM phase_1_trace_umap WHERE secteur_id = {secteur};"
+        sql_get_secteur = f"SELECT id, secteur_id, geom FROM {shared_data.SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur};"
         gdf = gpd.read_postgis(sql_get_secteur, conn, geom_col='geom')
     except Exception as e:
-        logging.error(f"impossible de charger le secteur : {e}")
+        logging.error(f"impossible de charger le secteur :\n{e}")
         sys.exit(1)
 
     # puis on l'écrit dans une table dans la base OSM
     try:
         gdf.to_postgis(f'phase_1_trace_{shared_data.SharedData.millesime}', osm_conn, if_exists='replace')
     except Exception as e:
-        logging.error(f"impossible de remplacer la table phase_1_trace_{shared_data.SharedData.millesime} dans la BD OSM: {e}")
+        logging.error(f"impossible de remplacer la table phase_1_trace_{shared_data.SharedData.millesime} dans la BD OSM:\n{e}")
         sys.exit(1)
 
     # nettoyage
     del gdf
 
-    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
     logging.info("")
 
     pass
@@ -166,7 +166,7 @@ ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_
         logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} créée avec succès.")
 
     except Exception as e:
-        logging.error(f"impossible de créer la table osm_roads_{shared_data.SharedData.millesime} : {e}")
+        logging.error(f"impossible de créer la table osm_roads_{shared_data.SharedData.millesime} :\n{e}")
         sys.exit(1)
 
     #
@@ -209,13 +209,56 @@ INSERT INTO osm_roads_{shared_data.SharedData.millesime}
         logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} remplie avec succès.")
 
     except Exception as e:
-        logging.error(f" : {e}")
+        logging.error(f"Impossible de remplir osm_roads_{shared_data.SharedData.millesime} :\n{e}")
         sys.exit(1)
 
 
     #
 
-    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}\n")
+    logging.info(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
+    logging.info("")
+
+    pass
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+def transfert_osm_roads_to_db(osm_conn, conn):
+
+    logging.info(f"Transfert de la couche osm_roads vers la base de données redadeg_{shared_data.SharedData.millesime}")
+    start_time = time.perf_counter()
+
+    # on charge les routes depuis la base OSM dans un geodataframe
+    try:
+        sql_get_roads = f"""
+SELECT secteur_id, osm_id, highway, \"type\", oneway, \"ref\", name_fr, name_br, geom
+FROM osm_roads_{shared_data.SharedData.millesime}
+WHERE secteur_id = {shared_data.SharedData.secteur};"""
+        gdf = gpd.read_postgis(sql_get_roads, osm_conn, geom_col='geom')
+    except Exception as e:
+        logging.error(f"impossible de charger osm_roads_{shared_data.SharedData.millesime} :\n{e}")
+        sys.exit(1)
+
+    # on supprime les tronçons du secteur traité
+    try:
+        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.phase_1_trace_troncons WHERE secteur_id = {shared_data.SharedData.secteur} ;"
+        conn.execute(text(sql_delete))
+    except Exception as e:
+        logging.error(f"impossible de supprimer des données du secteur {shared_data.SharedData.secteur} "
+                      f"dans la table {shared_data.SharedData.db_schema}.phase_1_trace_troncons :\n{e}")
+        sys.exit(1)
+
+    # puis on remplace
+    try:
+        gdf.to_postgis(f'{shared_data.SharedData.db_schema}.phase_1_trace_troncons', conn, if_exists='append')
+    except Exception as e:
+        logging.error(f"impossible de remplir la table {shared_data.SharedData.db_schema}.phase_1_trace_troncons :\n{e}")
+        sys.exit(1)
+
+    # nettoyage
+    del gdf
+
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
     logging.info("")
 
     pass
@@ -248,7 +291,7 @@ def run_phase1():
         conn = engine.connect()
         logging.debug(f"connexion à la base de données {db_name} : ok")
     except Exception as e:
-        logging.error(f"impossible de se connecter à la base de données {db_name} : {e}")
+        logging.error(f"impossible de se connecter à la base de données {db_name} :\n{e}")
         sys.exit(1)
 
 
@@ -266,7 +309,7 @@ def run_phase1():
         osm_conn = osm_engine.connect()
         logging.debug(f"connexion à la base de données {osm_db_name} : ok")
     except Exception as e:
-        logging.error(f"impossible de se connecter à la base de données {osm_db_name} : {e}")
+        logging.error(f"impossible de se connecter à la base de données {osm_db_name} :\n{e}")
         sys.exit(1)
 
     logging.debug(f"")
@@ -276,6 +319,7 @@ def run_phase1():
     get_umap_data(shared_data.SharedData.secteur, conn)
     transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn, osm_conn)
     compute_osm_roads(osm_conn)
+    transfert_osm_roads_to_db(osm_conn, conn)
 
     # fermeture des connexions aux bases de données
     conn.close()

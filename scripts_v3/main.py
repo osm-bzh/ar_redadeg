@@ -52,6 +52,8 @@ def main():
     # on enregistre le millésime et le secteur dans une variable globale
     shared_data.SharedData.millesime = args.millesime
     shared_data.SharedData.secteur = args.secteur
+    # et le schéma à utiliser, en dur pour le moment mais pourrait être millésimé
+    shared_data.SharedData.db_schema = "redadeg"
 
     # test mode debug
     logging.debug("\n/!\ Le script va s'exécuter en mode verbeux")
@@ -66,6 +68,8 @@ def main():
                                                  |___/ 
     """)
 
+    logging.info(f"Millésime {shared_data.SharedData.millesime}")
+    logging.info(f"Secteur {shared_data.SharedData.secteur}")
 
     if args.phase == 1:
         run_phase1()
