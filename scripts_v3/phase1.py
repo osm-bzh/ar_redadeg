@@ -241,7 +241,7 @@ WHERE secteur_id = {shared_data.SharedData.secteur};"""
 
     # on supprime les tronçons du secteur traité
     try:
-        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.phase_1_trace_troncons WHERE secteur_id = {shared_data.SharedData.secteur} ;"
+        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.osm_roads WHERE secteur_id = {shared_data.SharedData.secteur} ;"
         conn.execute(text(sql_delete))
     except Exception as e:
         logging.error(f"impossible de supprimer des données du secteur {shared_data.SharedData.secteur} "
@@ -250,9 +250,9 @@ WHERE secteur_id = {shared_data.SharedData.secteur};"""
 
     # puis on remplace
     try:
-        gdf.to_postgis(f'{shared_data.SharedData.db_schema}.phase_1_trace_troncons', conn, if_exists='append')
+        gdf.to_postgis("osm_roads",con=conn, schema=shared_data.SharedData.db_schema, if_exists="append", index=False)
     except Exception as e:
-        logging.error(f"impossible de remplir la table {shared_data.SharedData.db_schema}.phase_1_trace_troncons :\n{e}")
+        logging.error(f"impossible de remplir la table {shared_data.SharedData.db_schema}.osm_roads :\n{e}")
         sys.exit(1)
 
     # nettoyage

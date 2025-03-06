@@ -49,6 +49,7 @@ ALTER TABLE umap_layers ADD CONSTRAINT umap_layers_pk PRIMARY KEY (phase, secteu
 ALTER TABLE umap_layers OWNER to redadeg;
 
 
+
 DROP TABLE IF EXISTS phase_1_trace_umap CASCADE ;
 CREATE TABLE phase_1_trace_umap
 (
@@ -66,6 +67,31 @@ ALTER TABLE phase_1_trace_umap ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(g
 ALTER TABLE phase_1_trace_umap ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(geom) = 'LINESTRING');
 -- indexes
 CREATE INDEX phase_1_trace_umap_idx_geom ON phase_1_trace_umap USING GIST (geom);
+
+
+
+DROP TABLE IF EXISTS osm_roads ;
+CREATE TABLE osm_roads
+(
+  secteur_id integer NOT NULL,
+  osm_id bigint,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  geom geometry
+);
+-- commentaires
+COMMENT ON TABLE osm_roads IS 'Cette table contient les tronçons sélectionnés à partir des routes OSM.';
+-- contraintes
+ALTER TABLE osm_roads ADD CONSTRAINT osm_roads_pkey PRIMARY KEY (osm_id);
+ALTER TABLE osm_roads ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
+ALTER TABLE osm_roads ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
+-- indexes
+CREATE INDEX osm_roads_idx_geom ON osm_roads USING GIST (geom);
+CREATE INDEX osm_roads_idx_secteur ON osm_roads(secteur_id);
 
 
 DROP TABLE IF EXISTS phase_1_trace_troncons CASCADE ;
