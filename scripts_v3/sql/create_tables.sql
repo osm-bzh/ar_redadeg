@@ -92,27 +92,3 @@ ALTER TABLE osm_roads ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 21
 -- indexes
 CREATE INDEX osm_roads_idx_geom ON osm_roads USING GIST (geom);
 CREATE INDEX osm_roads_idx_secteur ON osm_roads(secteur_id);
-
-
-DROP TABLE IF EXISTS phase_1_trace_troncons CASCADE ;
-CREATE TABLE phase_1_trace_troncons
-(
-   uid bigint
-  ,secteur_id int
-  ,ordre bigint
-  ,km bigint
-  ,km_reel bigint
-  ,longueur integer
-  ,geom geometry
-);
--- commentaires
-COMMENT ON TABLE phase_1_trace_troncons IS 'Cette table contient les tronçons créés à partir des longs tracés.';
--- contraintes
-ALTER TABLE phase_1_trace_troncons ADD CONSTRAINT phase_1_trace_troncons_pkey PRIMARY KEY (uid);
-ALTER TABLE phase_1_trace_troncons ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
-ALTER TABLE phase_1_trace_troncons ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
-ALTER TABLE phase_1_trace_troncons ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(geom) = 'LINESTRING');
--- indexes
-CREATE INDEX phase_1_trace_troncons_idx_geom ON phase_1_trace_troncons USING GIST (geom);
-CREATE INDEX phase_1_trace_troncons_idx_secteur ON phase_1_trace_troncons(secteur_id);
-
