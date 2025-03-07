@@ -73,8 +73,9 @@ CREATE INDEX phase_1_trace_umap_idx_geom ON phase_1_trace_umap USING GIST (geom)
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
+  uid text NOT NULL,
   secteur_id integer NOT NULL,
-  osm_id bigint,
+  osm_id bigint NOT NULL,
   highway text,
   type text,
   oneway text,
@@ -86,9 +87,11 @@ CREATE TABLE osm_roads
 -- commentaires
 COMMENT ON TABLE osm_roads IS 'Cette table contient les tronçons sélectionnés à partir des routes OSM.';
 -- contraintes
-ALTER TABLE osm_roads ADD CONSTRAINT osm_roads_pkey PRIMARY KEY (osm_id);
+ALTER TABLE osm_roads ADD CONSTRAINT osm_roads_pkey PRIMARY KEY (uid);
 ALTER TABLE osm_roads ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
 ALTER TABLE osm_roads ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
+ALTER TABLE osm_roads ADD CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(geom) = 'LINESTRING'::text OR geometrytype(geom) = 'MULTILINESTRING'::text);
 -- indexes
 CREATE INDEX osm_roads_idx_geom ON osm_roads USING GIST (geom);
 CREATE INDEX osm_roads_idx_secteur ON osm_roads(secteur_id);
+CREATE INDEX osm_roads_idx_osm_id ON osm_roads(osm_id);

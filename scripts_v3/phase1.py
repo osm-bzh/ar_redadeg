@@ -250,6 +250,8 @@ WHERE secteur_id = {shared_data.SharedData.secteur};"""
 
     # puis on remplace
     try:
+        # on calcule un identifiant unique pour la clé primaire
+        gdf['uid'] = gdf['secteur_id'].astype(str) + '_' + gdf['osm_id'].astype(str)
         gdf.to_postgis("osm_roads",con=conn, schema=shared_data.SharedData.db_schema, if_exists="append", index=False)
     except Exception as e:
         logging.error(f"impossible de remplir la table {shared_data.SharedData.db_schema}.osm_roads :\n{e}")
