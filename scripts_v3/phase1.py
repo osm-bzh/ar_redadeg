@@ -265,6 +265,30 @@ WHERE secteur_id = {shared_data.SharedData.secteur};"""
 
     pass
 
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+def update_topology_osm_roads(conn):
+    logging.info(f"Mise à jour de la topologie simple")
+    start_time = time.perf_counter()
+
+    try:
+        sql_maj_topology = f"""
+    UPDATE {shared_data.SharedData.db_schema}.osm_roads
+    SET topo_geom = topology.toTopoGeom(geom, 'osm_roads_topo', (SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads'), 0.5)
+    WHERE secteur_id = {shared_data.SharedData.secteur} ;
+        """
+        conn.execute(text(sql_maj_topology))
+    except Exception as e:
+        logging.error(
+            f"impossible de calculer la topologie sur la table {shared_data.SharedData.db_schema}.osm_roads :\n{e}")
+        sys.exit(1)
+
+    logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
+    logging.info("")
+
+    pass
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -322,6 +346,7 @@ def run_phase1():
     transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn, osm_conn)
     compute_osm_roads(osm_conn)
     transfert_osm_roads_to_db(osm_conn, conn)
+    update_topology_osm_roads(conn)
 
     # fermeture des connexions aux bases de données
     conn.close()

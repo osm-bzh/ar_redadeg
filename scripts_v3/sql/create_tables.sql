@@ -95,3 +95,7 @@ ALTER TABLE osm_roads ADD CONSTRAINT enforce_geotype_the_geom CHECK (geometrytyp
 CREATE INDEX osm_roads_idx_geom ON osm_roads USING GIST (geom);
 CREATE INDEX osm_roads_idx_secteur ON osm_roads(secteur_id);
 CREATE INDEX osm_roads_idx_osm_id ON osm_roads(osm_id);
+-- cette couche supporte une topologie
+SELECT topology.CreateTopology('osm_roads_topo', 2154);
+SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'redadeg', 'osm_roads', 'topo_geom', 'LINESTRING');
+-- cela va créer un schéma osm_roads_topo
