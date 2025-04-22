@@ -1,4 +1,5 @@
 ---
+- include_vars: vault.yaml
 - name: Add sources to be able to install openjdk-11-jdk
   become: true
   lineinfile:
@@ -39,9 +40,9 @@
     shell: /usr/sbin/nologin
 - name: Download tomcat9
   get_url:
-    url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz
+    url: "https://dlcdn.apache.org/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
     dest: /data/projets/tomcat9/
-    checksum: sha512:07d87286e8ee84bb291069c596cf36233e56a14e3ecb6d65eea0fa7c7042ce5e75f5db31f210b96b6b25b80b34e626dd26c5a6ed5c052384a8587d62658b5e16
+    checksum: "sha512:{{ tomcat_sha512 }}"
 - name: Create /opt/tomcat dir
   become: true
   file:
@@ -52,7 +53,7 @@
 - name: Unzip tomcat9
   become: true
   unarchive:
-    src: /data/projets/tomcat9/apache-tomcat-9.0.98.tar.gz
+    src: "/data/projets/tomcat9/apache-tomcat-{{ tomcat_version }}.tar.gz"
     dest: /opt/tomcat
     remote_src: yes
     owner: tomcat
@@ -60,7 +61,7 @@
 - name: Symlink latest tomcat
   become: true
   file:
-    src: /opt/tomcat/apache-tomcat-9.0.98/
+    src: "/opt/tomcat/apache-tomcat-{{ tomcat_version }}/"
     dest: /opt/tomcat/latest
     state: link
     owner: tomcat
