@@ -102,6 +102,11 @@
     src: /data/projets/geoserver/geoserver.war
     dest: /opt/tomcat/latest/webapps/geoserver.war
     state: link
+- name: Copy Geoserver config
+  become: true
+  copy:
+    src: web.xml
+    dest: /opt/tomcat/latest/webapps/geoserver/WEB-INF/web.xml
 - name: Restart tomcat9 
   become: true
   systemd_service:
