@@ -1,0 +1,14 @@
+millesime: 2026
+pk:
+  - secteur: 1
+    name: Lannuon
+    latitude: 48.738078
+    longitude: -3.4552
+  - secteur: 2
+    name: Plijidi
+    latitude: 48.450155
+    longitude: -3.4552
+  - secteur: 3
+    name: Pleiber-Krist
+    latitude: 48.504322
+    longitude: -3.874054

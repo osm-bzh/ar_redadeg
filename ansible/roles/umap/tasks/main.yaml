@@ -1,0 +1,14 @@
+---
+- include_vars: main.yaml
+- name: Create directories
+  file:
+    path: "/data/{{ millesime }}/umap"
+    state: directory
+    owner: redadeg
+    group: redadeg
+- name: Generate umap files
+  template:
+    src: umap.json.j2
+    dest: "/data/{{ millesime }}/umap/redadeg_{{ millesime }}_1_{{ item.secteur }}.umap"
+  loop:
+    - create_tables.sql

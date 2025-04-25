@@ -1,0 +1,125 @@
+{
+  "type": "umap",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -2.79327392578125,
+      48.27039731468575
+    ]
+  },
+  "properties": {
+    "name": "arredadeg_{{ millesime }}_01_{{ '%02d' % secteur }}",
+    "zoom": 9,
+    "rules": [],
+    "easing": true,
+    "licence": "",
+    "miniMap": false,
+    "overlay": {},
+    "slideshow": {},
+    "tilelayer": {},
+    "captionBar": false,
+    "description": "redadeg {{ millesime }} phase 1 secteur {{ secteur }}",
+    "limitBounds": {},
+    "moreControl": true,
+    "zoomControl": true,
+    "captionMenus": true,
+    "embedControl": true,
+    "scaleControl": true,
+    "searchControl": true,
+    "scrollWheelZoom": true,
+    "datalayersControl": true,
+    "fullscreenControl": true,
+    "displayPopupFooter": false,
+    "permanentCreditBackground": true
+  },
+  "uri": "netra evit poent",
+  "layers": [
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "coordinates": [
+              [
+                {{ start.longitude }},
+                {{ start.latitude }}
+              ],
+              [
+                {{ end.longitude }},
+                {{ end.latitude }}
+              ]
+            ],
+            "type": "LineString"
+          },
+          "properties": {},
+          "id": "AyNjA"
+        }
+      ],
+      "_umap_options": {
+        "name": "phase_1_trace",
+        "color": "Fuchsia",
+        "old_id": 2656887,
+        "weight": "5",
+        "editMode": "advanced",
+        "browsable": true,
+        "inCaption": true,
+        "remoteData": {},
+        "description": "Tracé manuel saisi par les équipes",
+        "permissions": {
+          "edit_status": 0
+        },
+        "displayOnLoad": true
+      }
+    },
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "coordinates": [
+              {{ start.longitude }},
+              {{ start.latitude }}
+            ],
+            "type": "Point"
+          },
+          "properties": {
+            "secteur_id": "{{ secteur }}",
+            "name": "{{ start.name }}"
+          },
+          "id": "A5MDQ"
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "coordinates": [
+              {{ end.longitude }},
+              {{ end.latitude }}
+            ],
+            "type": "Point"
+          },
+          "properties": {
+            "name": "{{ end.name }}"
+          },
+          "id": "Q5MDA"
+        }
+      ],
+      "_umap_options": {
+        "name": "phase_1_pk",
+        "color": "Red",
+        "old_id": 2656888,
+        "editMode": "advanced",
+        "browsable": true,
+        "iconClass": "Ball",
+        "inCaption": true,
+        "remoteData": {},
+        "description": "couche pour placer les PK de changement d'équipes ou autres PK techniques",
+        "permissions": {
+          "edit_status": 0
+        },
+        "displayOnLoad": true
+      }
+    }
+  ]
+}
