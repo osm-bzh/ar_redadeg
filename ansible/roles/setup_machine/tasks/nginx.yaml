@@ -7,8 +7,8 @@
     enabled: true
 - name: Copy nginx config
   become: true
-  copy:
-    src: redadeg.conf
+  template:
+    src: redadeg.conf.j2
     dest: /etc/nginx/sites-available/redadeg.conf
 - name: Enable redadeg config in nginx
   become: true

@@ -104,8 +104,8 @@
     state: link
 - name: Copy Geoserver config
   become: true
-  copy:
-    src: web.xml
+  template:
+    src: web.xml.j2
     dest: /opt/tomcat/latest/webapps/geoserver/WEB-INF/web.xml
 - name: Restart tomcat9 
   become: true
