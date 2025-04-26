@@ -1,6 +1,6 @@
 
 #-----------------------------------------------------------------------
-#               ar-redadeg.openstreetmap.bzh
+#               {{ custom_domain }}
 #-----------------------------------------------------------------------
 
 server {
@@ -8,10 +8,10 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name  ar-redadeg.openstreetmap.bzh;
+    server_name  {{ custom_domain }};
 
-    access_log   /var/log/nginx/bzh_openstreetmap_ar_redadeg_access.log combined;
-    error_log    /var/log/nginx/bzh_openstreetmap_ar_redadeg_error.log;
+    access_log   /var/log/nginx/{{ custom_domain_reverse }}_access.log combined;
+    error_log    /var/log/nginx/{{ custom_domain_reverse }}_error.log;
 
     # global
     autoindex on;

@@ -48,12 +48,12 @@
     -->
     <context-param>
       <param-name>PROXY_BASE_URL</param-name>
-        <param-value>https://ar-redadeg.openstreetmap.bzh/geoserver/</param-value>
+        <param-value>https://{{ custom_domain }}/geoserver/</param-value>
     </context-param>
 
     <context-param>
       <param-name>GEOSERVER_CSRF_WHITELIST</param-name>
-        <param-value>ar-redadeg.openstreetmap.bzh</param-value>
+        <param-value>{{ custom_domain }}</param-value>
     </context-param>
 
     <!--
