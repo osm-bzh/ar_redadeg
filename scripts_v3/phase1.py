@@ -274,9 +274,9 @@ def update_topology_osm_roads(conn):
 
     try:
         sql_maj_topology = f"""
-    UPDATE {shared_data.SharedData.db_schema}.osm_roads
-    SET topo_geom = topology.toTopoGeom(geom, 'osm_roads_topo', (SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads'), 0.5)
-    WHERE secteur_id = {shared_data.SharedData.secteur} ;
+UPDATE {shared_data.SharedData.db_schema}.osm_roads
+SET topo_geom = topology.toTopoGeom(geom, 'osm_roads_topo', (SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads'), 0.5)
+WHERE secteur_id = {shared_data.SharedData.secteur} ;
         """
         conn.execute(text(sql_maj_topology))
     except Exception as e:
@@ -285,6 +285,84 @@ def update_topology_osm_roads(conn):
         sys.exit(1)
 
     logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
+    logging.info("")
+
+    pass
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+def compute_osm_roads_pgr(conn):
+    logging.info(f"Mise à jour des couches de routage")
+    start_time = time.perf_counter()
+
+    # nettoyage
+    try:
+        sql_delete = f"DELETE FROM redadeg.osm_roads_pgr WHERE secteur_id = {shared_data.SharedData.secteur};"
+        conn.execute(text(sql_delete))
+        logging.debug("suppression du secteur de osm_roads_pgr OK")
+    except Exception as e:
+        logging.error(
+            f"impossible d'effacer le secteur dans la table {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+        sys.exit(1)
+
+    # insertion depuis la topologie simple
+    try:
+        sql_maj_osm_pgr  = f"""
+INSERT INTO osm_roads_pgr
+(secteur_id, osm_id, highway, "type", oneway, "ref", name_fr, name_br, geom)
+  SELECT 
+    o.secteur_id,
+    o.osm_id,
+    o.highway,
+    o.type,
+    o.oneway,
+    o.ref,
+    o.name_fr,
+    o.name_br,
+    e.geom as the_geom
+  FROM osm_roads_topo.edge e,
+       osm_roads_topo.relation rel,
+       osm_roads o
+  WHERE 
+    o.secteur_id = {shared_data.SharedData.secteur}
+    AND e.edge_id = rel.element_id
+    AND rel.topogeo_id = (o.topo_geom).id ;
+"""
+        conn.execute(text(sql_maj_osm_pgr))
+        logging.debug("insertion des tronçons du secteur dans osm_roads_pgr OK")
+    except Exception as e:
+        logging.error(
+            f"impossible d'insérer dans la table {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+        sys.exit(1)
+
+    # création / maj de la topologie PGR pour les nouveaux tronçons
+    try:
+        sql_create_pgr_topo = f"SELECT pgr_createTopology('osm_roads_pgr', 0.001, rows_where:='true', clean:=false);"
+        conn.execute(text(sql_create_pgr_topo))
+        logging.debug("calcul de la topologie PGR sur ces nouveaux tronçons OK")
+    except Exception as e:
+        logging.error(
+            f"impossible de maj la topologie PGR {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+        sys.exit(1)
+
+    # calcul de la topologie PGR sur ces nouveaux tronçons
+    try:
+        sql_compute_costs = f"""
+UPDATE osm_roads_pgr 
+SET cost = round(st_length(geom)::numeric), reverse_cost = round(st_length(geom)::numeric)
+WHERE secteur_id = {shared_data.SharedData.secteur} ;
+"""
+        conn.execute(text(sql_compute_costs))
+        logging.debug("calcul des attributs de coût de routage sur ces nouveaux tronçons OK")
+    except Exception as e:
+        logging.error(
+            f"impossible de calculer les attributs de coût sur {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+        sys.exit(1)
+
+    #
+
+    logging.info(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
     logging.info("")
 
     pass
@@ -347,6 +425,9 @@ def run_phase1():
     compute_osm_roads(osm_conn)
     transfert_osm_roads_to_db(osm_conn, conn)
     update_topology_osm_roads(conn)
+    compute_osm_roads_pgr(conn)
+
+    #
 
     # fermeture des connexions aux bases de données
     conn.close()

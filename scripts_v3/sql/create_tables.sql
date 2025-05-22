@@ -49,6 +49,14 @@ ALTER TABLE umap_layers ADD CONSTRAINT umap_layers_pk PRIMARY KEY (phase, secteu
 ALTER TABLE umap_layers OWNER to redadeg;
 
 
+/*
+==========================================================================
+
+    tables de la phase 1
+
+==========================================================================
+*/
+
 
 DROP TABLE IF EXISTS phase_1_trace_umap CASCADE ;
 CREATE TABLE phase_1_trace_umap
@@ -69,7 +77,7 @@ ALTER TABLE phase_1_trace_umap ADD CONSTRAINT enforce_geom_type CHECK (geometryt
 CREATE INDEX phase_1_trace_umap_idx_geom ON phase_1_trace_umap USING GIST (geom);
 
 
-
+-- SELECT topology.DropTopology('osm_roads_topo');
 DROP TABLE IF EXISTS osm_roads ;
 CREATE TABLE osm_roads
 (
@@ -99,3 +107,38 @@ CREATE INDEX osm_roads_idx_osm_id ON osm_roads(osm_id);
 SELECT topology.CreateTopology('osm_roads_topo', 2154);
 SELECT topology.AddTopoGeometryColumn('osm_roads_topo', 'redadeg', 'osm_roads', 'topo_geom', 'LINESTRING');
 -- cela va créer un schéma osm_roads_topo
+
+
+
+DROP TABLE IF EXISTS osm_roads_pgr CASCADE ;
+CREATE TABLE osm_roads_pgr
+(
+  id bigserial,
+  secteur_id integer NOT NULL,
+  osm_id bigint NOT NULL,
+  highway text,
+  type text,
+  oneway text,
+  ref text,
+  name_fr text,
+  name_br text,
+  source bigint,
+  target bigint,
+  cost double precision,
+  reverse_cost double precision,
+  geom geometry
+);
+-- commentaires
+COMMENT ON TABLE osm_roads_pgr IS 'Tronçons de voies OSM version routable.';
+-- contraintes
+ALTER TABLE osm_roads_pgr ADD CONSTRAINT osm_roads_pgr_pkey PRIMARY KEY (uid);
+ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
+ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
+ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(geom) = 'LINESTRING'::text);
+-- indexes
+CREATE INDEX osm_roads_pgr_geom_idx ON osm_roads_pgr USING gist(geom);
+CREATE INDEX osm_roads_pgr_secteur_idx ON osm_roads_pgr (secteur_id);
+CREATE INDEX osm_roads_pgr_idx_osm_id ON osm_roads_pgr(osm_id);
+CREATE INDEX osm_roads_pgr_source_idx ON osm_roads_pgr (source);
+CREATE INDEX osm_roads_pgr_target_idx ON osm_roads_pgr (target);
+
