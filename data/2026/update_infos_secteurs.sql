@@ -15,5 +15,4 @@ VALUES
 (050, 'Enez Groe', 'Enez Groe',                                            36,  36000, 1008.00 ,   0,    0, 0, 0),
 (060, 'An Oriant -> Guegon', 'An Oriant -> Guegon',                       202, 202000,  716.00,    0,    0, 0, 0),
 (070, 'Guegon -> Sant-Nikolaz-an-Hent', 'Guegon -> Sant-Nikolaz-an-Hent', 286, 286000, 1008.00,    0,    0, 0, 0),
-(080, 'Sant-Nikolaz-an-Hent -> Naoned', 'Sant-Nikolaz-an-Hent -> Naoned', 170, 170000, 1008.00,    0,    0, 0, 0),
-;
+(080, 'Sant-Nikolaz-an-Hent -> Naoned', 'Sant-Nikolaz-an-Hent -> Naoned', 170, 170000, 1008.00,    0,    0, 0, 0);
