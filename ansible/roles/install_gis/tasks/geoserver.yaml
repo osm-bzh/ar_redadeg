@@ -102,6 +102,13 @@
     src: /data/projets/geoserver/geoserver.war
     dest: /opt/tomcat/latest/webapps/geoserver.war
     state: link
+- name: Create geoserver dir in tomcat
+  become: true
+  file:
+    path: /opt/tomcat/latest/webapps/geoserver/WEB-INF/
+    state: directory
+    owner: tomcat
+    group: redadeg
 - name: Copy Geoserver config
   become: true
   template:
