@@ -301,13 +301,12 @@ Puis tester : [https://ar-redadeg.openstreetmap.bzh/mviewer/?config=apps/ar-reda
 
 ### Projet QGIS de contrôle
 
-*  dupliquer le projet de l'année précédente
-*  renommer le qgz en zip
-*  dézipper
-*  ouvrir le projet qgis
-*  changer les infos de connexion à la base de données
-*  tester
-*  ré-enregistrer sous en qgz
+*  ouvrir le projet de l'année précédente
+*  menu Projet > Enregistrer sous un autre projet, au format QGIS (.qgs)
+*  ouvrir le fichier dans un éditeur de texte
+*  remplacer `dbname='redadeg_2024'` par `dbname='redadeg_20246'`, par exemple
+*  enregistrer
+*  éventuellement : "ré-enregistrer sous" au format qgz
 
 
 ### sauvegardes
