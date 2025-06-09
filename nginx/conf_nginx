@@ -25,6 +25,9 @@ server {
 
 
     # les répertoires de données
+    location ~/2026/(.*)$ {
+        alias /data/projets/ar_redadeg/data/2026/$1 ;
+    }
     location ~/2024/(.*)$ {
         alias /data/projets/ar_redadeg/data/2024/$1 ;
     }
