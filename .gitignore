@@ -49,6 +49,11 @@ data/2024/phase_2*
 data/2024/communes*
 data/2024/LICENCE.txt
 
+data/2026/backup/
+data/2026/import/
+data/2026/export/
+data/2026/sql/
+
 qgis/exports\ PDF/
 
 backup/
