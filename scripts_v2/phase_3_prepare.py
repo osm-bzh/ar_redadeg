@@ -153,6 +153,7 @@ try:
   # ------------------------------------------------------
   print("  Suppression des données du secteur "+secteur)
   sql_delete = "DELETE FROM phase_3_troncons_pgr WHERE secteur_id = "+secteur +" ;"
+  # print(sql_delete)
   db_redadeg_cursor.execute(sql_delete)
   print("  fait")
   print("")
@@ -185,8 +186,18 @@ FROM
 CROSS JOIN generate_series(0,10000) AS n
 WHERE n*"""+longueur_densification+"""/length < 1;"""
 
+  # print(sql_insert)
+
   db_redadeg_cursor.execute(sql_insert)
 
+  print("  fait")
+  print("")
+
+
+  # suppression des enregistrements qui sont de type ST_Point…
+  print("  Suppression des enregistrements qui sont de type ST_Point")
+  sql_delete_geom_points = "DELETE FROM phase_3_troncons_pgr WHERE ST_GeometryType(the_geom) = 'ST_Point' ;"
+  db_redadeg_cursor.execute(sql_delete_geom_points)
   print("  fait")
   print("")
 
@@ -208,6 +219,8 @@ reverse_cost =
     ELSE trunc(st_length(the_geom)::numeric,2)
   END 
 WHERE secteur_id = """ + secteur + """  ;"""
+
+  # print(sql_update_costs)
 
   db_redadeg_cursor.execute(sql_update_costs)
 
@@ -235,6 +248,8 @@ WHERE secteur_id = """ + secteur + """  ;"""
 
   sql_create_pgr_topology = f"SELECT pgr_createTopology('phase_3_troncons_pgr', 0.001, rows_where:='secteur_id={secteur}', clean:=false);"
   db_redadeg_cursor.execute(sql_create_pgr_topology)
+
+  # print(sql_create_pgr_topology)
   
   print("  fait")
   print("")
