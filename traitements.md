@@ -88,6 +88,20 @@ En phase de production, on passera directement de la phase 2 à la phase 5.
   * détermination du nombre théorique de PK pour ce secteur et ainsi la longueur réelle entre chaque PK
   * création des nouveaux PK dans la couche `phase_3_pk`
 
+Il faut également créer 1 couche phase 3 sur le GeoServer.
+La couche des PK doit comporter un attribut `modulo`. La source SQL est donc :
+
+```sql
+SELECT
+  *,
+  CASE
+    WHEN pk_id % 100 = 0 THEN 100
+    WHEN pk_id % 50 = 0 THEN 50
+    WHEN pk_id % 10 = 0 THEN 10
+    ELSE NULL
+  END as modulo
+FROM phase_3_pk
+```
 
 
 ## Phase 4 : mise en production des données
