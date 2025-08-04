@@ -174,6 +174,14 @@ try:
     print("")
 
     # ------------------------------------------------------
+    print("  Suppression du tracé du secteur")
+
+    sql_delete_secteur = f"DELETE FROM phase_3_trace_secteurs WHERE secteur_id = {secteur} ;"
+    db_redadeg_cursor.execute(sql_delete_secteur)
+    print("  fait")
+    print("")
+
+    # ------------------------------------------------------
     print("  Suppression des PK du secteur")
 
     sql_delete_pks = f"DELETE FROM phase_3_pk WHERE secteur_id = {secteur} ;"
@@ -182,17 +190,42 @@ try:
     print("")
 
     # ------------------------------------------------------
+    print("  Création du tracé du secteur")
+
+    # tracé généré par pgRouting
+    sql_generate_trace = f"""
+INSERT INTO phase_3_trace_secteurs
+  WITH line AS (
+  -- on récupère un itinéraire calculée par pgRouting
+  SELECT {secteur} AS secteur_id, ST_Union(the_geom) AS the_geom
+  FROM pgr_drivingDistance('SELECT id, source, target, cost, reverse_cost FROM phase_3_troncons_pgr 
+  WHERE SOURCE IS NOT NULL AND secteur_id = {secteur}',
+  {secteur_node_start},{secteur_longueur}) a
+  JOIN phase_3_troncons_pgr b ON a.edge = b.id 
+  )
+SELECT
+    s.id, s.nom_fr, s.nom_br,
+    ST_length(the_geom) AS km_reels,
+    line.the_geom
+FROM line
+    JOIN secteur s ON line.secteur_id = s.id"""
+    # print(sql_generate_trace)
+
+    db_redadeg_cursor.execute(sql_generate_trace)
+    print("  fait")
+    print("")
+
+
+    # ------------------------------------------------------
     print("  Création des nouveaux PK du secteur tous les " + str(longueur_decoupage) + " m")
 
     sql_generate_pks = f"""
 WITH linemeasure AS (
   WITH line AS (
-  -- on récupère un itinéraire calculée par pgRouting
-  SELECT ST_Union(the_geom) AS the_geom
-  FROM pgr_drivingDistance('SELECT id, source, target, cost, reverse_cost FROM phase_3_troncons_pgr 
-  WHERE SOURCE IS NOT NULL AND secteur_id = {secteur}',
-  {secteur_node_start},{secteur_longueur}) a
-  JOIN phase_3_troncons_pgr b ON a.edge = b.id 
+  -- on récupère le tracé calculé juste avant
+  SELECT the_geom
+  FROM phase_3_trace_secteurs
+  WHERE secteur_id = {secteur}
   )
 SELECT
   generate_series(0, (ST_Length(line.the_geom))::int, {longueur_decoupage}) AS i,
@@ -208,6 +241,7 @@ SELECT
   ,ST_Force_2D((ST_Dump(ST_GeometryN(ST_LocateAlong(the_geom, i), 1))).geom) AS the_geom
 FROM linemeasure ;
 """
+    # print(sql_generate_pks)
 
     db_redadeg_cursor.execute(sql_generate_pks)
     print("  fait")

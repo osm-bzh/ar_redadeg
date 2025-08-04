@@ -572,13 +572,18 @@ CREATE TABLE phase_3_trace_secteurs
   nom_br text,
   km_reels numeric(8,2),
   the_geom geometry,
-  CONSTRAINT phase_3_trace_secteurs_pkey PRIMARY KEY (secteur_id),
-  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text OR geometrytype(the_geom) = 'MULTILINESTRING'::text),
-  --CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'LINESTRING'::text),
   CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154)
 );
+-- contraintes
+ALTER TABLE phase_3_trace_secteurs ADD CONSTRAINT phase_3_trace_secteurs_pkey PRIMARY KEY (secteur_id);
+ALTER TABLE phase_3_trace_secteurs ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(the_geom) = 2);
+ALTER TABLE phase_3_trace_secteurs ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(the_geom) = 2154);
+ALTER TABLE phase_3_trace_secteurs ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(the_geom) = 'MULTILINESTRING');
+-- indexes
 CREATE INDEX phase_3_trace_secteurs_geom_idx ON phase_3_trace_secteurs USING gist(the_geom);
+-- permissions
 ALTER TABLE phase_3_trace_secteurs OWNER TO redadeg;
+
 
 -- la même couche en 4326
 DROP VIEW IF EXISTS phase_3_trace_secteurs_4326 ;
