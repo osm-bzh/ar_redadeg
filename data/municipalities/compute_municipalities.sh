@@ -20,7 +20,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Création de la couche des communes dans la BD OSM"
 echo ""
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f create_osm_municipalities_tables.sql
+PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -f create_osm_municipalities_tables.sql
 
 echo "  fait"
 echo ""
@@ -29,7 +29,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Remplissage de la couche des communes dans la BD OSM"
 echo ""
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f insert_into_municipalities_polygon.sql
+PGPASSWORD=$osmDBPassword $PSQL -h $osmDBHost -p $osmDBPort -U $osmDBUser -d $osmDBName -f insert_into_municipalities_polygon.sql
 
 echo "  fait"
 echo ""
