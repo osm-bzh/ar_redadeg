@@ -547,6 +547,10 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   print("  fait")
 
   #
+  print("")
+  #
+
+  mkdir -p ../data/2026/export/
 
   # export GPX du tracé
   print("  Export gpx du tracé")
