@@ -113,7 +113,7 @@ Cela correspond au moment où les données rentrent en phase de production et le
 * depuis la couche `phase_3_pk` :
   * copie vers la table `phase_5_pk_ref` (table archives pour pouvoir faire les comparaisons ultérieures et traquer les déplacements de PK manuels)
   * copie vers la table `phase_5_pk`
-* remplissage de la couche `phase_5_trace` depuis la couche `phase_3_trace_secteurs` 
+* remplissage de la couche `phase_5_trace` depuis la couche `phase_2_trace_secteur` 
 
 Il faut également créer les 2 couches phase 5 sur le GeoServer.
 La couche des PK doit comporter un attribut `modulo`. La source SQL est donc :

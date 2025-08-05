@@ -191,7 +191,7 @@ INSERT INTO phase_5_trace
   SELECT
     secteur_id,
     the_geom
-  FROM phase_3_trace_secteurs ;"""
+  FROM phase_2_trace_secteur ;"""
   db_redadeg_cursor.execute(sql_load)
   print("  fait")
 
