@@ -13,14 +13,14 @@ if [ -z "$1" ]
 fi
 
 # lecture du fichier de configuration
-. config.sh
+. ../../scripts_v2/config.sh
 
 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "  Création de la couche des communes dans la BD OSM"
 echo ""
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f ../data/municipalities/create_osm_municipalities_tables.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f create_osm_municipalities_tables.sql
 
 echo "  fait"
 echo ""
@@ -29,7 +29,7 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Remplissage de la couche des communes dans la BD OSM"
 echo ""
 
-PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f ../data/municipalities/insert_into_municipalities_polygon.sql
+PGPASSWORD=$DB_PASSWD $PSQL -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -f insert_into_municipalities_polygon.sql
 
 echo "  fait"
 echo ""
