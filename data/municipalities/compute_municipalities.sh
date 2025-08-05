@@ -38,6 +38,8 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo "  Export de la table"
 echo ""
 
+mkdir -p $rep_data/sql
+
 PGPASSWORD=$osmDBPassword pg_dump --file "$rep_data/sql/osm_municipalities_polygon.sql" \
   --host "$osmDBHost" --port "$osmDBPort" --username "$osmDBUser" --no-password \
   --format=p --data-only --no-owner --no-privileges \
