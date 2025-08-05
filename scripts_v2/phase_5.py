@@ -551,7 +551,7 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
                 f"../data/{millesime}/export/osm_municipalities_polygon.geojson",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
-                "-sql", "SELECT * FROM osm_municipalities_polygon",
+                "-sql", "SELECT city_code, name, name_br, name_fr, NULL AS geom FROM osm_municipalities_polygon",
                 "-t_srs", "EPSG:4326"]
   # on exporte
   subprocess.check_output(export_cmd)
