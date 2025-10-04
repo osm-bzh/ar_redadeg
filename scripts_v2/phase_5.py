@@ -601,6 +601,19 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   subprocess.check_output(export_cmd)
   print("  fait")
 
+
+  #
+
+  print("  Export CSV de la table des secteurs")
+  export_cmd = ["ogr2ogr", "-f", "CSV",
+                f"../data/{millesime}/export/secteurs.csv",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "-sql", "SELECT * FROM public.secteur ORDER BY id ;",
+                "-lco", "SEPARATOR=SEMICOLON"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
   #
 
   print("")

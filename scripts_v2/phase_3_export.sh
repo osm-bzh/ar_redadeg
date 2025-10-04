@@ -57,3 +57,15 @@ ogr2ogr -f "GeoJSON" $rep_data/export/phase_3_pk.geojson PG:"host=$DB_HOST port=
 
 echo "  fait"
 
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+echo ""
+echo "  Exports de la table des secteurs"
+
+remove_file_if_exists "$rep_data/secteurs.csv"
+ogr2ogr -f "CSV" $rep_data/export/secteurs.csv PG:"host=$DB_HOST port=$DB_PORT user=$DB_USER password=$DB_PASSWD dbname=$DB_NAME" \
+  -sql "SELECT * FROM public.secteur ORDER BY id ;" \
+  -lco "SEPARATOR=SEMICOLON"
+
+
+echo "  fait"
+
