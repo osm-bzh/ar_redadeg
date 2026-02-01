@@ -484,18 +484,18 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
   sql_update_infos_communes = f"""
   UPDATE phase_5_pk
   SET
-    municipality_admincode = sub.city_code,
-    municipality_postcode = sub.postal_code,
+    municipality_admincode = sub.code_insee,
+    municipality_postcode = sub.code_postal,
     municipality_name_fr = sub.name_fr,
     municipality_name_br = sub.name_br
   FROM (
     SELECT
      pk.pk_id,
-     com.city_code,
-     com.postal_code,
+     com.code_insee,
+     com.code_postal ,
      com.name_fr,
      com.name_br
-    FROM phase_5_pk pk, osm_municipalities_polygon com
+    FROM phase_5_pk pk, communes com
     WHERE ST_INTERSECTS(pk.the_geom, com.geom)
     ORDER BY pk_id 
   ) sub
