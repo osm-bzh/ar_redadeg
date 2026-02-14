@@ -2,13 +2,25 @@
 
 ## Installation
 
+### Prérequis
+
+* Debian ou Ubuntu
+* 4 CPU
+* 2 Go RAM
+* 40 Go disque
+
+
+### Installation des logiciels
+
+Aller dans le répertoire `installation` et suivre les [instructions](installation/README.md).
+
 ### Création d'un environnement virtuel python
 
 ```bash
 cd script_v3
 python -m venv .venv
 source .venv/bin/activate
-pip install psycopg2-binary sqlalchemy pandas
+pip install psycopg2-binary sqlalchemy pandas geopandas requests
 ```
 
 ## Création d'un millésime
