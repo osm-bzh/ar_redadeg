@@ -20,7 +20,7 @@ Aller dans le répertoire `installation` et suivre les [instructions](installati
 cd script_v3
 python -m venv .venv
 source .venv/bin/activate
-pip install psycopg2-binary sqlalchemy pandas geopandas requests
+pip install psycopg2-binary sqlalchemy geoalchemy2 pandas geopandas requests
 ```
 
 ## Création d'un millésime
