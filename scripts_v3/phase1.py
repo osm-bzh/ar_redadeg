@@ -22,19 +22,26 @@ def get_umap_data(secteur, conn):
         logging.error(f"impossible de requêter la table umap_layers : {e}")
         sys.exit(1)
 
+    # si on a tapé un mauvais code de secteur
+    if result.rowcount == 0:
+        logging.error(f"ERREUR")
+        logging.error(f"Il n'y a pas de secteur avec ce code !")
+        logging.error(f"Vérifiez vos codes.")
+        sys.exit(1)
+
     # Initialiser un GeoDataFrame vide
     combined_gdf = gpd.GeoDataFrame()
 
     for row in result:
         # l'URL vers umap
         geojson_url = f"https://umap.openstreetmap.fr/fr/datalayer/{row[2]}/"
-        logging.debug("")
-        logging.debug(geojson_url)
+        logging.info(f"URL des données umap = {geojson_url}")
 
         # on dump le contenu dans un fichier
         # on travaille le nom du fichier
         temp_file = f"tmp_files/{row[2].replace('/','-')}.geojson"
         functions.save_url_content_to_file(geojson_url,temp_file)
+        logging.debug(f"sauvegarde du GeoJSON dans le fichier {temp_file}")
 
         # Charger le GeoJSON dans un GeoDataFrame
         gdf = gpd.read_file(temp_file)
