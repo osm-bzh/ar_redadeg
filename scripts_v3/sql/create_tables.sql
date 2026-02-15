@@ -131,7 +131,7 @@ CREATE TABLE osm_roads_pgr
 -- commentaires
 COMMENT ON TABLE osm_roads_pgr IS 'Tronçons de voies OSM version routable.';
 -- contraintes
-ALTER TABLE osm_roads_pgr ADD CONSTRAINT osm_roads_pgr_pkey PRIMARY KEY (uid);
+ALTER TABLE osm_roads_pgr ADD CONSTRAINT osm_roads_pgr_pkey PRIMARY KEY (id);
 ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
 ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
 ALTER TABLE osm_roads_pgr ADD CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(geom) = 'LINESTRING'::text);
