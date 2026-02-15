@@ -4,6 +4,7 @@ import argparse
 import logging
 
 import shared
+import functions
 from phase1 import run_phase1
 from phase2 import run_phase2
 from shared import SharedData
@@ -70,6 +71,9 @@ def main():
 
     logging.info(f"Millésime {SharedData.millesime}")
     logging.info(f"Secteur {SharedData.secteur}")
+
+    # on s'assure que le répertoire pour les fichiers temporaires existe
+    functions.ensure_directory('tmp_files')
 
     if args.phase == 1:
         run_phase1()
