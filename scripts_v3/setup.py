@@ -20,7 +20,7 @@ def setup_db_redadeg(millesime):
     db_name = f"redadeg_{millesime}"
     schema = 'redadeg'
 
-    logging.info(f"ATTENTION : la base de données {db_name} va être supprimée !")
+    logging.info(f"ATTENTION : la base de données {db_name} sur {db_host} va être supprimée !")
     logging.info(f"TOUTES les données seront supprimées !")
 
     while True:
@@ -184,7 +184,7 @@ def main():
 
     # on regarde ce qui est demandé
     if '--db' in sys.argv:
-        logging.info(f"Une base de donnée pour le millésime {args.millesime} va être créée")
+        logging.info(f"Une base de donnée pour le millésime {args.millesime} va être créée.")
         setup_db_redadeg(args.millesime)
     else:
         logging.error(f"Aucune demande faite !")
