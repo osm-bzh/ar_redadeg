@@ -152,9 +152,105 @@ def setup_referentiel_communal(millesime):
     schema = 'redadeg'
 
     logging.info(f"ATTENTION : le référentiel communal va être mise à jour dans la base {db_name} sur {db_host} !")
+    logging.info(f"")
 
     # on s'assure que le répertoire pour les fichiers temporaires existe
-    functions.ensure_directory('tmp_files')
+    if not functions.verify_path_existence('tmp_files'):
+        functions.ensure_directory('tmp_files')
+
+    # des fonctions
+
+    from pathlib import Path
+
+    def get_single_gpkg_file(directory='tmp_files'):
+        """
+        Liste les fichiers .gpkg dans le répertoire.
+        Lève une erreur si 0 ou plus de 1 fichier existe.
+
+        Returns:
+            Path: Le chemin du fichier .gpkg unique
+        """
+        gpkg_files = list(Path(directory).glob('*.gpkg'))
+
+        if len(gpkg_files) == 0:
+            raise FileNotFoundError(f"❌ Aucun fichier .gpkg trouvé dans le répertoire '{directory}/'")
+
+        if len(gpkg_files) > 1:
+            files_list = '\n  - '.join([f.name for f in gpkg_files])
+            raise ValueError(
+                f"❌ Plusieurs fichiers .gpkg trouvés dans '{directory}' :\n  - {files_list}"
+            )
+
+        return gpkg_files[0]
+
+    def load_pkg_to_postgis(gpkg_file):
+
+        # lecture du fichier de configuration
+        config = functions.get_configuration()
+        # définition des variables
+        db_host = config.get('database', 'host')
+        db_port = config.get('database', 'port')
+        db_user = config.get('database', 'user')
+        db_name = f"redadeg_{millesime}"
+        schema = 'redadeg'
+
+        ogr2ogr_cmd = [
+            'ogr2ogr',
+            '-f', 'PostgreSQL',
+            f'PG:host={db_host} port={db_port} dbname={db_name} user={db_user}',
+            '-nln', 'communes_ign',
+            '-lco', 'GEOMETRY_NAME=geom',
+            '-lco', 'FID=gid',
+            '-t_srs', 'EPSG:2154',
+            '-overwrite',
+            str(gpkg_file),
+            'commune'
+        ]
+
+        try:
+            import subprocess
+            subprocess.call(ogr2ogr_cmd)
+        except Exception as e:
+            logging.error(f"  ❌ {e}")
+            sys.exit(1)
+
+    def process_gpkg():
+        try:
+            # Récupérer le fichier unique
+            gpkg_file = get_single_gpkg_file('tmp_files')
+            # Utiliser le fichier
+            # print(f"Traitement de : {gpkg_file}")
+            # print(f"Nom du fichier : {gpkg_file.name}")
+            # print(f"Chemin complet : {gpkg_file.absolute()}")
+            logging.info(f"  ✅ le fichier {gpkg_file} a été trouvé")
+
+            logging.info(f"  Chargement de la couche des communes dans la base de données…")
+            load_pkg_to_postgis(gpkg_file)
+            logging.info(f"  ✅ fait !")
+
+            # TODO
+
+        except FileNotFoundError as e:
+            logging.error(f"{e}")
+            sys.exit(1)
+        except ValueError as e:
+            logging.error(f"{e}")
+            sys.exit(1)
+
+
+    logging.info(f"Traitement du Geopackage ADMIN EXPRESS")
+    process_gpkg()
+
+
+    #
+    logging.info(f"")
+
+    logging.info(f"Test de la présence du fichier open data de Kerofis")
+
+    #
+
+    # on va regarder dans le répertoire des fichiers temporaires si on a un
+    logging.info(f"")
 
     #
 
