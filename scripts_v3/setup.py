@@ -142,7 +142,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Initialisation d'un millésime Ar Redadeg.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
-    parser.add_argument("--debug", type =str, required=False, choices=['oui'], help="si 'oui' : mode verbeux pour voir plus de messages")
+    parser.add_argument("--db", action='store_true', help="Configure la base de données.")
+    parser.add_argument("--debug", action='store_true', help="si 'oui' : mode verbeux pour voir plus de messages")
 
     args = parser.parse_args()
 
@@ -181,7 +182,12 @@ def main():
                                                  |___/ 
     """)
 
-    setup_db_redadeg(args.millesime)
+    # on regarde ce qui est demandé
+    if '--db' in sys.argv:
+        logging.info(f"Une base de donnée pour le millésime {args.millesime} va être créée")
+        setup_db_redadeg(args.millesime)
+    else:
+        logging.error(f"Aucune demande faite !")
 
 if __name__ == "__main__":
     main()
