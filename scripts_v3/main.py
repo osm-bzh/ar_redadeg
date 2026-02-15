@@ -73,7 +73,8 @@ def main():
     logging.info(f"Secteur {SharedData.secteur}")
 
     # on s'assure que le répertoire pour les fichiers temporaires existe
-    functions.ensure_directory('tmp_files')
+    if not functions.verify_path_existence('tmp_files'):
+        functions.ensure_directory('tmp_files')
 
     if args.phase == 1:
         run_phase1()
