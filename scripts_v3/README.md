@@ -26,7 +26,7 @@ pip install psycopg2-binary sqlalchemy geoalchemy2 pandas geopandas requests
 ## Création d'un millésime
 
 ```bash
-python setup.py --millesime 2025                                                              [±master ●●]
+python setup.py --millesime 2025 --db
 
     _           ____          _           _            
    / \   _ __  |  _ \ ___  __| | __ _  __| | ___  __ _ 
