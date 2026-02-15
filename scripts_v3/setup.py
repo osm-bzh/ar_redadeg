@@ -138,11 +138,43 @@ def setup_db_redadeg(millesime):
 
 # ==================================================================================================
 
+def setup_referentiel_communal(millesime):
+    logging.info(f"")
+    start_time = time.perf_counter()
+
+    # lecture du fichier de configuration
+    config = functions.get_configuration()
+    # définition des variables
+    db_host = config.get('database', 'host')
+    db_port = config.get('database', 'port')
+    db_user = config.get('database', 'user')
+    db_name = f"redadeg_{millesime}"
+    schema = 'redadeg'
+
+    logging.info(f"ATTENTION : le référentiel communal va être mise à jour dans la base {db_name} sur {db_host} !")
+
+    # on s'assure que le répertoire pour les fichiers temporaires existe
+    functions.ensure_directory('tmp_files')
+
+    #
+
+    logging.info("")
+    logging.info("F I N")
+
+    # chrono final
+    chrono = functions.get_chrono(start_time, time.perf_counter())
+    logging.info(f"Temps écoulé : {chrono}")
+    logging.info("")
+
+
+# ==================================================================================================
+
 def main():
 
     parser = argparse.ArgumentParser(description="Initialisation d'un millésime Ar Redadeg.")
     parser.add_argument("--millesime", type=int, required=True, help="Millésime du projet (année).")
     parser.add_argument("--db", action='store_true', help="Configure la base de données.")
+    parser.add_argument("--ref_communal", action='store_true', help="Met à jour le référentiel communal.")
     parser.add_argument("--debug", action='store_true', help="si 'oui' : mode verbeux pour voir plus de messages")
 
     args = parser.parse_args()
@@ -186,6 +218,9 @@ def main():
     if '--db' in sys.argv:
         logging.info(f"Une base de donnée pour le millésime {args.millesime} va être créée.")
         setup_db_redadeg(args.millesime)
+    elif '--ref_communal' in sys.argv:
+        logging.info(f"Le référentiel communal va être implanté.")
+        setup_referentiel_communal(args.millesime)
     else:
         logging.error(f"Aucune demande faite !")
 
