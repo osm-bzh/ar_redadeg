@@ -4,6 +4,8 @@ import sys
 import argparse
 import logging
 import time
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
 
 import functions
 
@@ -228,8 +230,6 @@ def setup_referentiel_communal(millesime):
             load_pkg_to_postgis(gpkg_file)
             logging.info(f"  ✅ fait !")
 
-            # TODO
-
         except FileNotFoundError as e:
             logging.error(f"{e}")
             sys.exit(1)
@@ -237,20 +237,109 @@ def setup_referentiel_communal(millesime):
             logging.error(f"{e}")
             sys.exit(1)
 
+    def get_single_csv_file(directory='tmp_files'):
+
+        csv_files = list(Path(directory).glob('kerofis*.csv'))
+
+        if len(csv_files) == 0:
+            raise FileNotFoundError(f"❌ Aucun fichier .csv trouvé dans le répertoire '{directory}/'")
+
+        if len(csv_files) > 1:
+            files_list = '\n  - '.join([f.name for f in csv_files])
+            raise ValueError(
+                f"❌ Plusieurs fichiers .csv trouvés dans '{directory}' :\n  - {files_list}"
+            )
+
+        return csv_files[0]
+
+    def load_csv_to_postgres(csv_file, table_name, db_config):
+        """
+        Charge un fichier CSV dans une table PostgreSQL avec SQLAlchemy
+
+        Args:
+            csv_file: Chemin vers le fichier CSV
+            table_name: Nom de la table PostgreSQL
+            db_config: Dictionnaire avec les paramètres de connexion
+                       {host, database, user, password, port}
+        """
+        import pandas as pd
+
+        try:
+            # Lecture du fichier CSV avec séparateur ";"
+            logging.debug(f"  Lecture du fichier CSV: {csv_file}")
+            df = pd.read_csv(csv_file, sep=';', encoding='utf-8')
+
+            logging.debug(f"  Nombre de lignes: {len(df)}")
+            logging.debug(f"  Colonnes: {list(df.columns)}")
+
+            # Création de la chaîne de connexion SQLAlchemy
+            connection_string = (
+                f"postgresql://{db_config['user']}@{db_config['host']}:{db_config.get('port', 5432)}/{db_config['database']}"
+            )
+
+            # Création du moteur SQLAlchemy
+            engine = create_engine(connection_string)
+
+            # Insertion des données dans PostgreSQL
+            logging.info(f"  Insertion des données dans la table '{table_name}'...")
+
+            # Utilisation de to_sql de pandas avec SQLAlchemy
+            # if_exists='append' : ajoute les données sans supprimer la table
+            # if_exists='replace' : supprime et recrée la table
+            # if_exists='fail' : échoue si la table existe déjà
+            df.to_sql(
+                name=table_name,
+                con=engine,
+                if_exists='append',
+                index=False,
+                chunksize=1000,
+                method='multi'
+            )
+
+            logging.info(f"  ✅ {len(df)} lignes insérées avec succès dans '{table_name}'")
+
+            # Fermeture du moteur
+            engine.dispose()
+
+            return True
+
+        except FileNotFoundError:
+            logging.error(f"❌ Erreur: Le fichier '{csv_file}' n'existe pas")
+            return False
+        except SQLAlchemyError as e:
+            logging.error(f"❌ Erreur SQLAlchemy: {e}")
+            return False
+        except Exception as e:
+            logging.error(f"❌ Erreur: {e}")
+            return False
+
+
+    def process_csv():
+        try:
+            # Récupérer le fichier unique
+            csv_file = get_single_csv_file('tmp_files')
+            logging.info(f"  ✅ le fichier {csv_file} a été trouvé")
+
+            # Import dans la base de données
+            db_config = {
+                'host': db_host,
+                'port': db_port,
+                'database': db_name,
+                'user': db_user
+            }
+            load_csv_to_postgres(csv_file, 'kerofis', db_config)
+
+        except Exception as e:
+            logging.error(f"❌ {e}")
+            sys.exit(1)
+    #
 
     logging.info(f"Traitement du Geopackage ADMIN EXPRESS")
     process_gpkg()
 
-
-    #
     logging.info(f"")
-
-    logging.info(f"Test de la présence du fichier open data de Kerofis")
-
-    #
-
-    # on va regarder dans le répertoire des fichiers temporaires si on a un
-    logging.info(f"")
+    logging.info(f"Traitement du fichier open data de Kerofis")
+    process_csv()
 
     #
 
