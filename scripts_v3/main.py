@@ -3,10 +3,10 @@ import sys
 import argparse
 import logging
 
-import shared_data
+import shared
 from phase1 import run_phase1
 from phase2 import run_phase2
-from shared_data import SharedData
+from shared import SharedData
 
 
 # ==================================================================================================
@@ -50,10 +50,10 @@ def main():
     )
 
     # on enregistre le millésime et le secteur dans une variable globale
-    shared_data.SharedData.millesime = args.millesime
-    shared_data.SharedData.secteur = args.secteur
+    SharedData.millesime = args.millesime
+    SharedData.secteur = args.secteur
     # et le schéma à utiliser, en dur pour le moment mais pourrait être millésimé
-    shared_data.SharedData.db_schema = "redadeg"
+    SharedData.db_schema = "redadeg"
 
     # test mode debug
     logging.debug("\n/!\ Le script va s'exécuter en mode verbeux")
@@ -68,8 +68,8 @@ def main():
                                                  |___/ 
     """)
 
-    logging.info(f"Millésime {shared_data.SharedData.millesime}")
-    logging.info(f"Secteur {shared_data.SharedData.secteur}")
+    logging.info(f"Millésime {SharedData.millesime}")
+    logging.info(f"Secteur {SharedData.secteur}")
 
     if args.phase == 1:
         run_phase1()

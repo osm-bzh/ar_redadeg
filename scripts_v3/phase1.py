@@ -7,7 +7,7 @@ import geopandas as gpd
 import pandas as pd
 
 import functions
-import shared_data
+from shared import SharedData
 
 
 def get_umap_data(secteur, conn):
@@ -79,14 +79,14 @@ def get_umap_data(secteur, conn):
 
 
     # Sauvegarder le GeoDataFrame combiné dans un fichier si mode debug
-    if shared_data.SharedData.debug_mode:
+    if SharedData.debug_mode:
         tmp_file = f"tmp_files/phase_1_umap_secteur_{secteur}.geojson"
         logging.debug(f"sauvegarde des données umap dans {tmp_file}")
         final_gdf.to_file(tmp_file, driver="GeoJSON")
 
     # On vide la table cible
     try:
-        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur} ;"
+        sql_delete = f"DELETE FROM {SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur} ;"
         conn.execute(text(sql_delete))
     except Exception as e:
         logging.error(f"impossible de supprimer le secteur {secteur} de la table phase_1_trace_umap :\n{e}")
@@ -116,7 +116,7 @@ def transfert_trace_to_osm_db(secteur, conn, osm_conn):
 
     # on charge le tracé dans un geodataframe
     try:
-        sql_get_secteur = f"SELECT id, secteur_id, geom FROM {shared_data.SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur};"
+        sql_get_secteur = f"SELECT id, secteur_id, geom FROM {SharedData.db_schema}.phase_1_trace_umap WHERE secteur_id = {secteur};"
         gdf = gpd.read_postgis(sql_get_secteur, conn, geom_col='geom')
     except Exception as e:
         logging.error(f"impossible de charger le secteur :\n{e}")
@@ -124,9 +124,9 @@ def transfert_trace_to_osm_db(secteur, conn, osm_conn):
 
     # puis on l'écrit dans une table dans la base OSM
     try:
-        gdf.to_postgis(f'phase_1_trace_{shared_data.SharedData.millesime}', osm_conn, if_exists='replace')
+        gdf.to_postgis(f'phase_1_trace_{SharedData.millesime}', osm_conn, if_exists='replace')
     except Exception as e:
-        logging.error(f"impossible de remplacer la table phase_1_trace_{shared_data.SharedData.millesime} dans la BD OSM:\n{e}")
+        logging.error(f"impossible de remplacer la table phase_1_trace_{SharedData.millesime} dans la BD OSM:\n{e}")
         sys.exit(1)
 
     # nettoyage
@@ -147,8 +147,8 @@ def compute_osm_roads(osm_conn):
     # on crée une table qui va accueillir le résultat de la sélection
     try:
         sql_create_table = f"""
-DROP TABLE IF EXISTS osm_roads_{shared_data.SharedData.millesime} ;
-CREATE TABLE osm_roads_{shared_data.SharedData.millesime}
+DROP TABLE IF EXISTS osm_roads_{SharedData.millesime} ;
+CREATE TABLE osm_roads_{SharedData.millesime}
 (
   secteur_id integer NOT NULL,
   osm_id bigint,
@@ -161,19 +161,19 @@ CREATE TABLE osm_roads_{shared_data.SharedData.millesime}
   geom geometry
 );
 -- commentaires
-COMMENT ON TABLE osm_roads_{shared_data.SharedData.millesime} IS 'Cette table contient les tronçons sélectionnés à partir des routes OSM.';
+COMMENT ON TABLE osm_roads_{SharedData.millesime} IS 'Cette table contient les tronçons sélectionnés à partir des routes OSM.';
 -- contraintes
-ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT osm_roads_{shared_data.SharedData.millesime}_pkey PRIMARY KEY (osm_id);
-ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
-ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
-ALTER TABLE osm_roads_{shared_data.SharedData.millesime} ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(geom) = 'LINESTRING'::text OR geometrytype(geom) = 'MULTILINESTRING'::text);
+ALTER TABLE osm_roads_{SharedData.millesime} ADD CONSTRAINT osm_roads_{SharedData.millesime}_pkey PRIMARY KEY (osm_id);
+ALTER TABLE osm_roads_{SharedData.millesime} ADD CONSTRAINT enforce_geom_dim CHECK (st_ndims(geom) = 2);
+ALTER TABLE osm_roads_{SharedData.millesime} ADD CONSTRAINT enforce_geom_srid CHECK (st_srid(geom) = 2154);
+ALTER TABLE osm_roads_{SharedData.millesime} ADD CONSTRAINT enforce_geom_type CHECK (geometrytype(geom) = 'LINESTRING'::text OR geometrytype(geom) = 'MULTILINESTRING'::text);
 """
 
         osm_conn.execute(text(sql_create_table))
-        logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} créée avec succès.")
+        logging.debug(f"Table osm_roads_{SharedData.millesime} créée avec succès.")
 
     except Exception as e:
-        logging.error(f"impossible de créer la table osm_roads_{shared_data.SharedData.millesime} :\n{e}")
+        logging.error(f"impossible de créer la table osm_roads_{SharedData.millesime} :\n{e}")
         sys.exit(1)
 
     #
@@ -184,12 +184,12 @@ WITH trace_buffer AS (
   SELECT
     secteur_id,
     ST_Union(ST_Buffer(geom, 25, 'quad_segs=2')) AS the_geom
-  FROM phase_1_trace_{shared_data.SharedData.millesime}
-  WHERE secteur_id = {shared_data.SharedData.secteur}
+  FROM phase_1_trace_{SharedData.millesime}
+  WHERE secteur_id = {SharedData.secteur}
   GROUP BY secteur_id
   ORDER BY secteur_id
 )
-INSERT INTO osm_roads_{shared_data.SharedData.millesime}
+INSERT INTO osm_roads_{SharedData.millesime}
 (
   SELECT
     t.secteur_id,
@@ -213,10 +213,10 @@ INSERT INTO osm_roads_{shared_data.SharedData.millesime}
 ) ;
 """
         osm_conn.execute(text(sql_extract))
-        logging.debug(f"Table osm_roads_{shared_data.SharedData.millesime} remplie avec succès.")
+        logging.debug(f"Table osm_roads_{SharedData.millesime} remplie avec succès.")
 
     except Exception as e:
-        logging.error(f"Impossible de remplir osm_roads_{shared_data.SharedData.millesime} :\n{e}")
+        logging.error(f"Impossible de remplir osm_roads_{SharedData.millesime} :\n{e}")
         sys.exit(1)
 
 
@@ -232,36 +232,36 @@ INSERT INTO osm_roads_{shared_data.SharedData.millesime}
 
 def transfert_osm_roads_to_db(osm_conn, conn):
 
-    logging.info(f"Transfert de la couche osm_roads vers la base de données redadeg_{shared_data.SharedData.millesime}")
+    logging.info(f"Transfert de la couche osm_roads vers la base de données redadeg_{SharedData.millesime}")
     start_time = time.perf_counter()
 
     # on charge les routes depuis la base OSM dans un geodataframe
     try:
         sql_get_roads = f"""
 SELECT secteur_id, osm_id, highway, \"type\", oneway, \"ref\", name_fr, name_br, geom
-FROM osm_roads_{shared_data.SharedData.millesime}
-WHERE secteur_id = {shared_data.SharedData.secteur};"""
+FROM osm_roads_{SharedData.millesime}
+WHERE secteur_id = {SharedData.secteur};"""
         gdf = gpd.read_postgis(sql_get_roads, osm_conn, geom_col='geom')
     except Exception as e:
-        logging.error(f"impossible de charger osm_roads_{shared_data.SharedData.millesime} :\n{e}")
+        logging.error(f"impossible de charger osm_roads_{SharedData.millesime} :\n{e}")
         sys.exit(1)
 
     # on supprime les tronçons du secteur traité
     try:
-        sql_delete = f"DELETE FROM {shared_data.SharedData.db_schema}.osm_roads WHERE secteur_id = {shared_data.SharedData.secteur} ;"
+        sql_delete = f"DELETE FROM {SharedData.db_schema}.osm_roads WHERE secteur_id = {SharedData.secteur} ;"
         conn.execute(text(sql_delete))
     except Exception as e:
-        logging.error(f"impossible de supprimer des données du secteur {shared_data.SharedData.secteur} "
-                      f"dans la table {shared_data.SharedData.db_schema}.phase_1_trace_troncons :\n{e}")
+        logging.error(f"impossible de supprimer des données du secteur {SharedData.secteur} "
+                      f"dans la table {SharedData.db_schema}.phase_1_trace_troncons :\n{e}")
         sys.exit(1)
 
     # puis on remplace
     try:
         # on calcule un identifiant unique pour la clé primaire
         gdf['uid'] = gdf['secteur_id'].astype(str) + '_' + gdf['osm_id'].astype(str)
-        gdf.to_postgis("osm_roads",con=conn, schema=shared_data.SharedData.db_schema, if_exists="append", index=False)
+        gdf.to_postgis("osm_roads",con=conn, schema=SharedData.db_schema, if_exists="append", index=False)
     except Exception as e:
-        logging.error(f"impossible de remplir la table {shared_data.SharedData.db_schema}.osm_roads :\n{e}")
+        logging.error(f"impossible de remplir la table {SharedData.db_schema}.osm_roads :\n{e}")
         sys.exit(1)
 
     # nettoyage
@@ -281,14 +281,14 @@ def update_topology_osm_roads(conn):
 
     try:
         sql_maj_topology = f"""
-UPDATE {shared_data.SharedData.db_schema}.osm_roads
+UPDATE {SharedData.db_schema}.osm_roads
 SET topo_geom = topology.toTopoGeom(geom, 'osm_roads_topo', (SELECT layer_id FROM topology.layer WHERE table_name = 'osm_roads'), 0.5)
-WHERE secteur_id = {shared_data.SharedData.secteur} ;
+WHERE secteur_id = {SharedData.secteur} ;
         """
         conn.execute(text(sql_maj_topology))
     except Exception as e:
         logging.error(
-            f"impossible de calculer la topologie sur la table {shared_data.SharedData.db_schema}.osm_roads :\n{e}")
+            f"impossible de calculer la topologie sur la table {SharedData.db_schema}.osm_roads :\n{e}")
         sys.exit(1)
 
     logging.debug(f"fait en {functions.get_chrono(start_time, time.perf_counter())}")
@@ -305,12 +305,12 @@ def compute_osm_roads_pgr(conn):
 
     # nettoyage
     try:
-        sql_delete = f"DELETE FROM redadeg.osm_roads_pgr WHERE secteur_id = {shared_data.SharedData.secteur};"
+        sql_delete = f"DELETE FROM redadeg.osm_roads_pgr WHERE secteur_id = {SharedData.secteur};"
         conn.execute(text(sql_delete))
         logging.debug("suppression du secteur de osm_roads_pgr OK")
     except Exception as e:
         logging.error(
-            f"impossible d'effacer le secteur dans la table {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+            f"impossible d'effacer le secteur dans la table {SharedData.db_schema}.osm_roads_pgr :\n{e}")
         sys.exit(1)
 
     # insertion depuis la topologie simple
@@ -332,7 +332,7 @@ INSERT INTO osm_roads_pgr
        osm_roads_topo.relation rel,
        osm_roads o
   WHERE 
-    o.secteur_id = {shared_data.SharedData.secteur}
+    o.secteur_id = {SharedData.secteur}
     AND e.edge_id = rel.element_id
     AND rel.topogeo_id = (o.topo_geom).id ;
 """
@@ -340,7 +340,7 @@ INSERT INTO osm_roads_pgr
         logging.debug("insertion des tronçons du secteur dans osm_roads_pgr OK")
     except Exception as e:
         logging.error(
-            f"impossible d'insérer dans la table {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+            f"impossible d'insérer dans la table {SharedData.db_schema}.osm_roads_pgr :\n{e}")
         sys.exit(1)
 
     # création / maj de la topologie PGR pour les nouveaux tronçons
@@ -350,7 +350,7 @@ INSERT INTO osm_roads_pgr
         logging.debug("calcul de la topologie PGR sur ces nouveaux tronçons OK")
     except Exception as e:
         logging.error(
-            f"impossible de maj la topologie PGR {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+            f"impossible de maj la topologie PGR {SharedData.db_schema}.osm_roads_pgr :\n{e}")
         sys.exit(1)
 
     # calcul de la topologie PGR sur ces nouveaux tronçons
@@ -358,13 +358,13 @@ INSERT INTO osm_roads_pgr
         sql_compute_costs = f"""
 UPDATE osm_roads_pgr 
 SET cost = round(st_length(geom)::numeric), reverse_cost = round(st_length(geom)::numeric)
-WHERE secteur_id = {shared_data.SharedData.secteur} ;
+WHERE secteur_id = {SharedData.secteur} ;
 """
         conn.execute(text(sql_compute_costs))
         logging.debug("calcul des attributs de coût de routage sur ces nouveaux tronçons OK")
     except Exception as e:
         logging.error(
-            f"impossible de calculer les attributs de coût sur {shared_data.SharedData.db_schema}.osm_roads_pgr :\n{e}")
+            f"impossible de calculer les attributs de coût sur {SharedData.db_schema}.osm_roads_pgr :\n{e}")
         sys.exit(1)
 
     #
@@ -390,7 +390,7 @@ def run_phase1():
     db_host = config.get('database', 'host')
     db_port = config.get('database', 'port')
     db_user = config.get('database', 'user')
-    db_name = f"redadeg_{shared_data.SharedData.millesime}"
+    db_name = f"redadeg_{SharedData.millesime}"
     schema = 'redadeg'
 
     # création d'une connexion qui sera partagée
@@ -427,8 +427,8 @@ def run_phase1():
 
     #
 
-    get_umap_data(shared_data.SharedData.secteur, conn)
-    transfert_trace_to_osm_db(shared_data.SharedData.secteur, conn, osm_conn)
+    get_umap_data(SharedData.secteur, conn)
+    transfert_trace_to_osm_db(SharedData.secteur, conn, osm_conn)
     compute_osm_roads(osm_conn)
     transfert_osm_roads_to_db(osm_conn, conn)
     update_topology_osm_roads(conn)
