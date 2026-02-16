@@ -334,12 +334,41 @@ def setup_referentiel_communal(millesime):
             sys.exit(1)
     #
 
+    def update_table_communes():
+
+        from sqlalchemy import create_engine, text
+
+        # Créer une connexion SQLAlchemy
+        # dans la base postgres
+        engine = create_engine(
+            f"postgresql://{db_user}@{db_host}:{db_port}/{db_name}"
+            , isolation_level="AUTOCOMMIT"
+        )
+
+        with engine.connect() as conn:
+            try:
+                sql_tables = open('sql/update_communes.sql', 'r').read()
+                conn.execute(text(sql_tables))
+                logging.info(f"  ✅ succès")
+            except Exception as e:
+                logging.error(f"❌ Problème : {e}")
+                sys.exit(1)
+
+    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     logging.info(f"Traitement du Geopackage ADMIN EXPRESS")
     process_gpkg()
 
     logging.info(f"")
     logging.info(f"Traitement du fichier open data de Kerofis")
     process_csv()
+
+    logging.info(f"")
+    logging.info(f"Mise à jour de la table 'communes'")
+    update_table_communes()
+
+    logging.info(f"")
+    logging.info(f"✅ Référentiel communal mis à jour avec succès")
 
     #
 
