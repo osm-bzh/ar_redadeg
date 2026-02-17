@@ -11,6 +11,23 @@
 SET search_path TO redadeg, public;
 
 
+DROP TABLE IF EXISTS communes CASCADE ;
+CREATE TABLE communes (
+	code_insee varchar(5) NOT NULL,
+	code_postal varchar(5) NULL,
+	name_fr text NULL,
+	name_br text NULL,
+	geom geometry('MultiPolygon', 2154) NOT NULL
+);
+-- commentaires
+COMMENT ON TABLE communes IS 'Cette table est le référentiel communal.';
+-- contraintes
+ALTER TABLE communes ADD CONSTRAINT communes_pk PRIMARY KEY (code_insee);
+-- permissions
+ALTER TABLE communes OWNER to redadeg;
+
+
+
 DROP TABLE IF EXISTS secteurs CASCADE ;
 CREATE TABLE secteurs
 (
