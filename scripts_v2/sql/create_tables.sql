@@ -228,20 +228,21 @@ CREATE VIEW phase_2_pk_secteur_4326 AS
 ALTER TABLE phase_2_pk_secteur_4326 OWNER to redadeg;
 
 
--- la couche des communes source OSM
-DROP TABLE IF EXISTS osm_communes CASCADE ;
-CREATE TABLE osm_communes
-(
-    insee character varying(5),
-    name_fr text,
-    name_br text,
-    the_geom geometry,
-    CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'POLYGON'::text OR geometrytype(the_geom) = 'MULTIPOLYGON'::text),
-    CONSTRAINT enforce_srid_the_geom CHECK (st_srid(the_geom) = 2154),
-    CONSTRAINT osm_communes_pkey PRIMARY KEY (insee)
+-- la couche des communes
+DROP TABLE IF EXISTS communes CASCADE ;
+CREATE TABLE communes (
+	code_insee varchar(5) NOT NULL,
+	code_postal varchar(5) NULL,
+	name_fr text NULL,
+	name_br text NULL,
+	geom geometry('MultiPolygon', 2154) NOT NULL
 );
-CREATE INDEX sidx_osm_communes_the_geom ON osm_communes USING gist(the_geom);
-ALTER TABLE osm_communes OWNER to redadeg;
+-- commentaires
+COMMENT ON TABLE communes IS 'Cette table est le référentiel communal.';
+-- contraintes
+ALTER TABLE communes ADD CONSTRAINT communes_pk PRIMARY KEY (code_insee);
+-- permissions
+ALTER TABLE communes OWNER to redadeg;
 
 
 
