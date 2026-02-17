@@ -513,6 +513,58 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
 
   #
 
+  print("  Mise à jour de la table statistiques des communes")
+
+  sql_update_stats_communes = f"""
+TRUNCATE TABLE communes_stats;
+WITH source_data AS (
+    SELECT
+        MIN(i.pk_id) AS pk_min,
+        MAX(i.pk_id) AS pk_max,
+        i.code_insee,
+        i.code_postal,
+        i.name_br,
+        i.name_fr
+    FROM (
+        SELECT c.*, pk.pk_id
+        FROM communes c
+        JOIN phase_5_pk pk ON ST_Intersects(c.geom, pk.the_geom)
+    ) i
+    GROUP BY i.code_insee, i.code_postal, i.name_br, i.name_fr
+),
+ranked_data AS (
+    SELECT
+        pk_min,
+        pk_max,
+        code_insee,
+        code_postal,
+        name_br,
+        name_fr,
+        LEAD(pk_min) OVER (ORDER BY pk_min) AS next_pk_min
+    FROM source_data
+)
+INSERT INTO communes_stats
+(pk_min, pk_max, passage_unique, name_fr, name_br, code_insee, code_postal)
+SELECT
+    pk_min,
+    pk_max,
+    CASE
+        WHEN pk_max > next_pk_min THEN 'non'
+        ELSE 'oui'
+    END AS passage_unique,
+    code_insee,
+    code_postal,
+    name_br,
+    name_fr
+FROM ranked_data;"""
+
+  db_redadeg_cursor.execute(sql_update_stats_communes)
+  print("  fait")
+  print("")
+
+
+  #
+
   # export geojson du tracé pour merour
   print("  Export geojson du tracé pour merour")
   export_cmd = ["ogr2ogr", "-f", "GeoJSON",
@@ -596,6 +648,20 @@ WHERE phase_5_pk.pk_id = pk_recales.pk_id ;"""
                 f"../data/{millesime}/export/phase_5_prefecture_liste.csv",
                 f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
                 "-sql", "SELECT * FROM phase_5_prefecture_liste ORDER BY pk_id ;",
+                "-lco", "SEPARATOR=SEMICOLON"]
+  # on exporte
+  subprocess.check_output(export_cmd)
+  print("  fait")
+
+
+  #
+
+  # export CSV table des statistiques par commune
+  print("  Export CSV table des statistiques par commune")
+  export_cmd = ["ogr2ogr", "-f", "CSV",
+                f"../data/{millesime}/export/communes_stats.csv",
+                f"PG:host={db_redadeg_host} port={db_redadeg_port} user={db_redadeg_user} password={db_redadeg_passwd} dbname={db_redadeg_db}",
+                "-sql", "SELECT * FROM communes_stats ORDER BY pk_min ;",
                 "-lco", "SEPARATOR=SEMICOLON"]
   # on exporte
   subprocess.check_output(export_cmd)

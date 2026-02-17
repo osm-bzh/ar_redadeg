@@ -892,5 +892,17 @@ CREATE VIEW phase_5_prefecture_liste AS
   ORDER BY pk_id ;
 
 
+DROP TABLE IF EXISTS communes_stats;
+CREATE TABLE communes_stats (
+   pk_min integer
+  ,pk_max integer
+  ,passage_unique text
+  ,name_fr text
+  ,name_br text
+  ,code_insee text
+  ,code_postal text
+);
+-- indexes
+CREATE INDEX communes_stats_code_insee_idx ON communes_stats (code_insee);
 
 
