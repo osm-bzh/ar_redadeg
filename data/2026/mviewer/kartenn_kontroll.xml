@@ -140,7 +140,7 @@
             >
             </layer>
             <layer
-                id="osm_communes"
+                id="communes"
                 name="Communes"
                 visible="false"
                 url="https://ar-redadeg.openstreetmap.bzh/geoserver/redadeg_2026/wms"
