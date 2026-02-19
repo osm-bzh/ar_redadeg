@@ -43,7 +43,7 @@ ranked_data AS (
     FROM source_data
 )
 INSERT INTO public.communes_stats
-(pk_min, pk_max, passage_unique, name_fr, name_br, code_insee, code_postal)
+(pk_min, pk_max, passage_unique, code_insee, code_postal, name_br, name_fr)
 SELECT
     pk_min,
     pk_max,
